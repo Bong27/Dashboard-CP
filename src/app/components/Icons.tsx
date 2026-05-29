@@ -1,104 +1,135 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // CP-Dashboard Icon Components
-// All paths sourced directly from Figma file "NewSystem" (q4YZb41LPkJ14zPgOnZlr7)
-// node 24:1030 — Icons sheet
+// Paths and viewBoxes sourced directly from Figma export in Wallet.tsx
+// DO NOT hand-edit paths — update from Wallet.tsx / svg-tfchl2zu4w.ts only
 // ─────────────────────────────────────────────────────────────────────────────
+import svgPaths from '../../imports/Wallet-2/svg-tfchl2zu4w';
 
-// Wallet icon — node 28:1147
-export function IconWallet({ color = 'var(--cp-text-primary)' }: { color?: string }) {
+interface IconProps { color?: string; }
+const DEFAULT  = 'var(--cp-text-primary)';
+const BRAND    = 'var(--cp-brand-primary)';
+
+export function IconWallet({ color = DEFAULT }: IconProps) {
   return (
-    <svg width="20" height="19" viewBox="0 0 20.1806 19" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path clipRule="evenodd" d="M17.6204 2.11132H2.56043V0.00291728H17.6204C19.0344 0.00291728 20.1806 1.14915 20.1806 2.56311V12.7575C20.1806 14.1715 19.0344 15.3177 17.6204 15.3177H14.4411V13.2093H17.6204C17.8699 13.2093 18.0722 13.007 18.0722 12.7575V2.56311C18.0722 2.31359 17.8699 2.11132 17.6204 2.11132Z" fill={color} fillRule="evenodd" />
-      <path clipRule="evenodd" d="M0 2.56196C0 0.835702 1.67354 -0.39581 3.32169 0.117648L13.6963 3.34975C14.7663 3.68306 15.495 4.67344 15.495 5.79407V16.4376C15.495 18.2141 13.7299 19.4507 12.0603 18.8437L1.68564 15.073C0.67368 14.7051 0 13.7435 0 12.6668V2.56196ZM2.69458 2.13062C2.40373 2.04 2.10838 2.25733 2.10838 2.56196V12.6668C2.10838 12.8568 2.22728 13.0265 2.40585 13.0914L12.7805 16.8622C13.0751 16.9692 13.3866 16.751 13.3866 16.4376V5.79407C13.3866 5.5963 13.258 5.42153 13.0692 5.36271L2.69458 2.13062Z" fill={color} fillRule="evenodd" />
-    </svg>
+    <div className="overflow-clip relative shrink-0 size-[20px]">
+      <div className="absolute inset-[5%_-0.9%_0_0]">
+        <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 20.1806 19">
+          <path clipRule="evenodd" d={svgPaths.pbf04600} fill={color} fillRule="evenodd" />
+          <path clipRule="evenodd" d={svgPaths.p3b018100} fill={color} fillRule="evenodd" />
+        </svg>
+      </div>
+    </div>
   );
 }
 
-// Transactions icon — node 28:1148
-export function IconTransactions({ color = 'var(--cp-text-primary)' }: { color?: string }) {
+export function IconTransactions({ color = DEFAULT }: IconProps) {
   return (
-    <svg width="17" height="16" viewBox="0 0 16.7649 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path clipRule="evenodd" d="M0 12.4937C0 12.0469 0.341177 11.6847 0.762038 11.6847H16.0029C16.4237 11.6847 16.7649 12.0469 16.7649 12.4937C16.7649 12.9405 16.4237 13.3026 16.0029 13.3026H0.762038C0.341177 13.3026 0 12.9405 0 12.4937Z" fill={color} fillRule="evenodd" />
-      <path clipRule="evenodd" d="M3.84103 0.236943C4.13861 0.552866 4.13861 1.06508 3.84103 1.38101L1.83973 3.50556H16.0029C16.4237 3.50556 16.7649 3.86775 16.7649 4.31452C16.7649 4.76129 16.4237 5.12348 16.0029 5.12348H0.762038C0.474838 5.12348 0.215139 4.95783 0.0855736 4.69881C-0.0440476 4.43978 -0.0248026 4.12897 0.135744 3.88929L3.03488 0.236943C3.33246 -0.0789811 3.82345 -0.0789811 4.12103 0.236943H3.84103Z" fill={color} fillRule="evenodd" />
-      <path clipRule="evenodd" d="M0 3.50474C0 3.05796 0.341177 2.69578 0.762038 2.69578H16.0029C16.4237 2.69578 16.7649 3.05796 16.7649 3.50474C16.7649 3.95151 16.4237 4.31369 16.0029 4.31369H0.762038C0.341177 4.31369 0 3.95151 0 3.50474Z" fill={color} fillRule="evenodd" />
-      <path clipRule="evenodd" d="M12.9239 9.22586C13.2215 8.90993 13.7039 8.90993 14.0015 9.22586L16.5417 11.9224C16.7013 12.0918 16.7649 12.3133 16.7649 12.4937C16.7649 12.6741 16.6952 12.8956 16.5417 13.065L14.0015 15.7616C13.7039 16.0775 13.2215 16.0775 12.9239 15.7616C12.6263 15.4456 12.6263 14.9334 12.9239 14.6175L14.9252 12.4937L12.9239 10.3699C12.6263 10.054 12.6263 9.54179 12.9239 9.22586Z" fill={color} fillRule="evenodd" />
-    </svg>
+    <div className="overflow-clip relative shrink-0 size-[20px]">
+      <div className="-translate-x-1/2 absolute aspect-[16.764892578125/15.999999046325684] bottom-[10%] left-[calc(50%-0.12px)] top-[10%]">
+        <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 16.7649 16">
+          <path clipRule="evenodd" d={svgPaths.p2f87c900} fill={color} fillRule="evenodd" />
+          <path clipRule="evenodd" d={svgPaths.p329d3b00} fill={color} fillRule="evenodd" />
+          <path clipRule="evenodd" d={svgPaths.p2e748900} fill={color} fillRule="evenodd" />
+          <path clipRule="evenodd" d={svgPaths.p2daa61c0} fill={color} fillRule="evenodd" />
+        </svg>
+      </div>
+    </div>
   );
 }
 
-// Settings icon — node 31:1237 (gear with dot indicators)
-export function IconSettings({ color = 'var(--cp-text-primary)' }: { color?: string }) {
+export function IconSettings({ color = DEFAULT }: IconProps) {
   return (
-    <svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path fillRule="evenodd" clipRule="evenodd" d="M8.03676 0.773303C8.74851 -0.257768 10.2515 -0.257768 10.9632 0.773303L11.5 1.54652C11.7205 1.86697 12.0899 2.05652 12.4834 2.04978L13.4286 2.03399C14.6716 2.01233 15.5706 3.23474 15.1707 4.41082L14.8512 5.30928C14.7168 5.68567 14.7941 6.10439 15.054 6.40783L15.6757 7.13776C16.4936 8.10245 16.1583 9.56696 15.0072 10.0756L14.1598 10.4602C13.8039 10.6208 13.5619 10.9597 13.527 11.3482L13.4467 12.2912C13.3398 13.5316 12.0441 14.2919 10.9246 13.7371L10.0947 13.3267C9.74392 13.1548 9.32847 13.1745 8.99613 13.3783L8.21068 13.8536C7.14432 14.487 5.80066 13.8219 5.61969 12.5933L5.47734 11.6571C5.41682 11.2703 5.17062 10.9376 4.81765 10.7634L3.96318 10.3524C2.83481 9.81015 2.56285 8.33541 3.4181 7.41219L4.06764 6.70848C4.33655 6.41355 4.42655 6.00012 4.30292 5.62009L3.99936 4.71788C3.62217 3.53618 4.54793 2.33556 5.79017 2.38543L6.73536 2.42368C7.12908 2.43984 7.50359 2.24298 7.71748 1.91728L8.03676 0.773303ZM10 7.5C10 8.88071 8.88071 10 7.5 10C6.11929 10 5 8.88071 5 7.5C5 6.11929 6.11929 5 7.5 5C8.88071 5 10 6.11929 10 7.5Z" fill={color}/>
-    </svg>
+    <div className="overflow-clip relative shrink-0 size-[20px]">
+      <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 20 20">
+        <path d={svgPaths.p1d640c00} fill={color} />
+        <path d={svgPaths.p103b100}  fill={color} />
+        <path d={svgPaths.p1c8eb00}  fill={color} />
+        <path d={svgPaths.p29d62370} fill={color} />
+      </svg>
+    </div>
   );
 }
 
-// Integrations icon — node 31:1238 (chat bubble with </> code)
-export function IconIntegrations({ color = 'var(--cp-text-primary)' }: { color?: string }) {
+export function IconIntegrations({ color = DEFAULT }: IconProps) {
   return (
-    <svg width="20" height="19" viewBox="0 0 19.5277 18.4166" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path clipRule="evenodd" d="M4.20831 1.75C3.55633 1.75 2.93105 2.009 2.47002 2.47002C2.009 2.93104 1.75 3.55632 1.75 4.20831V10.875C1.75 11.5269 2.009 12.1522 2.47002 12.6132C2.93104 13.0743 3.55633 13.3333 4.20831 13.3333H6.43052C6.66258 13.3333 6.88514 13.4255 7.04924 13.5895L9.76387 16.3041L12.4785 13.5895C12.6426 13.4255 12.8651 13.3333 13.0972 13.3333H15.3194C15.9714 13.3333 16.5967 13.0743 17.0577 12.6132C17.5187 12.1522 17.7777 11.5269 17.7777 10.875V4.20831C17.7777 3.55632 17.5187 2.93104 17.0577 2.47002C16.5967 2.009 15.9714 1.75 15.3194 1.75H4.20831ZM1.23258 1.23258C2.0218 0.443374 3.0922 0 4.20831 0H15.3194C16.4355 0 17.5059 0.443374 18.2951 1.23258C19.0843 2.02179 19.5277 3.09219 19.5277 4.20831V10.875C19.5277 11.9911 19.0843 13.0615 18.2951 13.8507C17.5059 14.6399 16.4355 15.0833 15.3194 15.0833H13.4596L10.3826 18.1603C10.0409 18.502 9.48682 18.502 9.14511 18.1603L6.06808 15.0833H4.20831C3.0922 15.0833 2.0218 14.6399 1.23258 13.8507C0.443375 13.0615 0 11.9911 0 10.875V4.20831C0 3.09219 0.443375 2.02179 1.23258 1.23258Z" fill={color} fillRule="evenodd" />
-      <path clipRule="evenodd" d="M8.16026 4.70159C8.50197 5.0433 8.50197 5.59732 8.16026 5.93903L6.55677 7.54253L8.16026 9.14602C8.50197 9.48769 8.50197 10.0418 8.16026 10.3835C7.81855 10.7252 7.26453 10.7252 6.92282 10.3835L4.70062 8.16133C4.35891 7.81962 4.35891 7.2656 4.70062 6.92389L6.92282 4.70159C7.26453 4.35988 7.81855 4.35988 8.16026 4.70159Z" fill={color} fillRule="evenodd" />
-      <path clipRule="evenodd" d="M11.3671 4.70159C11.7089 4.35988 12.2629 4.35988 12.6046 4.70159L14.8268 6.92381C15.1685 7.26552 15.1685 7.81954 14.8268 8.16125L12.6046 10.3835C12.2629 10.7252 11.7089 10.7252 11.3671 10.3835C11.0254 10.0418 11.0254 9.48769 11.3671 9.14602L12.9706 7.54253L11.3671 5.93903C11.0254 5.59732 11.0254 5.0433 11.3671 4.70159Z" fill={color} fillRule="evenodd" />
-    </svg>
+    <div className="overflow-clip relative shrink-0 size-[20px]">
+      <div className="absolute inset-[3.96%_1.18%]">
+        <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 19.5277 18.4166">
+          <path clipRule="evenodd" d={svgPaths.p1322e200} fill={color} fillRule="evenodd" />
+          <path clipRule="evenodd" d={svgPaths.p20c5c200} fill={color} fillRule="evenodd" />
+          <path clipRule="evenodd" d={svgPaths.p32c7f000} fill={color} fillRule="evenodd" />
+        </svg>
+      </div>
+    </div>
   );
 }
 
-// Invoicing icon — node 31:1239
-export function IconInvoicing({ color = 'var(--cp-text-primary)' }: { color?: string }) {
+export function IconInvoicing({ color = DEFAULT }: IconProps) {
   return (
-    <svg width="14" height="17" viewBox="0 0 13.4167 16.75" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M8.375 0.875V4.20833C8.375 4.42935 8.4628 4.64131 8.6191 4.79759C8.7754 4.95387 8.9873 5.04167 9.2083 5.04167H12.5417" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-      <path clipRule="evenodd" d="M2.54167 1.75C2.33171 1.75 2.13034 1.83341 1.98188 1.98187C1.83341 2.13034 1.75 2.3317 1.75 2.54167V14.2083C1.75 14.4183 1.83341 14.6197 1.98188 14.7681C2.13034 14.9166 2.33171 15 2.54167 15H10.875C11.085 15 11.2863 14.9166 11.4348 14.7681C11.5833 14.6197 11.6667 14.4183 11.6667 14.2083V5.04167H9.20833C8.76631 5.04167 8.34239 4.86607 8.02983 4.55351C7.71726 4.24094 7.54167 3.81702 7.54167 3.375V1.75H2.54167ZM0.74444 0.74444C1.22109 0.26778 1.86757 0 2.54167 0H7.95833C8.16905 0 8.37163 0.0836458 8.52088 0.232843L12.6876 4.39951C12.8368 4.54876 12.9167 4.75133 12.9167 4.96208V14.2083C12.9167 14.8824 12.6489 15.5289 12.1722 16.0056C11.6956 16.4822 11.049 16.75 10.375 16.75H2.54167C1.86757 16.75 1.22109 16.4822 0.74444 16.0056C0.26778 15.5289 0 14.8824 0 14.2083V2.54167C0 1.86757 0.26778 1.22109 0.74444 0.74444Z" fill={color} fillRule="evenodd" />
-      <path clipRule="evenodd" d="M2.8335 8.375C2.8335 7.89175 3.22525 7.5 3.7085 7.5H8.7085C9.1917 7.5 9.5835 7.89175 9.5835 8.375C9.5835 8.85825 9.1917 9.25 8.7085 9.25H3.7085C3.22525 9.25 2.8335 8.85825 2.8335 8.375Z" fill={color} fillRule="evenodd" />
-      <path clipRule="evenodd" d="M2.8335 11.375C2.8335 10.8918 3.22525 10.5 3.7085 10.5H9.7085C10.1917 10.5 10.5835 10.8918 10.5835 11.375C10.5835 11.8582 10.1917 12.25 9.7085 12.25H3.7085C3.22525 12.25 2.8335 11.8582 2.8335 11.375Z" fill={color} fillRule="evenodd" />
-    </svg>
+    <div className="overflow-clip relative shrink-0 size-[20px]">
+      <div className="absolute inset-[8.13%_16.46%]">
+        <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 13.4167 16.75">
+          <path d={svgPaths.p3089f53e}  fill={color} />
+          <path clipRule="evenodd" d={svgPaths.p20de25f0} fill={color} fillRule="evenodd" />
+          <path clipRule="evenodd" d={svgPaths.p11a4ee80} fill={color} fillRule="evenodd" />
+          <path clipRule="evenodd" d={svgPaths.p10cf0100} fill={color} fillRule="evenodd" />
+        </svg>
+      </div>
+    </div>
   );
 }
 
-// POS icon — node 31:1236
-export function IconPOS({ color = 'var(--cp-text-primary)' }: { color?: string }) {
+export function IconPOS({ color = DEFAULT }: IconProps) {
   return (
-    <svg width="16" height="17" viewBox="0 0 15 16.6667" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M13.3333 2.5C13.3333 2.27898 13.2455 2.06709 13.0892 1.91081C12.9329 1.75453 12.721 1.66667 12.5 1.66667H2.5C2.27898 1.66667 2.06708 1.75453 1.91081 1.91081C1.75453 2.06708 1.66667 2.27898 1.66667 2.5V14.1667C1.66667 14.3877 1.75453 14.5996 1.91081 14.7558C2.06709 14.9122 2.27898 15 2.5 15H12.5C12.721 15 12.9329 14.9122 13.0892 14.7558C13.2455 14.5996 13.3333 14.3877 13.3333 14.1667V2.5ZM15 14.1667C15 14.8297 14.7364 15.4654 14.2676 15.9342C13.7987 16.4031 13.1631 16.6667 12.5 16.6667H2.5C1.83696 16.6667 1.20127 16.4031 0.732425 15.9342C0.263583 15.4654 0 14.8297 0 14.1667V2.5C0 1.83696 0.263583 1.20127 0.732425 0.732425C1.20127 0.263583 1.83696 0 2.5 0H12.5C13.163 0 13.7987 0.263583 14.2676 0.732425C14.7364 1.20127 15 1.83696 15 2.5V14.1667Z" fill={color}/>
-      <path d="M5 5V5.83333H10V5H5ZM11.6667 5.83333C11.6667 6.27536 11.4909 6.69917 11.1784 7.01173C10.8658 7.32429 10.442 7.5 10 7.5H5C4.55797 7.5 4.13405 7.32429 3.82149 7.01173C3.50893 6.69917 3.33333 6.27536 3.33333 5.83333V5C3.33333 4.55797 3.50893 4.13405 3.82149 3.82149C4.13405 3.50893 4.55797 3.33333 5 3.33333H10C10.442 3.33333 10.8658 3.50893 11.1784 3.82149C11.4909 4.13405 11.6667 4.55797 11.6667 5V5.83333Z" fill={color}/>
-      <path d="M3.33333 10.0082V10C3.33333 9.53975 3.70643 9.16667 4.16667 9.16667C4.6269 9.16667 5 9.53975 5 10V10.0082C5 10.4684 4.6269 10.8415 4.16667 10.8415C3.70643 10.8415 3.33333 10.4684 3.33333 10.0082Z" fill={color}/>
-      <path d="M6.66667 10.0082V10C6.66667 9.53975 7.03975 9.16667 7.5 9.16667C7.96025 9.16667 8.33333 9.53975 8.33333 10V10.0082C8.33333 10.4684 7.96025 10.8415 7.5 10.8415C7.03975 10.8415 6.66667 10.4684 6.66667 10.0082Z" fill={color}/>
-      <path d="M10 10.0082V10C10 9.53975 10.3731 9.16667 10.8333 9.16667C11.2936 9.16667 11.6667 9.53975 11.6667 10V10.0082C11.6667 10.4684 11.2936 10.8415 10.8333 10.8415C10.3731 10.8415 10 10.4684 10 10.0082Z" fill={color}/>
-      <path d="M3.33333 12.5082V12.5C3.33333 12.0397 3.70643 11.6667 4.16667 11.6667C4.6269 11.6667 5 12.0397 5 12.5V12.5082C5 12.9684 4.6269 13.3415 4.16667 13.3415C3.70643 13.3415 3.33333 12.9684 3.33333 12.5082Z" fill={color}/>
-      <path d="M6.66667 12.5082V12.5C6.66667 12.0397 7.03975 11.6667 7.5 11.6667C7.96025 11.6667 8.33333 12.0397 8.33333 12.5V12.5082C8.33333 12.9684 7.96025 13.3415 7.5 13.3415C7.03975 13.3415 6.66667 12.9684 6.66667 12.5082Z" fill={color}/>
-      <path d="M10 12.5082V12.5C10 12.0397 10.3731 11.6667 10.8333 11.6667C11.2936 11.6667 11.6667 12.0397 11.6667 12.5V12.5082C11.6667 12.9684 11.2936 13.3415 10.8333 13.3415C10.3731 13.3415 10 12.9684 10 12.5082Z" fill={color}/>
-    </svg>
+    <div className="overflow-clip relative shrink-0 size-[20px]">
+      <div className="absolute inset-[8.33%_12.5%]">
+        <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 15 16.6667">
+          <path d={svgPaths.p231af140} fill={color} />
+          <path d={svgPaths.p8479d00}  fill={color} />
+          <path d={svgPaths.p18d5fb30} fill={color} />
+          <path d={svgPaths.p1c3d800}  fill={color} />
+          <path d={svgPaths.p26450f00} fill={color} />
+          <path d={svgPaths.p7eb4d00}  fill={color} />
+          <path d={svgPaths.p313a9100} fill={color} />
+          <path d={svgPaths.p3bceaa00} fill={color} />
+        </svg>
+      </div>
+    </div>
   );
 }
 
-// Support icon — node 28:1146
-export function IconSupport({ color = 'var(--cp-text-primary)' }: { color?: string }) {
+export function IconSupport({ color = DEFAULT }: IconProps) {
   return (
-    <svg width="17" height="17" viewBox="0 0 16.75 16.75" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path clipRule="evenodd" d="M2.54167 1.75C2.3317 1.75 2.13034 1.83341 1.98187 1.98187C1.83341 2.13034 1.75 2.3317 1.75 2.54167V13.7626L3.58961 11.9229C3.75371 11.7589 3.97627 11.6667 4.20833 11.6667H14.2083C14.4183 11.6667 14.6197 11.5833 14.7681 11.4348C14.9166 11.2863 15 11.085 15 10.875V2.54167C15 2.3317 14.9166 2.13034 14.7681 1.98187C14.6197 1.83341 14.4183 1.75 14.2083 1.75H2.54167ZM0.74444 0.74444C1.22109 0.26778 1.86757 0 2.54167 0H14.2083C14.8824 0 15.5289 0.26778 16.0056 0.74444C16.4822 1.22109 16.75 1.86757 16.75 2.54167V10.875C16.75 11.5491 16.4822 12.1956 16.0056 12.6722C15.5289 13.1489 14.8824 13.4167 14.2083 13.4167H4.57077L1.49372 16.4937C1.24347 16.744 0.86712 16.8188 0.54015 16.6834C0.21319 16.548 0 16.2289 0 15.875V2.54167C0 1.86757 0.26778 1.22109 0.74444 0.74444Z" fill={color} fillRule="evenodd" />
-    </svg>
+    <div className="overflow-clip relative shrink-0 size-[20px]">
+      <div className="absolute inset-[8.13%_8.13%_8.12%_8.13%]">
+        <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 16.75 16.75">
+          <path clipRule="evenodd" d={svgPaths.p162d78f0} fill={color} fillRule="evenodd" />
+        </svg>
+      </div>
+    </div>
   );
 }
 
-// More / Toggle-down icon — node 28:1144
-export function IconMore({ color = 'var(--cp-text-primary)' }: { color?: string }) {
+export function IconMore({ color = DEFAULT }: IconProps) {
   return (
-    <svg width="12" height="7" viewBox="0 0 11.25 6.24998" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path clipRule="evenodd" d="M0.18306 0.18306C0.42714 -0.06102 0.82286 -0.06102 1.06694 0.18306L5.625 4.7411L10.1831 0.18306C10.4271 -0.06102 10.8229 -0.06102 11.0669 0.18306C11.311 0.42714 11.311 0.82286 11.0669 1.06694L6.0669 6.0669C5.8229 6.311 5.42714 6.311 5.18306 6.0669L0.18306 1.06694C-0.06102 0.82286 -0.06102 0.42714 0.18306 0.18306Z" fill={color} fillRule="evenodd" />
-    </svg>
+    <div className="overflow-clip relative shrink-0 size-[20px]">
+      <div className="absolute inset-[34.38%_21.88%]">
+        <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 11.25 6.24998">
+          <path clipRule="evenodd" d={svgPaths.p1f48b500} fill={color} fillRule="evenodd" />
+        </svg>
+      </div>
+    </div>
   );
 }
 
-// Plus / Add icon — node 28:1145
-export function IconPlus({ color = 'var(--cp-brand-primary)' }: { color?: string }) {
+export function IconPlus({ color = BRAND }: IconProps) {
   return (
-    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path clipRule="evenodd" d="M12.5931 6.72246C12.5245 5.3383 11.9447 4.02454 10.96 3.03994C9.90983 1.98974 8.48519 1.4 7 1.4C5.51479 1.4 4.09014 1.98974 3.03994 3.03994C1.98974 4.09014 1.4 5.51479 1.4 7L1.40684 7.27552C1.43842 7.91679 1.58033 8.54861 1.82657 9.14305C2.10799 9.82247 2.51997 10.4401 3.03994 10.96C3.55991 11.48 4.17756 11.892 4.85694 12.1734C5.53636 12.4549 6.26459 12.6 7 12.6L7.27552 12.5931C7.91679 12.5616 8.54861 12.4197 9.14305 12.1734C9.82247 11.892 10.4401 11.48 10.96 10.96C11.48 10.4401 11.892 9.82247 12.1734 9.14305C12.4549 8.46363 12.6 7.73542 12.6 7L12.5931 6.72246ZM13.9918 7.34454C13.9523 8.14611 13.7752 8.93599 13.4675 9.67897C13.1157 10.5283 12.5999 11.2999 11.9499 11.9499C11.2999 12.5999 10.5283 13.1157 9.67897 13.4675C8.93599 13.7752 8.14611 13.9523 7.34454 13.9918L7 14C6.08075 14 5.17028 13.8193 4.321 13.4675C3.47175 13.1157 2.70009 12.5999 2.0501 11.9499C1.4001 11.2999 0.884303 10.5283 0.532519 9.67897C0.22475 8.93599 0.0477002 8.14611 0.00820316 7.34454L0 7C2.76642e-08 5.14349 0.737345 3.36285 2.0501 2.0501C3.36285 0.737345 5.14349 0 7 0C8.85654 0 10.6371 0.737345 11.9499 2.0501C13.2627 3.36285 14 5.14349 14 7L13.9918 7.34454Z" fill={color} fillRule="evenodd" />
-      <path d="M9.1 6.3C9.48661 6.3 9.8 6.6134 9.8 7C9.8 7.38661 9.48661 7.7 9.1 7.7H4.9C4.5134 7.7 4.2 7.38661 4.2 7C4.2 6.6134 4.5134 6.3 4.9 6.3H9.1Z" fill={color}/>
-      <path d="M6.3 9.1V4.9C6.3 4.5134 6.6134 4.2 7 4.2C7.38661 4.2 7.7 4.5134 7.7 4.9V9.1C7.7 9.48661 7.38661 9.8 7 9.8C6.6134 9.8 6.3 9.48661 6.3 9.1Z" fill={color}/>
-    </svg>
+    <div className="overflow-clip relative shrink-0 size-[14px]">
+      <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 14 14">
+        <path d={svgPaths.p35009400} fill={color} />
+        <path d={svgPaths.p18d7280}  fill={color} />
+        <path d={svgPaths.p2aa04180} fill={color} />
+      </svg>
+    </div>
   );
 }
