@@ -271,7 +271,7 @@ export default function DashboardLayout() {
     <div className="bg-[#f7f8fc] content-stretch flex flex-col items-start relative size-full">
 
       {/* Top Navbar */}
-      <div className="bg-white content-stretch flex h-[70px] items-center justify-between overflow-clip relative shrink-0 w-full">
+      <div className="bg-white content-stretch flex h-[70px] items-center justify-between overflow-clip fixed top-0 left-0 right-0 z-50 w-full">
         <div className="content-stretch flex items-center justify-center relative shrink-0 w-[225px]">
           <div className="content-stretch flex flex-col items-start px-[20px] py-[10px] relative shrink-0 w-[205px]">
             <Logo />
@@ -342,7 +342,7 @@ export default function DashboardLayout() {
       </div>
 
       {/* Main Content Area */}
-      <div className="content-stretch flex items-start relative w-full h-[calc(100vh-70px)]">
+      <div className="content-stretch flex items-start relative w-full h-[calc(100vh-70px)] mt-[70px]">
 
         {/* Sidebar — fixed, matches source exactly */}
         <div className="bg-white fixed h-[calc(100vh-70px)] left-0 shrink-0 w-[225px] z-40">
