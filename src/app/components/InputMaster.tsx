@@ -87,7 +87,7 @@ export function InputMaster({
         <div className="content-stretch flex flex-col h-full items-start justify-between relative shrink-0">
           {/* Label */}
           <div className="content-stretch flex gap-[5px] items-center relative shrink-0">
-            <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[#8492a6] text-[11px] uppercase whitespace-nowrap">
+            <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-tertiary)] text-[11px] uppercase whitespace-nowrap">
               {label}
             </p>
             {showInfo && (
@@ -109,7 +109,7 @@ export function InputMaster({
           {/* Input Text */}
           <div className="content-stretch flex gap-[5px] items-center relative shrink-0">
             {icon && <div className="relative shrink-0">{icon}</div>}
-            <p className={`font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[14.5px] whitespace-nowrap ${placeholder ? 'text-[#a2a5ac]' : 'text-[#183049]'}`}>
+            <p className={`font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[14.5px] whitespace-nowrap ${placeholder ? 'text-[var(--cp-text-quinary)]' : 'text-[var(--cp-text-primary)]'}`}>
               {value}
             </p>
           </div>
@@ -119,7 +119,7 @@ export function InputMaster({
         <div className={`content-stretch flex h-full items-center relative ${secondaryText ? 'flex-[1_0_0] gap-[8px] min-w-px' : 'gap-[8px] shrink-0'}`}>
           {/* Secondary Text (for account numbers, etc.) */}
           {secondaryText && (
-            <p className="flex-[1_0_0] font-['Inter:Regular',sans-serif] font-normal h-[14px] leading-[normal] min-w-px not-italic overflow-hidden relative text-[#8492a6] text-[13px] text-ellipsis whitespace-nowrap">
+            <p className="flex-[1_0_0] font-['Inter:Regular',sans-serif] font-normal h-[14px] leading-[normal] min-w-px not-italic overflow-hidden relative text-[var(--cp-text-tertiary)] text-[13px] text-ellipsis whitespace-nowrap">
               {secondaryText}
             </p>
           )}
@@ -127,7 +127,7 @@ export function InputMaster({
           {/* Currency Badge */}
           {currencyBadge && (
             <div className="content-stretch flex gap-[10px] items-center pl-[10px] pr-[20px] py-[5px] relative shrink-0">
-              <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[#8492a6] text-[11px] text-center whitespace-nowrap">
+              <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-tertiary)] text-[11px] text-center whitespace-nowrap">
                 {currencyBadge.code}
               </p>
               <div className="relative shrink-0 size-[24px]">{currencyBadge.icon}</div>
@@ -140,7 +140,7 @@ export function InputMaster({
           {/* Dropdown Arrow */}
           {showDropdown && (
             <div className="content-stretch flex items-center justify-between relative shrink-0 w-[21px]">
-              <div className="bg-[#e5e9f2] h-[34px] relative shrink-0 w-px" />
+              <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" />
               <div className="overflow-clip relative shrink-0 size-[12px]">
                 <div className="absolute inset-[34.38%_21.88%]">
                   <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 6.74999 3.74999">
@@ -162,7 +162,7 @@ export function InputMaster({
           )}
         </div>
       </div>
-      <div aria-hidden="true" className="absolute border border-[#e5e9f2] group-hover:border-[#bec4d0] border-solid inset-0 pointer-events-none rounded-[5px] transition-colors" />
+      <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] group-hover:border-[var(--cp-border-hover)] border-solid inset-0 pointer-events-none rounded-[5px] transition-colors" />
     </div>
   );
 }

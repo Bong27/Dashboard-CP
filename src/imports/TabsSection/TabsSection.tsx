@@ -4,20 +4,20 @@ function Tabs() {
   return (
     <div className="content-stretch flex gap-[10px] items-start relative shrink-0" data-name="tabs">
       <button className="content-stretch cursor-pointer flex items-center justify-center px-[8px] py-[12px] relative shrink-0" data-name="tab single">
-        <div aria-hidden="true" className="absolute border-0 border-[#666769] border-solid inset-0 pointer-events-none" />
-        <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[#666769] text-[12px] text-left whitespace-nowrap">Wallets</p>
+        <div aria-hidden="true" className="absolute border-0 border-[var(--cp-text-grey-disabled)] border-solid inset-0 pointer-events-none" />
+        <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-grey-disabled)] text-[12px] text-left whitespace-nowrap">Wallets</p>
       </button>
       <button className="content-stretch cursor-pointer flex items-center justify-center px-[8px] py-[12px] relative shrink-0" data-name="tab single">
-        <div aria-hidden="true" className="absolute border-0 border-[#666769] border-solid inset-0 pointer-events-none" />
-        <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[#666769] text-[12px] text-left whitespace-nowrap">Recent Transactions</p>
+        <div aria-hidden="true" className="absolute border-0 border-[var(--cp-text-grey-disabled)] border-solid inset-0 pointer-events-none" />
+        <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-grey-disabled)] text-[12px] text-left whitespace-nowrap">Recent Transactions</p>
       </button>
       <div className="content-stretch flex items-center justify-center px-[8px] py-[12px] relative shrink-0" data-name="tab single">
-        <div aria-hidden="true" className="absolute border-[#1c60dd] border-b-2 border-solid inset-0 pointer-events-none" />
-        <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[#1c60dd] text-[12px] whitespace-nowrap">Auto-Sweep</p>
+        <div aria-hidden="true" className="absolute border-[var(--cp-brand-primary)] border-b-2 border-solid inset-0 pointer-events-none" />
+        <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-brand-primary)] text-[12px] whitespace-nowrap">Auto-Sweep</p>
       </div>
       <button className="content-stretch cursor-pointer flex items-center justify-center px-[8px] py-[12px] relative shrink-0" data-name="tab single">
-        <div aria-hidden="true" className="absolute border-0 border-[#666769] border-solid inset-0 pointer-events-none" />
-        <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[#666769] text-[12px] text-left whitespace-nowrap">Vaulting</p>
+        <div aria-hidden="true" className="absolute border-0 border-[var(--cp-text-grey-disabled)] border-solid inset-0 pointer-events-none" />
+        <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-grey-disabled)] text-[12px] text-left whitespace-nowrap">Vaulting</p>
       </button>
     </div>
   );
@@ -25,7 +25,7 @@ function Tabs() {
 
 function WarningBanner() {
   return (
-    <div className="bg-[#ebf1fb] relative rounded-[5px] shrink-0 w-full" data-name="warning-banner">
+    <div className="bg-[var(--cp-bg-4)] relative rounded-[5px] shrink-0 w-full" data-name="warning-banner">
       <div className="flex flex-row items-center justify-center overflow-clip rounded-[inherit] size-full">
         <div className="content-stretch flex gap-[10px] items-center justify-center p-[20px] relative size-full">
           <div className="overflow-clip relative shrink-0 size-[16px]" data-name="icon / info solid">
@@ -35,10 +35,10 @@ function WarningBanner() {
               </svg>
             </div>
           </div>
-          <p className="flex-[1_0_0] font-['Inter:Regular',sans-serif] font-normal leading-[normal] min-w-px not-italic relative text-[#5a6679] text-[13px]">Auto-Sweep automatically withdraws your selected wallet to the address you specify once the balance reaches the trigger amount.</p>
+          <p className="flex-[1_0_0] font-['Inter:Regular',sans-serif] font-normal leading-[normal] min-w-px not-italic relative text-[var(--cp-text-secondary)] text-[13px]">Auto-Sweep automatically withdraws your selected wallet to the address you specify once the balance reaches the trigger amount.</p>
         </div>
       </div>
-      <div aria-hidden="true" className="absolute border border-[#e5e9f2] border-solid inset-0 pointer-events-none rounded-[5px]" />
+      <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[5px]" />
     </div>
   );
 }
@@ -46,7 +46,7 @@ function WarningBanner() {
 function LabelWrap() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0" data-name="label-wrap">
-      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[#8492a6] text-[11px] uppercase whitespace-nowrap">wallet</p>
+      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-tertiary)] text-[11px] uppercase whitespace-nowrap">wallet</p>
     </div>
   );
 }
@@ -54,7 +54,7 @@ function LabelWrap() {
 function InputText() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0" data-name="input text">
-      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[#183049] text-[14.5px] whitespace-nowrap">Primary Balance</p>
+      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-primary)] text-[14.5px] whitespace-nowrap">Primary Balance</p>
     </div>
   );
 }
@@ -69,7 +69,7 @@ function Content() {
 }
 
 function LineDivider() {
-  return <div className="bg-[#e5e9f2] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
+  return <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
 }
 
 function Selector() {
@@ -98,7 +98,7 @@ function Controls() {
 function LabelWrap1() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0" data-name="label-wrap">
-      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[#8492a6] text-[11px] uppercase whitespace-nowrap">SWEEP DESTINATION</p>
+      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-tertiary)] text-[11px] uppercase whitespace-nowrap">SWEEP DESTINATION</p>
     </div>
   );
 }
@@ -106,7 +106,7 @@ function LabelWrap1() {
 function InputText1() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0" data-name="input text">
-      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[#183049] text-[14.5px] whitespace-nowrap">Bank Account</p>
+      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-primary)] text-[14.5px] whitespace-nowrap">Bank Account</p>
     </div>
   );
 }
@@ -121,7 +121,7 @@ function Content1() {
 }
 
 function LineDivider1() {
-  return <div className="bg-[#e5e9f2] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
+  return <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
 }
 
 function Selector1() {
@@ -157,14 +157,14 @@ function Frame5() {
             <Controls />
           </div>
         </div>
-        <div aria-hidden="true" className="absolute border border-[#e5e9f2] border-solid inset-0 pointer-events-none rounded-[5px]" />
+        <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[5px]" />
       </div>
       <div className="bg-white h-[56px] min-w-[200px] relative rounded-[5px] shrink-0 w-[533px]">
         <div className="content-stretch flex items-start justify-between min-w-[inherit] overflow-clip p-[10px] relative rounded-[inherit] size-full">
           <Content1 />
           <Controls1 />
         </div>
-        <div aria-hidden="true" className="absolute border border-[#e5e9f2] border-solid inset-0 pointer-events-none rounded-[5px]" />
+        <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[5px]" />
       </div>
     </div>
   );
@@ -173,7 +173,7 @@ function Frame5() {
 function LabelWrap2() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0" data-name="label-wrap">
-      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[#8492a6] text-[11px] uppercase whitespace-nowrap">trigger amount (usdt.trc20)</p>
+      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-tertiary)] text-[11px] uppercase whitespace-nowrap">trigger amount (usdt.trc20)</p>
     </div>
   );
 }
@@ -181,7 +181,7 @@ function LabelWrap2() {
 function InputText2() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0" data-name="input text">
-      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[#a2a5ac] text-[14.5px] whitespace-nowrap">Min-Max Payout: $100 - $1,000,000</p>
+      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-quinary)] text-[14.5px] whitespace-nowrap">Min-Max Payout: $100 - $1,000,000</p>
     </div>
   );
 }
@@ -196,7 +196,7 @@ function Frame2() {
 }
 
 function LineDivider2() {
-  return <div className="bg-[#e5e9f2] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
+  return <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
 }
 
 function Selector2() {
@@ -261,7 +261,7 @@ function TronTrxLogo() {
 function FiatSelector() {
   return (
     <div className="content-stretch flex gap-[10px] items-center pl-[5px] pr-[20px] py-[5px] relative shrink-0" data-name="fiat selector">
-      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[#8492a6] text-[11px] text-center whitespace-nowrap">USDT.TRC20</p>
+      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-tertiary)] text-[11px] text-center whitespace-nowrap">USDT.TRC20</p>
       <div className="relative shrink-0 size-[24px]" data-name="USDT.TRC20">
         <Frame />
         <div className="absolute bg-white border-[0.529px] border-solid border-white bottom-0 h-[10.667px] left-[55.56%] overflow-clip right-0 rounded-[792.727px]" data-name="Tron">
@@ -290,7 +290,7 @@ function Frame3() {
           <Controls2 />
         </div>
       </div>
-      <div aria-hidden="true" className="absolute border border-[#e5e9f2] border-solid inset-0 pointer-events-none rounded-[5px]" />
+      <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[5px]" />
     </div>
   );
 }
@@ -298,7 +298,7 @@ function Frame3() {
 function LabelWrap3() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0" data-name="label-wrap">
-      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[#8492a6] text-[11px] uppercase whitespace-nowrap">SWEEP bank account</p>
+      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-tertiary)] text-[11px] uppercase whitespace-nowrap">SWEEP bank account</p>
       <div className="overflow-clip relative shrink-0 size-[8px]" data-name="icon / info solid">
         <div className="-translate-y-1/2 absolute aspect-[16/16] left-0 right-0 top-1/2" data-name="Vector">
           <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 8 8">
@@ -313,7 +313,7 @@ function LabelWrap3() {
 function InputText3() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0" data-name="input text">
-      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[#183049] text-[14.5px] whitespace-nowrap">xxxx5678 - Acme Corp</p>
+      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-primary)] text-[14.5px] whitespace-nowrap">xxxx5678 - Acme Corp</p>
     </div>
   );
 }
@@ -340,7 +340,7 @@ function Frame6() {
           <Content2 />
           <Controls3 />
         </div>
-        <div aria-hidden="true" className="absolute border border-[#e5e9f2] border-solid inset-0 pointer-events-none rounded-[5px]" />
+        <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[5px]" />
       </div>
     </div>
   );
@@ -348,14 +348,14 @@ function Frame6() {
 
 function Frame4() {
   return (
-    <div className="bg-[#f7f8fc] relative shrink-0 w-full">
+    <div className="bg-[var(--cp-bg-1)] relative shrink-0 w-full">
       <div className="overflow-clip rounded-[inherit] size-full">
         <div className="content-stretch flex flex-col gap-[10px] items-start p-[20px] relative size-full">
           <WarningBanner />
           <Frame5 />
           <Frame6 />
-          <div className="bg-[#eff1f8] content-stretch flex h-[46px] items-center justify-center overflow-clip px-[20px] py-[10px] relative rounded-[5px] shrink-0" data-name="Buttons">
-            <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[#5a6679] text-[13px] text-center whitespace-nowrap">Save</p>
+          <div className="bg-[var(--cp-bg-2)] content-stretch flex h-[46px] items-center justify-center overflow-clip px-[20px] py-[10px] relative rounded-[5px] shrink-0" data-name="Buttons">
+            <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-secondary)] text-[13px] text-center whitespace-nowrap">Save</p>
           </div>
         </div>
       </div>

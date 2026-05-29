@@ -24,8 +24,8 @@ function BitcoinBtcLogo() {
 function Name() {
   return (
     <div className="content-stretch flex flex-col items-start leading-[normal] not-italic relative shrink-0 text-left w-[49px]" data-name="name">
-      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[#183049] text-[14.5px] w-full">Bitcoin</p>
-      <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[#8492a6] text-[13px] w-full">BTC</p>
+      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[var(--cp-text-primary)] text-[14.5px] w-full">Bitcoin</p>
+      <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[var(--cp-text-tertiary)] text-[13px] w-full">BTC</p>
     </div>
   );
 }
@@ -44,8 +44,8 @@ function Coin() {
 function Frame() {
   return (
     <div className="content-stretch flex flex-col items-start leading-[normal] not-italic relative shrink-0 text-left w-[105px]">
-      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[#183049] text-[14.5px] w-full">0.000000 BTC</p>
-      <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[#8492a6] text-[13px] w-full">BTC</p>
+      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[var(--cp-text-primary)] text-[14.5px] w-full">0.000000 BTC</p>
+      <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[var(--cp-text-tertiary)] text-[13px] w-full">BTC</p>
     </div>
   );
 }
@@ -153,7 +153,7 @@ function Controls() {
             <Div />
           </div>
         </div>
-        <div aria-hidden="true" className="absolute border border-[#e5e9f2] border-solid inset-0 pointer-events-none rounded-[100px]" />
+        <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[100px]" />
       </div>
       <div className="bg-white relative rounded-[100px] shrink-0 size-[36px]" data-name="Circle-icon">
         <div className="overflow-clip relative rounded-[inherit] size-full">
@@ -175,7 +175,7 @@ function Controls() {
             <Div1 />
           </div>
         </div>
-        <div aria-hidden="true" className="absolute border border-[#e5e9f2] border-solid inset-0 pointer-events-none rounded-[100px]" />
+        <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[100px]" />
       </div>
       <div className="bg-white relative rounded-[100px] shrink-0 size-[36px]" data-name="Circle-icon">
         <div className="overflow-clip relative rounded-[inherit] size-full">
@@ -196,7 +196,7 @@ function Controls() {
             <Div2 />
           </div>
         </div>
-        <div aria-hidden="true" className="absolute border border-[#e5e9f2] border-solid inset-0 pointer-events-none rounded-[100px]" />
+        <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[100px]" />
       </div>
     </div>
   );
@@ -213,7 +213,7 @@ function Wrap() {
 
 export default function WalletRow() {
   return (
-    <button className="bg-[#e5e9f2] content-stretch cursor-pointer flex items-center p-[20px] relative rounded-[5px] size-full" data-name="WalletRow">
+    <button className="bg-[var(--cp-border-default)] content-stretch cursor-pointer flex items-center p-[20px] relative rounded-[5px] size-full" data-name="WalletRow">
       <Wrap />
     </button>
   );

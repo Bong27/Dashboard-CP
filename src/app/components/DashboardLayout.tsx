@@ -214,13 +214,13 @@ function NavItem({ to, icon, label }: { to: string; icon: React.ReactNode; label
     <Link
       to={to}
       className={`content-stretch flex flex-col items-start p-[10px] relative rounded-[100px] shrink-0 w-[205px] cursor-pointer transition-colors ${
-        isActive ? 'bg-[#f7f8fc]' : 'hover:bg-[#f7f8fc]'
+        isActive ? 'bg-[var(--cp-bg-1)]' : 'hover:bg-[var(--cp-bg-1)]'
       }`}
     >
       <div className="content-stretch flex gap-[5px] items-center relative shrink-0">
         {icon}
         <p className={`font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[14.5px] whitespace-nowrap ${
-          isActive ? 'text-[#1c60dd]' : 'text-[#183049]'
+          isActive ? 'text-[var(--cp-brand-primary)]' : 'text-[var(--cp-text-primary)]'
         }`}>
           {label}
         </p>
@@ -234,7 +234,7 @@ function NavItem({ to, icon, label }: { to: string; icon: React.ReactNode; label
 function Divider() {
   return (
     <div className="content-stretch flex flex-col items-start py-[8px] relative shrink-0 w-full">
-      <div className="bg-[#e5e9f2] h-px relative shrink-0 w-[205px]">
+      <div className="bg-[var(--cp-border-default)] h-px relative shrink-0 w-[205px]">
         <div className="flex flex-row items-center justify-center size-full">
           <div className="relative size-full" />
         </div>
@@ -252,9 +252,9 @@ function SidenavFooter() {
         <button className="bg-white cursor-pointer h-[42px] relative rounded-[100px] shrink-0 w-[195px]">
           <div className="content-stretch flex gap-[5px] items-center justify-center overflow-clip px-[10px] relative rounded-[inherit] size-full">
             <PlusIcon />
-            <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[#183049] text-[14.5px] text-center whitespace-nowrap">New Transaction</p>
+            <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-primary)] text-[14.5px] text-center whitespace-nowrap">New Transaction</p>
           </div>
-          <div aria-hidden="true" className="absolute border border-[#e5e9f2] border-solid inset-0 pointer-events-none rounded-[100px]" />
+          <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[100px]" />
         </button>
       </div>
     </div>
@@ -268,7 +268,7 @@ export default function DashboardLayout() {
   const pageTitle = PAGE_TITLES[location.pathname] ?? 'Dashboard';
 
   return (
-    <div className="bg-[#f7f8fc] content-stretch flex flex-col items-start relative size-full">
+    <div className="bg-[var(--cp-bg-1)] content-stretch flex flex-col items-start relative size-full">
 
       {/* Top Navbar */}
       <div className="bg-white content-stretch flex h-[70px] items-center justify-between overflow-clip fixed top-0 left-0 right-0 z-50 w-full">
@@ -279,13 +279,13 @@ export default function DashboardLayout() {
         </div>
 
         <div className="flex-[1_0_0] h-[71px] min-w-px relative">
-          <div aria-hidden="true" className="absolute border-[#e5e9f2] border-b border-solid inset-0 pointer-events-none" />
+          <div aria-hidden="true" className="absolute border-[var(--cp-border-default)] border-b border-solid inset-0 pointer-events-none" />
           <div className="flex flex-row items-center size-full">
             <div className="content-stretch flex items-center justify-between pr-[40px] py-[10px] relative size-full">
 
               {/* Title Area */}
               <div className="content-stretch flex gap-[40px] items-center relative shrink-0">
-                <div className="bg-[#e5e9f2] h-[34px] relative shrink-0 w-px" />
+                <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" />
                 <div className="overflow-clip relative shrink-0 size-[24px]">
                   <div className="absolute inset-[5%_-0.9%_0_0]">
                     <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 24.2167 22.8">
@@ -294,35 +294,35 @@ export default function DashboardLayout() {
                     </svg>
                   </div>
                 </div>
-                <div className="bg-[#e5e9f2] h-[34px] relative shrink-0 w-px" />
-                <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[#183049] text-[18px] tracking-[-0.2px] whitespace-nowrap">{pageTitle}</p>
+                <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" />
+                <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-primary)] text-[18px] tracking-[-0.2px] whitespace-nowrap">{pageTitle}</p>
               </div>
 
               {/* Account Controls */}
-              <div className="bg-[#f7f8fc] content-stretch flex gap-[10px] items-center overflow-clip pl-[5px] relative rounded-[100px] shrink-0">
+              <div className="bg-[var(--cp-bg-1)] content-stretch flex gap-[10px] items-center overflow-clip pl-[5px] relative rounded-[100px] shrink-0">
                 <div className="content-stretch flex gap-[5px] items-center relative shrink-0">
-                  <div className="bg-[#f7f8fc] content-stretch flex gap-[5px] items-center p-[5px] relative rounded-[100px] shrink-0">
-                    <div aria-hidden="true" className="absolute border border-[#f7f8fc] border-solid inset-0 pointer-events-none rounded-[100px]" />
+                  <div className="bg-[var(--cp-bg-1)] content-stretch flex gap-[5px] items-center p-[5px] relative rounded-[100px] shrink-0">
+                    <div aria-hidden="true" className="absolute border border-[var(--cp-bg-1)] border-solid inset-0 pointer-events-none rounded-[100px]" />
                     <div className="bg-white overflow-clip relative rounded-[100px] shrink-0 size-[18px]">
-                      <p className="-translate-x-1/2 absolute font-['Inter:Medium',sans-serif] font-medium leading-[normal] left-1/2 not-italic text-[#183049] text-[11px] text-center top-[calc(50%-7px)] whitespace-nowrap">$</p>
+                      <p className="-translate-x-1/2 absolute font-['Inter:Medium',sans-serif] font-medium leading-[normal] left-1/2 not-italic text-[var(--cp-text-primary)] text-[11px] text-center top-[calc(50%-7px)] whitespace-nowrap">$</p>
                     </div>
-                    <p className="font-['Fira_Mono:Bold',sans-serif] leading-[normal] not-italic relative shrink-0 text-[#183049] text-[10px] text-center whitespace-nowrap">USD</p>
+                    <p className="font-['Fira_Mono:Bold',sans-serif] leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-primary)] text-[10px] text-center whitespace-nowrap">USD</p>
                   </div>
-                  <div className="bg-[#e5e9f2] h-[10px] relative shrink-0 w-px" />
-                  <div className="bg-[#f7f8fc] content-stretch flex gap-[5px] items-center p-[5px] relative rounded-[100px] shrink-0">
-                    <div aria-hidden="true" className="absolute border border-[#f7f8fc] border-solid inset-0 pointer-events-none rounded-[100px]" />
+                  <div className="bg-[var(--cp-border-default)] h-[10px] relative shrink-0 w-px" />
+                  <div className="bg-[var(--cp-bg-1)] content-stretch flex gap-[5px] items-center p-[5px] relative rounded-[100px] shrink-0">
+                    <div aria-hidden="true" className="absolute border border-[var(--cp-bg-1)] border-solid inset-0 pointer-events-none rounded-[100px]" />
                     <div className="overflow-clip relative rounded-[100px] shrink-0 size-[18px]">
                       <div aria-hidden="true" className="absolute inset-0 pointer-events-none rounded-[100px]">
                         <div className="absolute bg-white inset-0 rounded-[100px]" />
                         <img alt="" className="absolute max-w-none object-cover rounded-[100px] size-full" src={imgCircle} />
                       </div>
                     </div>
-                    <p className="font-['Fira_Mono:Bold',sans-serif] leading-[normal] not-italic relative shrink-0 text-[#183049] text-[10px] text-center whitespace-nowrap">EN</p>
+                    <p className="font-['Fira_Mono:Bold',sans-serif] leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-primary)] text-[10px] text-center whitespace-nowrap">EN</p>
                   </div>
-                  <div className="bg-[#e5e9f2] h-[10px] relative shrink-0 w-px" />
+                  <div className="bg-[var(--cp-border-default)] h-[10px] relative shrink-0 w-px" />
                 </div>
                 <div className="bg-white content-stretch flex gap-[10px] h-[40px] items-center pl-[15px] pr-[5px] relative rounded-[100px] shrink-0">
-                  <div aria-hidden="true" className="absolute border border-[#e5e9f2] border-solid inset-0 pointer-events-none rounded-[100px]" />
+                  <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[100px]" />
                   <div className="overflow-clip relative shrink-0 size-[15px]">
                     <div className="absolute inset-[18.75%_6.25%]">
                       <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 13.125 9.375">
@@ -330,7 +330,7 @@ export default function DashboardLayout() {
                       </svg>
                     </div>
                   </div>
-                  <div className="bg-[#d3d6e1] overflow-clip relative rounded-[100px] shrink-0 size-[28px]">
+                  <div className="bg-[var(--cp-text-quaternary)] overflow-clip relative rounded-[100px] shrink-0 size-[28px]">
                     <p className="-translate-x-1/2 absolute font-['Inter:Regular',sans-serif] font-normal leading-[normal] left-1/2 not-italic text-[13px] text-center text-white top-[calc(50%-8px)] whitespace-nowrap">C</p>
                   </div>
                 </div>
@@ -360,10 +360,10 @@ export default function DashboardLayout() {
                 <NavItem to="/pos" label="POS" icon={<POSIcon />} />
                 <NavItem to="/support" label="Support" icon={<SupportIcon />} />
                 <Divider />
-                <button className="content-stretch cursor-pointer flex flex-col items-start p-[10px] relative rounded-[100px] shrink-0 w-[205px] hover:bg-[#f7f8fc] transition-colors">
+                <button className="content-stretch cursor-pointer flex flex-col items-start p-[10px] relative rounded-[100px] shrink-0 w-[205px] hover:bg-[var(--cp-bg-1)] transition-colors">
                   <div className="content-stretch flex gap-[5px] items-center relative shrink-0">
                     <MoreIcon />
-                    <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[#183049] text-[14.5px] text-left whitespace-nowrap">More</p>
+                    <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-primary)] text-[14.5px] text-left whitespace-nowrap">More</p>
                   </div>
                 </button>
               </div>
@@ -374,7 +374,7 @@ export default function DashboardLayout() {
             </div>
           </div>
           {/* Right border */}
-          <div aria-hidden="true" className="absolute border-[#e5e9f2] border-r-[0.5px] border-solid inset-[0_-0.25px_0_0] pointer-events-none" />
+          <div aria-hidden="true" className="absolute border-[var(--cp-border-default)] border-r-[0.5px] border-solid inset-[0_-0.25px_0_0] pointer-events-none" />
         </div>
 
         {/* Page content — offset to clear fixed sidebar */}

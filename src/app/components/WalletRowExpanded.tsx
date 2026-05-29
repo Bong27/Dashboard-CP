@@ -18,7 +18,7 @@ export function WalletRowExpanded({ coinName, coinSymbol }: WalletRowExpandedPro
         <div className="content-stretch flex flex-[1_0_0] flex-col gap-[20px] items-start min-w-px relative">
           <div className="content-stretch flex flex-col gap-[5px] items-start relative shrink-0">
             <div className="content-stretch flex gap-[5px] items-center relative shrink-0">
-              <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[#183049] text-[11px] uppercase whitespace-nowrap">primary balance</p>
+              <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-primary)] text-[11px] uppercase whitespace-nowrap">primary balance</p>
               <div className="overflow-clip relative shrink-0 size-[8px]">
                 <div className="-translate-y-1/2 absolute aspect-[16/16] left-0 right-0 top-1/2">
                   <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 8 8">
@@ -28,15 +28,15 @@ export function WalletRowExpanded({ coinName, coinSymbol }: WalletRowExpandedPro
               </div>
             </div>
             <div className="content-stretch flex gap-[5px] items-center relative shrink-0">
-              <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[#5a6679] text-[14.5px] whitespace-nowrap">0.0000000 {coinSymbol}</p>
+              <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-secondary)] text-[14.5px] whitespace-nowrap">0.0000000 {coinSymbol}</p>
             </div>
           </div>
           <div className="content-stretch flex flex-col gap-[5px] items-start relative shrink-0">
             <div className="content-stretch flex gap-[5px] items-center relative shrink-0">
-              <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[#183049] text-[11px] uppercase whitespace-nowrap">value</p>
+              <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-primary)] text-[11px] uppercase whitespace-nowrap">value</p>
             </div>
             <div className="content-stretch flex gap-[5px] items-center relative shrink-0">
-              <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[#5a6679] text-[14.5px] whitespace-nowrap">$0.00 USD</p>
+              <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-secondary)] text-[14.5px] whitespace-nowrap">$0.00 USD</p>
             </div>
           </div>
         </div>
@@ -45,7 +45,7 @@ export function WalletRowExpanded({ coinName, coinSymbol }: WalletRowExpandedPro
         <div className="content-stretch flex flex-[1_0_0] flex-col gap-[20px] items-start min-w-px relative">
           <div className="content-stretch flex flex-col gap-[5px] items-start relative shrink-0">
             <div className="content-stretch flex gap-[5px] items-center relative shrink-0">
-              <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[#183049] text-[11px] uppercase whitespace-nowrap">API BALANCE</p>
+              <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-primary)] text-[11px] uppercase whitespace-nowrap">API BALANCE</p>
               <div className="overflow-clip relative shrink-0 size-[8px]">
                 <div className="-translate-y-1/2 absolute aspect-[16/16] left-0 right-0 top-1/2">
                   <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 8 8">
@@ -55,15 +55,15 @@ export function WalletRowExpanded({ coinName, coinSymbol }: WalletRowExpandedPro
               </div>
             </div>
             <div className="content-stretch flex gap-[5px] items-center relative shrink-0">
-              <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[#5a6679] text-[14.5px] whitespace-nowrap">0.0000000 {coinSymbol}</p>
+              <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-secondary)] text-[14.5px] whitespace-nowrap">0.0000000 {coinSymbol}</p>
             </div>
           </div>
           <div className="content-stretch flex flex-col gap-[5px] items-start relative shrink-0">
             <div className="content-stretch flex gap-[5px] items-center relative shrink-0">
-              <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[#183049] text-[11px] uppercase whitespace-nowrap">value</p>
+              <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-primary)] text-[11px] uppercase whitespace-nowrap">value</p>
             </div>
             <div className="content-stretch flex gap-[5px] items-center relative shrink-0">
-              <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[#5a6679] text-[14.5px] whitespace-nowrap">$0.00 USD</p>
+              <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-secondary)] text-[14.5px] whitespace-nowrap">$0.00 USD</p>
             </div>
           </div>
         </div>
@@ -72,7 +72,7 @@ export function WalletRowExpanded({ coinName, coinSymbol }: WalletRowExpandedPro
         <div className="content-stretch flex flex-[1_0_0] flex-col gap-[20px] items-start min-w-px relative">
           <div className="content-stretch flex flex-col gap-[5px] items-start relative shrink-0">
             <div className="content-stretch flex gap-[5px] items-center relative shrink-0">
-              <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[#183049] text-[11px] uppercase whitespace-nowrap">TOTAL BALANCE</p>
+              <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-primary)] text-[11px] uppercase whitespace-nowrap">TOTAL BALANCE</p>
               <div className="overflow-clip relative shrink-0 size-[8px]">
                 <div className="-translate-y-1/2 absolute aspect-[16/16] left-0 right-0 top-1/2">
                   <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 8 8">
@@ -82,15 +82,15 @@ export function WalletRowExpanded({ coinName, coinSymbol }: WalletRowExpandedPro
               </div>
             </div>
             <div className="content-stretch flex gap-[5px] items-center relative shrink-0">
-              <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[#5a6679] text-[14.5px] whitespace-nowrap">0.0000000 {coinSymbol}</p>
+              <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-secondary)] text-[14.5px] whitespace-nowrap">0.0000000 {coinSymbol}</p>
             </div>
           </div>
           <div className="content-stretch flex flex-col gap-[5px] items-start relative shrink-0">
             <div className="content-stretch flex gap-[5px] items-center relative shrink-0">
-              <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[#183049] text-[11px] uppercase whitespace-nowrap">value</p>
+              <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-primary)] text-[11px] uppercase whitespace-nowrap">value</p>
             </div>
             <div className="content-stretch flex gap-[5px] items-center relative shrink-0">
-              <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[#5a6679] text-[14.5px] whitespace-nowrap">$0.00 USD</p>
+              <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-secondary)] text-[14.5px] whitespace-nowrap">$0.00 USD</p>
             </div>
           </div>
         </div>
@@ -108,15 +108,15 @@ export function WalletRowExpanded({ coinName, coinSymbol }: WalletRowExpandedPro
               aria-hidden="true"
               className={`absolute border-b-2 border-solid inset-0 pointer-events-none transition-colors ${
                 activeTab === 'wallets'
-                  ? 'border-[#1c60dd]'
-                  : 'border-transparent group-hover:border-[#4d5162]'
+                  ? 'border-[var(--cp-brand-primary)]'
+                  : 'border-transparent group-hover:border-[var(--cp-text-grey)]'
               }`}
             />
             <p
               className={`font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[12px] whitespace-nowrap transition-colors ${
                 activeTab === 'wallets'
-                  ? 'text-[#1c60dd]'
-                  : 'text-[#666769] group-hover:text-[#4d5162]'
+                  ? 'text-[var(--cp-brand-primary)]'
+                  : 'text-[var(--cp-text-grey-disabled)] group-hover:text-[var(--cp-text-grey)]'
               }`}
             >
               Wallets
@@ -130,15 +130,15 @@ export function WalletRowExpanded({ coinName, coinSymbol }: WalletRowExpandedPro
               aria-hidden="true"
               className={`absolute border-b-2 border-solid inset-0 pointer-events-none transition-colors ${
                 activeTab === 'transactions'
-                  ? 'border-[#1c60dd]'
-                  : 'border-transparent group-hover:border-[#4d5162]'
+                  ? 'border-[var(--cp-brand-primary)]'
+                  : 'border-transparent group-hover:border-[var(--cp-text-grey)]'
               }`}
             />
             <p
               className={`font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[12px] whitespace-nowrap transition-colors ${
                 activeTab === 'transactions'
-                  ? 'text-[#1c60dd]'
-                  : 'text-[#666769] group-hover:text-[#4d5162]'
+                  ? 'text-[var(--cp-brand-primary)]'
+                  : 'text-[var(--cp-text-grey-disabled)] group-hover:text-[var(--cp-text-grey)]'
               }`}
             >
               Recent Transactions
@@ -152,15 +152,15 @@ export function WalletRowExpanded({ coinName, coinSymbol }: WalletRowExpandedPro
               aria-hidden="true"
               className={`absolute border-b-2 border-solid inset-0 pointer-events-none transition-colors ${
                 activeTab === 'auto-sweep'
-                  ? 'border-[#1c60dd]'
-                  : 'border-transparent group-hover:border-[#4d5162]'
+                  ? 'border-[var(--cp-brand-primary)]'
+                  : 'border-transparent group-hover:border-[var(--cp-text-grey)]'
               }`}
             />
             <p
               className={`font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[12px] whitespace-nowrap transition-colors ${
                 activeTab === 'auto-sweep'
-                  ? 'text-[#1c60dd]'
-                  : 'text-[#666769] group-hover:text-[#4d5162]'
+                  ? 'text-[var(--cp-brand-primary)]'
+                  : 'text-[var(--cp-text-grey-disabled)] group-hover:text-[var(--cp-text-grey)]'
               }`}
             >
               Auto-Sweep
@@ -174,15 +174,15 @@ export function WalletRowExpanded({ coinName, coinSymbol }: WalletRowExpandedPro
               aria-hidden="true"
               className={`absolute border-b-2 border-solid inset-0 pointer-events-none transition-colors ${
                 activeTab === 'vaulting'
-                  ? 'border-[#1c60dd]'
-                  : 'border-transparent group-hover:border-[#4d5162]'
+                  ? 'border-[var(--cp-brand-primary)]'
+                  : 'border-transparent group-hover:border-[var(--cp-text-grey)]'
               }`}
             />
             <p
               className={`font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[12px] whitespace-nowrap transition-colors ${
                 activeTab === 'vaulting'
-                  ? 'text-[#1c60dd]'
-                  : 'text-[#666769] group-hover:text-[#4d5162]'
+                  ? 'text-[var(--cp-brand-primary)]'
+                  : 'text-[var(--cp-text-grey-disabled)] group-hover:text-[var(--cp-text-grey)]'
               }`}
             >
               Vaulting
@@ -192,11 +192,11 @@ export function WalletRowExpanded({ coinName, coinSymbol }: WalletRowExpandedPro
 
         {/* Tab Content */}
         {activeTab === 'wallets' && (
-          <div className="bg-[#f7f8fc] relative shrink-0 w-full">
+          <div className="bg-[var(--cp-bg-1)] relative shrink-0 w-full">
             <div className="overflow-clip rounded-[inherit] size-full">
               <div className="content-stretch flex flex-col gap-[20px] items-start p-[20px] relative size-full">
                 {/* Warning Banner */}
-                <div className="bg-[#ebf1fb] relative rounded-[5px] shrink-0 w-full">
+                <div className="bg-[var(--cp-bg-4)] relative rounded-[5px] shrink-0 w-full">
                   <div className="flex flex-row items-center justify-center overflow-clip rounded-[inherit] size-full">
                     <div className="content-stretch flex gap-[10px] items-center justify-center p-[20px] relative size-full">
                       <div className="overflow-clip relative shrink-0 size-[16px]">
@@ -206,19 +206,19 @@ export function WalletRowExpanded({ coinName, coinSymbol }: WalletRowExpandedPro
                           </svg>
                         </div>
                       </div>
-                      <p className="flex-[1_0_0] font-['Inter:Regular',sans-serif] font-normal leading-[normal] min-w-px not-italic relative text-[#5a6679] text-[13px]">
+                      <p className="flex-[1_0_0] font-['Inter:Regular',sans-serif] font-normal leading-[normal] min-w-px not-italic relative text-[var(--cp-text-secondary)] text-[13px]">
                         Wallets are managed by integration credentials for the purpose of segregating funds and addresses. <a className="cursor-pointer underline" href="https://a-docs.coinpayments.net/api/wallets/" target="_blank">Click here to learn more</a>.
                       </p>
                     </div>
                   </div>
-                  <div aria-hidden="true" className="absolute border border-[#e5e9f2] border-solid inset-0 pointer-events-none rounded-[5px]" />
+                  <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[5px]" />
                 </div>
 
                 {/* Search and Filter */}
                 <div className="content-stretch flex gap-[20px] h-[40px] items-center relative shrink-0">
                   <div className="bg-white h-[38px] relative rounded-[5px] shrink-0 w-[298px]">
                     <div className="content-stretch flex items-center justify-between overflow-clip p-[10px] relative rounded-[inherit] size-full">
-                      <p className="font-['Inter:Regular',sans-serif] font-normal leading-[normal] not-italic relative shrink-0 text-[#a2a5ac] text-[13px] whitespace-nowrap">Search</p>
+                      <p className="font-['Inter:Regular',sans-serif] font-normal leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-quinary)] text-[13px] whitespace-nowrap">Search</p>
                       <div className="relative shrink-0 size-[15px]">
                         <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 15 15">
                           <g clipPath="url(#clip0_search)">
@@ -233,11 +233,11 @@ export function WalletRowExpanded({ coinName, coinSymbol }: WalletRowExpandedPro
                         </svg>
                       </div>
                     </div>
-                    <div aria-hidden="true" className="absolute border border-[#e5e9f2] border-solid inset-0 pointer-events-none rounded-[5px]" />
+                    <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[5px]" />
                   </div>
                   <div className="relative rounded-[5px] shrink-0 w-[209px]">
                     <div className="content-stretch flex items-center justify-between overflow-clip p-[10px] relative rounded-[inherit] size-full">
-                      <p className="font-['Inter:Regular',sans-serif] font-normal leading-[normal] not-italic relative shrink-0 text-[#183049] text-[13px] whitespace-nowrap">All integrations</p>
+                      <p className="font-['Inter:Regular',sans-serif] font-normal leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-primary)] text-[13px] whitespace-nowrap">All integrations</p>
                       <div className="overflow-clip relative shrink-0 size-[18px]">
                         <div className="absolute inset-[34.38%_21.88%]">
                           <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 10.125 5.62498">
@@ -246,7 +246,7 @@ export function WalletRowExpanded({ coinName, coinSymbol }: WalletRowExpandedPro
                         </div>
                       </div>
                     </div>
-                    <div aria-hidden="true" className="absolute border border-[#e5e9f2] border-solid inset-0 pointer-events-none rounded-[5px]" />
+                    <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[5px]" />
                   </div>
                 </div>
               </div>

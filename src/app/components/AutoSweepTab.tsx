@@ -3,11 +3,11 @@ import { InputMaster } from './InputMaster';
 
 export function AutoSweepTab() {
   return (
-    <div className="bg-[#f7f8fc] relative shrink-0 w-full">
+    <div className="bg-[var(--cp-bg-1)] relative shrink-0 w-full">
       <div className="overflow-clip rounded-[inherit] size-full">
         <div className="content-stretch flex flex-col gap-[10px] items-start p-[20px] relative size-full">
           {/* Warning Banner */}
-          <div className="bg-[#ebf1fb] relative rounded-[5px] shrink-0 w-full">
+          <div className="bg-[var(--cp-bg-4)] relative rounded-[5px] shrink-0 w-full">
             <div className="flex flex-row items-center justify-center overflow-clip rounded-[inherit] size-full">
               <div className="content-stretch flex gap-[10px] items-center justify-center p-[20px] relative size-full">
                 <div className="overflow-clip relative shrink-0 size-[16px]">
@@ -17,12 +17,12 @@ export function AutoSweepTab() {
                     </svg>
                   </div>
                 </div>
-                <p className="flex-[1_0_0] font-['Inter:Regular',sans-serif] font-normal leading-[normal] min-w-px not-italic relative text-[#5a6679] text-[13px]">
+                <p className="flex-[1_0_0] font-['Inter:Regular',sans-serif] font-normal leading-[normal] min-w-px not-italic relative text-[var(--cp-text-secondary)] text-[13px]">
                   Auto-Sweep automatically withdraws your selected wallet to the address you specify once the balance reaches the trigger amount.
                 </p>
               </div>
             </div>
-            <div aria-hidden="true" className="absolute border border-[#e5e9f2] border-solid inset-0 pointer-events-none rounded-[5px]" />
+            <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[5px]" />
           </div>
 
           {/* First Row: Wallet and Sweep Destination */}
@@ -50,10 +50,10 @@ export function AutoSweepTab() {
               rightContent={
                 <>
                   <div className="content-stretch flex items-center relative shrink-0">
-                    <div className="bg-[#e5e9f2] h-[34px] relative shrink-0 w-px" />
+                    <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" />
                   </div>
                   <div className="content-stretch flex gap-[10px] items-center pl-[5px] pr-[20px] py-[5px] relative shrink-0">
-                    <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[#8492a6] text-[11px] text-center whitespace-nowrap">USDT.TRC20</p>
+                    <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-tertiary)] text-[11px] text-center whitespace-nowrap">USDT.TRC20</p>
                     <div className="relative shrink-0 size-[24px]">
                       <div className="absolute bg-[#50af95] inset-0 rounded-[999px]">
                         <div className="absolute inset-[9.9%_4.65%_-1.56%_3.69%] overflow-clip">
@@ -93,8 +93,8 @@ export function AutoSweepTab() {
           </div>
 
           {/* Save Button */}
-          <div className="bg-[#eff1f8] content-stretch flex h-[46px] items-center justify-center overflow-clip px-[20px] py-[10px] relative rounded-[5px] shrink-0 cursor-pointer hover:bg-[#e5e9f2] transition-colors">
-            <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[#5a6679] text-[13px] text-center whitespace-nowrap">Save</p>
+          <div className="bg-[var(--cp-bg-2)] content-stretch flex h-[46px] items-center justify-center overflow-clip px-[20px] py-[10px] relative rounded-[5px] shrink-0 cursor-pointer hover:bg-[var(--cp-border-default)] transition-colors">
+            <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-secondary)] text-[13px] text-center whitespace-nowrap">Save</p>
           </div>
         </div>
       </div>

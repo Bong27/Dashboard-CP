@@ -3,7 +3,7 @@ import svgPaths from "./svg-ha2xrf0m8p";
 function LabelWrap() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0" data-name="label-wrap">
-      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[#8492a6] text-[11px] uppercase whitespace-nowrap">SETTLEMENT MODE</p>
+      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-tertiary)] text-[11px] uppercase whitespace-nowrap">SETTLEMENT MODE</p>
     </div>
   );
 }
@@ -35,7 +35,7 @@ function InputText() {
       <div className="relative shrink-0 size-[14px]" data-name="bitcoin">
         <BitcoinBtcLogo />
       </div>
-      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[#183049] text-[14.5px] whitespace-nowrap">Bitcoin</p>
+      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-primary)] text-[14.5px] whitespace-nowrap">Bitcoin</p>
     </div>
   );
 }
@@ -50,7 +50,7 @@ function Content() {
 }
 
 function LineDivider() {
-  return <div className="bg-[#e5e9f2] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
+  return <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
 }
 
 function Selector() {
@@ -83,7 +83,7 @@ export default function InputMaster() {
         <Content />
         <Controls />
       </div>
-      <div aria-hidden="true" className="absolute border border-[#e5e9f2] border-solid inset-0 pointer-events-none rounded-[5px]" />
+      <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[5px]" />
     </div>
   );
 }

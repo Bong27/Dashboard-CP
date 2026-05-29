@@ -25,8 +25,8 @@ function BitcoinBtcLogo() {
 function Name() {
   return (
     <div className="content-stretch flex flex-col items-start leading-[normal] not-italic relative shrink-0 w-[49px]" data-name="name">
-      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[#183049] text-[14.5px] w-full">Bitcoin</p>
-      <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[#8492a6] text-[13px] w-full">BTC</p>
+      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[var(--cp-text-primary)] text-[14.5px] w-full">Bitcoin</p>
+      <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[var(--cp-text-tertiary)] text-[13px] w-full">BTC</p>
     </div>
   );
 }
@@ -53,7 +53,7 @@ function Left() {
 function LabelWrap() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0" data-name="label-wrap">
-      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[#8492a6] text-[11px] uppercase whitespace-nowrap">SETTLEMENT MODE</p>
+      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-tertiary)] text-[11px] uppercase whitespace-nowrap">SETTLEMENT MODE</p>
       <div className="overflow-clip relative shrink-0 size-[8px]" data-name="icon / info solid">
         <div className="-translate-y-1/2 absolute aspect-[16/16] left-0 right-0 top-1/2" data-name="Vector">
           <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 8 8">
@@ -68,7 +68,7 @@ function LabelWrap() {
 function InputText() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0" data-name="input text">
-      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[#183049] text-[14.5px] whitespace-nowrap">To Custody</p>
+      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-primary)] text-[14.5px] whitespace-nowrap">To Custody</p>
     </div>
   );
 }
@@ -83,7 +83,7 @@ function Content() {
 }
 
 function LineDivider() {
-  return <div className="bg-[#e5e9f2] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
+  return <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
 }
 
 function Selector() {
@@ -112,7 +112,7 @@ function Controls() {
 function LabelWrap1() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0" data-name="label-wrap">
-      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[#8492a6] text-[11px] uppercase whitespace-nowrap">PAYOUT CURRENCY</p>
+      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-tertiary)] text-[11px] uppercase whitespace-nowrap">PAYOUT CURRENCY</p>
       <div className="overflow-clip relative shrink-0 size-[8px]" data-name="icon / info solid">
         <div className="-translate-y-1/2 absolute aspect-[16/16] left-0 right-0 top-1/2" data-name="Vector">
           <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 8 8">
@@ -151,7 +151,7 @@ function InputText1() {
       <div className="relative shrink-0 size-[14px]" data-name="bitcoin">
         <BitcoinBtcLogo1 />
       </div>
-      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[#183049] text-[14.5px] whitespace-nowrap">Bitcoin</p>
+      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-primary)] text-[14.5px] whitespace-nowrap">Bitcoin</p>
     </div>
   );
 }
@@ -166,7 +166,7 @@ function Content1() {
 }
 
 function LineDivider1() {
-  return <div className="bg-[#e5e9f2] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
+  return <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
 }
 
 function Selector1() {
@@ -195,7 +195,7 @@ function Controls1() {
 function LabelWrap2() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0" data-name="label-wrap">
-      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[#8492a6] text-[11px] uppercase whitespace-nowrap">DISCOUNT</p>
+      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-tertiary)] text-[11px] uppercase whitespace-nowrap">DISCOUNT</p>
       <div className="overflow-clip relative shrink-0 size-[8px]" data-name="icon / info solid">
         <div className="-translate-y-1/2 absolute aspect-[16/16] left-0 right-0 top-1/2" data-name="Vector">
           <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 8 8">
@@ -210,7 +210,7 @@ function LabelWrap2() {
 function InputText2() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0" data-name="input text">
-      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[#d3d6e1] text-[14.5px] whitespace-nowrap">Optional</p>
+      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-quaternary)] text-[14.5px] whitespace-nowrap">Optional</p>
     </div>
   );
 }
@@ -225,7 +225,7 @@ function Content2() {
 }
 
 function LineDivider2() {
-  return <div className="bg-[#e5e9f2] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
+  return <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
 }
 
 function Selector2() {
@@ -272,8 +272,8 @@ export default function PaySettingsRow() {
   }, [isDropdownOpen]);
 
   return (
-    <div className={`bg-[#f7f8fc] content-stretch flex gap-[10px] items-center pl-[20px] py-[10px] relative size-full ${isDropdownOpen ? 'z-[100]' : ''}`} data-name="PaySettingsRow">
-        <div aria-hidden="true" className="absolute border-[#e5e9f2] border-solid border-t inset-0 pointer-events-none" />
+    <div className={`bg-[var(--cp-bg-1)] content-stretch flex gap-[10px] items-center pl-[20px] py-[10px] relative size-full ${isDropdownOpen ? 'z-[100]' : ''}`} data-name="PaySettingsRow">
+        <div aria-hidden="true" className="absolute border-[var(--cp-border-default)] border-solid border-t inset-0 pointer-events-none" />
         <Left />
         <div ref={dropdownRef} className="flex-[1_0_0] min-w-[200px] relative shrink-0 z-50">
         <div onClick={() => setIsDropdownOpen(!isDropdownOpen)} className="bg-white cursor-pointer group h-[56px] relative rounded-[5px]">
@@ -285,7 +285,7 @@ export default function PaySettingsRow() {
               </div>
               <div className="content-stretch flex gap-[8px] h-full items-center relative shrink-0">
                 <div className="content-stretch flex items-center justify-between relative shrink-0 w-[21px]">
-                  <div className="bg-[#e5e9f2] h-[34px] relative shrink-0 w-px" />
+                  <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" />
                   <div className={`flex items-center justify-center relative shrink-0 ${isDropdownOpen ? 'rotate-180' : ''}`}>
                     <div className="overflow-clip relative shrink-0 size-[12px]">
                       <div className="absolute inset-[34.38%_21.88%]">
@@ -299,58 +299,58 @@ export default function PaySettingsRow() {
               </div>
             </div>
           </div>
-          <div aria-hidden="true" className={`absolute border border-solid inset-0 pointer-events-none rounded-[5px] transition-colors ${isDropdownOpen ? 'border-[#bec4d0]' : 'border-[#e5e9f2] group-hover:border-[#bec4d0]'}`} />
+          <div aria-hidden="true" className={`absolute border border-solid inset-0 pointer-events-none rounded-[5px] transition-colors ${isDropdownOpen ? 'border-[var(--cp-border-hover)]' : 'border-[var(--cp-border-default)] group-hover:border-[var(--cp-border-hover)]'}`} />
         </div>
 
         {isDropdownOpen && (
           <div className="absolute bg-white left-0 mt-[5px] rounded-[5px] shadow-lg top-[56px] w-full z-50">
-            <div aria-hidden="true" className="absolute border border-[#bec4d0] border-solid inset-0 pointer-events-none rounded-[5px]" />
+            <div aria-hidden="true" className="absolute border border-[var(--cp-border-hover)] border-solid inset-0 pointer-events-none rounded-[5px]" />
             <div className="content-stretch flex flex-col gap-[5px] items-start p-[10px] relative">
               <div className="bg-white relative rounded-[5px] shrink-0 w-full">
-                <div aria-hidden="true" className="absolute border border-[#e5e9f2] border-solid inset-0 pointer-events-none rounded-[5px]" />
+                <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[5px]" />
                 <div className="content-stretch flex flex-col items-start p-[10px] relative size-full">
-                  <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[#183049] text-[11px] w-full">Disabled</p>
+                  <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-primary)] text-[11px] w-full">Disabled</p>
                 </div>
               </div>
-              <div className="bg-[#1c60dd] relative rounded-[5px] shrink-0 w-full cursor-pointer hover:bg-[#1651c4] transition-colors">
+              <div className="bg-[var(--cp-brand-primary)] relative rounded-[5px] shrink-0 w-full cursor-pointer hover:bg-[var(--cp-brand-active)] transition-colors">
                 <div className="content-stretch flex flex-col items-start leading-[normal] not-italic p-[10px] relative size-full text-[11px] text-white">
                   <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 w-full">To Custody</p>
                   <p className="font-['Inter:Medium',sans-serif] font-medium relative shrink-0 w-full">Received payments are stored in your CoinPayments wallet for later withdrawal at your leisure. This option allows you to automatically convert payments into another currency as well.</p>
                 </div>
               </div>
-              <div className="bg-white relative rounded-[5px] shrink-0 w-full cursor-pointer hover:bg-[#f7f8fc] transition-colors">
-                <div aria-hidden="true" className="absolute border border-[#e5e9f2] border-solid inset-0 pointer-events-none rounded-[5px]" />
+              <div className="bg-white relative rounded-[5px] shrink-0 w-full cursor-pointer hover:bg-[var(--cp-bg-1)] transition-colors">
+                <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[5px]" />
                 <div className="content-stretch flex flex-col items-start leading-[normal] not-italic p-[10px] relative size-full text-[11px]">
-                  <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[#183049] w-full">Nightly to Bank</p>
-                  <p className="font-['Inter:Medium',sans-serif] font-medium relative shrink-0 text-[#5a6679] w-full">Received payments are batched and wired nightly to your USD bank account. A $100 minimum balance is required per wire.</p>
+                  <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[var(--cp-text-primary)] w-full">Nightly to Bank</p>
+                  <p className="font-['Inter:Medium',sans-serif] font-medium relative shrink-0 text-[var(--cp-text-secondary)] w-full">Received payments are batched and wired nightly to your USD bank account. A $100 minimum balance is required per wire.</p>
                 </div>
               </div>
-              <div className="bg-white relative rounded-[5px] shrink-0 w-full cursor-pointer hover:bg-[#f7f8fc] transition-colors">
-                <div aria-hidden="true" className="absolute border border-[#e5e9f2] border-solid inset-0 pointer-events-none rounded-[5px]" />
+              <div className="bg-white relative rounded-[5px] shrink-0 w-full cursor-pointer hover:bg-[var(--cp-bg-1)] transition-colors">
+                <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[5px]" />
                 <div className="content-stretch flex flex-col items-start leading-[normal] not-italic p-[10px] relative size-full text-[11px]">
-                  <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[#183049] w-full">To Non-Custody</p>
-                  <p className="font-['Inter:Medium',sans-serif] font-medium relative shrink-0 text-[#5a6679] w-full">Received payments are sent to the address or wallet ID you specify as soon as they are received and confirmed. This option allows you to automatically convert payments into another currency as well.</p>
+                  <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[var(--cp-text-primary)] w-full">To Non-Custody</p>
+                  <p className="font-['Inter:Medium',sans-serif] font-medium relative shrink-0 text-[var(--cp-text-secondary)] w-full">Received payments are sent to the address or wallet ID you specify as soon as they are received and confirmed. This option allows you to automatically convert payments into another currency as well.</p>
                 </div>
               </div>
-              <div className="bg-white relative rounded-[5px] shrink-0 w-full cursor-pointer hover:bg-[#f7f8fc] transition-colors">
-                <div aria-hidden="true" className="absolute border border-[#e5e9f2] border-solid inset-0 pointer-events-none rounded-[5px]" />
+              <div className="bg-white relative rounded-[5px] shrink-0 w-full cursor-pointer hover:bg-[var(--cp-bg-1)] transition-colors">
+                <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[5px]" />
                 <div className="content-stretch flex flex-col items-start leading-[normal] not-italic p-[10px] relative size-full text-[11px]">
-                  <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[#183049] w-full">Hourly To Non-Custody</p>
-                  <p className="font-['Inter:Medium',sans-serif] font-medium relative shrink-0 text-[#5a6679] w-full">Received payments are grouped together and sent hourly. The main benefit of this option is it will save you coin network fees.</p>
+                  <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[var(--cp-text-primary)] w-full">Hourly To Non-Custody</p>
+                  <p className="font-['Inter:Medium',sans-serif] font-medium relative shrink-0 text-[var(--cp-text-secondary)] w-full">Received payments are grouped together and sent hourly. The main benefit of this option is it will save you coin network fees.</p>
                 </div>
               </div>
-              <div className="bg-white relative rounded-[5px] shrink-0 w-full cursor-pointer hover:bg-[#f7f8fc] transition-colors">
-                <div aria-hidden="true" className="absolute border border-[#e5e9f2] border-solid inset-0 pointer-events-none rounded-[5px]" />
+              <div className="bg-white relative rounded-[5px] shrink-0 w-full cursor-pointer hover:bg-[var(--cp-bg-1)] transition-colors">
+                <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[5px]" />
                 <div className="content-stretch flex flex-col items-start leading-[normal] not-italic p-[10px] relative size-full text-[11px]">
-                  <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[#183049] w-full">Nightly To Non-Custody</p>
-                  <p className="font-['Inter:Medium',sans-serif] font-medium relative shrink-0 text-[#5a6679] w-full">Received payments are grouped together and sent daily (at approx. midnight EST GMT-05:00). The main benefit of this option is it will save you coin network fees.</p>
+                  <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[var(--cp-text-primary)] w-full">Nightly To Non-Custody</p>
+                  <p className="font-['Inter:Medium',sans-serif] font-medium relative shrink-0 text-[var(--cp-text-secondary)] w-full">Received payments are grouped together and sent daily (at approx. midnight EST GMT-05:00). The main benefit of this option is it will save you coin network fees.</p>
                 </div>
               </div>
-              <div className="bg-white relative rounded-[5px] shrink-0 w-full cursor-pointer hover:bg-[#f7f8fc] transition-colors">
-                <div aria-hidden="true" className="absolute border border-[#e5e9f2] border-solid inset-0 pointer-events-none rounded-[5px]" />
+              <div className="bg-white relative rounded-[5px] shrink-0 w-full cursor-pointer hover:bg-[var(--cp-bg-1)] transition-colors">
+                <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[5px]" />
                 <div className="content-stretch flex flex-col items-start leading-[normal] not-italic p-[10px] relative size-full text-[11px]">
-                  <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[#183049] w-full">Weekly To Non-Custody</p>
-                  <p className="font-['Inter:Medium',sans-serif] font-medium relative shrink-0 text-[#5a6679] w-full">Received payments are grouped together and sent every Sunday (at approx. midnight EST GMT-05:00). The main benefit of this option is it will save you coin network fees.</p>
+                  <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[var(--cp-text-primary)] w-full">Weekly To Non-Custody</p>
+                  <p className="font-['Inter:Medium',sans-serif] font-medium relative shrink-0 text-[var(--cp-text-secondary)] w-full">Received payments are grouped together and sent every Sunday (at approx. midnight EST GMT-05:00). The main benefit of this option is it will save you coin network fees.</p>
                 </div>
               </div>
             </div>
@@ -366,7 +366,7 @@ export default function PaySettingsRow() {
           <Content2 />
           <Controls2 />
         </div>
-        <div aria-hidden="true" className="absolute border border-[#e5e9f2] group-hover:border-[#bec4d0] border-solid inset-0 pointer-events-none rounded-[5px] transition-colors" />
+        <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] group-hover:border-[var(--cp-border-hover)] border-solid inset-0 pointer-events-none rounded-[5px] transition-colors" />
       </div>
       <div className="flex h-[56px] items-center justify-center relative shrink-0">
         <button className="block cursor-pointer relative shrink-0 size-[16px]" data-name="Radio-button">

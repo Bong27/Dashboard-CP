@@ -130,27 +130,27 @@ function TopControls() {
       <div className="content-stretch flex gap-[20px] h-full items-center relative shrink-0">
         <div className="bg-white h-[38px] relative rounded-[5px] shrink-0 w-[298px]">
           <div className="content-stretch flex items-center justify-between overflow-clip p-[10px] relative rounded-[inherit] size-full">
-            <p className="font-['Inter:Regular',sans-serif] font-normal leading-[normal] not-italic relative shrink-0 text-[#a2a5ac] text-[13px] whitespace-nowrap">Search</p>
+            <p className="font-['Inter:Regular',sans-serif] font-normal leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-quinary)] text-[13px] whitespace-nowrap">Search</p>
             <SearchIcon />
           </div>
-          <div aria-hidden="true" className="absolute border border-[#e5e9f2] border-solid inset-0 pointer-events-none rounded-[5px]" />
+          <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[5px]" />
         </div>
         <div className="relative rounded-[5px] shrink-0 w-[209px]">
           <div className="content-stretch flex items-center justify-between overflow-clip p-[10px] relative rounded-[inherit] size-full">
-            <p className="font-['Inter:Regular',sans-serif] font-normal leading-[normal] not-italic relative shrink-0 text-[#183049] text-[13px] whitespace-nowrap">Show all coins</p>
+            <p className="font-['Inter:Regular',sans-serif] font-normal leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-primary)] text-[13px] whitespace-nowrap">Show all coins</p>
             <ChevronDown />
           </div>
-          <div aria-hidden="true" className="absolute border border-[#e5e9f2] border-solid inset-0 pointer-events-none rounded-[5px]" />
+          <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[5px]" />
         </div>
       </div>
 
       {/* Estimated Balance */}
       <div className="content-stretch flex gap-[16px] h-full items-center relative shrink-0">
         <div className="content-stretch flex flex-col font-['Inter:Semi_Bold',sans-serif] font-semibold items-end leading-[normal] not-italic relative shrink-0 w-[118px] whitespace-nowrap">
-          <p className="relative shrink-0 text-[#8492a6] text-[11px] uppercase">ESTIMATED BALANCE</p>
-          <p className="relative shrink-0 text-[#183049] text-[18px] tracking-[-0.2px]">$0.00 USD</p>
+          <p className="relative shrink-0 text-[var(--cp-text-tertiary)] text-[11px] uppercase">ESTIMATED BALANCE</p>
+          <p className="relative shrink-0 text-[var(--cp-text-primary)] text-[18px] tracking-[-0.2px]">$0.00 USD</p>
         </div>
-        <div className="bg-[#e5e9f2] h-[34px] relative shrink-0 w-px" />
+        <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" />
         <div className="bg-white relative rounded-[100px] shrink-0 size-[24px]">
           <div className="overflow-clip relative rounded-[inherit] size-full">
             <div className="absolute bottom-[27.78%] left-[27.78%] overflow-clip right-1/4 top-[27.78%]">
@@ -161,7 +161,7 @@ function TopControls() {
               </div>
             </div>
           </div>
-          <div aria-hidden="true" className="absolute border border-[#e5e9f2] border-solid inset-0 pointer-events-none rounded-[100px]" />
+          <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[100px]" />
         </div>
       </div>
     </div>
@@ -172,14 +172,14 @@ function SwitchBalances() {
   return (
     <div className="content-stretch flex gap-[10px] items-center relative shrink-0">
       <button className="block cursor-pointer h-[20px] relative shrink-0 w-[32px]">
-        <div className="absolute bg-[#1c60dd] inset-0 rounded-[50px]" />
+        <div className="absolute bg-[var(--cp-brand-primary)] inset-0 rounded-[50px]" />
         <div className="absolute inset-[7.69%_4.76%_7.7%_42.86%]">
           <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 16.7619 16.9231">
             <ellipse cx="8.38095" cy="8.46154" fill="var(--fill-0, white)" rx="8.38095" ry="8.46154" />
           </svg>
         </div>
       </button>
-      <p className="font-['Inter:Regular',sans-serif] font-normal leading-[normal] not-italic relative shrink-0 text-[#5a6679] text-[13px] whitespace-nowrap">
+      <p className="font-['Inter:Regular',sans-serif] font-normal leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-secondary)] text-[13px] whitespace-nowrap">
         Auto-Accept Incorrect Deposits into Primary Balances
       </p>
       <div className="overflow-clip relative shrink-0 size-[12px]">
@@ -201,14 +201,14 @@ function CoinRowCollapsed({ coin }: { coin: CoinRow }) {
         <div className="content-stretch flex gap-[10px] items-center relative shrink-0">
           {coin.logo}
           <div className="content-stretch flex flex-col items-start leading-[normal] not-italic relative shrink-0 w-[49px]">
-            <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[#183049] text-[14.5px] w-full">{coin.name}</p>
-            <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[#8492a6] text-[13px] w-full">{coin.symbol}</p>
+            <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[var(--cp-text-primary)] text-[14.5px] w-full">{coin.name}</p>
+            <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[var(--cp-text-tertiary)] text-[13px] w-full">{coin.symbol}</p>
           </div>
         </div>
         <div className="content-stretch flex items-center px-[20px] relative shrink-0">
           <div className="content-stretch flex flex-col items-start leading-[normal] not-italic relative shrink-0 w-[105px]">
-            <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[#183049] text-[14.5px] w-full">0.000000 {coin.symbol}</p>
-            <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[#8492a6] text-[13px] w-full">{coin.symbol}</p>
+            <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[var(--cp-text-primary)] text-[14.5px] w-full">0.000000 {coin.symbol}</p>
+            <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[var(--cp-text-tertiary)] text-[13px] w-full">{coin.symbol}</p>
           </div>
         </div>
       </div>
@@ -225,7 +225,7 @@ function CoinRowCollapsed({ coin }: { coin: CoinRow }) {
                 {icon}
               </div>
             </div>
-            <div aria-hidden="true" className="absolute border border-[#e5e9f2] border-solid inset-0 pointer-events-none rounded-[100px]" />
+            <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[100px]" />
           </div>
         ))}
       </div>
@@ -240,8 +240,8 @@ function CoinRowExpanded({ coin }: { coin: CoinRow }) {
         <div className="content-stretch flex gap-[10px] items-center relative shrink-0">
           {coin.logo}
           <div className="content-stretch flex flex-col items-start leading-[normal] not-italic relative shrink-0 w-[49px]">
-            <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[#183049] text-[14.5px] w-full">{coin.name}</p>
-            <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[#8492a6] text-[13px] w-full">{coin.symbol}</p>
+            <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[var(--cp-text-primary)] text-[14.5px] w-full">{coin.name}</p>
+            <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[var(--cp-text-tertiary)] text-[13px] w-full">{coin.symbol}</p>
           </div>
         </div>
       </div>
@@ -254,10 +254,10 @@ function CoinRowExpanded({ coin }: { coin: CoinRow }) {
         ].map(({ label, icon }) => (
           <div key={label} className="bg-white h-[36px] relative rounded-[100px] shrink-0">
             <div className="content-stretch flex gap-[10px] items-center justify-center overflow-clip px-[20px] relative rounded-[inherit] size-full">
-              <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[#183049] text-[13px] text-center whitespace-nowrap">{label}</p>
+              <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-primary)] text-[13px] text-center whitespace-nowrap">{label}</p>
               {icon}
             </div>
-            <div aria-hidden="true" className="absolute border border-[#e5e9f2] border-solid inset-0 pointer-events-none rounded-[100px]" />
+            <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[100px]" />
           </div>
         ))}
       </div>
@@ -268,7 +268,7 @@ function CoinRowExpanded({ coin }: { coin: CoinRow }) {
 function WalletList() {
   const [expandedRow, setExpandedRow] = useState<number | null>(null);
 
-  const rowBgs = ['bg-[#eff1f8]', 'bg-[#f7f8fc]'];
+  const rowBgs = ['bg-[var(--cp-bg-2)]', 'bg-[var(--cp-bg-1)]'];
 
   return (
     <div className="content-stretch flex flex-col items-start relative shrink-0 w-full">
@@ -277,11 +277,11 @@ function WalletList() {
         return (
           <div
             key={index}
-            className={`${isExpanded ? 'bg-white' : rowBgs[index % 2]} ${isExpanded ? 'min-h-[76px]' : 'h-[76px]'} relative rounded-[5px] shrink-0 w-full transition-all duration-300 ${isExpanded ? 'mb-[10px]' : ''} ${!isExpanded ? 'cursor-pointer hover:bg-[#e5e9f2]' : ''}`}
+            className={`${isExpanded ? 'bg-white' : rowBgs[index % 2]} ${isExpanded ? 'min-h-[76px]' : 'h-[76px]'} relative rounded-[5px] shrink-0 w-full transition-all duration-300 ${isExpanded ? 'mb-[10px]' : ''} ${!isExpanded ? 'cursor-pointer hover:bg-[var(--cp-border-default)]' : ''}`}
           >
             <div className={`flex flex-col ${isExpanded ? '' : 'size-full'}`}>
               <div
-                className={`flex flex-row items-center ${isExpanded ? 'border-b border-[#e5e9f2]' : 'size-full'} cursor-pointer`}
+                className={`flex flex-row items-center ${isExpanded ? 'border-b border-[var(--cp-border-default)]' : 'size-full'} cursor-pointer`}
                 onClick={() => setExpandedRow(isExpanded ? null : index)}
               >
                 <div className={`content-stretch flex items-center ${isExpanded ? 'justify-between' : 'justify-center'} p-[20px] relative ${isExpanded ? 'w-full' : 'size-full'}`}>
@@ -308,7 +308,7 @@ function WalletList() {
 
 export default function WalletPage() {
   return (
-    <div className="bg-[#f7f8fc] content-stretch flex flex-col items-start relative size-full">
+    <div className="bg-[var(--cp-bg-1)] content-stretch flex flex-col items-start relative size-full">
       <div className="overflow-clip rounded-[inherit] size-full">
         <div className="content-stretch flex flex-col items-start p-[20px] relative size-full">
           <div className="content-stretch flex flex-col gap-[20px] items-start relative w-full">

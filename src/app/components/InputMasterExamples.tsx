@@ -45,13 +45,13 @@ const BitcoinLargeIcon = () => (
 export function InputMasterExamples() {
   return (
     <div className="bg-white content-stretch flex flex-col gap-[25px] items-start p-[40px] relative w-full">
-      <h2 className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[#183049] text-[18px]">
+      <h2 className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[var(--cp-text-primary)] text-[18px]">
         Input Master Component Variations
       </h2>
 
       {/* 1. No Dropdown */}
       <div className="w-full">
-        <p className="font-['Inter:Medium',sans-serif] text-[#666769] text-[12px] mb-2">1. No Dropdown</p>
+        <p className="font-['Inter:Medium',sans-serif] text-[var(--cp-text-grey-disabled)] text-[12px] mb-2">1. No Dropdown</p>
         <InputMaster
           label="SETTLEMENT MODE"
           value="Bitcoin"
@@ -62,7 +62,7 @@ export function InputMasterExamples() {
 
       {/* 2. With Dropdown */}
       <div className="w-full">
-        <p className="font-['Inter:Medium',sans-serif] text-[#666769] text-[12px] mb-2">2. With Dropdown</p>
+        <p className="font-['Inter:Medium',sans-serif] text-[var(--cp-text-grey-disabled)] text-[12px] mb-2">2. With Dropdown</p>
         <InputMaster
           label="SETTLEMENT MODE"
           value="Bitcoin"
@@ -73,7 +73,7 @@ export function InputMasterExamples() {
 
       {/* 3. With Icon + Dropdown */}
       <div className="w-full">
-        <p className="font-['Inter:Medium',sans-serif] text-[#666769] text-[12px] mb-2">3. With Icon + Dropdown</p>
+        <p className="font-['Inter:Medium',sans-serif] text-[var(--cp-text-grey-disabled)] text-[12px] mb-2">3. With Icon + Dropdown</p>
         <InputMaster
           label="SETTLEMENT MODE"
           value="Bitcoin"
@@ -85,7 +85,7 @@ export function InputMasterExamples() {
 
       {/* 4. Currency Badge */}
       <div className="w-full">
-        <p className="font-['Inter:Medium',sans-serif] text-[#666769] text-[12px] mb-2">4. Currency Badge</p>
+        <p className="font-['Inter:Medium',sans-serif] text-[var(--cp-text-grey-disabled)] text-[12px] mb-2">4. Currency Badge</p>
         <InputMaster
           label="SETTLEMENT MODE"
           value="Bitcoin"
@@ -100,7 +100,7 @@ export function InputMasterExamples() {
 
       {/* 5. Info Icon + Secondary Text */}
       <div className="w-full">
-        <p className="font-['Inter:Medium',sans-serif] text-[#666769] text-[12px] mb-2">
+        <p className="font-['Inter:Medium',sans-serif] text-[var(--cp-text-grey-disabled)] text-[12px] mb-2">
           5. Info Icon + Secondary Text
         </p>
         <InputMaster
@@ -115,7 +115,7 @@ export function InputMasterExamples() {
 
       {/* 6. Placeholder Style */}
       <div className="w-full">
-        <p className="font-['Inter:Medium',sans-serif] text-[#666769] text-[12px] mb-2">6. Placeholder Style</p>
+        <p className="font-['Inter:Medium',sans-serif] text-[var(--cp-text-grey-disabled)] text-[12px] mb-2">6. Placeholder Style</p>
         <InputMaster
           label="TRIGGER AMOUNT (USDT.TRC20)"
           value="Min-Max Payout: $100 - $1,000,000"

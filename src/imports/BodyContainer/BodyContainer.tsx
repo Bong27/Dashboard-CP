@@ -4,7 +4,7 @@ import { SearchInput } from '../../app/components/SearchInput';
 function Frame1() {
   return (
     <div className="content-stretch flex gap-[10px] items-center relative shrink-0 w-full">
-      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[#5a6679] text-[18px] tracking-[-0.2px] whitespace-nowrap">Underpayment Limits</p>
+      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-secondary)] text-[18px] tracking-[-0.2px] whitespace-nowrap">Underpayment Limits</p>
       <div className="overflow-clip relative shrink-0 size-[12px]" data-name="icon / info solid">
         <div className="-translate-y-1/2 absolute aspect-[16/16] left-0 right-0 top-1/2" data-name="Vector">
           <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 12 12">
@@ -18,7 +18,7 @@ function Frame1() {
 
 function Frame() {
   return (
-    <div className="content-stretch flex flex-col font-['Inter:Regular',sans-serif] font-normal gap-[5px] items-start leading-[normal] not-italic relative shrink-0 text-[#5a6679] text-[13px] w-full">
+    <div className="content-stretch flex flex-col font-['Inter:Regular',sans-serif] font-normal gap-[5px] items-start leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-secondary)] text-[13px] w-full">
       <p className="relative shrink-0 w-full">Set a maximum underpayment threshold to improve payment success rates when buyers send less than the full amount. You can define this threshold as a percentage and/or a fiat value—the lower of the two will apply.</p>
       <p className="relative shrink-0 w-full">Note: if a buyer sends a partial payment, the funds will be held until the payment window closes. If the total received meets your threshold, the underpayment will be accepted; otherwise, the funds will be refunded to the buyer.</p>
     </div>
@@ -28,7 +28,7 @@ function Frame() {
 function PageTitle() {
   return (
     <div className="content-stretch flex flex-col gap-[10px] items-start pb-[20px] relative shrink-0 w-full" data-name="page title">
-      <div aria-hidden="true" className="absolute border-[#e5e9f2] border-b border-solid inset-0 pointer-events-none" />
+      <div aria-hidden="true" className="absolute border-[var(--cp-border-default)] border-b border-solid inset-0 pointer-events-none" />
       <Frame1 />
       <Frame />
     </div>
@@ -38,7 +38,7 @@ function PageTitle() {
 function LabelWrap() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0" data-name="label-wrap">
-      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[#8492a6] text-[11px] uppercase whitespace-nowrap">underpayment value</p>
+      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-tertiary)] text-[11px] uppercase whitespace-nowrap">underpayment value</p>
     </div>
   );
 }
@@ -46,7 +46,7 @@ function LabelWrap() {
 function InputText() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0" data-name="input text">
-      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[#d3d6e1] text-[14.5px] whitespace-nowrap">Optional</p>
+      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-quaternary)] text-[14.5px] whitespace-nowrap">Optional</p>
     </div>
   );
 }
@@ -84,7 +84,7 @@ function BitcoinBtcLogo() {
 function Currency() {
   return (
     <div className="content-stretch flex gap-[10px] items-center pl-[10px] pr-[20px] py-[5px] relative shrink-0" data-name="currency">
-      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[#8492a6] text-[11px] text-center whitespace-nowrap">USD</p>
+      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-tertiary)] text-[11px] text-center whitespace-nowrap">USD</p>
       <div className="relative shrink-0 size-[24px]" data-name="bitcoin">
         <BitcoinBtcLogo />
       </div>
@@ -93,7 +93,7 @@ function Currency() {
 }
 
 function LineDivider() {
-  return <div className="bg-[#e5e9f2] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
+  return <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
 }
 
 function Selector() {
@@ -123,7 +123,7 @@ function Controls() {
 function LabelWrap1() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0" data-name="label-wrap">
-      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[#8492a6] text-[11px] uppercase whitespace-nowrap">underpayment percentage</p>
+      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-tertiary)] text-[11px] uppercase whitespace-nowrap">underpayment percentage</p>
     </div>
   );
 }
@@ -131,7 +131,7 @@ function LabelWrap1() {
 function InputText1() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0" data-name="input text">
-      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[#d3d6e1] text-[14.5px] whitespace-nowrap">Optional</p>
+      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-quaternary)] text-[14.5px] whitespace-nowrap">Optional</p>
     </div>
   );
 }
@@ -159,7 +159,7 @@ function Frame3() {
             <Controls />
           </div>
         </div>
-        <div aria-hidden="true" className="absolute border border-[#e5e9f2] border-solid inset-0 pointer-events-none rounded-[5px]" />
+        <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[5px]" />
       </div>
       <div className="bg-white flex-[1_0_0] h-[56px] min-w-[200px] relative rounded-[5px]" data-name="Input Master">
         <div className="flex flex-row justify-center min-w-[inherit] overflow-clip rounded-[inherit] size-full">
@@ -168,7 +168,7 @@ function Frame3() {
             <Controls1 />
           </div>
         </div>
-        <div aria-hidden="true" className="absolute border border-[#e5e9f2] border-solid inset-0 pointer-events-none rounded-[5px]" />
+        <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[5px]" />
       </div>
     </div>
   );
@@ -177,7 +177,7 @@ function Frame3() {
 function Frame2() {
   return (
     <div className="content-stretch flex items-center relative shrink-0 w-full">
-      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[#5a6679] text-[18px] tracking-[-0.2px] whitespace-nowrap">Accepted Cryptocurrencies</p>
+      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-secondary)] text-[18px] tracking-[-0.2px] whitespace-nowrap">Accepted Cryptocurrencies</p>
     </div>
   );
 }
@@ -188,7 +188,7 @@ function Inputs() {
       <SearchInput />
       <div className="relative rounded-[5px] shrink-0 w-[209px]" data-name="Dropdown">
         <div className="content-stretch flex items-center justify-between overflow-clip p-[10px] relative rounded-[inherit] size-full">
-          <p className="font-['Inter:Regular',sans-serif] font-normal leading-[normal] not-italic relative shrink-0 text-[#183049] text-[13px] whitespace-nowrap">Any Currency Type</p>
+          <p className="font-['Inter:Regular',sans-serif] font-normal leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-primary)] text-[13px] whitespace-nowrap">Any Currency Type</p>
           <div className="overflow-clip relative shrink-0 size-[18px]" data-name="icon / toggle-down">
             <div className="absolute inset-[34.38%_21.88%]" data-name="Vector">
               <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 10.125 5.62498">
@@ -197,11 +197,11 @@ function Inputs() {
             </div>
           </div>
         </div>
-        <div aria-hidden="true" className="absolute border border-[#e5e9f2] border-solid inset-0 pointer-events-none rounded-[5px]" />
+        <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[5px]" />
       </div>
       <div className="relative rounded-[5px] shrink-0 w-[209px]" data-name="Dropdown">
         <div className="content-stretch flex items-center justify-between overflow-clip p-[10px] relative rounded-[inherit] size-full">
-          <p className="font-['Inter:Regular',sans-serif] font-normal leading-[normal] not-italic relative shrink-0 text-[#183049] text-[13px] whitespace-nowrap">Any Coin Status</p>
+          <p className="font-['Inter:Regular',sans-serif] font-normal leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-primary)] text-[13px] whitespace-nowrap">Any Coin Status</p>
           <div className="overflow-clip relative shrink-0 size-[18px]" data-name="icon / toggle-down">
             <div className="absolute inset-[34.38%_21.88%]" data-name="Vector">
               <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 10.125 5.62498">
@@ -210,7 +210,7 @@ function Inputs() {
             </div>
           </div>
         </div>
-        <div aria-hidden="true" className="absolute border border-[#e5e9f2] border-solid inset-0 pointer-events-none rounded-[5px]" />
+        <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[5px]" />
       </div>
     </div>
   );
@@ -219,8 +219,8 @@ function Inputs() {
 function Left() {
   return (
     <div className="content-stretch flex gap-[10px] h-full items-center relative shrink-0" data-name="left">
-      <div className="bg-[#eff1f8] content-stretch flex items-center justify-center overflow-clip p-[10px] relative rounded-[5px] shrink-0" data-name="Buttons">
-        <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[#5a6679] text-[13px] text-center whitespace-nowrap">Save Changes</p>
+      <div className="bg-[var(--cp-bg-2)] content-stretch flex items-center justify-center overflow-clip p-[10px] relative rounded-[5px] shrink-0" data-name="Buttons">
+        <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-secondary)] text-[13px] text-center whitespace-nowrap">Save Changes</p>
       </div>
       <Inputs />
     </div>
@@ -230,7 +230,7 @@ function Left() {
 function Right() {
   return (
     <div className="content-stretch flex gap-[10px] items-center px-[20px] relative shrink-0" data-name="right">
-      <div className="bg-[#eff1f8] content-stretch flex gap-[10px] items-center justify-center overflow-clip p-[10px] relative rounded-[100px] shrink-0 w-[100px]" data-name="rounded">
+      <div className="bg-[var(--cp-bg-2)] content-stretch flex gap-[10px] items-center justify-center overflow-clip p-[10px] relative rounded-[100px] shrink-0 w-[100px]" data-name="rounded">
         <div className="overflow-clip relative shrink-0 size-[16px]" data-name="icon / bulk">
           <div className="-translate-y-1/2 absolute aspect-[16.604299545288086/16.750019073486328] left-[10%] right-[6.98%] top-[calc(50%+0.3px)]" data-name="Vector">
             <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 13.2834 13.4">
@@ -248,7 +248,7 @@ function Right() {
             </svg>
           </div>
         </div>
-        <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[#8492a6] text-[13px] text-center whitespace-nowrap">Bulk Edit</p>
+        <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-tertiary)] text-[13px] text-center whitespace-nowrap">Bulk Edit</p>
       </div>
       <div className="relative shrink-0 size-[16px]" data-name="Radio-button">
         <div className="absolute inset-[4.55%]" data-name="Border">
@@ -306,8 +306,8 @@ function BitcoinBtcLogo1() {
 function Name() {
   return (
     <div className="content-stretch flex flex-col items-start leading-[normal] not-italic relative shrink-0 w-[49px]" data-name="name">
-      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[#183049] text-[14.5px] w-full">Bitcoin</p>
-      <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[#8492a6] text-[13px] w-full">BTC</p>
+      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[var(--cp-text-primary)] text-[14.5px] w-full">Bitcoin</p>
+      <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[var(--cp-text-tertiary)] text-[13px] w-full">BTC</p>
     </div>
   );
 }
@@ -334,7 +334,7 @@ function Left1() {
 function LabelWrap2() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0" data-name="label-wrap">
-      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[#8492a6] text-[11px] uppercase whitespace-nowrap">SETTLEMENT MODE</p>
+      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-tertiary)] text-[11px] uppercase whitespace-nowrap">SETTLEMENT MODE</p>
       <div className="overflow-clip relative shrink-0 size-[8px]" data-name="icon / info solid">
         <div className="-translate-y-1/2 absolute aspect-[16/16] left-0 right-0 top-1/2" data-name="Vector">
           <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 8 8">
@@ -349,7 +349,7 @@ function LabelWrap2() {
 function InputText2() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0" data-name="input text">
-      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[#183049] text-[14.5px] whitespace-nowrap">To Custody</p>
+      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-primary)] text-[14.5px] whitespace-nowrap">To Custody</p>
     </div>
   );
 }
@@ -364,7 +364,7 @@ function Content3() {
 }
 
 function LineDivider1() {
-  return <div className="bg-[#e5e9f2] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
+  return <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
 }
 
 function Selector1() {
@@ -393,7 +393,7 @@ function Controls2() {
 function LabelWrap3() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0" data-name="label-wrap">
-      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[#8492a6] text-[11px] uppercase whitespace-nowrap">PAYOUT CURRENCY</p>
+      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-tertiary)] text-[11px] uppercase whitespace-nowrap">PAYOUT CURRENCY</p>
       <div className="overflow-clip relative shrink-0 size-[8px]" data-name="icon / info solid">
         <div className="-translate-y-1/2 absolute aspect-[16/16] left-0 right-0 top-1/2" data-name="Vector">
           <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 8 8">
@@ -432,7 +432,7 @@ function InputText3() {
       <div className="relative shrink-0 size-[14px]" data-name="bitcoin">
         <BitcoinBtcLogo2 />
       </div>
-      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[#183049] text-[14.5px] whitespace-nowrap">Bitcoin</p>
+      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-primary)] text-[14.5px] whitespace-nowrap">Bitcoin</p>
     </div>
   );
 }
@@ -447,7 +447,7 @@ function Content4() {
 }
 
 function LineDivider2() {
-  return <div className="bg-[#e5e9f2] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
+  return <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
 }
 
 function Selector2() {
@@ -476,7 +476,7 @@ function Controls3() {
 function LabelWrap4() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0" data-name="label-wrap">
-      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[#8492a6] text-[11px] uppercase whitespace-nowrap">DISCOUNT</p>
+      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-tertiary)] text-[11px] uppercase whitespace-nowrap">DISCOUNT</p>
       <div className="overflow-clip relative shrink-0 size-[8px]" data-name="icon / info solid">
         <div className="-translate-y-1/2 absolute aspect-[16/16] left-0 right-0 top-1/2" data-name="Vector">
           <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 8 8">
@@ -491,7 +491,7 @@ function LabelWrap4() {
 function InputText4() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0" data-name="input text">
-      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[#d3d6e1] text-[14.5px] whitespace-nowrap">Optional</p>
+      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-quaternary)] text-[14.5px] whitespace-nowrap">Optional</p>
     </div>
   );
 }
@@ -506,7 +506,7 @@ function Content5() {
 }
 
 function LineDivider3() {
-  return <div className="bg-[#e5e9f2] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
+  return <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
 }
 
 function Selector3() {
@@ -556,8 +556,8 @@ function BitcoinBtcLogo3() {
 function Name1() {
   return (
     <div className="content-stretch flex flex-col items-start leading-[normal] not-italic relative shrink-0 w-[49px]" data-name="name">
-      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[#183049] text-[14.5px] w-full">Bitcoin</p>
-      <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[#8492a6] text-[13px] w-full">BTC</p>
+      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[var(--cp-text-primary)] text-[14.5px] w-full">Bitcoin</p>
+      <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[var(--cp-text-tertiary)] text-[13px] w-full">BTC</p>
     </div>
   );
 }
@@ -584,7 +584,7 @@ function Left2() {
 function LabelWrap5() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0" data-name="label-wrap">
-      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[#8492a6] text-[11px] uppercase whitespace-nowrap">SETTLEMENT MODE</p>
+      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-tertiary)] text-[11px] uppercase whitespace-nowrap">SETTLEMENT MODE</p>
       <div className="overflow-clip relative shrink-0 size-[8px]" data-name="icon / info solid">
         <div className="-translate-y-1/2 absolute aspect-[16/16] left-0 right-0 top-1/2" data-name="Vector">
           <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 8 8">
@@ -599,7 +599,7 @@ function LabelWrap5() {
 function InputText5() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0" data-name="input text">
-      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[#183049] text-[14.5px] whitespace-nowrap">To Custody</p>
+      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-primary)] text-[14.5px] whitespace-nowrap">To Custody</p>
     </div>
   );
 }
@@ -614,7 +614,7 @@ function Content6() {
 }
 
 function LineDivider4() {
-  return <div className="bg-[#e5e9f2] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
+  return <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
 }
 
 function Selector4() {
@@ -643,7 +643,7 @@ function Controls5() {
 function LabelWrap6() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0" data-name="label-wrap">
-      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[#8492a6] text-[11px] uppercase whitespace-nowrap">PAYOUT CURRENCY</p>
+      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-tertiary)] text-[11px] uppercase whitespace-nowrap">PAYOUT CURRENCY</p>
       <div className="overflow-clip relative shrink-0 size-[8px]" data-name="icon / info solid">
         <div className="-translate-y-1/2 absolute aspect-[16/16] left-0 right-0 top-1/2" data-name="Vector">
           <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 8 8">
@@ -682,7 +682,7 @@ function InputText6() {
       <div className="relative shrink-0 size-[14px]" data-name="bitcoin">
         <BitcoinBtcLogo4 />
       </div>
-      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[#183049] text-[14.5px] whitespace-nowrap">Bitcoin</p>
+      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-primary)] text-[14.5px] whitespace-nowrap">Bitcoin</p>
     </div>
   );
 }
@@ -697,7 +697,7 @@ function Content7() {
 }
 
 function LineDivider5() {
-  return <div className="bg-[#e5e9f2] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
+  return <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
 }
 
 function Selector5() {
@@ -726,7 +726,7 @@ function Controls6() {
 function LabelWrap7() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0" data-name="label-wrap">
-      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[#8492a6] text-[11px] uppercase whitespace-nowrap">DISCOUNT</p>
+      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-tertiary)] text-[11px] uppercase whitespace-nowrap">DISCOUNT</p>
       <div className="overflow-clip relative shrink-0 size-[8px]" data-name="icon / info solid">
         <div className="-translate-y-1/2 absolute aspect-[16/16] left-0 right-0 top-1/2" data-name="Vector">
           <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 8 8">
@@ -741,7 +741,7 @@ function LabelWrap7() {
 function InputText7() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0" data-name="input text">
-      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[#d3d6e1] text-[14.5px] whitespace-nowrap">Optional</p>
+      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-quaternary)] text-[14.5px] whitespace-nowrap">Optional</p>
     </div>
   );
 }
@@ -756,7 +756,7 @@ function Content8() {
 }
 
 function LineDivider6() {
-  return <div className="bg-[#e5e9f2] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
+  return <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
 }
 
 function Selector6() {
@@ -806,8 +806,8 @@ function BitcoinBtcLogo5() {
 function Name2() {
   return (
     <div className="content-stretch flex flex-col items-start leading-[normal] not-italic relative shrink-0 w-[49px]" data-name="name">
-      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[#183049] text-[14.5px] w-full">Bitcoin</p>
-      <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[#8492a6] text-[13px] w-full">BTC</p>
+      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[var(--cp-text-primary)] text-[14.5px] w-full">Bitcoin</p>
+      <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[var(--cp-text-tertiary)] text-[13px] w-full">BTC</p>
     </div>
   );
 }
@@ -834,7 +834,7 @@ function Left3() {
 function LabelWrap8() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0" data-name="label-wrap">
-      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[#8492a6] text-[11px] uppercase whitespace-nowrap">SETTLEMENT MODE</p>
+      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-tertiary)] text-[11px] uppercase whitespace-nowrap">SETTLEMENT MODE</p>
       <div className="overflow-clip relative shrink-0 size-[8px]" data-name="icon / info solid">
         <div className="-translate-y-1/2 absolute aspect-[16/16] left-0 right-0 top-1/2" data-name="Vector">
           <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 8 8">
@@ -849,7 +849,7 @@ function LabelWrap8() {
 function InputText8() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0" data-name="input text">
-      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[#183049] text-[14.5px] whitespace-nowrap">To Custody</p>
+      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-primary)] text-[14.5px] whitespace-nowrap">To Custody</p>
     </div>
   );
 }
@@ -864,7 +864,7 @@ function Content9() {
 }
 
 function LineDivider7() {
-  return <div className="bg-[#e5e9f2] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
+  return <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
 }
 
 function Selector7() {
@@ -893,7 +893,7 @@ function Controls8() {
 function LabelWrap9() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0" data-name="label-wrap">
-      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[#8492a6] text-[11px] uppercase whitespace-nowrap">PAYOUT CURRENCY</p>
+      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-tertiary)] text-[11px] uppercase whitespace-nowrap">PAYOUT CURRENCY</p>
       <div className="overflow-clip relative shrink-0 size-[8px]" data-name="icon / info solid">
         <div className="-translate-y-1/2 absolute aspect-[16/16] left-0 right-0 top-1/2" data-name="Vector">
           <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 8 8">
@@ -932,7 +932,7 @@ function InputText9() {
       <div className="relative shrink-0 size-[14px]" data-name="bitcoin">
         <BitcoinBtcLogo6 />
       </div>
-      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[#183049] text-[14.5px] whitespace-nowrap">Bitcoin</p>
+      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-primary)] text-[14.5px] whitespace-nowrap">Bitcoin</p>
     </div>
   );
 }
@@ -947,7 +947,7 @@ function Content10() {
 }
 
 function LineDivider8() {
-  return <div className="bg-[#e5e9f2] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
+  return <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
 }
 
 function Selector8() {
@@ -976,7 +976,7 @@ function Controls9() {
 function LabelWrap10() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0" data-name="label-wrap">
-      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[#8492a6] text-[11px] uppercase whitespace-nowrap">DISCOUNT</p>
+      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-tertiary)] text-[11px] uppercase whitespace-nowrap">DISCOUNT</p>
       <div className="overflow-clip relative shrink-0 size-[8px]" data-name="icon / info solid">
         <div className="-translate-y-1/2 absolute aspect-[16/16] left-0 right-0 top-1/2" data-name="Vector">
           <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 8 8">
@@ -991,7 +991,7 @@ function LabelWrap10() {
 function InputText10() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0" data-name="input text">
-      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[#d3d6e1] text-[14.5px] whitespace-nowrap">Optional</p>
+      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-quaternary)] text-[14.5px] whitespace-nowrap">Optional</p>
     </div>
   );
 }
@@ -1006,7 +1006,7 @@ function Content11() {
 }
 
 function LineDivider9() {
-  return <div className="bg-[#e5e9f2] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
+  return <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
 }
 
 function Selector9() {
@@ -1056,8 +1056,8 @@ function BitcoinBtcLogo7() {
 function Name3() {
   return (
     <div className="content-stretch flex flex-col items-start leading-[normal] not-italic relative shrink-0 w-[49px]" data-name="name">
-      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[#183049] text-[14.5px] w-full">Bitcoin</p>
-      <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[#8492a6] text-[13px] w-full">BTC</p>
+      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[var(--cp-text-primary)] text-[14.5px] w-full">Bitcoin</p>
+      <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[var(--cp-text-tertiary)] text-[13px] w-full">BTC</p>
     </div>
   );
 }
@@ -1084,7 +1084,7 @@ function Left4() {
 function LabelWrap11() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0" data-name="label-wrap">
-      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[#8492a6] text-[11px] uppercase whitespace-nowrap">SETTLEMENT MODE</p>
+      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-tertiary)] text-[11px] uppercase whitespace-nowrap">SETTLEMENT MODE</p>
       <div className="overflow-clip relative shrink-0 size-[8px]" data-name="icon / info solid">
         <div className="-translate-y-1/2 absolute aspect-[16/16] left-0 right-0 top-1/2" data-name="Vector">
           <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 8 8">
@@ -1099,7 +1099,7 @@ function LabelWrap11() {
 function InputText11() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0" data-name="input text">
-      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[#183049] text-[14.5px] whitespace-nowrap">To Custody</p>
+      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-primary)] text-[14.5px] whitespace-nowrap">To Custody</p>
     </div>
   );
 }
@@ -1114,7 +1114,7 @@ function Content12() {
 }
 
 function LineDivider10() {
-  return <div className="bg-[#e5e9f2] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
+  return <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
 }
 
 function Selector10() {
@@ -1143,7 +1143,7 @@ function Controls11() {
 function LabelWrap12() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0" data-name="label-wrap">
-      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[#8492a6] text-[11px] uppercase whitespace-nowrap">PAYOUT CURRENCY</p>
+      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-tertiary)] text-[11px] uppercase whitespace-nowrap">PAYOUT CURRENCY</p>
       <div className="overflow-clip relative shrink-0 size-[8px]" data-name="icon / info solid">
         <div className="-translate-y-1/2 absolute aspect-[16/16] left-0 right-0 top-1/2" data-name="Vector">
           <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 8 8">
@@ -1182,7 +1182,7 @@ function InputText12() {
       <div className="relative shrink-0 size-[14px]" data-name="bitcoin">
         <BitcoinBtcLogo8 />
       </div>
-      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[#183049] text-[14.5px] whitespace-nowrap">Bitcoin</p>
+      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-primary)] text-[14.5px] whitespace-nowrap">Bitcoin</p>
     </div>
   );
 }
@@ -1197,7 +1197,7 @@ function Content13() {
 }
 
 function LineDivider11() {
-  return <div className="bg-[#e5e9f2] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
+  return <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
 }
 
 function Selector11() {
@@ -1226,7 +1226,7 @@ function Controls12() {
 function LabelWrap13() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0" data-name="label-wrap">
-      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[#8492a6] text-[11px] uppercase whitespace-nowrap">DISCOUNT</p>
+      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-tertiary)] text-[11px] uppercase whitespace-nowrap">DISCOUNT</p>
       <div className="overflow-clip relative shrink-0 size-[8px]" data-name="icon / info solid">
         <div className="-translate-y-1/2 absolute aspect-[16/16] left-0 right-0 top-1/2" data-name="Vector">
           <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 8 8">
@@ -1241,7 +1241,7 @@ function LabelWrap13() {
 function InputText13() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0" data-name="input text">
-      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[#d3d6e1] text-[14.5px] whitespace-nowrap">Optional</p>
+      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-quaternary)] text-[14.5px] whitespace-nowrap">Optional</p>
     </div>
   );
 }
@@ -1256,7 +1256,7 @@ function Content14() {
 }
 
 function LineDivider12() {
-  return <div className="bg-[#e5e9f2] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
+  return <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
 }
 
 function Selector12() {
@@ -1306,8 +1306,8 @@ function BitcoinBtcLogo9() {
 function Name4() {
   return (
     <div className="content-stretch flex flex-col items-start leading-[normal] not-italic relative shrink-0 w-[49px]" data-name="name">
-      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[#183049] text-[14.5px] w-full">Bitcoin</p>
-      <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[#8492a6] text-[13px] w-full">BTC</p>
+      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[var(--cp-text-primary)] text-[14.5px] w-full">Bitcoin</p>
+      <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[var(--cp-text-tertiary)] text-[13px] w-full">BTC</p>
     </div>
   );
 }
@@ -1334,7 +1334,7 @@ function Left5() {
 function LabelWrap14() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0" data-name="label-wrap">
-      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[#8492a6] text-[11px] uppercase whitespace-nowrap">SETTLEMENT MODE</p>
+      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-tertiary)] text-[11px] uppercase whitespace-nowrap">SETTLEMENT MODE</p>
       <div className="overflow-clip relative shrink-0 size-[8px]" data-name="icon / info solid">
         <div className="-translate-y-1/2 absolute aspect-[16/16] left-0 right-0 top-1/2" data-name="Vector">
           <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 8 8">
@@ -1349,7 +1349,7 @@ function LabelWrap14() {
 function InputText14() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0" data-name="input text">
-      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[#183049] text-[14.5px] whitespace-nowrap">To Custody</p>
+      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-primary)] text-[14.5px] whitespace-nowrap">To Custody</p>
     </div>
   );
 }
@@ -1364,7 +1364,7 @@ function Content15() {
 }
 
 function LineDivider13() {
-  return <div className="bg-[#e5e9f2] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
+  return <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
 }
 
 function Selector13() {
@@ -1393,7 +1393,7 @@ function Controls14() {
 function LabelWrap15() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0" data-name="label-wrap">
-      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[#8492a6] text-[11px] uppercase whitespace-nowrap">PAYOUT CURRENCY</p>
+      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-tertiary)] text-[11px] uppercase whitespace-nowrap">PAYOUT CURRENCY</p>
       <div className="overflow-clip relative shrink-0 size-[8px]" data-name="icon / info solid">
         <div className="-translate-y-1/2 absolute aspect-[16/16] left-0 right-0 top-1/2" data-name="Vector">
           <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 8 8">
@@ -1432,7 +1432,7 @@ function InputText15() {
       <div className="relative shrink-0 size-[14px]" data-name="bitcoin">
         <BitcoinBtcLogo10 />
       </div>
-      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[#183049] text-[14.5px] whitespace-nowrap">Bitcoin</p>
+      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-primary)] text-[14.5px] whitespace-nowrap">Bitcoin</p>
     </div>
   );
 }
@@ -1447,7 +1447,7 @@ function Content16() {
 }
 
 function LineDivider14() {
-  return <div className="bg-[#e5e9f2] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
+  return <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
 }
 
 function Selector14() {
@@ -1476,7 +1476,7 @@ function Controls15() {
 function LabelWrap16() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0" data-name="label-wrap">
-      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[#8492a6] text-[11px] uppercase whitespace-nowrap">DISCOUNT</p>
+      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-tertiary)] text-[11px] uppercase whitespace-nowrap">DISCOUNT</p>
       <div className="overflow-clip relative shrink-0 size-[8px]" data-name="icon / info solid">
         <div className="-translate-y-1/2 absolute aspect-[16/16] left-0 right-0 top-1/2" data-name="Vector">
           <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 8 8">
@@ -1491,7 +1491,7 @@ function LabelWrap16() {
 function InputText16() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0" data-name="input text">
-      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[#d3d6e1] text-[14.5px] whitespace-nowrap">Optional</p>
+      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-quaternary)] text-[14.5px] whitespace-nowrap">Optional</p>
     </div>
   );
 }
@@ -1506,7 +1506,7 @@ function Content17() {
 }
 
 function LineDivider15() {
-  return <div className="bg-[#e5e9f2] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
+  return <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
 }
 
 function Selector15() {
@@ -1556,8 +1556,8 @@ function BitcoinBtcLogo11() {
 function Name5() {
   return (
     <div className="content-stretch flex flex-col items-start leading-[normal] not-italic relative shrink-0 w-[49px]" data-name="name">
-      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[#183049] text-[14.5px] w-full">Bitcoin</p>
-      <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[#8492a6] text-[13px] w-full">BTC</p>
+      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[var(--cp-text-primary)] text-[14.5px] w-full">Bitcoin</p>
+      <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[var(--cp-text-tertiary)] text-[13px] w-full">BTC</p>
     </div>
   );
 }
@@ -1584,7 +1584,7 @@ function Left6() {
 function LabelWrap17() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0" data-name="label-wrap">
-      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[#8492a6] text-[11px] uppercase whitespace-nowrap">SETTLEMENT MODE</p>
+      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-tertiary)] text-[11px] uppercase whitespace-nowrap">SETTLEMENT MODE</p>
       <div className="overflow-clip relative shrink-0 size-[8px]" data-name="icon / info solid">
         <div className="-translate-y-1/2 absolute aspect-[16/16] left-0 right-0 top-1/2" data-name="Vector">
           <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 8 8">
@@ -1599,7 +1599,7 @@ function LabelWrap17() {
 function InputText17() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0" data-name="input text">
-      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[#183049] text-[14.5px] whitespace-nowrap">To Custody</p>
+      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-primary)] text-[14.5px] whitespace-nowrap">To Custody</p>
     </div>
   );
 }
@@ -1614,7 +1614,7 @@ function Content18() {
 }
 
 function LineDivider16() {
-  return <div className="bg-[#e5e9f2] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
+  return <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
 }
 
 function Selector16() {
@@ -1643,7 +1643,7 @@ function Controls17() {
 function LabelWrap18() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0" data-name="label-wrap">
-      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[#8492a6] text-[11px] uppercase whitespace-nowrap">PAYOUT CURRENCY</p>
+      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-tertiary)] text-[11px] uppercase whitespace-nowrap">PAYOUT CURRENCY</p>
       <div className="overflow-clip relative shrink-0 size-[8px]" data-name="icon / info solid">
         <div className="-translate-y-1/2 absolute aspect-[16/16] left-0 right-0 top-1/2" data-name="Vector">
           <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 8 8">
@@ -1682,7 +1682,7 @@ function InputText18() {
       <div className="relative shrink-0 size-[14px]" data-name="bitcoin">
         <BitcoinBtcLogo12 />
       </div>
-      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[#183049] text-[14.5px] whitespace-nowrap">Bitcoin</p>
+      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-primary)] text-[14.5px] whitespace-nowrap">Bitcoin</p>
     </div>
   );
 }
@@ -1697,7 +1697,7 @@ function Content19() {
 }
 
 function LineDivider17() {
-  return <div className="bg-[#e5e9f2] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
+  return <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
 }
 
 function Selector17() {
@@ -1726,7 +1726,7 @@ function Controls18() {
 function LabelWrap19() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0" data-name="label-wrap">
-      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[#8492a6] text-[11px] uppercase whitespace-nowrap">DISCOUNT</p>
+      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-tertiary)] text-[11px] uppercase whitespace-nowrap">DISCOUNT</p>
       <div className="overflow-clip relative shrink-0 size-[8px]" data-name="icon / info solid">
         <div className="-translate-y-1/2 absolute aspect-[16/16] left-0 right-0 top-1/2" data-name="Vector">
           <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 8 8">
@@ -1741,7 +1741,7 @@ function LabelWrap19() {
 function InputText19() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0" data-name="input text">
-      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[#d3d6e1] text-[14.5px] whitespace-nowrap">Optional</p>
+      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-quaternary)] text-[14.5px] whitespace-nowrap">Optional</p>
     </div>
   );
 }
@@ -1756,7 +1756,7 @@ function Content20() {
 }
 
 function LineDivider18() {
-  return <div className="bg-[#e5e9f2] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
+  return <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
 }
 
 function Selector18() {
@@ -1806,8 +1806,8 @@ function BitcoinBtcLogo13() {
 function Name6() {
   return (
     <div className="content-stretch flex flex-col items-start leading-[normal] not-italic relative shrink-0 w-[49px]" data-name="name">
-      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[#183049] text-[14.5px] w-full">Bitcoin</p>
-      <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[#8492a6] text-[13px] w-full">BTC</p>
+      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[var(--cp-text-primary)] text-[14.5px] w-full">Bitcoin</p>
+      <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[var(--cp-text-tertiary)] text-[13px] w-full">BTC</p>
     </div>
   );
 }
@@ -1834,7 +1834,7 @@ function Left7() {
 function LabelWrap20() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0" data-name="label-wrap">
-      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[#8492a6] text-[11px] uppercase whitespace-nowrap">SETTLEMENT MODE</p>
+      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-tertiary)] text-[11px] uppercase whitespace-nowrap">SETTLEMENT MODE</p>
       <div className="overflow-clip relative shrink-0 size-[8px]" data-name="icon / info solid">
         <div className="-translate-y-1/2 absolute aspect-[16/16] left-0 right-0 top-1/2" data-name="Vector">
           <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 8 8">
@@ -1849,7 +1849,7 @@ function LabelWrap20() {
 function InputText20() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0" data-name="input text">
-      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[#183049] text-[14.5px] whitespace-nowrap">To Custody</p>
+      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-primary)] text-[14.5px] whitespace-nowrap">To Custody</p>
     </div>
   );
 }
@@ -1864,7 +1864,7 @@ function Content21() {
 }
 
 function LineDivider19() {
-  return <div className="bg-[#e5e9f2] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
+  return <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
 }
 
 function Selector19() {
@@ -1893,7 +1893,7 @@ function Controls20() {
 function LabelWrap21() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0" data-name="label-wrap">
-      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[#8492a6] text-[11px] uppercase whitespace-nowrap">PAYOUT CURRENCY</p>
+      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-tertiary)] text-[11px] uppercase whitespace-nowrap">PAYOUT CURRENCY</p>
       <div className="overflow-clip relative shrink-0 size-[8px]" data-name="icon / info solid">
         <div className="-translate-y-1/2 absolute aspect-[16/16] left-0 right-0 top-1/2" data-name="Vector">
           <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 8 8">
@@ -1932,7 +1932,7 @@ function InputText21() {
       <div className="relative shrink-0 size-[14px]" data-name="bitcoin">
         <BitcoinBtcLogo14 />
       </div>
-      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[#183049] text-[14.5px] whitespace-nowrap">Bitcoin</p>
+      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-primary)] text-[14.5px] whitespace-nowrap">Bitcoin</p>
     </div>
   );
 }
@@ -1947,7 +1947,7 @@ function Content22() {
 }
 
 function LineDivider20() {
-  return <div className="bg-[#e5e9f2] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
+  return <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
 }
 
 function Selector20() {
@@ -1976,7 +1976,7 @@ function Controls21() {
 function LabelWrap22() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0" data-name="label-wrap">
-      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[#8492a6] text-[11px] uppercase whitespace-nowrap">DISCOUNT</p>
+      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-tertiary)] text-[11px] uppercase whitespace-nowrap">DISCOUNT</p>
       <div className="overflow-clip relative shrink-0 size-[8px]" data-name="icon / info solid">
         <div className="-translate-y-1/2 absolute aspect-[16/16] left-0 right-0 top-1/2" data-name="Vector">
           <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 8 8">
@@ -1991,7 +1991,7 @@ function LabelWrap22() {
 function InputText22() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0" data-name="input text">
-      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[#d3d6e1] text-[14.5px] whitespace-nowrap">Optional</p>
+      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-quaternary)] text-[14.5px] whitespace-nowrap">Optional</p>
     </div>
   );
 }
@@ -2006,7 +2006,7 @@ function Content23() {
 }
 
 function LineDivider21() {
-  return <div className="bg-[#e5e9f2] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
+  return <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
 }
 
 function Selector21() {
@@ -2056,8 +2056,8 @@ function BitcoinBtcLogo15() {
 function Name7() {
   return (
     <div className="content-stretch flex flex-col items-start leading-[normal] not-italic relative shrink-0 w-[49px]" data-name="name">
-      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[#183049] text-[14.5px] w-full">Bitcoin</p>
-      <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[#8492a6] text-[13px] w-full">BTC</p>
+      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[var(--cp-text-primary)] text-[14.5px] w-full">Bitcoin</p>
+      <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[var(--cp-text-tertiary)] text-[13px] w-full">BTC</p>
     </div>
   );
 }
@@ -2084,7 +2084,7 @@ function Left8() {
 function LabelWrap23() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0" data-name="label-wrap">
-      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[#8492a6] text-[11px] uppercase whitespace-nowrap">SETTLEMENT MODE</p>
+      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-tertiary)] text-[11px] uppercase whitespace-nowrap">SETTLEMENT MODE</p>
       <div className="overflow-clip relative shrink-0 size-[8px]" data-name="icon / info solid">
         <div className="-translate-y-1/2 absolute aspect-[16/16] left-0 right-0 top-1/2" data-name="Vector">
           <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 8 8">
@@ -2099,7 +2099,7 @@ function LabelWrap23() {
 function InputText23() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0" data-name="input text">
-      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[#183049] text-[14.5px] whitespace-nowrap">To Custody</p>
+      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-primary)] text-[14.5px] whitespace-nowrap">To Custody</p>
     </div>
   );
 }
@@ -2114,7 +2114,7 @@ function Content24() {
 }
 
 function LineDivider22() {
-  return <div className="bg-[#e5e9f2] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
+  return <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
 }
 
 function Selector22() {
@@ -2143,7 +2143,7 @@ function Controls23() {
 function LabelWrap24() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0" data-name="label-wrap">
-      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[#8492a6] text-[11px] uppercase whitespace-nowrap">PAYOUT CURRENCY</p>
+      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-tertiary)] text-[11px] uppercase whitespace-nowrap">PAYOUT CURRENCY</p>
       <div className="overflow-clip relative shrink-0 size-[8px]" data-name="icon / info solid">
         <div className="-translate-y-1/2 absolute aspect-[16/16] left-0 right-0 top-1/2" data-name="Vector">
           <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 8 8">
@@ -2182,7 +2182,7 @@ function InputText24() {
       <div className="relative shrink-0 size-[14px]" data-name="bitcoin">
         <BitcoinBtcLogo16 />
       </div>
-      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[#183049] text-[14.5px] whitespace-nowrap">Bitcoin</p>
+      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-primary)] text-[14.5px] whitespace-nowrap">Bitcoin</p>
     </div>
   );
 }
@@ -2197,7 +2197,7 @@ function Content25() {
 }
 
 function LineDivider23() {
-  return <div className="bg-[#e5e9f2] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
+  return <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
 }
 
 function Selector23() {
@@ -2226,7 +2226,7 @@ function Controls24() {
 function LabelWrap25() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0" data-name="label-wrap">
-      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[#8492a6] text-[11px] uppercase whitespace-nowrap">DISCOUNT</p>
+      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-tertiary)] text-[11px] uppercase whitespace-nowrap">DISCOUNT</p>
       <div className="overflow-clip relative shrink-0 size-[8px]" data-name="icon / info solid">
         <div className="-translate-y-1/2 absolute aspect-[16/16] left-0 right-0 top-1/2" data-name="Vector">
           <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 8 8">
@@ -2241,7 +2241,7 @@ function LabelWrap25() {
 function InputText25() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0" data-name="input text">
-      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[#d3d6e1] text-[14.5px] whitespace-nowrap">Optional</p>
+      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-quaternary)] text-[14.5px] whitespace-nowrap">Optional</p>
     </div>
   );
 }
@@ -2256,7 +2256,7 @@ function Content26() {
 }
 
 function LineDivider24() {
-  return <div className="bg-[#e5e9f2] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
+  return <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
 }
 
 function Selector24() {
@@ -2306,8 +2306,8 @@ function BitcoinBtcLogo17() {
 function Name8() {
   return (
     <div className="content-stretch flex flex-col items-start leading-[normal] not-italic relative shrink-0 w-[49px]" data-name="name">
-      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[#183049] text-[14.5px] w-full">Bitcoin</p>
-      <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[#8492a6] text-[13px] w-full">BTC</p>
+      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[var(--cp-text-primary)] text-[14.5px] w-full">Bitcoin</p>
+      <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[var(--cp-text-tertiary)] text-[13px] w-full">BTC</p>
     </div>
   );
 }
@@ -2334,7 +2334,7 @@ function Left9() {
 function LabelWrap26() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0" data-name="label-wrap">
-      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[#8492a6] text-[11px] uppercase whitespace-nowrap">SETTLEMENT MODE</p>
+      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-tertiary)] text-[11px] uppercase whitespace-nowrap">SETTLEMENT MODE</p>
       <div className="overflow-clip relative shrink-0 size-[8px]" data-name="icon / info solid">
         <div className="-translate-y-1/2 absolute aspect-[16/16] left-0 right-0 top-1/2" data-name="Vector">
           <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 8 8">
@@ -2349,7 +2349,7 @@ function LabelWrap26() {
 function InputText26() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0" data-name="input text">
-      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[#183049] text-[14.5px] whitespace-nowrap">To Custody</p>
+      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-primary)] text-[14.5px] whitespace-nowrap">To Custody</p>
     </div>
   );
 }
@@ -2364,7 +2364,7 @@ function Content27() {
 }
 
 function LineDivider25() {
-  return <div className="bg-[#e5e9f2] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
+  return <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
 }
 
 function Selector25() {
@@ -2393,7 +2393,7 @@ function Controls26() {
 function LabelWrap27() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0" data-name="label-wrap">
-      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[#8492a6] text-[11px] uppercase whitespace-nowrap">PAYOUT CURRENCY</p>
+      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-tertiary)] text-[11px] uppercase whitespace-nowrap">PAYOUT CURRENCY</p>
       <div className="overflow-clip relative shrink-0 size-[8px]" data-name="icon / info solid">
         <div className="-translate-y-1/2 absolute aspect-[16/16] left-0 right-0 top-1/2" data-name="Vector">
           <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 8 8">
@@ -2432,7 +2432,7 @@ function InputText27() {
       <div className="relative shrink-0 size-[14px]" data-name="bitcoin">
         <BitcoinBtcLogo18 />
       </div>
-      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[#183049] text-[14.5px] whitespace-nowrap">Bitcoin</p>
+      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-primary)] text-[14.5px] whitespace-nowrap">Bitcoin</p>
     </div>
   );
 }
@@ -2447,7 +2447,7 @@ function Content28() {
 }
 
 function LineDivider26() {
-  return <div className="bg-[#e5e9f2] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
+  return <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
 }
 
 function Selector26() {
@@ -2476,7 +2476,7 @@ function Controls27() {
 function LabelWrap28() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0" data-name="label-wrap">
-      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[#8492a6] text-[11px] uppercase whitespace-nowrap">DISCOUNT</p>
+      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-tertiary)] text-[11px] uppercase whitespace-nowrap">DISCOUNT</p>
       <div className="overflow-clip relative shrink-0 size-[8px]" data-name="icon / info solid">
         <div className="-translate-y-1/2 absolute aspect-[16/16] left-0 right-0 top-1/2" data-name="Vector">
           <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 8 8">
@@ -2491,7 +2491,7 @@ function LabelWrap28() {
 function InputText28() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0" data-name="input text">
-      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[#d3d6e1] text-[14.5px] whitespace-nowrap">Optional</p>
+      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-quaternary)] text-[14.5px] whitespace-nowrap">Optional</p>
     </div>
   );
 }
@@ -2506,7 +2506,7 @@ function Content29() {
 }
 
 function LineDivider27() {
-  return <div className="bg-[#e5e9f2] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
+  return <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
 }
 
 function Selector27() {
@@ -2556,8 +2556,8 @@ function BitcoinBtcLogo19() {
 function Name9() {
   return (
     <div className="content-stretch flex flex-col items-start leading-[normal] not-italic relative shrink-0 w-[49px]" data-name="name">
-      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[#183049] text-[14.5px] w-full">Bitcoin</p>
-      <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[#8492a6] text-[13px] w-full">BTC</p>
+      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[var(--cp-text-primary)] text-[14.5px] w-full">Bitcoin</p>
+      <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[var(--cp-text-tertiary)] text-[13px] w-full">BTC</p>
     </div>
   );
 }
@@ -2584,7 +2584,7 @@ function Left10() {
 function LabelWrap29() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0" data-name="label-wrap">
-      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[#8492a6] text-[11px] uppercase whitespace-nowrap">SETTLEMENT MODE</p>
+      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-tertiary)] text-[11px] uppercase whitespace-nowrap">SETTLEMENT MODE</p>
       <div className="overflow-clip relative shrink-0 size-[8px]" data-name="icon / info solid">
         <div className="-translate-y-1/2 absolute aspect-[16/16] left-0 right-0 top-1/2" data-name="Vector">
           <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 8 8">
@@ -2599,7 +2599,7 @@ function LabelWrap29() {
 function InputText29() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0" data-name="input text">
-      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[#183049] text-[14.5px] whitespace-nowrap">To Custody</p>
+      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-primary)] text-[14.5px] whitespace-nowrap">To Custody</p>
     </div>
   );
 }
@@ -2614,7 +2614,7 @@ function Content30() {
 }
 
 function LineDivider28() {
-  return <div className="bg-[#e5e9f2] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
+  return <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
 }
 
 function Selector28() {
@@ -2643,7 +2643,7 @@ function Controls29() {
 function LabelWrap30() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0" data-name="label-wrap">
-      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[#8492a6] text-[11px] uppercase whitespace-nowrap">PAYOUT CURRENCY</p>
+      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-tertiary)] text-[11px] uppercase whitespace-nowrap">PAYOUT CURRENCY</p>
       <div className="overflow-clip relative shrink-0 size-[8px]" data-name="icon / info solid">
         <div className="-translate-y-1/2 absolute aspect-[16/16] left-0 right-0 top-1/2" data-name="Vector">
           <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 8 8">
@@ -2682,7 +2682,7 @@ function InputText30() {
       <div className="relative shrink-0 size-[14px]" data-name="bitcoin">
         <BitcoinBtcLogo20 />
       </div>
-      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[#183049] text-[14.5px] whitespace-nowrap">Bitcoin</p>
+      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-primary)] text-[14.5px] whitespace-nowrap">Bitcoin</p>
     </div>
   );
 }
@@ -2697,7 +2697,7 @@ function Content31() {
 }
 
 function LineDivider29() {
-  return <div className="bg-[#e5e9f2] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
+  return <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
 }
 
 function Selector29() {
@@ -2726,7 +2726,7 @@ function Controls30() {
 function LabelWrap31() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0" data-name="label-wrap">
-      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[#8492a6] text-[11px] uppercase whitespace-nowrap">DISCOUNT</p>
+      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-tertiary)] text-[11px] uppercase whitespace-nowrap">DISCOUNT</p>
       <div className="overflow-clip relative shrink-0 size-[8px]" data-name="icon / info solid">
         <div className="-translate-y-1/2 absolute aspect-[16/16] left-0 right-0 top-1/2" data-name="Vector">
           <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 8 8">
@@ -2741,7 +2741,7 @@ function LabelWrap31() {
 function InputText31() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0" data-name="input text">
-      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[#d3d6e1] text-[14.5px] whitespace-nowrap">Optional</p>
+      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-quaternary)] text-[14.5px] whitespace-nowrap">Optional</p>
     </div>
   );
 }
@@ -2756,7 +2756,7 @@ function Content32() {
 }
 
 function LineDivider30() {
-  return <div className="bg-[#e5e9f2] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
+  return <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
 }
 
 function Selector30() {
@@ -2806,8 +2806,8 @@ function BitcoinBtcLogo21() {
 function Name10() {
   return (
     <div className="content-stretch flex flex-col items-start leading-[normal] not-italic relative shrink-0 w-[49px]" data-name="name">
-      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[#183049] text-[14.5px] w-full">Bitcoin</p>
-      <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[#8492a6] text-[13px] w-full">BTC</p>
+      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[var(--cp-text-primary)] text-[14.5px] w-full">Bitcoin</p>
+      <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[var(--cp-text-tertiary)] text-[13px] w-full">BTC</p>
     </div>
   );
 }
@@ -2834,7 +2834,7 @@ function Left11() {
 function LabelWrap32() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0" data-name="label-wrap">
-      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[#8492a6] text-[11px] uppercase whitespace-nowrap">SETTLEMENT MODE</p>
+      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-tertiary)] text-[11px] uppercase whitespace-nowrap">SETTLEMENT MODE</p>
       <div className="overflow-clip relative shrink-0 size-[8px]" data-name="icon / info solid">
         <div className="-translate-y-1/2 absolute aspect-[16/16] left-0 right-0 top-1/2" data-name="Vector">
           <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 8 8">
@@ -2849,7 +2849,7 @@ function LabelWrap32() {
 function InputText32() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0" data-name="input text">
-      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[#183049] text-[14.5px] whitespace-nowrap">To Custody</p>
+      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-primary)] text-[14.5px] whitespace-nowrap">To Custody</p>
     </div>
   );
 }
@@ -2864,7 +2864,7 @@ function Content33() {
 }
 
 function LineDivider31() {
-  return <div className="bg-[#e5e9f2] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
+  return <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
 }
 
 function Selector31() {
@@ -2893,7 +2893,7 @@ function Controls32() {
 function LabelWrap33() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0" data-name="label-wrap">
-      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[#8492a6] text-[11px] uppercase whitespace-nowrap">PAYOUT CURRENCY</p>
+      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-tertiary)] text-[11px] uppercase whitespace-nowrap">PAYOUT CURRENCY</p>
       <div className="overflow-clip relative shrink-0 size-[8px]" data-name="icon / info solid">
         <div className="-translate-y-1/2 absolute aspect-[16/16] left-0 right-0 top-1/2" data-name="Vector">
           <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 8 8">
@@ -2932,7 +2932,7 @@ function InputText33() {
       <div className="relative shrink-0 size-[14px]" data-name="bitcoin">
         <BitcoinBtcLogo22 />
       </div>
-      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[#183049] text-[14.5px] whitespace-nowrap">Bitcoin</p>
+      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-primary)] text-[14.5px] whitespace-nowrap">Bitcoin</p>
     </div>
   );
 }
@@ -2947,7 +2947,7 @@ function Content34() {
 }
 
 function LineDivider32() {
-  return <div className="bg-[#e5e9f2] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
+  return <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
 }
 
 function Selector32() {
@@ -2976,7 +2976,7 @@ function Controls33() {
 function LabelWrap34() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0" data-name="label-wrap">
-      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[#8492a6] text-[11px] uppercase whitespace-nowrap">DISCOUNT</p>
+      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-tertiary)] text-[11px] uppercase whitespace-nowrap">DISCOUNT</p>
       <div className="overflow-clip relative shrink-0 size-[8px]" data-name="icon / info solid">
         <div className="-translate-y-1/2 absolute aspect-[16/16] left-0 right-0 top-1/2" data-name="Vector">
           <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 8 8">
@@ -2991,7 +2991,7 @@ function LabelWrap34() {
 function InputText34() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0" data-name="input text">
-      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[#d3d6e1] text-[14.5px] whitespace-nowrap">Optional</p>
+      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-quaternary)] text-[14.5px] whitespace-nowrap">Optional</p>
     </div>
   );
 }
@@ -3006,7 +3006,7 @@ function Content35() {
 }
 
 function LineDivider33() {
-  return <div className="bg-[#e5e9f2] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
+  return <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
 }
 
 function Selector33() {
@@ -3056,8 +3056,8 @@ function BitcoinBtcLogo23() {
 function Name11() {
   return (
     <div className="content-stretch flex flex-col items-start leading-[normal] not-italic relative shrink-0 w-[49px]" data-name="name">
-      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[#183049] text-[14.5px] w-full">Bitcoin</p>
-      <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[#8492a6] text-[13px] w-full">BTC</p>
+      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[var(--cp-text-primary)] text-[14.5px] w-full">Bitcoin</p>
+      <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[var(--cp-text-tertiary)] text-[13px] w-full">BTC</p>
     </div>
   );
 }
@@ -3084,7 +3084,7 @@ function Left12() {
 function LabelWrap35() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0" data-name="label-wrap">
-      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[#8492a6] text-[11px] uppercase whitespace-nowrap">SETTLEMENT MODE</p>
+      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-tertiary)] text-[11px] uppercase whitespace-nowrap">SETTLEMENT MODE</p>
       <div className="overflow-clip relative shrink-0 size-[8px]" data-name="icon / info solid">
         <div className="-translate-y-1/2 absolute aspect-[16/16] left-0 right-0 top-1/2" data-name="Vector">
           <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 8 8">
@@ -3099,7 +3099,7 @@ function LabelWrap35() {
 function InputText35() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0" data-name="input text">
-      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[#183049] text-[14.5px] whitespace-nowrap">To Custody</p>
+      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-primary)] text-[14.5px] whitespace-nowrap">To Custody</p>
     </div>
   );
 }
@@ -3114,7 +3114,7 @@ function Content36() {
 }
 
 function LineDivider34() {
-  return <div className="bg-[#e5e9f2] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
+  return <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
 }
 
 function Selector34() {
@@ -3143,7 +3143,7 @@ function Controls35() {
 function LabelWrap36() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0" data-name="label-wrap">
-      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[#8492a6] text-[11px] uppercase whitespace-nowrap">PAYOUT CURRENCY</p>
+      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-tertiary)] text-[11px] uppercase whitespace-nowrap">PAYOUT CURRENCY</p>
       <div className="overflow-clip relative shrink-0 size-[8px]" data-name="icon / info solid">
         <div className="-translate-y-1/2 absolute aspect-[16/16] left-0 right-0 top-1/2" data-name="Vector">
           <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 8 8">
@@ -3182,7 +3182,7 @@ function InputText36() {
       <div className="relative shrink-0 size-[14px]" data-name="bitcoin">
         <BitcoinBtcLogo24 />
       </div>
-      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[#183049] text-[14.5px] whitespace-nowrap">Bitcoin</p>
+      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-primary)] text-[14.5px] whitespace-nowrap">Bitcoin</p>
     </div>
   );
 }
@@ -3197,7 +3197,7 @@ function Content37() {
 }
 
 function LineDivider35() {
-  return <div className="bg-[#e5e9f2] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
+  return <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
 }
 
 function Selector35() {
@@ -3226,7 +3226,7 @@ function Controls36() {
 function LabelWrap37() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0" data-name="label-wrap">
-      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[#8492a6] text-[11px] uppercase whitespace-nowrap">DISCOUNT</p>
+      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-tertiary)] text-[11px] uppercase whitespace-nowrap">DISCOUNT</p>
       <div className="overflow-clip relative shrink-0 size-[8px]" data-name="icon / info solid">
         <div className="-translate-y-1/2 absolute aspect-[16/16] left-0 right-0 top-1/2" data-name="Vector">
           <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 8 8">
@@ -3241,7 +3241,7 @@ function LabelWrap37() {
 function InputText37() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0" data-name="input text">
-      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[#d3d6e1] text-[14.5px] whitespace-nowrap">Optional</p>
+      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-quaternary)] text-[14.5px] whitespace-nowrap">Optional</p>
     </div>
   );
 }
@@ -3256,7 +3256,7 @@ function Content38() {
 }
 
 function LineDivider36() {
-  return <div className="bg-[#e5e9f2] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
+  return <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
 }
 
 function Selector36() {
@@ -3285,8 +3285,8 @@ function Controls37() {
 function List() {
   return (
     <div className="content-stretch flex flex-col items-start relative shrink-0 w-full" data-name="list">
-      <div className="bg-[#f7f8fc] h-[76px] relative shrink-0 w-full" data-name="PaySettingsRow">
-        <div aria-hidden="true" className="absolute border-[#e5e9f2] border-solid border-t inset-0 pointer-events-none" />
+      <div className="bg-[var(--cp-bg-1)] h-[76px] relative shrink-0 w-full" data-name="PaySettingsRow">
+        <div aria-hidden="true" className="absolute border-[var(--cp-border-default)] border-solid border-t inset-0 pointer-events-none" />
         <div className="flex flex-row items-center size-full">
           <div className="content-stretch flex gap-[10px] items-center px-[20px] py-[10px] relative size-full">
             <Left1 />
@@ -3297,7 +3297,7 @@ function List() {
                   <Controls2 />
                 </div>
               </div>
-              <div aria-hidden="true" className="absolute border border-[#e5e9f2] border-solid inset-0 pointer-events-none rounded-[5px]" />
+              <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[5px]" />
             </div>
             <div className="content-stretch flex h-[56px] items-start justify-between min-w-[200px] overflow-clip p-[10px] relative rounded-[5px] shrink-0 w-[200px]">
               <Content4 />
@@ -3308,7 +3308,7 @@ function List() {
                 <Content5 />
                 <Controls4 />
               </div>
-              <div aria-hidden="true" className="absolute border border-[#e5e9f2] border-solid inset-0 pointer-events-none rounded-[5px]" />
+              <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[5px]" />
             </div>
             <button className="block cursor-pointer relative shrink-0 size-[16px]" data-name="Radio-button">
               <div className="absolute inset-[4.55%]" data-name="Border">
@@ -3322,8 +3322,8 @@ function List() {
           </div>
         </div>
       </div>
-      <div className="bg-[#f7f8fc] h-[76px] relative shrink-0 w-full" data-name="PaySettingsRow">
-        <div aria-hidden="true" className="absolute border-[#e5e9f2] border-solid border-t inset-0 pointer-events-none" />
+      <div className="bg-[var(--cp-bg-1)] h-[76px] relative shrink-0 w-full" data-name="PaySettingsRow">
+        <div aria-hidden="true" className="absolute border-[var(--cp-border-default)] border-solid border-t inset-0 pointer-events-none" />
         <div className="flex flex-row items-center size-full">
           <div className="content-stretch flex gap-[10px] items-center px-[20px] py-[10px] relative size-full">
             <Left2 />
@@ -3334,7 +3334,7 @@ function List() {
                   <Controls5 />
                 </div>
               </div>
-              <div aria-hidden="true" className="absolute border border-[#e5e9f2] border-solid inset-0 pointer-events-none rounded-[5px]" />
+              <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[5px]" />
             </div>
             <div className="content-stretch flex h-[56px] items-start justify-between min-w-[200px] overflow-clip p-[10px] relative rounded-[5px] shrink-0 w-[200px]">
               <Content7 />
@@ -3345,7 +3345,7 @@ function List() {
                 <Content8 />
                 <Controls7 />
               </div>
-              <div aria-hidden="true" className="absolute border border-[#e5e9f2] border-solid inset-0 pointer-events-none rounded-[5px]" />
+              <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[5px]" />
             </div>
             <button className="block cursor-pointer relative shrink-0 size-[16px]" data-name="Radio-button">
               <div className="absolute inset-[4.55%]" data-name="Border">
@@ -3359,8 +3359,8 @@ function List() {
           </div>
         </div>
       </div>
-      <div className="bg-[#f7f8fc] h-[76px] relative shrink-0 w-full" data-name="PaySettingsRow">
-        <div aria-hidden="true" className="absolute border-[#e5e9f2] border-solid border-t inset-0 pointer-events-none" />
+      <div className="bg-[var(--cp-bg-1)] h-[76px] relative shrink-0 w-full" data-name="PaySettingsRow">
+        <div aria-hidden="true" className="absolute border-[var(--cp-border-default)] border-solid border-t inset-0 pointer-events-none" />
         <div className="flex flex-row items-center size-full">
           <div className="content-stretch flex gap-[10px] items-center px-[20px] py-[10px] relative size-full">
             <Left3 />
@@ -3371,7 +3371,7 @@ function List() {
                   <Controls8 />
                 </div>
               </div>
-              <div aria-hidden="true" className="absolute border border-[#e5e9f2] border-solid inset-0 pointer-events-none rounded-[5px]" />
+              <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[5px]" />
             </div>
             <div className="content-stretch flex h-[56px] items-start justify-between min-w-[200px] overflow-clip p-[10px] relative rounded-[5px] shrink-0 w-[200px]">
               <Content10 />
@@ -3382,7 +3382,7 @@ function List() {
                 <Content11 />
                 <Controls10 />
               </div>
-              <div aria-hidden="true" className="absolute border border-[#e5e9f2] border-solid inset-0 pointer-events-none rounded-[5px]" />
+              <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[5px]" />
             </div>
             <button className="block cursor-pointer relative shrink-0 size-[16px]" data-name="Radio-button">
               <div className="absolute inset-[4.55%]" data-name="Border">
@@ -3396,8 +3396,8 @@ function List() {
           </div>
         </div>
       </div>
-      <div className="bg-[#f7f8fc] h-[76px] relative shrink-0 w-full" data-name="PaySettingsRow">
-        <div aria-hidden="true" className="absolute border-[#e5e9f2] border-solid border-t inset-0 pointer-events-none" />
+      <div className="bg-[var(--cp-bg-1)] h-[76px] relative shrink-0 w-full" data-name="PaySettingsRow">
+        <div aria-hidden="true" className="absolute border-[var(--cp-border-default)] border-solid border-t inset-0 pointer-events-none" />
         <div className="flex flex-row items-center size-full">
           <div className="content-stretch flex gap-[10px] items-center px-[20px] py-[10px] relative size-full">
             <Left4 />
@@ -3408,7 +3408,7 @@ function List() {
                   <Controls11 />
                 </div>
               </div>
-              <div aria-hidden="true" className="absolute border border-[#e5e9f2] border-solid inset-0 pointer-events-none rounded-[5px]" />
+              <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[5px]" />
             </div>
             <div className="content-stretch flex h-[56px] items-start justify-between min-w-[200px] overflow-clip p-[10px] relative rounded-[5px] shrink-0 w-[200px]">
               <Content13 />
@@ -3419,7 +3419,7 @@ function List() {
                 <Content14 />
                 <Controls13 />
               </div>
-              <div aria-hidden="true" className="absolute border border-[#e5e9f2] border-solid inset-0 pointer-events-none rounded-[5px]" />
+              <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[5px]" />
             </div>
             <button className="block cursor-pointer relative shrink-0 size-[16px]" data-name="Radio-button">
               <div className="absolute inset-[4.55%]" data-name="Border">
@@ -3433,8 +3433,8 @@ function List() {
           </div>
         </div>
       </div>
-      <div className="bg-[#f7f8fc] h-[76px] relative shrink-0 w-full" data-name="PaySettingsRow">
-        <div aria-hidden="true" className="absolute border-[#e5e9f2] border-solid border-t inset-0 pointer-events-none" />
+      <div className="bg-[var(--cp-bg-1)] h-[76px] relative shrink-0 w-full" data-name="PaySettingsRow">
+        <div aria-hidden="true" className="absolute border-[var(--cp-border-default)] border-solid border-t inset-0 pointer-events-none" />
         <div className="flex flex-row items-center size-full">
           <div className="content-stretch flex gap-[10px] items-center px-[20px] py-[10px] relative size-full">
             <Left5 />
@@ -3445,7 +3445,7 @@ function List() {
                   <Controls14 />
                 </div>
               </div>
-              <div aria-hidden="true" className="absolute border border-[#e5e9f2] border-solid inset-0 pointer-events-none rounded-[5px]" />
+              <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[5px]" />
             </div>
             <div className="content-stretch flex h-[56px] items-start justify-between min-w-[200px] overflow-clip p-[10px] relative rounded-[5px] shrink-0 w-[200px]">
               <Content16 />
@@ -3456,7 +3456,7 @@ function List() {
                 <Content17 />
                 <Controls16 />
               </div>
-              <div aria-hidden="true" className="absolute border border-[#e5e9f2] border-solid inset-0 pointer-events-none rounded-[5px]" />
+              <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[5px]" />
             </div>
             <button className="block cursor-pointer relative shrink-0 size-[16px]" data-name="Radio-button">
               <div className="absolute inset-[4.55%]" data-name="Border">
@@ -3470,8 +3470,8 @@ function List() {
           </div>
         </div>
       </div>
-      <div className="bg-[#f7f8fc] h-[76px] relative shrink-0 w-full" data-name="PaySettingsRow">
-        <div aria-hidden="true" className="absolute border-[#e5e9f2] border-solid border-t inset-0 pointer-events-none" />
+      <div className="bg-[var(--cp-bg-1)] h-[76px] relative shrink-0 w-full" data-name="PaySettingsRow">
+        <div aria-hidden="true" className="absolute border-[var(--cp-border-default)] border-solid border-t inset-0 pointer-events-none" />
         <div className="flex flex-row items-center size-full">
           <div className="content-stretch flex gap-[10px] items-center px-[20px] py-[10px] relative size-full">
             <Left6 />
@@ -3482,7 +3482,7 @@ function List() {
                   <Controls17 />
                 </div>
               </div>
-              <div aria-hidden="true" className="absolute border border-[#e5e9f2] border-solid inset-0 pointer-events-none rounded-[5px]" />
+              <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[5px]" />
             </div>
             <div className="content-stretch flex h-[56px] items-start justify-between min-w-[200px] overflow-clip p-[10px] relative rounded-[5px] shrink-0 w-[200px]">
               <Content19 />
@@ -3493,7 +3493,7 @@ function List() {
                 <Content20 />
                 <Controls19 />
               </div>
-              <div aria-hidden="true" className="absolute border border-[#e5e9f2] border-solid inset-0 pointer-events-none rounded-[5px]" />
+              <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[5px]" />
             </div>
             <button className="block cursor-pointer relative shrink-0 size-[16px]" data-name="Radio-button">
               <div className="absolute inset-[4.55%]" data-name="Border">
@@ -3507,8 +3507,8 @@ function List() {
           </div>
         </div>
       </div>
-      <div className="bg-[#f7f8fc] h-[76px] relative shrink-0 w-full" data-name="PaySettingsRow">
-        <div aria-hidden="true" className="absolute border-[#e5e9f2] border-solid border-t inset-0 pointer-events-none" />
+      <div className="bg-[var(--cp-bg-1)] h-[76px] relative shrink-0 w-full" data-name="PaySettingsRow">
+        <div aria-hidden="true" className="absolute border-[var(--cp-border-default)] border-solid border-t inset-0 pointer-events-none" />
         <div className="flex flex-row items-center size-full">
           <div className="content-stretch flex gap-[10px] items-center px-[20px] py-[10px] relative size-full">
             <Left7 />
@@ -3519,7 +3519,7 @@ function List() {
                   <Controls20 />
                 </div>
               </div>
-              <div aria-hidden="true" className="absolute border border-[#e5e9f2] border-solid inset-0 pointer-events-none rounded-[5px]" />
+              <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[5px]" />
             </div>
             <div className="content-stretch flex h-[56px] items-start justify-between min-w-[200px] overflow-clip p-[10px] relative rounded-[5px] shrink-0 w-[200px]">
               <Content22 />
@@ -3530,7 +3530,7 @@ function List() {
                 <Content23 />
                 <Controls22 />
               </div>
-              <div aria-hidden="true" className="absolute border border-[#e5e9f2] border-solid inset-0 pointer-events-none rounded-[5px]" />
+              <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[5px]" />
             </div>
             <button className="block cursor-pointer relative shrink-0 size-[16px]" data-name="Radio-button">
               <div className="absolute inset-[4.55%]" data-name="Border">
@@ -3544,8 +3544,8 @@ function List() {
           </div>
         </div>
       </div>
-      <div className="bg-[#f7f8fc] h-[76px] relative shrink-0 w-full" data-name="PaySettingsRow">
-        <div aria-hidden="true" className="absolute border-[#e5e9f2] border-solid border-t inset-0 pointer-events-none" />
+      <div className="bg-[var(--cp-bg-1)] h-[76px] relative shrink-0 w-full" data-name="PaySettingsRow">
+        <div aria-hidden="true" className="absolute border-[var(--cp-border-default)] border-solid border-t inset-0 pointer-events-none" />
         <div className="flex flex-row items-center size-full">
           <div className="content-stretch flex gap-[10px] items-center px-[20px] py-[10px] relative size-full">
             <Left8 />
@@ -3556,7 +3556,7 @@ function List() {
                   <Controls23 />
                 </div>
               </div>
-              <div aria-hidden="true" className="absolute border border-[#e5e9f2] border-solid inset-0 pointer-events-none rounded-[5px]" />
+              <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[5px]" />
             </div>
             <div className="content-stretch flex h-[56px] items-start justify-between min-w-[200px] overflow-clip p-[10px] relative rounded-[5px] shrink-0 w-[200px]">
               <Content25 />
@@ -3567,7 +3567,7 @@ function List() {
                 <Content26 />
                 <Controls25 />
               </div>
-              <div aria-hidden="true" className="absolute border border-[#e5e9f2] border-solid inset-0 pointer-events-none rounded-[5px]" />
+              <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[5px]" />
             </div>
             <button className="block cursor-pointer relative shrink-0 size-[16px]" data-name="Radio-button">
               <div className="absolute inset-[4.55%]" data-name="Border">
@@ -3581,8 +3581,8 @@ function List() {
           </div>
         </div>
       </div>
-      <div className="bg-[#f7f8fc] h-[76px] relative shrink-0 w-full" data-name="PaySettingsRow">
-        <div aria-hidden="true" className="absolute border-[#e5e9f2] border-solid border-t inset-0 pointer-events-none" />
+      <div className="bg-[var(--cp-bg-1)] h-[76px] relative shrink-0 w-full" data-name="PaySettingsRow">
+        <div aria-hidden="true" className="absolute border-[var(--cp-border-default)] border-solid border-t inset-0 pointer-events-none" />
         <div className="flex flex-row items-center size-full">
           <div className="content-stretch flex gap-[10px] items-center px-[20px] py-[10px] relative size-full">
             <Left9 />
@@ -3593,7 +3593,7 @@ function List() {
                   <Controls26 />
                 </div>
               </div>
-              <div aria-hidden="true" className="absolute border border-[#e5e9f2] border-solid inset-0 pointer-events-none rounded-[5px]" />
+              <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[5px]" />
             </div>
             <div className="content-stretch flex h-[56px] items-start justify-between min-w-[200px] overflow-clip p-[10px] relative rounded-[5px] shrink-0 w-[200px]">
               <Content28 />
@@ -3604,7 +3604,7 @@ function List() {
                 <Content29 />
                 <Controls28 />
               </div>
-              <div aria-hidden="true" className="absolute border border-[#e5e9f2] border-solid inset-0 pointer-events-none rounded-[5px]" />
+              <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[5px]" />
             </div>
             <button className="block cursor-pointer relative shrink-0 size-[16px]" data-name="Radio-button">
               <div className="absolute inset-[4.55%]" data-name="Border">
@@ -3618,8 +3618,8 @@ function List() {
           </div>
         </div>
       </div>
-      <div className="bg-[#f7f8fc] h-[76px] relative shrink-0 w-full" data-name="PaySettingsRow">
-        <div aria-hidden="true" className="absolute border-[#e5e9f2] border-solid border-t inset-0 pointer-events-none" />
+      <div className="bg-[var(--cp-bg-1)] h-[76px] relative shrink-0 w-full" data-name="PaySettingsRow">
+        <div aria-hidden="true" className="absolute border-[var(--cp-border-default)] border-solid border-t inset-0 pointer-events-none" />
         <div className="flex flex-row items-center size-full">
           <div className="content-stretch flex gap-[10px] items-center px-[20px] py-[10px] relative size-full">
             <Left10 />
@@ -3630,7 +3630,7 @@ function List() {
                   <Controls29 />
                 </div>
               </div>
-              <div aria-hidden="true" className="absolute border border-[#e5e9f2] border-solid inset-0 pointer-events-none rounded-[5px]" />
+              <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[5px]" />
             </div>
             <div className="content-stretch flex h-[56px] items-start justify-between min-w-[200px] overflow-clip p-[10px] relative rounded-[5px] shrink-0 w-[200px]">
               <Content31 />
@@ -3641,7 +3641,7 @@ function List() {
                 <Content32 />
                 <Controls31 />
               </div>
-              <div aria-hidden="true" className="absolute border border-[#e5e9f2] border-solid inset-0 pointer-events-none rounded-[5px]" />
+              <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[5px]" />
             </div>
             <button className="block cursor-pointer relative shrink-0 size-[16px]" data-name="Radio-button">
               <div className="absolute inset-[4.55%]" data-name="Border">
@@ -3655,8 +3655,8 @@ function List() {
           </div>
         </div>
       </div>
-      <div className="bg-[#f7f8fc] h-[76px] relative shrink-0 w-full" data-name="PaySettingsRow">
-        <div aria-hidden="true" className="absolute border-[#e5e9f2] border-solid border-t inset-0 pointer-events-none" />
+      <div className="bg-[var(--cp-bg-1)] h-[76px] relative shrink-0 w-full" data-name="PaySettingsRow">
+        <div aria-hidden="true" className="absolute border-[var(--cp-border-default)] border-solid border-t inset-0 pointer-events-none" />
         <div className="flex flex-row items-center size-full">
           <div className="content-stretch flex gap-[10px] items-center px-[20px] py-[10px] relative size-full">
             <Left11 />
@@ -3667,7 +3667,7 @@ function List() {
                   <Controls32 />
                 </div>
               </div>
-              <div aria-hidden="true" className="absolute border border-[#e5e9f2] border-solid inset-0 pointer-events-none rounded-[5px]" />
+              <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[5px]" />
             </div>
             <div className="content-stretch flex h-[56px] items-start justify-between min-w-[200px] overflow-clip p-[10px] relative rounded-[5px] shrink-0 w-[200px]">
               <Content34 />
@@ -3678,7 +3678,7 @@ function List() {
                 <Content35 />
                 <Controls34 />
               </div>
-              <div aria-hidden="true" className="absolute border border-[#e5e9f2] border-solid inset-0 pointer-events-none rounded-[5px]" />
+              <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[5px]" />
             </div>
             <button className="block cursor-pointer relative shrink-0 size-[16px]" data-name="Radio-button">
               <div className="absolute inset-[4.55%]" data-name="Border">
@@ -3692,8 +3692,8 @@ function List() {
           </div>
         </div>
       </div>
-      <div className="bg-[#f7f8fc] h-[76px] relative shrink-0 w-full" data-name="PaySettingsRow">
-        <div aria-hidden="true" className="absolute border-[#e5e9f2] border-solid border-t inset-0 pointer-events-none" />
+      <div className="bg-[var(--cp-bg-1)] h-[76px] relative shrink-0 w-full" data-name="PaySettingsRow">
+        <div aria-hidden="true" className="absolute border-[var(--cp-border-default)] border-solid border-t inset-0 pointer-events-none" />
         <div className="flex flex-row items-center size-full">
           <div className="content-stretch flex gap-[10px] items-center px-[20px] py-[10px] relative size-full">
             <Left12 />
@@ -3704,7 +3704,7 @@ function List() {
                   <Controls35 />
                 </div>
               </div>
-              <div aria-hidden="true" className="absolute border border-[#e5e9f2] border-solid inset-0 pointer-events-none rounded-[5px]" />
+              <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[5px]" />
             </div>
             <div className="content-stretch flex h-[56px] items-start justify-between min-w-[200px] overflow-clip p-[10px] relative rounded-[5px] shrink-0 w-[200px]">
               <Content37 />
@@ -3715,7 +3715,7 @@ function List() {
                 <Content38 />
                 <Controls37 />
               </div>
-              <div aria-hidden="true" className="absolute border border-[#e5e9f2] border-solid inset-0 pointer-events-none rounded-[5px]" />
+              <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[5px]" />
             </div>
             <button className="block cursor-pointer relative shrink-0 size-[16px]" data-name="Radio-button">
               <div className="absolute inset-[4.55%]" data-name="Border">
@@ -3756,14 +3756,14 @@ function TabsScroll() {
 function TabsWrap() {
   return (
     <div className="content-stretch flex flex-[1_0_0] gap-[10px] items-center min-w-px relative" data-name="tabs-wrap">
-      <div aria-hidden="true" className="absolute border-[#e5e9f2] border-b border-solid inset-0 pointer-events-none" />
+      <div aria-hidden="true" className="absolute border-[var(--cp-border-default)] border-b border-solid inset-0 pointer-events-none" />
       <div className="content-stretch flex items-center justify-center px-[8px] py-[12px] relative shrink-0" data-name="tab single">
-        <div aria-hidden="true" className="absolute border-[#1c60dd] border-b-2 border-solid inset-0 pointer-events-none" />
-        <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[#1c60dd] text-[12px] whitespace-nowrap">General</p>
+        <div aria-hidden="true" className="absolute border-[var(--cp-brand-primary)] border-b-2 border-solid inset-0 pointer-events-none" />
+        <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-brand-primary)] text-[12px] whitespace-nowrap">General</p>
       </div>
       <div className="content-stretch flex items-center justify-center px-[8px] py-[12px] relative shrink-0" data-name="tab single">
-        <div aria-hidden="true" className="absolute border-0 border-[#666769] border-solid inset-0 pointer-events-none" />
-        <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[#666769] text-[12px] whitespace-nowrap">Email Notifications</p>
+        <div aria-hidden="true" className="absolute border-0 border-[var(--cp-text-grey-disabled)] border-solid inset-0 pointer-events-none" />
+        <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-grey-disabled)] text-[12px] whitespace-nowrap">Email Notifications</p>
       </div>
     </div>
   );
@@ -3771,7 +3771,7 @@ function TabsWrap() {
 
 function TabsBtn() {
   return (
-    <div className="absolute bg-[#f7f8fc] content-stretch flex items-center left-0 p-[10px] top-0 w-[1175px]" data-name="Tabs btn">
+    <div className="absolute bg-[var(--cp-bg-1)] content-stretch flex items-center left-0 p-[10px] top-0 w-[1175px]" data-name="Tabs btn">
       <TabsWrap />
     </div>
   );
@@ -3788,7 +3788,7 @@ function ScrollMask() {
 
 export default function BodyContainer() {
   return (
-    <div className="bg-[#f7f8fc] content-stretch flex flex-col isolate items-start p-[20px] relative size-full" data-name="body-container">
+    <div className="bg-[var(--cp-bg-1)] content-stretch flex flex-col isolate items-start p-[20px] relative size-full" data-name="body-container">
       <ScrollMask />
     </div>
   );

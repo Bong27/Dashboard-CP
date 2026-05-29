@@ -21,14 +21,14 @@ function Frame() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0">
       <Frame1 />
-      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[#1c60dd] text-[14.5px] whitespace-nowrap">Wallet</p>
+      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[var(--cp-brand-primary)] text-[14.5px] whitespace-nowrap">Wallet</p>
     </div>
   );
 }
 
 export default function MenuItem() {
   return (
-    <div className="bg-[#f7f8fc] content-stretch flex flex-col items-start p-[10px] relative rounded-[100px] size-full" data-name="Menu item">
+    <div className="bg-[var(--cp-bg-1)] content-stretch flex flex-col items-start p-[10px] relative rounded-[100px] size-full" data-name="Menu item">
       <Frame />
     </div>
   );

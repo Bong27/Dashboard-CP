@@ -69,11 +69,11 @@ function Frame22() {
 }
 
 function LineDivider() {
-  return <div className="bg-[#e5e9f2] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
+  return <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
 }
 
 function LineDivider1() {
-  return <div className="bg-[#e5e9f2] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
+  return <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" data-name="line divider" />;
 }
 
 function TitleArea({ currentPage }: { currentPage: string }) {
@@ -107,7 +107,7 @@ function TitleArea({ currentPage }: { currentPage: string }) {
       <LineDivider />
       {icon}
       <LineDivider1 />
-      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[#183049] text-[18px] tracking-[-0.2px] whitespace-nowrap">{title}</p>
+      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-primary)] text-[18px] tracking-[-0.2px] whitespace-nowrap">{title}</p>
     </div>
   );
 }
@@ -115,13 +115,13 @@ function TitleArea({ currentPage }: { currentPage: string }) {
 function Circle() {
   return (
     <div className="bg-white overflow-clip relative rounded-[100px] shrink-0 size-[18px]" data-name="circle">
-      <p className="-translate-x-1/2 absolute font-['Inter:Medium',sans-serif] font-medium leading-[normal] left-1/2 not-italic text-[#183049] text-[11px] text-center top-[calc(50%-7px)] whitespace-nowrap">$</p>
+      <p className="-translate-x-1/2 absolute font-['Inter:Medium',sans-serif] font-medium leading-[normal] left-1/2 not-italic text-[var(--cp-text-primary)] text-[11px] text-center top-[calc(50%-7px)] whitespace-nowrap">$</p>
     </div>
   );
 }
 
 function Divider() {
-  return <div className="bg-[#e5e9f2] h-[10px] relative shrink-0 w-px" data-name="divider" />;
+  return <div className="bg-[var(--cp-border-default)] h-[10px] relative shrink-0 w-px" data-name="divider" />;
 }
 
 function Circle1() {
@@ -136,22 +136,22 @@ function Circle1() {
 }
 
 function Divider1() {
-  return <div className="bg-[#e5e9f2] h-[10px] relative shrink-0 w-px" data-name="divider" />;
+  return <div className="bg-[var(--cp-border-default)] h-[10px] relative shrink-0 w-px" data-name="divider" />;
 }
 
 function Frame29() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0">
-      <div className="bg-[#f7f8fc] content-stretch flex gap-[5px] items-center p-[5px] relative rounded-[100px] shrink-0" data-name="selector">
-        <div aria-hidden="true" className="absolute border border-[#f7f8fc] border-solid inset-0 pointer-events-none rounded-[100px]" />
+      <div className="bg-[var(--cp-bg-1)] content-stretch flex gap-[5px] items-center p-[5px] relative rounded-[100px] shrink-0" data-name="selector">
+        <div aria-hidden="true" className="absolute border border-[var(--cp-bg-1)] border-solid inset-0 pointer-events-none rounded-[100px]" />
         <Circle />
-        <p className="font-['Fira_Mono:Bold',sans-serif] leading-[normal] not-italic relative shrink-0 text-[#183049] text-[10px] text-center whitespace-nowrap">USD</p>
+        <p className="font-['Fira_Mono:Bold',sans-serif] leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-primary)] text-[10px] text-center whitespace-nowrap">USD</p>
       </div>
       <Divider />
-      <div className="bg-[#f7f8fc] content-stretch flex gap-[5px] items-center p-[5px] relative rounded-[100px] shrink-0" data-name="selector">
-        <div aria-hidden="true" className="absolute border border-[#f7f8fc] border-solid inset-0 pointer-events-none rounded-[100px]" />
+      <div className="bg-[var(--cp-bg-1)] content-stretch flex gap-[5px] items-center p-[5px] relative rounded-[100px] shrink-0" data-name="selector">
+        <div aria-hidden="true" className="absolute border border-[var(--cp-bg-1)] border-solid inset-0 pointer-events-none rounded-[100px]" />
         <Circle1 />
-        <p className="font-['Fira_Mono:Bold',sans-serif] leading-[normal] not-italic relative shrink-0 text-[#183049] text-[10px] text-center whitespace-nowrap">EN</p>
+        <p className="font-['Fira_Mono:Bold',sans-serif] leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-primary)] text-[10px] text-center whitespace-nowrap">EN</p>
       </div>
       <Divider1 />
     </div>
@@ -160,7 +160,7 @@ function Frame29() {
 
 function Frame28() {
   return (
-    <div className="bg-[#d3d6e1] overflow-clip relative rounded-[100px] shrink-0 size-[28px]">
+    <div className="bg-[var(--cp-text-quaternary)] overflow-clip relative rounded-[100px] shrink-0 size-[28px]">
       <p className="-translate-x-1/2 absolute font-['Inter:Regular',sans-serif] font-normal leading-[normal] left-1/2 not-italic text-[13px] text-center text-white top-[calc(50%-8px)] whitespace-nowrap">C</p>
     </div>
   );
@@ -169,14 +169,14 @@ function Frame28() {
 function Frame24({ currentPage }: { currentPage: string }) {
   return (
     <div className="flex-[1_0_0] h-[71px] min-w-px relative">
-      <div aria-hidden="true" className="absolute border-[#e5e9f2] border-b border-solid inset-0 pointer-events-none" />
+      <div aria-hidden="true" className="absolute border-[var(--cp-border-default)] border-b border-solid inset-0 pointer-events-none" />
       <div className="flex flex-row items-center size-full">
         <div className="content-stretch flex items-center justify-between pr-[40px] py-[10px] relative size-full">
           <TitleArea currentPage={currentPage} />
-          <div className="bg-[#f7f8fc] content-stretch flex gap-[10px] items-center overflow-clip pl-[5px] relative rounded-[100px] shrink-0" data-name="account-controls">
+          <div className="bg-[var(--cp-bg-1)] content-stretch flex gap-[10px] items-center overflow-clip pl-[5px] relative rounded-[100px] shrink-0" data-name="account-controls">
             <Frame29 />
             <div className="bg-white content-stretch flex gap-[10px] h-[40px] items-center pl-[15px] pr-[5px] relative rounded-[100px] shrink-0" data-name="account-menu">
-              <div aria-hidden="true" className="absolute border border-[#e5e9f2] border-solid inset-0 pointer-events-none rounded-[100px]" />
+              <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[100px]" />
               <div className="overflow-clip relative shrink-0 size-[15px]" data-name="icon / menu">
                 <div className="absolute inset-[18.75%_6.25%]" data-name="Vector">
                   <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 13.125 9.375">
@@ -212,7 +212,7 @@ function Frame15({ isActive }: { isActive: boolean }) {
 }
 
 function Frame7({ isActive }: { isActive: boolean }) {
-  const textColor = isActive ? 'text-[#1c60dd]' : 'text-[#183049]';
+  const textColor = isActive ? 'text-[var(--cp-brand-primary)]' : 'text-[var(--cp-text-primary)]';
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0">
       <Frame15 isActive={isActive} />
@@ -244,14 +244,14 @@ function Frame8() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0">
       <Frame16 />
-      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[#183049] text-[14.5px] whitespace-nowrap">Transactions</p>
+      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-primary)] text-[14.5px] whitespace-nowrap">Transactions</p>
     </div>
   );
 }
 
 function Line() {
   return (
-    <div className="bg-[#e5e9f2] h-px relative shrink-0 w-[205px]" data-name="line">
+    <div className="bg-[var(--cp-border-default)] h-px relative shrink-0 w-[205px]" data-name="line">
       <div className="flex flex-row items-center justify-center size-full">
         <div className="relative size-full" />
       </div>
@@ -286,7 +286,7 @@ function Frame17({ isActive }: { isActive: boolean }) {
 }
 
 function Frame9({ isActive }: { isActive: boolean }) {
-  const textColor = isActive ? 'text-[#1c60dd]' : 'text-[#183049]';
+  const textColor = isActive ? 'text-[var(--cp-brand-primary)]' : 'text-[var(--cp-text-primary)]';
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0">
       <Frame17 isActive={isActive} />
@@ -317,7 +317,7 @@ function Frame10() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0">
       <Frame18 />
-      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[#183049] text-[14.5px] whitespace-nowrap">Integrations</p>
+      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-primary)] text-[14.5px] whitespace-nowrap">Integrations</p>
     </div>
   );
 }
@@ -345,7 +345,7 @@ function Frame11() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0">
       <Frame19 />
-      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[#183049] text-[14.5px] whitespace-nowrap">Invoicing</p>
+      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-primary)] text-[14.5px] whitespace-nowrap">Invoicing</p>
     </div>
   );
 }
@@ -377,7 +377,7 @@ function Frame12() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0">
       <Frame20 />
-      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[#183049] text-[14.5px] whitespace-nowrap">POS</p>
+      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-primary)] text-[14.5px] whitespace-nowrap">POS</p>
     </div>
   );
 }
@@ -400,14 +400,14 @@ function Frame13() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0">
       <Frame21 />
-      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[#183049] text-[14.5px] whitespace-nowrap">Support</p>
+      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-primary)] text-[14.5px] whitespace-nowrap">Support</p>
     </div>
   );
 }
 
 function Line1() {
   return (
-    <div className="bg-[#e5e9f2] h-px relative shrink-0 w-[205px]" data-name="line">
+    <div className="bg-[var(--cp-border-default)] h-px relative shrink-0 w-[205px]" data-name="line">
       <div className="flex flex-row items-center justify-center size-full">
         <div className="relative size-full" />
       </div>
@@ -441,7 +441,7 @@ function Frame14() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0">
       <Frame23 />
-      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[#183049] text-[14.5px] text-left whitespace-nowrap">More</p>
+      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-primary)] text-[14.5px] text-left whitespace-nowrap">More</p>
     </div>
   );
 }
@@ -449,30 +449,30 @@ function Frame14() {
 function MenuList({ currentPage, onNavigate }: { currentPage: string; onNavigate: (page: string) => void }) {
   return (
     <div className="content-stretch flex flex-col items-start relative shrink-0 w-full" data-name="menu-list">
-      <div onClick={() => onNavigate('wallet')} className={`content-stretch flex flex-col items-start p-[10px] relative rounded-[100px] shrink-0 w-[205px] cursor-pointer transition-colors ${currentPage === 'wallet' ? 'bg-[#f7f8fc]' : 'hover:bg-[#f7f8fc]'}`} data-name="Menu item">
+      <div onClick={() => onNavigate('wallet')} className={`content-stretch flex flex-col items-start p-[10px] relative rounded-[100px] shrink-0 w-[205px] cursor-pointer transition-colors ${currentPage === 'wallet' ? 'bg-[var(--cp-bg-1)]' : 'hover:bg-[var(--cp-bg-1)]'}`} data-name="Menu item">
         <Frame7 isActive={currentPage === 'wallet'} />
       </div>
-      <div className="content-stretch flex flex-col items-start p-[10px] relative rounded-[100px] shrink-0 w-[205px] cursor-pointer hover:bg-[#f7f8fc] transition-colors" data-name="Menu item">
+      <div className="content-stretch flex flex-col items-start p-[10px] relative rounded-[100px] shrink-0 w-[205px] cursor-pointer hover:bg-[var(--cp-bg-1)] transition-colors" data-name="Menu item">
         <Frame8 />
       </div>
       <Divider2 />
-      <div onClick={() => onNavigate('settings')} className={`content-stretch flex flex-col items-start p-[10px] relative rounded-[100px] shrink-0 w-[205px] cursor-pointer transition-colors ${currentPage === 'settings' ? 'bg-[#f7f8fc]' : 'hover:bg-[#f7f8fc]'}`} data-name="Menu item">
+      <div onClick={() => onNavigate('settings')} className={`content-stretch flex flex-col items-start p-[10px] relative rounded-[100px] shrink-0 w-[205px] cursor-pointer transition-colors ${currentPage === 'settings' ? 'bg-[var(--cp-bg-1)]' : 'hover:bg-[var(--cp-bg-1)]'}`} data-name="Menu item">
         <Frame9 isActive={currentPage === 'settings'} />
       </div>
-      <div className="content-stretch flex flex-col items-start p-[10px] relative rounded-[100px] shrink-0 w-[205px] cursor-pointer hover:bg-[#f7f8fc] transition-colors" data-name="Menu item">
+      <div className="content-stretch flex flex-col items-start p-[10px] relative rounded-[100px] shrink-0 w-[205px] cursor-pointer hover:bg-[var(--cp-bg-1)] transition-colors" data-name="Menu item">
         <Frame10 />
       </div>
-      <div className="content-stretch flex flex-col items-start p-[10px] relative rounded-[100px] shrink-0 w-[205px] cursor-pointer hover:bg-[#f7f8fc] transition-colors" data-name="Menu item">
+      <div className="content-stretch flex flex-col items-start p-[10px] relative rounded-[100px] shrink-0 w-[205px] cursor-pointer hover:bg-[var(--cp-bg-1)] transition-colors" data-name="Menu item">
         <Frame11 />
       </div>
-      <div className="content-stretch flex flex-col items-start p-[10px] relative rounded-[100px] shrink-0 w-[205px] cursor-pointer hover:bg-[#f7f8fc] transition-colors" data-name="Menu item">
+      <div className="content-stretch flex flex-col items-start p-[10px] relative rounded-[100px] shrink-0 w-[205px] cursor-pointer hover:bg-[var(--cp-bg-1)] transition-colors" data-name="Menu item">
         <Frame12 />
       </div>
-      <div className="content-stretch flex flex-col items-start p-[10px] relative rounded-[100px] shrink-0 w-[205px] cursor-pointer hover:bg-[#f7f8fc] transition-colors" data-name="Menu item">
+      <div className="content-stretch flex flex-col items-start p-[10px] relative rounded-[100px] shrink-0 w-[205px] cursor-pointer hover:bg-[var(--cp-bg-1)] transition-colors" data-name="Menu item">
         <Frame13 />
       </div>
       <Divider3 />
-      <button className="content-stretch cursor-pointer flex flex-col items-start p-[10px] relative rounded-[100px] shrink-0 w-[205px] hover:bg-[#f7f8fc] transition-colors" data-name="Menu item">
+      <button className="content-stretch cursor-pointer flex flex-col items-start p-[10px] relative rounded-[100px] shrink-0 w-[205px] hover:bg-[var(--cp-bg-1)] transition-colors" data-name="Menu item">
         <Frame14 />
       </button>
     </div>
@@ -502,9 +502,9 @@ function SidenavFooter() {
                 </g>
               </svg>
             </div>
-            <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[#183049] text-[14.5px] text-center whitespace-nowrap">New Transaction</p>
+            <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-primary)] text-[14.5px] text-center whitespace-nowrap">New Transaction</p>
           </div>
-          <div aria-hidden="true" className="absolute border border-[#e5e9f2] border-solid inset-0 pointer-events-none rounded-[100px]" />
+          <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[100px]" />
         </button>
       </div>
     </div>
@@ -534,14 +534,14 @@ function Inputs() {
     <div className="content-stretch flex gap-[20px] h-full items-center relative shrink-0" data-name="inputs">
       <div className="bg-white h-[38px] relative rounded-[5px] shrink-0 w-[298px]" data-name="Search">
         <div className="content-stretch flex items-center justify-between overflow-clip p-[10px] relative rounded-[inherit] size-full">
-          <p className="font-['Inter:Regular',sans-serif] font-normal leading-[normal] not-italic relative shrink-0 text-[#a2a5ac] text-[13px] whitespace-nowrap">Search</p>
+          <p className="font-['Inter:Regular',sans-serif] font-normal leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-quinary)] text-[13px] whitespace-nowrap">Search</p>
           <Search />
         </div>
-        <div aria-hidden="true" className="absolute border border-[#e5e9f2] border-solid inset-0 pointer-events-none rounded-[5px]" />
+        <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[5px]" />
       </div>
       <div className="relative rounded-[5px] shrink-0 w-[209px]" data-name="Dropdown">
         <div className="content-stretch flex items-center justify-between overflow-clip p-[10px] relative rounded-[inherit] size-full">
-          <p className="font-['Inter:Regular',sans-serif] font-normal leading-[normal] not-italic relative shrink-0 text-[#183049] text-[13px] whitespace-nowrap">Show all coins</p>
+          <p className="font-['Inter:Regular',sans-serif] font-normal leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-primary)] text-[13px] whitespace-nowrap">Show all coins</p>
           <div className="overflow-clip relative shrink-0 size-[18px]" data-name="icon / toggle-down">
             <div className="absolute inset-[34.38%_21.88%]" data-name="Vector">
               <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 10.125 5.62498">
@@ -550,7 +550,7 @@ function Inputs() {
             </div>
           </div>
         </div>
-        <div aria-hidden="true" className="absolute border border-[#e5e9f2] border-solid inset-0 pointer-events-none rounded-[5px]" />
+        <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[5px]" />
       </div>
     </div>
   );
@@ -559,14 +559,14 @@ function Inputs() {
 function Frame27() {
   return (
     <div className="content-stretch flex flex-col font-['Inter:Semi_Bold',sans-serif] font-semibold items-end leading-[normal] not-italic relative shrink-0 w-[118px] whitespace-nowrap">
-      <p className="relative shrink-0 text-[#8492a6] text-[11px] uppercase">ESTIMATED BALANCE</p>
-      <p className="relative shrink-0 text-[#183049] text-[18px] tracking-[-0.2px]">$0.00 USD</p>
+      <p className="relative shrink-0 text-[var(--cp-text-tertiary)] text-[11px] uppercase">ESTIMATED BALANCE</p>
+      <p className="relative shrink-0 text-[var(--cp-text-primary)] text-[18px] tracking-[-0.2px]">$0.00 USD</p>
     </div>
   );
 }
 
 function Frame25() {
-  return <div className="bg-[#e5e9f2] h-[34px] relative shrink-0 w-px" />;
+  return <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" />;
 }
 
 function Content1() {
@@ -608,7 +608,7 @@ function Balance() {
             <Div />
           </div>
         </div>
-        <div aria-hidden="true" className="absolute border border-[#e5e9f2] border-solid inset-0 pointer-events-none rounded-[100px]" />
+        <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[100px]" />
       </div>
     </div>
   );
@@ -627,14 +627,14 @@ function SwitchBalances() {
   return (
     <div className="content-stretch flex gap-[10px] items-center relative shrink-0" data-name="switch-balances">
       <button className="block cursor-pointer h-[20px] relative shrink-0 w-[32px]" data-name="Switch">
-        <div className="absolute bg-[#1c60dd] inset-0 rounded-[50px]" />
+        <div className="absolute bg-[var(--cp-brand-primary)] inset-0 rounded-[50px]" />
         <div className="absolute inset-[7.69%_4.76%_7.7%_42.86%]">
           <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 16.7619 16.9231">
             <ellipse cx="8.38095" cy="8.46154" fill="var(--fill-0, white)" id="Ellipse 174" rx="8.38095" ry="8.46154" />
           </svg>
         </div>
       </button>
-      <p className="font-['Inter:Regular',sans-serif] font-normal leading-[normal] not-italic relative shrink-0 text-[#5a6679] text-[13px] whitespace-nowrap">Auto-Accept Incorrect Deposits into Primary Balances</p>
+      <p className="font-['Inter:Regular',sans-serif] font-normal leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-secondary)] text-[13px] whitespace-nowrap">Auto-Accept Incorrect Deposits into Primary Balances</p>
       <div className="overflow-clip relative shrink-0 size-[12px]" data-name="icon / info solid">
         <div className="-translate-y-1/2 absolute aspect-[16/16] left-0 right-0 top-1/2" data-name="Vector">
           <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 12 12">
@@ -670,8 +670,8 @@ function BitcoinBtcLogo() {
 function Name() {
   return (
     <div className="content-stretch flex flex-col items-start leading-[normal] not-italic relative shrink-0 w-[49px]" data-name="name">
-      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[#183049] text-[14.5px] w-full">Bitcoin</p>
-      <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[#8492a6] text-[13px] w-full">BTC</p>
+      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[var(--cp-text-primary)] text-[14.5px] w-full">Bitcoin</p>
+      <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[var(--cp-text-tertiary)] text-[13px] w-full">BTC</p>
     </div>
   );
 }
@@ -690,8 +690,8 @@ function Coin() {
 function Frame() {
   return (
     <div className="content-stretch flex flex-col items-start leading-[normal] not-italic relative shrink-0 w-[105px]">
-      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[#183049] text-[14.5px] w-full">0.000000 BTC</p>
-      <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[#8492a6] text-[13px] w-full">BTC</p>
+      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[var(--cp-text-primary)] text-[14.5px] w-full">0.000000 BTC</p>
+      <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[var(--cp-text-tertiary)] text-[13px] w-full">BTC</p>
     </div>
   );
 }
@@ -799,7 +799,7 @@ function Controls() {
             <Div1 />
           </div>
         </div>
-        <div aria-hidden="true" className="absolute border border-[#e5e9f2] border-solid inset-0 pointer-events-none rounded-[100px]" />
+        <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[100px]" />
       </div>
       <div className="bg-white relative rounded-[100px] shrink-0 size-[36px]" data-name="Circle-icon">
         <div className="overflow-clip relative rounded-[inherit] size-full">
@@ -821,7 +821,7 @@ function Controls() {
             <Div2 />
           </div>
         </div>
-        <div aria-hidden="true" className="absolute border border-[#e5e9f2] border-solid inset-0 pointer-events-none rounded-[100px]" />
+        <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[100px]" />
       </div>
       <div className="bg-white relative rounded-[100px] shrink-0 size-[36px]" data-name="Circle-icon">
         <div className="overflow-clip relative rounded-[inherit] size-full">
@@ -842,7 +842,7 @@ function Controls() {
             <Div3 />
           </div>
         </div>
-        <div aria-hidden="true" className="absolute border border-[#e5e9f2] border-solid inset-0 pointer-events-none rounded-[100px]" />
+        <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[100px]" />
       </div>
     </div>
   );
@@ -853,7 +853,7 @@ function ControlsExpanded() {
     <div className="content-stretch flex gap-[10px] items-start relative shrink-0" data-name="controls">
       <div className="bg-white h-[36px] relative rounded-[100px] shrink-0">
         <div className="content-stretch flex gap-[10px] items-center justify-center overflow-clip px-[20px] relative rounded-[inherit] size-full">
-          <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[#183049] text-[13px] text-center whitespace-nowrap">Convert</p>
+          <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-primary)] text-[13px] text-center whitespace-nowrap">Convert</p>
           <div className="overflow-clip relative shrink-0 size-[14px]" data-name="icon / convert">
             <div className="absolute inset-[9.27%_17.99%]" data-name="Vector">
               <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 8.96288 11.4047">
@@ -871,11 +871,11 @@ function ControlsExpanded() {
             </div>
           </div>
         </div>
-        <div aria-hidden="true" className="absolute border border-[#e5e9f2] border-solid inset-0 pointer-events-none rounded-[100px]" />
+        <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[100px]" />
       </div>
       <div className="bg-white h-[36px] relative rounded-[100px] shrink-0">
         <div className="content-stretch flex gap-[10px] items-center justify-center overflow-clip px-[20px] relative rounded-[inherit] size-full">
-          <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[#183049] text-[13px] text-center whitespace-nowrap">Receive</p>
+          <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-primary)] text-[13px] text-center whitespace-nowrap">Receive</p>
           <div className="overflow-clip relative shrink-0 size-[14px]" data-name="icon / receive">
             <div className="absolute inset-[11.82%_13.6%_11.83%_13.6%]" data-name="Vector">
               <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 10.1918 10.6899">
@@ -890,11 +890,11 @@ function ControlsExpanded() {
             </div>
           </div>
         </div>
-        <div aria-hidden="true" className="absolute border border-[#e5e9f2] border-solid inset-0 pointer-events-none rounded-[100px]" />
+        <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[100px]" />
       </div>
       <div className="bg-white h-[36px] relative rounded-[100px] shrink-0">
         <div className="content-stretch flex gap-[10px] items-center justify-center overflow-clip px-[20px] relative rounded-[inherit] size-full">
-          <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[#183049] text-[13px] text-center whitespace-nowrap">Send</p>
+          <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-primary)] text-[13px] text-center whitespace-nowrap">Send</p>
           <div className="overflow-clip relative shrink-0 size-[14px]" data-name="icon / send">
             <div className="absolute inset-[18.75%_24.1%_22.48%_20.59%]" data-name="Vector">
               <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 7.74361 8.22758">
@@ -908,7 +908,7 @@ function ControlsExpanded() {
             </div>
           </div>
         </div>
-        <div aria-hidden="true" className="absolute border border-[#e5e9f2] border-solid inset-0 pointer-events-none rounded-[100px]" />
+        <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[100px]" />
       </div>
     </div>
   );
@@ -958,8 +958,8 @@ function BitcoinBtcLogo1() {
 function Name1() {
   return (
     <div className="content-stretch flex flex-col items-start leading-[normal] not-italic relative shrink-0 w-[49px]" data-name="name">
-      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[#183049] text-[14.5px] w-full">Bitcoin</p>
-      <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[#8492a6] text-[13px] w-full">BTC</p>
+      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[var(--cp-text-primary)] text-[14.5px] w-full">Bitcoin</p>
+      <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[var(--cp-text-tertiary)] text-[13px] w-full">BTC</p>
     </div>
   );
 }
@@ -978,8 +978,8 @@ function Coin1() {
 function Frame1() {
   return (
     <div className="content-stretch flex flex-col items-start leading-[normal] not-italic relative shrink-0 w-[105px]">
-      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[#183049] text-[14.5px] w-full">0.000000 BTC</p>
-      <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[#8492a6] text-[13px] w-full">BTC</p>
+      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[var(--cp-text-primary)] text-[14.5px] w-full">0.000000 BTC</p>
+      <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[var(--cp-text-tertiary)] text-[13px] w-full">BTC</p>
     </div>
   );
 }
@@ -1087,7 +1087,7 @@ function Controls1() {
             <Div4 />
           </div>
         </div>
-        <div aria-hidden="true" className="absolute border border-[#e5e9f2] border-solid inset-0 pointer-events-none rounded-[100px]" />
+        <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[100px]" />
       </div>
       <div className="bg-white relative rounded-[100px] shrink-0 size-[36px]" data-name="Circle-icon">
         <div className="overflow-clip relative rounded-[inherit] size-full">
@@ -1109,7 +1109,7 @@ function Controls1() {
             <Div5 />
           </div>
         </div>
-        <div aria-hidden="true" className="absolute border border-[#e5e9f2] border-solid inset-0 pointer-events-none rounded-[100px]" />
+        <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[100px]" />
       </div>
       <div className="bg-white relative rounded-[100px] shrink-0 size-[36px]" data-name="Circle-icon">
         <div className="overflow-clip relative rounded-[inherit] size-full">
@@ -1130,7 +1130,7 @@ function Controls1() {
             <Div6 />
           </div>
         </div>
-        <div aria-hidden="true" className="absolute border border-[#e5e9f2] border-solid inset-0 pointer-events-none rounded-[100px]" />
+        <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[100px]" />
       </div>
     </div>
   );
@@ -1169,8 +1169,8 @@ function BitcoinBtcLogo2() {
 function Name2() {
   return (
     <div className="content-stretch flex flex-col items-start leading-[normal] not-italic relative shrink-0 w-[49px]" data-name="name">
-      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[#183049] text-[14.5px] w-full">Bitcoin</p>
-      <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[#8492a6] text-[13px] w-full">BTC</p>
+      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[var(--cp-text-primary)] text-[14.5px] w-full">Bitcoin</p>
+      <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[var(--cp-text-tertiary)] text-[13px] w-full">BTC</p>
     </div>
   );
 }
@@ -1189,8 +1189,8 @@ function Coin2() {
 function Frame2() {
   return (
     <div className="content-stretch flex flex-col items-start leading-[normal] not-italic relative shrink-0 w-[105px]">
-      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[#183049] text-[14.5px] w-full">0.000000 BTC</p>
-      <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[#8492a6] text-[13px] w-full">BTC</p>
+      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[var(--cp-text-primary)] text-[14.5px] w-full">0.000000 BTC</p>
+      <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[var(--cp-text-tertiary)] text-[13px] w-full">BTC</p>
     </div>
   );
 }
@@ -1298,7 +1298,7 @@ function Controls2() {
             <Div7 />
           </div>
         </div>
-        <div aria-hidden="true" className="absolute border border-[#e5e9f2] border-solid inset-0 pointer-events-none rounded-[100px]" />
+        <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[100px]" />
       </div>
       <div className="bg-white relative rounded-[100px] shrink-0 size-[36px]" data-name="Circle-icon">
         <div className="overflow-clip relative rounded-[inherit] size-full">
@@ -1320,7 +1320,7 @@ function Controls2() {
             <Div8 />
           </div>
         </div>
-        <div aria-hidden="true" className="absolute border border-[#e5e9f2] border-solid inset-0 pointer-events-none rounded-[100px]" />
+        <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[100px]" />
       </div>
       <div className="bg-white relative rounded-[100px] shrink-0 size-[36px]" data-name="Circle-icon">
         <div className="overflow-clip relative rounded-[inherit] size-full">
@@ -1341,7 +1341,7 @@ function Controls2() {
             <Div9 />
           </div>
         </div>
-        <div aria-hidden="true" className="absolute border border-[#e5e9f2] border-solid inset-0 pointer-events-none rounded-[100px]" />
+        <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[100px]" />
       </div>
     </div>
   );
@@ -1380,8 +1380,8 @@ function BitcoinBtcLogo3() {
 function Name3() {
   return (
     <div className="content-stretch flex flex-col items-start leading-[normal] not-italic relative shrink-0 w-[49px]" data-name="name">
-      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[#183049] text-[14.5px] w-full">Bitcoin</p>
-      <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[#8492a6] text-[13px] w-full">BTC</p>
+      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[var(--cp-text-primary)] text-[14.5px] w-full">Bitcoin</p>
+      <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[var(--cp-text-tertiary)] text-[13px] w-full">BTC</p>
     </div>
   );
 }
@@ -1400,8 +1400,8 @@ function Coin3() {
 function Frame3() {
   return (
     <div className="content-stretch flex flex-col items-start leading-[normal] not-italic relative shrink-0 w-[105px]">
-      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[#183049] text-[14.5px] w-full">0.000000 BTC</p>
-      <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[#8492a6] text-[13px] w-full">BTC</p>
+      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[var(--cp-text-primary)] text-[14.5px] w-full">0.000000 BTC</p>
+      <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[var(--cp-text-tertiary)] text-[13px] w-full">BTC</p>
     </div>
   );
 }
@@ -1509,7 +1509,7 @@ function Controls3() {
             <Div10 />
           </div>
         </div>
-        <div aria-hidden="true" className="absolute border border-[#e5e9f2] border-solid inset-0 pointer-events-none rounded-[100px]" />
+        <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[100px]" />
       </div>
       <div className="bg-white relative rounded-[100px] shrink-0 size-[36px]" data-name="Circle-icon">
         <div className="overflow-clip relative rounded-[inherit] size-full">
@@ -1531,7 +1531,7 @@ function Controls3() {
             <Div11 />
           </div>
         </div>
-        <div aria-hidden="true" className="absolute border border-[#e5e9f2] border-solid inset-0 pointer-events-none rounded-[100px]" />
+        <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[100px]" />
       </div>
       <div className="bg-white relative rounded-[100px] shrink-0 size-[36px]" data-name="Circle-icon">
         <div className="overflow-clip relative rounded-[inherit] size-full">
@@ -1552,7 +1552,7 @@ function Controls3() {
             <Div12 />
           </div>
         </div>
-        <div aria-hidden="true" className="absolute border border-[#e5e9f2] border-solid inset-0 pointer-events-none rounded-[100px]" />
+        <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[100px]" />
       </div>
     </div>
   );
@@ -1591,8 +1591,8 @@ function BitcoinBtcLogo4() {
 function Name4() {
   return (
     <div className="content-stretch flex flex-col items-start leading-[normal] not-italic relative shrink-0 w-[49px]" data-name="name">
-      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[#183049] text-[14.5px] w-full">Bitcoin</p>
-      <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[#8492a6] text-[13px] w-full">BTC</p>
+      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[var(--cp-text-primary)] text-[14.5px] w-full">Bitcoin</p>
+      <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[var(--cp-text-tertiary)] text-[13px] w-full">BTC</p>
     </div>
   );
 }
@@ -1611,8 +1611,8 @@ function Coin4() {
 function Frame4() {
   return (
     <div className="content-stretch flex flex-col items-start leading-[normal] not-italic relative shrink-0 w-[105px]">
-      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[#183049] text-[14.5px] w-full">0.000000 BTC</p>
-      <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[#8492a6] text-[13px] w-full">BTC</p>
+      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[var(--cp-text-primary)] text-[14.5px] w-full">0.000000 BTC</p>
+      <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[var(--cp-text-tertiary)] text-[13px] w-full">BTC</p>
     </div>
   );
 }
@@ -1720,7 +1720,7 @@ function Controls4() {
             <Div13 />
           </div>
         </div>
-        <div aria-hidden="true" className="absolute border border-[#e5e9f2] border-solid inset-0 pointer-events-none rounded-[100px]" />
+        <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[100px]" />
       </div>
       <div className="bg-white relative rounded-[100px] shrink-0 size-[36px]" data-name="Circle-icon">
         <div className="overflow-clip relative rounded-[inherit] size-full">
@@ -1742,7 +1742,7 @@ function Controls4() {
             <Div14 />
           </div>
         </div>
-        <div aria-hidden="true" className="absolute border border-[#e5e9f2] border-solid inset-0 pointer-events-none rounded-[100px]" />
+        <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[100px]" />
       </div>
       <div className="bg-white relative rounded-[100px] shrink-0 size-[36px]" data-name="Circle-icon">
         <div className="overflow-clip relative rounded-[inherit] size-full">
@@ -1763,7 +1763,7 @@ function Controls4() {
             <Div15 />
           </div>
         </div>
-        <div aria-hidden="true" className="absolute border border-[#e5e9f2] border-solid inset-0 pointer-events-none rounded-[100px]" />
+        <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[100px]" />
       </div>
     </div>
   );
@@ -1802,8 +1802,8 @@ function BitcoinBtcLogo5() {
 function Name5() {
   return (
     <div className="content-stretch flex flex-col items-start leading-[normal] not-italic relative shrink-0 w-[49px]" data-name="name">
-      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[#183049] text-[14.5px] w-full">Bitcoin</p>
-      <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[#8492a6] text-[13px] w-full">BTC</p>
+      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[var(--cp-text-primary)] text-[14.5px] w-full">Bitcoin</p>
+      <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[var(--cp-text-tertiary)] text-[13px] w-full">BTC</p>
     </div>
   );
 }
@@ -1822,8 +1822,8 @@ function Coin5() {
 function Frame5() {
   return (
     <div className="content-stretch flex flex-col items-start leading-[normal] not-italic relative shrink-0 w-[105px]">
-      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[#183049] text-[14.5px] w-full">0.000000 BTC</p>
-      <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[#8492a6] text-[13px] w-full">BTC</p>
+      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[var(--cp-text-primary)] text-[14.5px] w-full">0.000000 BTC</p>
+      <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[var(--cp-text-tertiary)] text-[13px] w-full">BTC</p>
     </div>
   );
 }
@@ -1931,7 +1931,7 @@ function Controls5() {
             <Div16 />
           </div>
         </div>
-        <div aria-hidden="true" className="absolute border border-[#e5e9f2] border-solid inset-0 pointer-events-none rounded-[100px]" />
+        <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[100px]" />
       </div>
       <div className="bg-white relative rounded-[100px] shrink-0 size-[36px]" data-name="Circle-icon">
         <div className="overflow-clip relative rounded-[inherit] size-full">
@@ -1953,7 +1953,7 @@ function Controls5() {
             <Div17 />
           </div>
         </div>
-        <div aria-hidden="true" className="absolute border border-[#e5e9f2] border-solid inset-0 pointer-events-none rounded-[100px]" />
+        <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[100px]" />
       </div>
       <div className="bg-white relative rounded-[100px] shrink-0 size-[36px]" data-name="Circle-icon">
         <div className="overflow-clip relative rounded-[inherit] size-full">
@@ -1974,7 +1974,7 @@ function Controls5() {
             <Div18 />
           </div>
         </div>
-        <div aria-hidden="true" className="absolute border border-[#e5e9f2] border-solid inset-0 pointer-events-none rounded-[100px]" />
+        <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[100px]" />
       </div>
     </div>
   );
@@ -2013,8 +2013,8 @@ function BitcoinBtcLogo6() {
 function Name6() {
   return (
     <div className="content-stretch flex flex-col items-start leading-[normal] not-italic relative shrink-0 w-[49px]" data-name="name">
-      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[#183049] text-[14.5px] w-full">Bitcoin</p>
-      <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[#8492a6] text-[13px] w-full">BTC</p>
+      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[var(--cp-text-primary)] text-[14.5px] w-full">Bitcoin</p>
+      <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[var(--cp-text-tertiary)] text-[13px] w-full">BTC</p>
     </div>
   );
 }
@@ -2033,8 +2033,8 @@ function Coin6() {
 function Frame6() {
   return (
     <div className="content-stretch flex flex-col items-start leading-[normal] not-italic relative shrink-0 w-[105px]">
-      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[#183049] text-[14.5px] w-full">0.000000 BTC</p>
-      <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[#8492a6] text-[13px] w-full">BTC</p>
+      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[var(--cp-text-primary)] text-[14.5px] w-full">0.000000 BTC</p>
+      <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[var(--cp-text-tertiary)] text-[13px] w-full">BTC</p>
     </div>
   );
 }
@@ -2142,7 +2142,7 @@ function Controls6() {
             <Div19 />
           </div>
         </div>
-        <div aria-hidden="true" className="absolute border border-[#e5e9f2] border-solid inset-0 pointer-events-none rounded-[100px]" />
+        <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[100px]" />
       </div>
       <div className="bg-white relative rounded-[100px] shrink-0 size-[36px]" data-name="Circle-icon">
         <div className="overflow-clip relative rounded-[inherit] size-full">
@@ -2164,7 +2164,7 @@ function Controls6() {
             <Div20 />
           </div>
         </div>
-        <div aria-hidden="true" className="absolute border border-[#e5e9f2] border-solid inset-0 pointer-events-none rounded-[100px]" />
+        <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[100px]" />
       </div>
       <div className="bg-white relative rounded-[100px] shrink-0 size-[36px]" data-name="Circle-icon">
         <div className="overflow-clip relative rounded-[inherit] size-full">
@@ -2185,7 +2185,7 @@ function Controls6() {
             <Div21 />
           </div>
         </div>
-        <div aria-hidden="true" className="absolute border border-[#e5e9f2] border-solid inset-0 pointer-events-none rounded-[100px]" />
+        <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[100px]" />
       </div>
     </div>
   );
@@ -2208,13 +2208,13 @@ function List() {
   };
 
   const rows = [
-    { wrap: Wrap, bg: 'bg-[#eff1f8]' },
-    { wrap: Wrap1, bg: 'bg-[#f7f8fc]' },
-    { wrap: Wrap2, bg: 'bg-[#eff1f8]' },
-    { wrap: Wrap3, bg: 'bg-[#f7f8fc]' },
-    { wrap: Wrap4, bg: 'bg-[#eff1f8]' },
-    { wrap: Wrap5, bg: 'bg-[#f7f8fc]' },
-    { wrap: Wrap6, bg: 'bg-[#eff1f8]' },
+    { wrap: Wrap, bg: 'bg-[var(--cp-bg-2)]' },
+    { wrap: Wrap1, bg: 'bg-[var(--cp-bg-1)]' },
+    { wrap: Wrap2, bg: 'bg-[var(--cp-bg-2)]' },
+    { wrap: Wrap3, bg: 'bg-[var(--cp-bg-1)]' },
+    { wrap: Wrap4, bg: 'bg-[var(--cp-bg-2)]' },
+    { wrap: Wrap5, bg: 'bg-[var(--cp-bg-1)]' },
+    { wrap: Wrap6, bg: 'bg-[var(--cp-bg-2)]' },
   ];
 
   return (
@@ -2226,12 +2226,12 @@ function List() {
         return (
           <div
             key={index}
-            className={`${isExpanded ? 'bg-white' : row.bg} ${isExpanded ? 'min-h-[76px]' : 'h-[76px]'} relative rounded-[5px] shrink-0 w-full transition-all duration-300 ${isExpanded ? 'mb-[10px]' : ''} ${!isExpanded ? 'cursor-pointer hover:bg-[#e5e9f2]' : ''}`}
+            className={`${isExpanded ? 'bg-white' : row.bg} ${isExpanded ? 'min-h-[76px]' : 'h-[76px]'} relative rounded-[5px] shrink-0 w-full transition-all duration-300 ${isExpanded ? 'mb-[10px]' : ''} ${!isExpanded ? 'cursor-pointer hover:bg-[var(--cp-border-default)]' : ''}`}
             data-name="WalletRow"
           >
             <div className={`flex flex-col ${isExpanded ? '' : 'size-full'}`}>
               <div
-                className={`flex flex-row items-center ${isExpanded ? 'border-b border-[#e5e9f2]' : 'size-full'} cursor-pointer`}
+                className={`flex flex-row items-center ${isExpanded ? 'border-b border-[var(--cp-border-default)]' : 'size-full'} cursor-pointer`}
                 onClick={() => toggleRow(index)}
               >
                 <div className={`content-stretch flex items-center ${isExpanded ? 'justify-between' : 'justify-center'} p-[20px] relative ${isExpanded ? 'w-full' : 'size-full'}`}>
@@ -2271,7 +2271,7 @@ function Scroll() {
 
 function BodyContainer() {
   return (
-    <div className="bg-[#f7f8fc] flex-[1_0_0] h-full min-w-px relative" data-name="body-container">
+    <div className="bg-[var(--cp-bg-1)] flex-[1_0_0] h-full min-w-px relative" data-name="body-container">
       <div className="overflow-clip rounded-[inherit] size-full">
         <div className="content-stretch flex flex-col items-start p-[20px] relative size-full">
           <Scroll />
@@ -2291,7 +2291,7 @@ function Frame26({ currentPage, onNavigate }: { currentPage: string; onNavigate:
             <SidenavFooter />
           </div>
         </div>
-        <div aria-hidden="true" className="absolute border-[#e5e9f2] border-r-[0.5px] border-solid inset-[0_-0.25px_0_0] pointer-events-none" />
+        <div aria-hidden="true" className="absolute border-[var(--cp-border-default)] border-r-[0.5px] border-solid inset-[0_-0.25px_0_0] pointer-events-none" />
       </div>
       <div className="flex-1 h-full overflow-y-auto ml-[225px]">
         {currentPage === 'settings' ? <SettingsPage /> : <BodyContainer />}
@@ -2304,7 +2304,7 @@ export default function Wallet() {
   const [currentPage, setCurrentPage] = useState('wallet');
 
   return (
-    <div className="bg-[#f7f8fc] content-stretch flex flex-col items-start relative size-full" data-name="Wallet">
+    <div className="bg-[var(--cp-bg-1)] content-stretch flex flex-col items-start relative size-full" data-name="Wallet">
       <div className="bg-white content-stretch fixed flex h-[70px] items-center justify-between overflow-clip shrink-0 top-0 w-full z-50" data-name="top navbar (current)">
         <Frame22 />
         <Frame24 currentPage={currentPage} />
