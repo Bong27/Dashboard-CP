@@ -28,7 +28,7 @@ export function WalletRowExpanded({ coinName, coinSymbol }: WalletRowExpandedPro
               </div>
             </div>
             <div className="content-stretch flex gap-[5px] items-center relative shrink-0">
-              <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-secondary)] text-[14.5px] whitespace-nowrap">0.0000000 {coinSymbol}</p>
+              <p className="font-['Fira_Mono:Bold',monospace] font-bold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-secondary)] text-[14.5px] whitespace-nowrap">0.0000000 {coinSymbol}</p>
             </div>
           </div>
           <div className="content-stretch flex flex-col gap-[5px] items-start relative shrink-0">
@@ -36,7 +36,7 @@ export function WalletRowExpanded({ coinName, coinSymbol }: WalletRowExpandedPro
               <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-primary)] text-[11px] uppercase whitespace-nowrap">value</p>
             </div>
             <div className="content-stretch flex gap-[5px] items-center relative shrink-0">
-              <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-secondary)] text-[14.5px] whitespace-nowrap">$0.00 USD</p>
+              <p className="font-['Fira_Mono:Bold',monospace] font-bold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-secondary)] text-[14.5px] whitespace-nowrap">$0.00 USD</p>
             </div>
           </div>
         </div>
@@ -55,7 +55,7 @@ export function WalletRowExpanded({ coinName, coinSymbol }: WalletRowExpandedPro
               </div>
             </div>
             <div className="content-stretch flex gap-[5px] items-center relative shrink-0">
-              <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-secondary)] text-[14.5px] whitespace-nowrap">0.0000000 {coinSymbol}</p>
+              <p className="font-['Fira_Mono:Bold',monospace] font-bold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-secondary)] text-[14.5px] whitespace-nowrap">0.0000000 {coinSymbol}</p>
             </div>
           </div>
           <div className="content-stretch flex flex-col gap-[5px] items-start relative shrink-0">
@@ -63,7 +63,7 @@ export function WalletRowExpanded({ coinName, coinSymbol }: WalletRowExpandedPro
               <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-primary)] text-[11px] uppercase whitespace-nowrap">value</p>
             </div>
             <div className="content-stretch flex gap-[5px] items-center relative shrink-0">
-              <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-secondary)] text-[14.5px] whitespace-nowrap">$0.00 USD</p>
+              <p className="font-['Fira_Mono:Bold',monospace] font-bold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-secondary)] text-[14.5px] whitespace-nowrap">$0.00 USD</p>
             </div>
           </div>
         </div>
@@ -82,7 +82,7 @@ export function WalletRowExpanded({ coinName, coinSymbol }: WalletRowExpandedPro
               </div>
             </div>
             <div className="content-stretch flex gap-[5px] items-center relative shrink-0">
-              <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-secondary)] text-[14.5px] whitespace-nowrap">0.0000000 {coinSymbol}</p>
+              <p className="font-['Fira_Mono:Bold',monospace] font-bold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-secondary)] text-[14.5px] whitespace-nowrap">0.0000000 {coinSymbol}</p>
             </div>
           </div>
           <div className="content-stretch flex flex-col gap-[5px] items-start relative shrink-0">
@@ -90,7 +90,7 @@ export function WalletRowExpanded({ coinName, coinSymbol }: WalletRowExpandedPro
               <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-primary)] text-[11px] uppercase whitespace-nowrap">value</p>
             </div>
             <div className="content-stretch flex gap-[5px] items-center relative shrink-0">
-              <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-secondary)] text-[14.5px] whitespace-nowrap">$0.00 USD</p>
+              <p className="font-['Fira_Mono:Bold',monospace] font-bold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-secondary)] text-[14.5px] whitespace-nowrap">$0.00 USD</p>
             </div>
           </div>
         </div>
