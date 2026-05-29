@@ -205,11 +205,21 @@
   html {
     font-family: 'Inter', sans-serif;
     font-size: 16px;
+    font-weight: 400;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
   }
 
   body {
     @apply bg-background text-foreground;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
   }
+
+  /* Ensure Tailwind font-weight utilities are not overridden by base styles */
+  .font-normal    { font-weight: 400; }
+  .font-medium    { font-weight: 500; }
+  .font-semibold  { font-weight: 600; }
+  .font-bold      { font-weight: 700; }
 }
