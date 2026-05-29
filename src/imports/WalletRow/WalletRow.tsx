@@ -44,7 +44,7 @@ function Coin() {
 function Frame() {
   return (
     <div className="content-stretch flex flex-col items-start leading-[normal] not-italic relative shrink-0 text-left w-[105px]">
-      <p className="font-['Fira_Mono:Bold',monospace] font-bold relative shrink-0 text-[var(--cp-text-primary)] text-[14.5px] w-full">0.000000 BTC</p>
+      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[var(--cp-text-primary)] text-[14.5px] w-full">0.000000 BTC</p>
       <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[var(--cp-text-tertiary)] text-[13px] w-full">BTC</p>
     </div>
   );

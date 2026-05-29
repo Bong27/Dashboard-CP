@@ -151,7 +151,7 @@ function LabelWrap() {
 function InputText() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0" data-name="input text">
-      <p className="font-['Fira_Mono:Bold',monospace] font-bold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-secondary)] text-[14.5px] whitespace-nowrap">0.0000000 BTC</p>
+      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-secondary)] text-[14.5px] whitespace-nowrap">0.0000000 BTC</p>
     </div>
   );
 }
@@ -167,7 +167,7 @@ function LabelWrap1() {
 function InputText1() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0" data-name="input text">
-      <p className="font-['Fira_Mono:Bold',monospace] font-bold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-secondary)] text-[14.5px] whitespace-nowrap">$0.00 USD</p>
+      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-secondary)] text-[14.5px] whitespace-nowrap">$0.00 USD</p>
     </div>
   );
 }
@@ -205,7 +205,7 @@ function LabelWrap2() {
 function InputText2() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0" data-name="input text">
-      <p className="font-['Fira_Mono:Bold',monospace] font-bold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-secondary)] text-[14.5px] whitespace-nowrap">0.0000000 BTC</p>
+      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-secondary)] text-[14.5px] whitespace-nowrap">0.0000000 BTC</p>
     </div>
   );
 }
@@ -221,7 +221,7 @@ function LabelWrap3() {
 function InputText3() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0" data-name="input text">
-      <p className="font-['Fira_Mono:Bold',monospace] font-bold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-secondary)] text-[14.5px] whitespace-nowrap">$0.00 USD</p>
+      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-secondary)] text-[14.5px] whitespace-nowrap">$0.00 USD</p>
     </div>
   );
 }
@@ -259,7 +259,7 @@ function LabelWrap4() {
 function InputText4() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0" data-name="input text">
-      <p className="font-['Fira_Mono:Bold',monospace] font-bold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-secondary)] text-[14.5px] whitespace-nowrap">0.0000000 BTC</p>
+      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-secondary)] text-[14.5px] whitespace-nowrap">0.0000000 BTC</p>
     </div>
   );
 }
@@ -275,7 +275,7 @@ function LabelWrap5() {
 function InputText5() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0" data-name="input text">
-      <p className="font-['Fira_Mono:Bold',monospace] font-bold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-secondary)] text-[14.5px] whitespace-nowrap">$0.00 USD</p>
+      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-secondary)] text-[14.5px] whitespace-nowrap">$0.00 USD</p>
     </div>
   );
 }
