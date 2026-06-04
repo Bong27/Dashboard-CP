@@ -2,141 +2,107 @@ import { useState } from 'react';
 import svgPaths from '../../imports/Wallet-2/svg-tfchl2zu4w';
 import imgBtcLogo from '../../imports/Wallet-2/7e6eebe580b2dba6f0a0b9b74d6ab1a4021a315d.png';
 
+// ─── Figma asset URLs (served from Figma desktop localhost server) ─────────────
+const imgConvert     = 'http://localhost:3845/assets/c7593b8323843632c170859efdc749b69d70778e.svg';
+const imgReceive     = 'http://localhost:3845/assets/9ad994627bb32112ff09c7606d86d4f5298b4c2f.svg';
+const imgBankPayout  = 'http://localhost:3845/assets/8cb6ad5d5aaf1a20af14f6d4f71bc15f47a95767.svg';
+const imgSend        = 'http://localhost:3845/assets/f62f7331c7494166a6613fda9e8d8425fdd8b0e2.svg';
+const imgReceiveExp  = 'http://localhost:3845/assets/7b760d22f4e9da9f56a33e2112da1dbde72ca0d9.svg';
+const imgBankExp     = 'http://localhost:3845/assets/b8240a864d7233f6e1d0767fc31ff50231caac39.svg';
+const imgSendExp     = 'http://localhost:3845/assets/a6a21c98f4a3e0cb4f5eb40a95b8ba88a4830a4d.svg';
+const imgConvertExp  = 'http://localhost:3845/assets/1b28ded7592693c5b0ea1c578273e9390357ffc0.svg';
+const imgTooltipCaret = 'http://localhost:3845/assets/a301617ab645e0a48fc4a8ea3fcd597cdff8b5d9.svg';
+
 // ─── Types ────────────────────────────────────────────────────────────────────
-type CoinRow = { name: string; symbol: string; logo: React.ReactNode };
+type CoinData = { name: string; symbol: string };
 
-// ─── Data ─────────────────────────────────────────────────────────────────────
-const BTC_LOGO = (
-  <div className="overflow-clip relative shrink-0 size-[36px]">
-    <div className="absolute inset-[0.09%_0%_0.09%]">
-      <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 36 36.0072">
-        <path d={svgPaths.p3bb04e00} fill="#F7931A" />
-        <path d={svgPaths.p3f7e8e00} fill="white" />
-      </svg>
-    </div>
-  </div>
-);
+const COINS: CoinData[] = Array(7).fill({ name: 'Bitcoin', symbol: 'BTC' });
 
-const COIN_ROWS: CoinRow[] = Array(7).fill(null).map(() => ({
-  name: 'Bitcoin', symbol: 'BTC', logo: BTC_LOGO,
-}));
-
-// ─── Action icon SVGs ─────────────────────────────────────────────────────────
-function ConvertSVG({ color }: { color: string }) {
+// ─── Bitcoin logo ─────────────────────────────────────────────────────────────
+function Bitcoin() {
   return (
-    <div className="absolute inset-[9.27%_17.99%]">
-      <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 8.96288 11.4047">
-        <path clipRule="evenodd" d={svgPaths.p28e65480} fill={color} fillRule="evenodd" />
-        <path clipRule="evenodd" d={svgPaths.p23d2c80}  fill={color} fillRule="evenodd" />
-        <path clipRule="evenodd" d={svgPaths.p8311e00}  fill={color} fillRule="evenodd" />
-        <path clipRule="evenodd" d={svgPaths.p3f77e80}  fill={color} fillRule="evenodd" />
-        <path clipRule="evenodd" d={svgPaths.p22c70000} fill={color} fillRule="evenodd" />
-        <path clipRule="evenodd" d={svgPaths.p3e540080} fill={color} fillRule="evenodd" />
-        <path clipRule="evenodd" d={svgPaths.pc43c680}  fill={color} fillRule="evenodd" />
-        <path clipRule="evenodd" d={svgPaths.p19eb8700} fill={color} fillRule="evenodd" />
-      </svg>
-    </div>
-  );
-}
-
-function ReceiveSVG({ color }: { color: string }) {
-  return (
-    <div className="absolute inset-[11.82%_13.6%_11.83%_13.6%]">
-      <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 10.1918 10.6899">
-        <path clipRule="evenodd" d={svgPaths.p2cad1000} fill={color} fillRule="evenodd" />
-        <path clipRule="evenodd" d={svgPaths.pcd29c00}  fill={color} fillRule="evenodd" />
-        <path clipRule="evenodd" d={svgPaths.p3eb1dc00} fill={color} fillRule="evenodd" />
-        <path clipRule="evenodd" d={svgPaths.p36f81900} fill={color} fillRule="evenodd" />
-        <path clipRule="evenodd" d={svgPaths.p39b6700}  fill={color} fillRule="evenodd" />
-      </svg>
-    </div>
-  );
-}
-
-function BankPayoutSVG({ color }: { color: string }) {
-  return (
-    <div className="absolute inset-[16.67%_4.17%_4.17%_8.33%]">
-      <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 23 19">
-        <path fillRule="evenodd" clipRule="evenodd" d="M11.5 0L23 6H0L11.5 0ZM11.5 2.18L19.09 6H3.91L11.5 2.18Z" fill={color}/>
-        <path d="M2 7H4V15H2V7Z" fill={color}/>
-        <path d="M10.25 7H12.75V15H10.25V7Z" fill={color}/>
-        <path d="M19 7H21V15H19V7Z" fill={color}/>
-        <path d="M0 16H23V19H0V16Z" fill={color}/>
-      </svg>
-    </div>
-  );
-}
-
-function SendSVG({ color }: { color: string }) {
-  return (
-    <div className="absolute inset-[18.75%_24.1%_22.48%_20.59%]">
-      <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 7.74361 8.22758">
-        <path clipRule="evenodd" d={svgPaths.p9eec080}  fill={color} fillRule="evenodd" />
-        <path clipRule="evenodd" d={svgPaths.p1255df80} fill={color} fillRule="evenodd" />
-        <path clipRule="evenodd" d={svgPaths.p2c049700} fill={color} fillRule="evenodd" />
-        <path clipRule="evenodd" d={svgPaths.p1bc13700} fill={color} fillRule="evenodd" />
-      </svg>
+    <div className="relative shrink-0 size-[36px]">
+      <div className="absolute inset-[0_0.01%_0_0] overflow-clip">
+        <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgBtcLogo} />
+      </div>
     </div>
   );
 }
 
 // ─── Tooltip ──────────────────────────────────────────────────────────────────
-function Tooltip({ label }: { label: string }) {
+function Tooltip({ text }: { text: string }) {
   return (
-    <div className="absolute flex flex-col items-center pointer-events-none z-50"
-         style={{ bottom: 'calc(100% + 6px)', left: '50%', transform: 'translateX(-50%)' }}>
-      <div className="bg-black rounded-[5px] px-[10px] py-[10px] shrink-0">
-        <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-white whitespace-nowrap leading-none">
-          {label}
+    <div className="absolute content-stretch flex flex-col items-center left-[-15px] top-[-44px] pointer-events-none z-50">
+      <div className="bg-black content-stretch flex flex-col items-start p-[10px] relative rounded-[5px] shrink-0">
+        <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[11px] text-center text-white whitespace-nowrap">
+          {text}
         </p>
       </div>
-      {/* Downward caret */}
-      <svg width="10" height="5" viewBox="0 0 10 5" fill="none" className="shrink-0">
-        <path d="M0 0L5 5L10 0H0Z" fill="black"/>
-      </svg>
+      <div className="h-[5px] relative shrink-0 w-[10px]">
+        <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgTooltipCaret} />
+      </div>
     </div>
   );
 }
 
-// ─── Circle action button ─────────────────────────────────────────────────────
-type ActionDef = {
-  label: string;
-  renderIcon: (color: string) => React.ReactNode;
-};
-
-function ActionButton({ label, renderIcon }: ActionDef) {
+// ─── Circle icon button (collapsed row) ───────────────────────────────────────
+function CircleIconButton({ imgSrc, tooltip }: { imgSrc: string; tooltip: string; inset: string }) {
   const [hovered, setHovered] = useState(false);
-  const iconColor = hovered ? '#ffffff' : '#8492A6';
-
   return (
     <div
-      className="relative rounded-[100px] shrink-0 size-[36px] cursor-pointer"
-      style={{
-        background: hovered ? '#8492A6' : '#ffffff',
-        border: `1px solid ${hovered ? '#8492A6' : 'var(--cp-border-default)'}`,
-        transition: 'background 0.15s, border-color 0.15s',
-        overflow: 'visible',
-      }}
+      className="relative rounded-[100px] shrink-0 size-[36px] overflow-visible"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      {/* Tooltip */}
-      {hovered && <Tooltip label={label} />}
+      <div className="bg-[var(--cp-bg-white)] border border-[var(--cp-border-default)] border-solid overflow-clip relative rounded-[100px] size-[36px]">
+        <div className="absolute inset-[calc(27.78%-0.44px)_calc(25%-0.5px)_calc(27.78%-0.44px)_calc(27.78%-0.44px)] overflow-clip">
+          <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgSrc} />
+        </div>
+      </div>
+      {hovered && <Tooltip text={tooltip} />}
+    </div>
+  );
+}
 
-      {/* Icon */}
-      <div className="absolute inset-[calc(27.78%-0.44px)_calc(25%-0.5px)_calc(27.78%-0.44px)_calc(27.78%-0.44px)] overflow-clip">
-        {renderIcon(iconColor)}
+// ─── CTA card (expanded row labelled buttons) ─────────────────────────────────
+function CtaCard({ label, imgSrc, inset }: { label: string; imgSrc: string; inset: string }) {
+  return (
+    <div className="bg-[var(--cp-bg-white)] border border-[var(--cp-border-default)] border-solid content-stretch flex gap-[10px] h-[36px] items-center justify-center overflow-clip px-[20px] relative rounded-[100px] shrink-0 cursor-pointer hover:bg-[var(--cp-bg-2)] transition-colors">
+      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[13px] text-[var(--cp-text-primary)] text-center whitespace-nowrap">
+        {label}
+      </p>
+      <div className="overflow-clip relative shrink-0 size-[14px]">
+        <div className={`absolute ${inset}`}>
+          <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgSrc} />
+        </div>
       </div>
     </div>
   );
 }
 
-const ACTIONS: ActionDef[] = [
-  { label: 'Convert',      renderIcon: (c) => <ConvertSVG     color={c} /> },
-  { label: 'Receive',      renderIcon: (c) => <ReceiveSVG     color={c} /> },
-  { label: 'Bank Payout',  renderIcon: (c) => <BankPayoutSVG  color={c} /> },
-  { label: 'Send',         renderIcon: (c) => <SendSVG        color={c} /> },
-];
+// ─── Collapsed controls ───────────────────────────────────────────────────────
+function CollapsedControls() {
+  return (
+    <div className="content-stretch flex gap-[10px] items-start relative shrink-0" style={{ overflow: 'visible' }}>
+      <CircleIconButton imgSrc={imgConvert}    tooltip="Convert"     inset="inset-[9.27%_17.99%]" />
+      <CircleIconButton imgSrc={imgReceive}    tooltip="Receive"     inset="inset-[11.82%_13.6%_11.83%_13.6%]" />
+      <CircleIconButton imgSrc={imgBankPayout} tooltip="Bank Payout" inset="inset-[16.67%_4.17%_4.17%_8.33%]" />
+      <CircleIconButton imgSrc={imgSend}       tooltip="Send"        inset="inset-[18.75%_24.1%_22.48%_20.59%]" />
+    </div>
+  );
+}
+
+// ─── Expanded controls ────────────────────────────────────────────────────────
+function ExpandedControls() {
+  return (
+    <div className="content-stretch flex gap-[10px] items-start relative shrink-0">
+      <CtaCard label="Convert"     imgSrc={imgConvertExp} inset="inset-[9.27%_17.99%]" />
+      <CtaCard label="Receive"     imgSrc={imgReceiveExp} inset="inset-[11.82%_13.6%_11.83%_13.6%]" />
+      <CtaCard label="Bank Payout" imgSrc={imgBankExp}    inset="inset-[16.67%_4.17%_4.17%_8.33%]" />
+      <CtaCard label="Send"        imgSrc={imgSendExp}    inset="inset-[18.75%_24.1%_22.48%_20.59%]" />
+    </div>
+  );
+}
 
 // ─── Misc icons ───────────────────────────────────────────────────────────────
 function SearchIcon() {
@@ -233,96 +199,102 @@ function SwitchBalances() {
   );
 }
 
-// ─── Coin rows ────────────────────────────────────────────────────────────────
-function CoinRowCollapsed({ coin }: { coin: CoinRow }) {
-  return (
-    <div className="content-stretch flex flex-[1_0_0] items-center justify-between min-w-px relative">
-      <div className="content-stretch flex items-center justify-between relative shrink-0 w-[390px]">
-        <div className="content-stretch flex gap-[10px] items-center relative shrink-0">
-          {coin.logo}
-          <div className="content-stretch flex flex-col items-start leading-[normal] not-italic relative shrink-0 w-[49px]">
-            <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[var(--cp-text-primary)] text-[14.5px] w-full">{coin.name}</p>
-            <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[var(--cp-text-tertiary)] text-[13px] w-full">{coin.symbol}</p>
-          </div>
-        </div>
-        <div className="content-stretch flex items-center px-[20px] relative shrink-0">
-          <div className="content-stretch flex flex-col items-start leading-[normal] not-italic relative shrink-0 w-[105px]">
-            <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[var(--cp-text-primary)] text-[14.5px] w-full">0.000000 {coin.symbol}</p>
-            <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[var(--cp-text-tertiary)] text-[13px] w-full">{coin.symbol}</p>
-          </div>
-        </div>
-      </div>
-      {/* Action buttons */}
-      <div className="content-stretch flex gap-[10px] items-center relative shrink-0" style={{ overflow: 'visible' }}>
-        {ACTIONS.map((action) => (
-          <ActionButton key={action.label} {...action} />
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function CoinRowExpanded({ coin }: { coin: CoinRow }) {
-  return (
-    <div className="content-stretch flex items-center justify-between relative w-full">
-      <div className="content-stretch flex gap-[150px] items-center relative shrink-0">
-        <div className="content-stretch flex gap-[10px] items-center relative shrink-0">
-          {coin.logo}
-          <div className="content-stretch flex flex-col items-start leading-[normal] not-italic relative shrink-0 w-[49px]">
-            <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[var(--cp-text-primary)] text-[14.5px] w-full">{coin.name}</p>
-            <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[var(--cp-text-tertiary)] text-[13px] w-full">{coin.symbol}</p>
-          </div>
-        </div>
-      </div>
-      {/* Labelled action buttons */}
-      <div className="content-stretch flex gap-[10px] items-center relative shrink-0">
-        {ACTIONS.map(({ label, renderIcon }) => (
-          <div key={label} className="bg-white h-[36px] relative rounded-[100px] shrink-0 cursor-pointer hover:bg-[var(--cp-bg-2)] transition-colors">
-            <div className="content-stretch flex gap-[10px] items-center justify-center overflow-clip px-[20px] relative rounded-[inherit] size-full">
-              <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-primary)] text-[13px] text-center whitespace-nowrap">{label}</p>
-              <div className="relative size-[14px]">
-                {renderIcon('var(--cp-text-tertiary)')}
-              </div>
-            </div>
-            <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[100px]" />
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
 // ─── Wallet list ──────────────────────────────────────────────────────────────
 function WalletList() {
   const [expandedRow, setExpandedRow] = useState<number | null>(null);
-  const rowBgs = ['bg-[var(--cp-bg-2)]', 'bg-[var(--cp-bg-1)]'];
+  const rowBgs = ['bg-[var(--cp-bg-1)]', 'bg-[var(--cp-bg-2)]'];
 
   return (
     <div className="content-stretch flex flex-col items-start relative shrink-0 w-full">
-      {COIN_ROWS.map((coin, index) => {
+      {COINS.map((coin, index) => {
         const isExpanded = expandedRow === index;
+        const isAlt = index % 2 === 1;
         return (
           <div
             key={index}
-            className={`${isExpanded ? 'bg-white' : rowBgs[index % 2]} ${isExpanded ? 'min-h-[76px]' : 'h-[76px]'} relative rounded-[5px] shrink-0 w-full transition-all duration-300 ${isExpanded ? 'mb-[10px]' : ''} ${!isExpanded ? 'cursor-pointer hover:bg-[var(--cp-border-default)]' : ''}`}
+            className={`${isExpanded ? 'bg-white' : isAlt ? 'bg-[var(--cp-bg-2)]' : 'bg-[var(--cp-bg-1)]'} relative rounded-[5px] shrink-0 w-full transition-colors duration-150`}
             style={{ overflow: 'visible' }}
-            onClick={() => !isExpanded && setExpandedRow(index)}
           >
-            <div className="content-stretch flex flex-col items-start px-[20px] py-[18px] relative size-full gap-[10px]" style={{ overflow: "visible" }}>
-              {isExpanded ? (
-                <>
-                  <CoinRowExpanded coin={coin} />
-                  <div className="w-full border-t border-[var(--cp-border-default)]" />
-                  <div className="w-full">
-                    <p className="text-[13px] text-[var(--cp-text-tertiary)] font-['Inter:Regular',sans-serif] font-normal cursor-pointer" onClick={() => setExpandedRow(null)}>
-                      ↑ Collapse
-                    </p>
+            {isExpanded ? (
+              /* ── Expanded ──────────────────────────────────────────────── */
+              <div className="content-stretch flex flex-col gap-[20px] items-start p-[20px] relative w-full">
+                {/* Header row */}
+                <div className="border-[var(--cp-border-default)] border-b border-solid content-stretch flex flex-col items-start pb-[20px] relative shrink-0 w-full">
+                  <div className="content-stretch flex items-center justify-between relative shrink-0 w-full">
+                    <div className="content-stretch flex gap-[150px] items-center relative shrink-0">
+                      <div className="content-stretch flex gap-[10px] items-center relative shrink-0">
+                        <Bitcoin />
+                        <div className="content-stretch flex flex-col items-start leading-[normal] not-italic relative shrink-0 w-[49px]">
+                          <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[14.5px] text-[var(--cp-text-primary)] w-full">{coin.name}</p>
+                          <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[13px] text-[var(--cp-text-tertiary)] w-full">{coin.symbol}</p>
+                        </div>
+                      </div>
+                    </div>
+                    <ExpandedControls />
                   </div>
-                </>
-              ) : (
-                <CoinRowCollapsed coin={coin} />
-              )}
-            </div>
+                </div>
+                {/* Balance data */}
+                <div className="content-stretch flex gap-[20px] items-start relative shrink-0 w-full">
+                  {[
+                    { label: 'PRIMARY BALANCE' },
+                    { label: 'API BALANCE' },
+                    { label: 'TOTAL BALANCE' },
+                  ].map(({ label }) => (
+                    <div key={label} className="content-stretch flex flex-[1_0_0] flex-col gap-[20px] items-start min-w-px relative">
+                      <div className="content-stretch flex flex-col gap-[5px] items-start relative shrink-0">
+                        <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[11px] text-[var(--cp-text-primary)] uppercase whitespace-nowrap">{label}</p>
+                        <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[14.5px] text-[var(--cp-text-secondary)] whitespace-nowrap">0.0000000 {coin.symbol}</p>
+                      </div>
+                      <div className="content-stretch flex flex-col gap-[5px] items-start relative shrink-0">
+                        <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[11px] text-[var(--cp-text-primary)] uppercase whitespace-nowrap">VALUE</p>
+                        <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[14.5px] text-[var(--cp-text-secondary)] whitespace-nowrap">$0.00 USD</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                {/* Collapse */}
+                <button
+                  className="text-[13px] text-[var(--cp-text-tertiary)] font-['Inter:Regular',sans-serif] font-normal cursor-pointer hover:text-[var(--cp-text-primary)] transition-colors"
+                  onClick={() => setExpandedRow(null)}
+                >
+                  ↑ Collapse
+                </button>
+              </div>
+            ) : (
+              /* ── Collapsed ─────────────────────────────────────────────── */
+              <div
+                className={`content-stretch flex h-[76px] items-center justify-between p-[20px] relative w-full cursor-pointer hover:bg-[var(--cp-bg-3)] transition-colors rounded-[5px]`}
+                onClick={() => setExpandedRow(index)}
+              >
+                {/* Left: coin info + value */}
+                <div className="content-stretch flex items-center justify-between relative shrink-0 w-[390px]">
+                  <div className="content-stretch flex gap-[10px] items-center relative shrink-0">
+                    <Bitcoin />
+                    <div className="content-stretch flex flex-col items-start leading-[normal] not-italic relative shrink-0 w-[49px]">
+                      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[14.5px] text-[var(--cp-text-primary)] w-full">{coin.name}</p>
+                      <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[13px] text-[var(--cp-text-tertiary)] w-full">{coin.symbol}</p>
+                    </div>
+                  </div>
+                  <div className="content-stretch flex items-center px-[20px] relative shrink-0">
+                    <div className="content-stretch flex flex-col items-start leading-[normal] not-italic relative shrink-0 w-[105px]">
+                      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[14.5px] text-[var(--cp-text-primary)] w-full">0.000000 {coin.symbol}</p>
+                      <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[13px] text-[var(--cp-text-tertiary)] w-full">{coin.symbol}</p>
+                    </div>
+                  </div>
+                </div>
+                {/* Right: action buttons */}
+                <div
+                  className="content-stretch flex gap-[10px] items-start relative shrink-0"
+                  style={{ overflow: 'visible' }}
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <CircleIconButton imgSrc={imgConvert}    tooltip="Convert"     inset="inset-[9.27%_17.99%]" />
+                  <CircleIconButton imgSrc={imgReceive}    tooltip="Receive"     inset="inset-[11.82%_13.6%_11.83%_13.6%]" />
+                  <CircleIconButton imgSrc={imgBankPayout} tooltip="Bank Payout" inset="inset-[16.67%_4.17%_4.17%_8.33%]" />
+                  <CircleIconButton imgSrc={imgSend}       tooltip="Send"        inset="inset-[18.75%_24.1%_22.48%_20.59%]" />
+                </div>
+              </div>
+            )}
           </div>
         );
       })}
