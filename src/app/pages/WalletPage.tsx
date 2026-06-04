@@ -305,10 +305,10 @@ function WalletList() {
           <div
             key={index}
             className={`${isExpanded ? 'bg-white' : rowBgs[index % 2]} ${isExpanded ? 'min-h-[76px]' : 'h-[76px]'} relative rounded-[5px] shrink-0 w-full transition-all duration-300 ${isExpanded ? 'mb-[10px]' : ''} ${!isExpanded ? 'cursor-pointer hover:bg-[var(--cp-border-default)]' : ''}`}
-            style={{ overflow: isExpanded ? 'visible' : 'hidden' }}
+            style={{ overflow: 'visible' }}
             onClick={() => !isExpanded && setExpandedRow(index)}
           >
-            <div className="content-stretch flex flex-col items-start px-[20px] py-[18px] relative size-full gap-[10px]">
+            <div className="content-stretch flex flex-col items-start px-[20px] py-[18px] relative size-full gap-[10px]" style={{ overflow: "visible" }}>
               {isExpanded ? (
                 <>
                   <CoinRowExpanded coin={coin} />
