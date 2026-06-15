@@ -48,6 +48,7 @@ function Field({
   dimValue = false,
   halfWidth = false,
   helper = '',
+  inactive = false,
 }: {
   label: string;
   value: string;
@@ -58,6 +59,7 @@ function Field({
   dimValue?: boolean;
   halfWidth?: boolean;
   helper?: string;
+  inactive?: boolean;
 }) {
   const [focused, setFocused] = useState(false);
   const showHelper = focused && helper;
@@ -65,7 +67,13 @@ function Field({
     <div className={`relative ${halfWidth ? 'flex-1 min-w-0' : 'w-full shrink-0'}`} style={{ overflow: 'visible' }}>
       <div
         className="bg-white relative rounded-[5px] h-[56px] flex items-start justify-between p-[10px]"
-        style={{ border: `1px solid ${focused ? 'var(--cp-brand-primary)' : 'var(--cp-border-default)'}`, transition: 'border-color 0.1s', borderRadius: showHelper ? '5px 5px 0 0' : '5px' }}
+        style={{
+          border: `1px solid ${focused && !inactive ? 'var(--cp-brand-primary)' : 'var(--cp-border-default)'}`,
+          transition: 'border-color 0.1s',
+          borderRadius: showHelper ? '5px 5px 0 0' : '5px',
+          pointerEvents: inactive ? 'none' : undefined,
+          opacity: inactive ? 0.6 : 1,
+        }}
       >
         <div className="flex flex-col items-start justify-between self-stretch flex-1 min-w-0">
           <div className="flex gap-[5px] items-center shrink-0">
@@ -353,7 +361,7 @@ export default function AddNewBankModal({ onClose }: Props) {
             <Field label="Address"      value={address}     onChange={setAddress} helper="Must exactly match the billing address registered with your bank" />
             <Field label="Town / City"  value={city}        onChange={setCity}    helper="Must exactly match the billing address registered with your bank" />
             <Field label="Postal / ZIP Code" value={postalCode} onChange={setPostalCode} helper="Must exactly match the billing address registered with your bank" />
-            <Field label="Bank Account Type" value={accountType} onChange={setAccountType} placeholder="Business" dimValue={accountType === ''} hasInfo />
+            <Field label="Bank Account Type" value={accountType} onChange={setAccountType} placeholder="Business" dimValue={accountType === ''} hasInfo inactive />
           </div>
 
           {/* Buttons */}
