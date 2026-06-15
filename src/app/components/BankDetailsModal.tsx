@@ -162,46 +162,48 @@ export default function BankDetailsModal({ onClose, bankName = 'Wise', bankAccou
                 onClick={e => e.stopPropagation()}
               >
                 <div aria-hidden="true" className="absolute border border-[var(--cp-border-hover)] border-solid inset-0 pointer-events-none rounded-[5px]" />
-                <div className="content-stretch flex flex-col gap-[5px] items-start p-[10px] relative">
-                  {BANK_OPTIONS.map(bank => (
-                    <div
-                      key={bank.name}
-                      className={`relative rounded-[5px] shrink-0 w-full cursor-pointer transition-colors ${
-                        selectedBank.name === bank.name
-                          ? 'bg-[var(--cp-brand-primary)]'
-                          : 'bg-white hover:bg-[var(--cp-bg-1)]'
-                      }`}
-                      onClick={() => { setSelectedBank(bank); setBankOpen(false); setRemoveState('idle'); setUpdateState('idle'); }}
-                    >
-                      {selectedBank.name !== bank.name && (
-                        <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[5px]" />
-                      )}
-                      <div className="content-stretch flex flex-col items-start leading-[normal] not-italic p-[10px] relative size-full text-[11px]">
-                        <p className={`font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 w-full ${selectedBank.name === bank.name ? 'text-white' : 'text-[var(--cp-text-primary)]'}`}>
-                          {bank.name}
-                        </p>
-                        <p className={`font-['Inter:Medium',sans-serif] font-medium relative shrink-0 w-full ${selectedBank.name === bank.name ? 'text-white/80' : 'text-[var(--cp-text-secondary)]'}`}>
-                          {bank.account}
-                        </p>
+                <div className="content-stretch flex flex-col gap-[20px] items-start p-[10px] relative">
+                  {/* Bank list */}
+                  <div className="content-stretch flex flex-col gap-[5px] items-start relative shrink-0 w-full">
+                    {BANK_OPTIONS.map(bank => (
+                      <div
+                        key={bank.name}
+                        className={`relative rounded-[5px] shrink-0 w-full cursor-pointer transition-colors ${
+                          selectedBank.name === bank.name
+                            ? 'bg-[var(--cp-brand-primary)]'
+                            : 'bg-white hover:bg-[var(--cp-bg-1)]'
+                        }`}
+                        onClick={() => { setSelectedBank(bank); setBankOpen(false); setRemoveState('idle'); setUpdateState('idle'); }}
+                      >
+                        {selectedBank.name !== bank.name && (
+                          <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[5px]" />
+                        )}
+                        <div className="content-stretch flex flex-col items-start leading-[normal] not-italic p-[10px] relative size-full text-[11px]">
+                          <p className={`font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 w-full ${selectedBank.name === bank.name ? 'text-white' : 'text-[var(--cp-text-primary)]'}`}>
+                            {bank.name}
+                          </p>
+                          <p className={`font-['Inter:Medium',sans-serif] font-medium relative shrink-0 w-full ${selectedBank.name === bank.name ? 'text-white/80' : 'text-[var(--cp-text-secondary)]'}`}>
+                            {bank.account}
+                          </p>
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
 
-                  {/* Divider */}
-                  <div className="bg-[var(--cp-border-default)] h-px relative shrink-0 w-full my-[2px]" />
-
-                  {/* Action buttons */}
-                  {(['Edit Bank', 'Add New Bank', 'Manage Bank Accounts'] as const).map(action => (
-                    <button
-                      key={action}
-                      className="content-stretch flex items-center relative shrink-0 w-full cursor-pointer px-[10px] py-[9px] rounded-[5px] hover:bg-[var(--cp-bg-1)] transition-colors"
-                      onClick={() => setBankOpen(false)}
-                    >
-                      <p className="font-['Inter:Medium',sans-serif] font-medium text-[13px] text-[var(--cp-brand-primary)] whitespace-nowrap">
-                        {action}
-                      </p>
-                    </button>
-                  ))}
+                  {/* Action buttons — same style as bank rows */}
+                  <div className="content-stretch flex flex-col gap-[5px] items-start relative shrink-0 w-full">
+                    {(['Edit Bank', 'Add New Bank', 'Manage Bank Accounts'] as const).map(action => (
+                      <button
+                        key={action}
+                        className="bg-white border border-[var(--cp-border-default)] border-solid content-stretch cursor-pointer flex flex-col items-start p-[10px] relative rounded-[5px] shrink-0 w-full hover:bg-[var(--cp-bg-1)] transition-colors"
+                        onClick={() => setBankOpen(false)}
+                      >
+                        <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[11px] text-[var(--cp-brand-primary)] leading-[normal] not-italic relative shrink-0 w-full">
+                          {action}
+                        </p>
+                      </button>
+                    ))}
+                  </div>
                 </div>
               </div>
             )}
