@@ -1,5 +1,6 @@
 import BankDetailsModal, { BANK_DETAILS } from '../../app/components/BankDetailsModal';
 import EditBankModal from '../../app/components/EditBankModal';
+import AddNewBankModal from '../../app/components/AddNewBankModal';
 import { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import svgPaths from "./svg-dulsyl96to";
@@ -320,6 +321,7 @@ export default function PaySettingsRow({
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [showBankDetails, setShowBankDetails] = useState(false);
   const [showEditBank, setShowEditBank] = useState(false);
+  const [showAddNewBank, setShowAddNewBank] = useState(false);
   const [editingBankName, setEditingBankName] = useState(bankNameProp);
   const [bankName, setBankName] = useState(bankNameProp);
   const [bankAccount, setBankAccount] = useState(bankAccountProp);
@@ -343,11 +345,12 @@ export default function PaySettingsRow({
 
   return (
     <>
-    {showBankDetails && !showEditBank && createPortal(
+    {showBankDetails && !showEditBank && !showAddNewBank && createPortal(
       <BankDetailsModal
         onClose={() => setShowBankDetails(false)}
         onUpdate={(name, account) => { setBankName(name); setBankAccount(account); }}
         onEditBank={(name) => { setEditingBankName(name); setShowEditBank(true); }}
+        onAddNewBank={() => setShowAddNewBank(true)}
         bankName={bankName}
         bankAccount={bankAccount}
       />, document.body)}
@@ -363,6 +366,10 @@ export default function PaySettingsRow({
         city=""
         postalCode=""
         bankCountry="United Kingdom"
+      />, document.body)}
+    {showAddNewBank && createPortal(
+      <AddNewBankModal
+        onClose={() => setShowAddNewBank(false)}
       />, document.body)}
     <div className={`bg-[var(--cp-bg-1)] content-stretch flex gap-[10px] items-center pl-[20px] py-[10px] relative size-full ${isDropdownOpen ? 'z-[100]' : ''}`} data-name="PaySettingsRow">
         <div aria-hidden="true" className="absolute border-[var(--cp-border-default)] border-solid border-t inset-0 pointer-events-none" />

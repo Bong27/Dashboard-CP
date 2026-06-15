@@ -9,6 +9,7 @@ type Props = {
   onClose: () => void;
   onUpdate?: (name: string, account: string) => void;
   onEditBank?: (name: string) => void;
+  onAddNewBank?: () => void;
   bankName?: string;
   bankAccount?: string;
 };
@@ -87,7 +88,7 @@ export const BANK_DETAILS: Record<string, {
 };
 
 // ─── Modal ────────────────────────────────────────────────────────────────────
-export default function BankDetailsModal({ onClose, onUpdate, onEditBank, bankName = 'Wise', bankAccount = 'GB97TRWI23080120507810' }: Props) {
+export default function BankDetailsModal({ onClose, onUpdate, onEditBank, onAddNewBank, bankName = 'Wise', bankAccount = 'GB97TRWI23080120507810' }: Props) {
   // Find initial bank from options, fall back to Wise
   const initialBank = BANK_OPTIONS.find(b => b.name === bankName) ?? BANK_OPTIONS[0];
   const [selectedBank, setSelectedBank] = useState(initialBank);
@@ -206,7 +207,11 @@ export default function BankDetailsModal({ onClose, onUpdate, onEditBank, bankNa
                       <button
                         key={action}
                         className="bg-white border border-[var(--cp-border-default)] border-solid content-stretch cursor-pointer flex flex-col items-start p-[10px] relative rounded-[5px] shrink-0 w-full hover:bg-[var(--cp-bg-1)] transition-colors"
-                        onClick={() => setBankOpen(false)}
+                        onClick={() => {
+                          setBankOpen(false);
+                          if (action === 'Add New Bank') { onClose(); onAddNewBank?.(); }
+                          else setBankOpen(false);
+                        }}
                       >
                         <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[11px] text-[var(--cp-brand-primary)] leading-[normal] not-italic relative shrink-0 w-full text-left">
                           {action}
