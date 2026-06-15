@@ -141,7 +141,7 @@ export default function EditBankModal({
 
         {/* Card — fixed height matches BankDetailsModal */}
         <div
-          className="bg-white flex flex-col gap-[20px] items-start p-[20px] relative rounded-[10px] w-full"
+          className="bg-white flex flex-col justify-between gap-[20px] items-start p-[20px] relative rounded-[10px] w-full"
           style={{ height: 634 }}
         >
           {/* Title */}
@@ -156,12 +156,12 @@ export default function EditBankModal({
             <EditField label="Bank Country"         value={bankCountry}   onChange={setBankCountry} hasSelector />
             <EditField label="Account Number"       value={accountNumber} onChange={setAccountNumber} />
             <EditField label="BIC / SWIFT"          value={bic}           onChange={setBic} />
-            <EditField label="Address"              value={address}       onChange={setAddress} />
             {/* Town/City + Postal side by side */}
             <div className="flex gap-[8px] items-start relative shrink-0 w-full">
               <EditField label="Town / City"        value={city}          onChange={setCity}       halfWidth />
               <EditField label="Postal / ZIP Code"  value={postalCode}    onChange={setPostalCode} halfWidth />
             </div>
+            <EditField label="Address"              value={address}       onChange={setAddress} />
           </div>
 
           {/* Buttons */}
