@@ -13,7 +13,6 @@ function LayerX1() {
         </g>
       </svg>
     </div>
-    </>
   );
 }
 
