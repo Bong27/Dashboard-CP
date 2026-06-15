@@ -4,6 +4,7 @@ import AddNewBankModal from '../../app/components/AddNewBankModal';
 import { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router';
+import { useBanks } from '../../app/context/BankContext';
 import svgPaths from "./svg-dulsyl96to";
 
 function LayerX1() {
@@ -320,6 +321,7 @@ export default function PaySettingsRow({
   coinSymbol,
 }: PaySettingsRowProps = {}) {
   const navigate = useNavigate();
+  const { banks } = useBanks();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [showBankDetails, setShowBankDetails] = useState(false);
   const [showEditBank, setShowEditBank] = useState(false);
@@ -365,13 +367,14 @@ export default function PaySettingsRow({
         onClose={() => setShowEditBank(false)}
         onBack={() => { setShowEditBank(false); setShowBankDetails(true); }}
         onSave={() => setShowEditBank(false)}
-        label={BANK_DETAILS[editingBankName]?.label ?? editingBankName}
-        holderName={BANK_DETAILS[editingBankName]?.holder ?? ''}
-        accountNumber={BANK_DETAILS[editingBankName]?.accountNumber ?? ''}
-        bic={BANK_DETAILS[editingBankName]?.bic ?? ''}
-        address={BANK_DETAILS[editingBankName]?.address ?? ''}
-        city={BANK_DETAILS[editingBankName]?.city ?? ''}
-        postalCode={BANK_DETAILS[editingBankName]?.postalCode ?? ''}
+        bankId={banks.find(b => b.label === editingBankName)?.id}
+        label={banks.find(b => b.label === editingBankName)?.label ?? editingBankName}
+        holderName={banks.find(b => b.label === editingBankName)?.holder ?? ''}
+        accountNumber={banks.find(b => b.label === editingBankName)?.accountNumber ?? ''}
+        bic={banks.find(b => b.label === editingBankName)?.bic ?? ''}
+        address={banks.find(b => b.label === editingBankName)?.address ?? ''}
+        city={banks.find(b => b.label === editingBankName)?.city ?? ''}
+        postalCode={banks.find(b => b.label === editingBankName)?.postalCode ?? ''}
         bankCountry="United Kingdom"
       />, document.body)}
     {showAddNewBank && createPortal(

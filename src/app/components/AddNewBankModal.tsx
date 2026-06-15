@@ -4,6 +4,7 @@
 // Opens from BankDetailsModal > "Add New Bank" button
 // ─────────────────────────────────────────────────────────────────────────────
 import { useState, useRef, useEffect } from 'react';
+import { useBanks, BIC_TO_BANK } from '../context/BankContext';
 
 type Props = {
   onClose: () => void;
@@ -279,15 +280,9 @@ function DataRow({ label, value }: { label: string; value: string }) {
   );
 }
 
-// Simple BIC → bank name lookup (extends existing BANK_DETAILS)
-const BIC_TO_BANK: Record<string, string> = {
-  TRWIGB2LXXX: 'Wise Payments Limited',
-  BARCGB22XXX: 'Barclays Bank PLC',
-  MIDLGB22XXX: 'HSBC UK Bank PLC',
-};
-
 // ─── Modal ────────────────────────────────────────────────────────────────────
 export default function AddNewBankModal({ onClose }: Props) {
+  const { addBank } = useBanks();
   const [step, setStep]                 = useState<'form' | 'confirm'>('form');
   const [holderName, setHolderName]     = useState('Acme Corp');
   const [bankCountry, setBankCountry]   = useState('United Kingdom');
@@ -483,7 +478,21 @@ export default function AddNewBankModal({ onClose }: Props) {
             </button>
             <button
               className="bg-[var(--cp-brand-primary)] hover:bg-[var(--cp-brand-active)] content-stretch flex flex-1 h-[46px] items-center justify-center overflow-clip px-[10px] relative rounded-[5px] cursor-pointer transition-colors"
-              onClick={onClose}
+              onClick={() => {
+                addBank({
+                  label: labelValue,
+                  bankName: bankName ?? '---',
+                  holder: holderName,
+                  iban: iban,
+                  accountNumber: iban.replace(/\s/g, '').slice(-8),
+                  bic: bic,
+                  address: address,
+                  city: city,
+                  postalCode: postalCode,
+                  country: bankCountry,
+                });
+                onClose();
+              }}
             >
               <p className="font-['Inter:Medium',sans-serif] font-medium text-[13px] text-white text-center whitespace-nowrap">Confirm</p>
             </button>

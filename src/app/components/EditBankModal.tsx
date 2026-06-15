@@ -4,11 +4,13 @@
 // Opens from BankDetailsModal > "Edit Bank" button
 // ─────────────────────────────────────────────────────────────────────────────
 import { useState } from 'react';
+import { useBanks } from '../context/BankContext';
 
 type Props = {
   onClose: () => void;
   onBack?: () => void;
   onSave: (data: EditBankData) => void;
+  bankId?: string;
   // pre-filled from current bank
   label?: string;
   holderName?: string;
@@ -91,6 +93,7 @@ export default function EditBankModal({
   onClose,
   onBack,
   onSave,
+  bankId,
   label: labelProp = '',
   holderName: holderProp = '',
   accountNumber: accountProp = '',
@@ -119,9 +122,13 @@ export default function EditBankModal({
     city !== cityProp ||
     postalCode !== postalProp;
 
+  const { updateBank } = useBanks();
+
   const handleSave = () => {
     if (!isDirty) return;
-    onSave({ label, holderName, accountNumber, bic, address, city, postalCode, bankCountry });
+    const data = { label, holderName, accountNumber, bic, address, city, postalCode, bankCountry };
+    if (bankId) updateBank(bankId, { label, holder: holderName, accountNumber, bic, address, city, postalCode, country: bankCountry });
+    onSave(data);
     onClose();
   };
 

@@ -3,26 +3,8 @@
 // ─────────────────────────────────────────────────────────────────────────────
 import { useState, useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import { BANK_DETAILS } from '../components/BankDetailsModal';
+import { useBanks, BankEntry } from '../context/BankContext';
 import AddNewBankModal from '../components/AddNewBankModal';
-
-type BankAccount = {
-  id: string;
-  label: string;
-  iban: string;
-  holderName: string;
-  address: string;
-  status: 'Approved' | 'Pending' | 'Rejected';
-};
-
-const INITIAL_ACCOUNTS: BankAccount[] = Object.entries(BANK_DETAILS).map(([, d], i) => ({
-  id: String(i + 1),
-  label: d.label,
-  iban: d.iban.replace(/\s/g, ''),
-  holderName: d.holder,
-  address: `${d.address}, ${d.city}, ${d.postalCode}, United Kingdom`,
-  status: 'Approved' as const,
-}));
 
 // ─── Primary ribbon — exact Figma geometry ────────────────────────────────────
 function PrimaryRibbon() {
@@ -43,24 +25,20 @@ function UKFlag() {
 }
 
 // ─── Status badge ─────────────────────────────────────────────────────────────
-function StatusBadge({ status }: { status: BankAccount['status'] }) {
-  const colors: Record<BankAccount['status'], string> = {
-    Approved: 'var(--cp-success)',
-    Pending: 'var(--cp-warning)',
-    Rejected: 'var(--cp-error)',
-  };
+function StatusBadge() {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0">
-      <div className="relative rounded-[100px] shrink-0 size-[8px]" style={{ background: colors[status] }} />
-      <p className="font-['Inter:Medium',sans-serif] font-medium text-[13px] text-[var(--cp-text-tertiary)] whitespace-nowrap">{status}</p>
+      <div className="relative rounded-[100px] shrink-0 size-[8px]" style={{ background: 'var(--cp-success)' }} />
+      <p className="font-['Inter:Medium',sans-serif] font-medium text-[13px] text-[var(--cp-text-tertiary)] whitespace-nowrap">Approved</p>
     </div>
   );
 }
 
 // ─── Context menu ─────────────────────────────────────────────────────────────
-function ContextMenu({ isPrimary, onSetPrimary, onClose }: {
+function ContextMenu({ isPrimary, onSetPrimary, onRemove, onClose }: {
   isPrimary: boolean;
   onSetPrimary: () => void;
+  onRemove: () => void;
   onClose: () => void;
 }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -75,10 +53,8 @@ function ContextMenu({ isPrimary, onSetPrimary, onClose }: {
   return (
     <div ref={ref} className="absolute right-0 top-[44px] z-50 bg-white border border-[var(--cp-border-default)] rounded-[8px] shadow-lg overflow-hidden w-[180px]">
       {!isPrimary && (
-        <button
-          className="w-full px-[14px] py-[10px] text-left font-['Inter:Medium',sans-serif] font-medium text-[13px] text-[var(--cp-text-primary)] hover:bg-[var(--cp-bg-1)] transition-colors"
-          onClick={() => { onSetPrimary(); onClose(); }}
-        >
+        <button className="w-full px-[14px] py-[10px] text-left font-['Inter:Medium',sans-serif] font-medium text-[13px] text-[var(--cp-text-primary)] hover:bg-[var(--cp-bg-1)] transition-colors"
+          onClick={() => { onSetPrimary(); onClose(); }}>
           Set as Primary
         </button>
       )}
@@ -88,10 +64,12 @@ function ContextMenu({ isPrimary, onSetPrimary, onClose }: {
           Primary account
         </div>
       )}
-      <button className="w-full px-[14px] py-[10px] text-left font-['Inter:Medium',sans-serif] font-medium text-[13px] text-[var(--cp-text-secondary)] hover:bg-[var(--cp-bg-1)] transition-colors border-t border-[var(--cp-border-default)]">
+      <button className="w-full px-[14px] py-[10px] text-left font-['Inter:Medium',sans-serif] font-medium text-[13px] text-[var(--cp-text-secondary)] hover:bg-[var(--cp-bg-1)] transition-colors border-t border-[var(--cp-border-default)]"
+        onClick={onClose}>
         Edit
       </button>
-      <button className="w-full px-[14px] py-[10px] text-left font-['Inter:Medium',sans-serif] font-medium text-[13px] text-red-500 hover:bg-red-50 transition-colors border-t border-[var(--cp-border-default)]">
+      <button className="w-full px-[14px] py-[10px] text-left font-['Inter:Medium',sans-serif] font-medium text-[13px] text-red-500 hover:bg-red-50 transition-colors border-t border-[var(--cp-border-default)]"
+        onClick={() => { onRemove(); onClose(); }}>
         Remove
       </button>
     </div>
@@ -99,7 +77,7 @@ function ContextMenu({ isPrimary, onSetPrimary, onClose }: {
 }
 
 // ─── More button + menu ───────────────────────────────────────────────────────
-function MoreButton({ isPrimary, onSetPrimary }: { isPrimary: boolean; onSetPrimary: () => void }) {
+function MoreButton({ isPrimary, onSetPrimary, onRemove }: { isPrimary: boolean; onSetPrimary: () => void; onRemove: () => void }) {
   const [open, setOpen] = useState(false);
   const btnRef = useRef<HTMLButtonElement>(null);
   const [coords, setCoords] = useState({ top: 0, right: 0 });
@@ -133,6 +111,7 @@ function MoreButton({ isPrimary, onSetPrimary }: { isPrimary: boolean; onSetPrim
           <ContextMenu
             isPrimary={isPrimary}
             onSetPrimary={onSetPrimary}
+            onRemove={onRemove}
             onClose={() => setOpen(false)}
           />
         </div>,
@@ -143,52 +122,47 @@ function MoreButton({ isPrimary, onSetPrimary }: { isPrimary: boolean; onSetPrim
 }
 
 // ─── Bank row ─────────────────────────────────────────────────────────────────
-function BankRow({ account, index, isPrimary, onSetPrimary }: {
-  account: BankAccount;
+function BankRow({ account, index, isPrimary, onSetPrimary, onRemove }: {
+  account: BankEntry;
   index: number;
   isPrimary: boolean;
   onSetPrimary: () => void;
+  onRemove: () => void;
 }) {
   const bg = index % 2 === 0 ? 'var(--cp-bg-2)' : 'var(--cp-bg-1)';
+  const address = `${account.address}, ${account.city}, ${account.postalCode}, ${account.country}`;
   return (
     <div
       className="content-stretch flex items-center justify-between overflow-clip px-[20px] py-[10px] relative shrink-0 w-full"
       style={{ background: bg }}
     >
-      {/* Primary ribbon */}
       {isPrimary && <PrimaryRibbon />}
-
-      {/* Left */}
       <div className="content-stretch flex items-center relative flex-1 min-w-0">
         <div className="content-stretch flex gap-[10px] items-center relative shrink-0 w-[288px]">
-          <div className="relative shrink-0 size-[36px] flex items-center justify-center">
-            <UKFlag />
-          </div>
+          <div className="relative shrink-0 size-[36px] flex items-center justify-center"><UKFlag /></div>
           <div className="content-stretch flex flex-col items-start leading-[normal] not-italic relative shrink-0">
             <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-primary)] whitespace-nowrap">{account.label}</p>
-            <p className="font-['Inter:Regular',sans-serif] font-normal text-[13px] text-[var(--cp-text-tertiary)] whitespace-nowrap">{account.iban}</p>
+            <p className="font-['Inter:Regular',sans-serif] font-normal text-[13px] text-[var(--cp-text-tertiary)] whitespace-nowrap">{account.iban.replace(/\s/g, '')}</p>
           </div>
         </div>
         <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" />
         <div className="content-stretch flex h-[56px] items-start min-w-[200px] p-[10px] relative rounded-[5px] shrink-0">
           <div className="content-stretch flex flex-col h-full items-start justify-between relative shrink-0">
             <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[11px] text-[var(--cp-text-tertiary)] uppercase whitespace-nowrap leading-none">Account Holder Name</p>
-            <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-primary)] whitespace-nowrap leading-none">{account.holderName}</p>
+            <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-primary)] whitespace-nowrap leading-none">{account.holder}</p>
           </div>
         </div>
         <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" />
         <div className="content-stretch flex flex-1 h-[56px] items-start min-w-[200px] overflow-clip p-[10px] relative rounded-[5px]">
           <div className="content-stretch flex flex-1 flex-col h-full items-start justify-between min-w-0 relative">
             <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[11px] text-[var(--cp-text-tertiary)] uppercase whitespace-nowrap leading-none shrink-0">Recipient Address</p>
-            <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-primary)] leading-none overflow-hidden text-ellipsis whitespace-nowrap w-full">{account.address}</p>
+            <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-primary)] leading-none overflow-hidden text-ellipsis whitespace-nowrap w-full">{address}</p>
           </div>
         </div>
       </div>
-
-      {/* Right */}
       <div className="content-stretch flex items-center justify-between pl-[20px] relative shrink-0 w-[180px]">
-        <StatusBadge status={account.status} />
-        <MoreButton isPrimary={isPrimary} onSetPrimary={onSetPrimary} />
+        <StatusBadge />
+        <MoreButton isPrimary={isPrimary} onSetPrimary={onSetPrimary} onRemove={onRemove} />
       </div>
     </div>
   );
@@ -196,9 +170,7 @@ function BankRow({ account, index, isPrimary, onSetPrimary }: {
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 export default function BankAccountsPage() {
-  const [accounts] = useState<BankAccount[]>(INITIAL_ACCOUNTS);
-  // Wise (id '1') is primary by default
-  const [primaryId, setPrimaryId] = useState('1');
+  const { banks, primaryId, setPrimaryId, removeBank } = useBanks();
   const [showAddNew, setShowAddNew] = useState(false);
   return (
     <div className="content-stretch flex flex-col gap-[20px] items-start relative w-full">
@@ -229,15 +201,16 @@ export default function BankAccountsPage() {
 
       {/* List */}
       <div className="content-stretch flex flex-col items-start relative shrink-0 w-full overflow-hidden rounded-[5px]">
-        {[...accounts]
+        {[...banks]
           .sort((a, b) => (a.id === primaryId ? -1 : b.id === primaryId ? 1 : 0))
-          .map((account, i) => (
+          .map((bank, i) => (
           <BankRow
-            key={account.id}
-            account={account}
+            key={bank.id}
+            account={bank}
             index={i}
-            isPrimary={account.id === primaryId}
-            onSetPrimary={() => setPrimaryId(account.id)}
+            isPrimary={bank.id === primaryId}
+            onSetPrimary={() => setPrimaryId(bank.id)}
+            onRemove={() => removeBank(bank.id)}
           />
         ))}
       </div>

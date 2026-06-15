@@ -4,6 +4,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
 import { useState } from 'react';
 import { SelectField } from './SelectField';
+import { useBanks } from '../context/BankContext';
 
 type Props = {
   onClose: () => void;
@@ -98,15 +99,28 @@ export const BANK_DETAILS: Record<string, {
 
 // ─── Modal ────────────────────────────────────────────────────────────────────
 export default function BankDetailsModal({ onClose, onUpdate, onEditBank, onAddNewBank, onManageBankAccounts, bankName = 'Wise', bankAccount = 'GB97TRWI23080120507810', selectedBankName }: Props) {
-  // Find initial bank from options, fall back to Wise
+  const { banks } = useBanks();
+  // Build dropdown options from live context
+  const BANK_OPTIONS = banks.map(b => ({ name: b.label, account: b.iban.replace(/\s/g, ''), id: b.id }));
   const initialBank = BANK_OPTIONS.find(b => b.name === bankName) ?? BANK_OPTIONS[0];
   const restoredBank = selectedBankName ? (BANK_OPTIONS.find(b => b.name === selectedBankName) ?? initialBank) : initialBank;
-  const [selectedBank, setSelectedBank] = useState(restoredBank);
+  const [selectedBank, setSelectedBank] = useState(restoredBank ?? BANK_OPTIONS[0]);
   const [bankOpen, setBankOpen] = useState(false);
   const [removeState, setRemoveState] = useState<'idle' | 'confirm'>('idle');
 
-  const details = BANK_DETAILS[selectedBank.name] ?? BANK_DETAILS['Wise'];
-  const hasChanged = selectedBank.name !== initialBank.name;
+  // Derive details from context bank entry
+  const bankEntry = banks.find(b => b.label === selectedBank?.name);
+  const details = bankEntry ? {
+    holder: bankEntry.holder,
+    bankName: bankEntry.bankName,
+    iban: bankEntry.iban,
+    accountNumber: bankEntry.accountNumber,
+    bic: bankEntry.bic,
+    address: `${bankEntry.address}, ${bankEntry.city}, ${bankEntry.postalCode}, ${bankEntry.country}`,
+    label: bankEntry.label,
+  } : { holder: '---', bankName: '---', iban: '---', accountNumber: '---', bic: '---', address: '---', label: '---' };
+
+  const hasChanged = selectedBank?.name !== initialBank?.name;
 
   const handleUpdate = () => {
     if (!hasChanged) return;
