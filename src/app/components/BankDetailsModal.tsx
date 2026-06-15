@@ -198,7 +198,7 @@ export default function BankDetailsModal({ onClose, bankName = 'Wise', bankAccou
                         className="bg-white border border-[var(--cp-border-default)] border-solid content-stretch cursor-pointer flex flex-col items-start p-[10px] relative rounded-[5px] shrink-0 w-full hover:bg-[var(--cp-bg-1)] transition-colors"
                         onClick={() => setBankOpen(false)}
                       >
-                        <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[11px] text-[var(--cp-brand-primary)] leading-[normal] not-italic relative shrink-0 w-full">
+                        <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[11px] text-[var(--cp-brand-primary)] leading-[normal] not-italic relative shrink-0 w-full text-left">
                           {action}
                         </p>
                       </button>
