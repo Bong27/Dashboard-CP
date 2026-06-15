@@ -320,6 +320,7 @@ export default function PaySettingsRow({
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [showBankDetails, setShowBankDetails] = useState(false);
   const [showEditBank, setShowEditBank] = useState(false);
+  const [editingBankName, setEditingBankName] = useState(bankNameProp);
   const [bankName, setBankName] = useState(bankNameProp);
   const [bankAccount, setBankAccount] = useState(bankAccountProp);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -346,7 +347,7 @@ export default function PaySettingsRow({
       <BankDetailsModal
         onClose={() => setShowBankDetails(false)}
         onUpdate={(name, account) => { setBankName(name); setBankAccount(account); }}
-        onEditBank={() => { setShowBankDetails(false); setShowEditBank(true); }}
+        onEditBank={(name) => { setEditingBankName(name); setShowEditBank(true); }}
         bankName={bankName}
         bankAccount={bankAccount}
       />, document.body)}
@@ -354,11 +355,11 @@ export default function PaySettingsRow({
       <EditBankModal
         onClose={() => setShowEditBank(false)}
         onSave={() => setShowEditBank(false)}
-        label={BANK_DETAILS[bankName]?.label ?? bankName}
-        holderName={BANK_DETAILS[bankName]?.holder ?? ''}
-        accountNumber={BANK_DETAILS[bankName]?.accountNumber ?? ''}
-        bic={BANK_DETAILS[bankName]?.bic ?? ''}
-        address={BANK_DETAILS[bankName]?.address ?? ''}
+        label={BANK_DETAILS[editingBankName]?.label ?? editingBankName}
+        holderName={BANK_DETAILS[editingBankName]?.holder ?? ''}
+        accountNumber={BANK_DETAILS[editingBankName]?.accountNumber ?? ''}
+        bic={BANK_DETAILS[editingBankName]?.bic ?? ''}
+        address={BANK_DETAILS[editingBankName]?.address ?? ''}
         city=""
         postalCode=""
         bankCountry="United Kingdom"

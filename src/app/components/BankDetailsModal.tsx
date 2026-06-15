@@ -8,7 +8,7 @@ import { SelectField } from './SelectField';
 type Props = {
   onClose: () => void;
   onUpdate?: (name: string, account: string) => void;
-  onEditBank?: () => void;
+  onEditBank?: (name: string) => void;
   bankName?: string;
   bankAccount?: string;
 };
@@ -196,7 +196,7 @@ export default function BankDetailsModal({ onClose, onUpdate, onEditBank, bankNa
                     {/* Edit Bank — swaps to EditBankModal */}
                     <button
                       className="bg-white border border-[var(--cp-border-default)] border-solid content-stretch cursor-pointer flex flex-col items-start p-[10px] relative rounded-[5px] shrink-0 w-full hover:bg-[var(--cp-bg-1)] transition-colors"
-                      onClick={() => { setBankOpen(false); onClose(); onEditBank?.(); }}
+                      onClick={() => { setBankOpen(false); onClose(); onEditBank?.(selectedBank.name); }}
                     >
                       <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[11px] text-[var(--cp-brand-primary)] leading-[normal] not-italic relative shrink-0 w-full text-left">
                         Edit Bank
