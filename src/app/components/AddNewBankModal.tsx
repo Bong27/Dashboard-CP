@@ -47,6 +47,7 @@ function Field({
   hasInfo = false,
   dimValue = false,
   halfWidth = false,
+  helper = '',
 }: {
   label: string;
   value: string;
@@ -56,36 +57,53 @@ function Field({
   hasInfo?: boolean;
   dimValue?: boolean;
   halfWidth?: boolean;
+  helper?: string;
 }) {
   const [focused, setFocused] = useState(false);
+  const showHelper = focused && helper;
   return (
-    <div
-      className={`bg-white relative rounded-[5px] h-[56px] flex items-start justify-between p-[10px] ${halfWidth ? 'flex-1 min-w-0' : 'w-full shrink-0'}`}
-      style={{ border: `1px solid ${focused ? 'var(--cp-border-active)' : 'var(--cp-border-default)'}`, transition: 'border-color 0.1s' }}
-    >
-      {/* Label + input */}
-      <div className="flex flex-col items-start justify-between self-stretch flex-1 min-w-0">
-        <div className="flex gap-[5px] items-center shrink-0">
-          <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[11px] text-[var(--cp-text-tertiary)] uppercase whitespace-nowrap leading-none">
-            {label}
-          </p>
-          {hasInfo && <InfoIcon />}
+    <div className={`relative ${halfWidth ? 'flex-1 min-w-0' : 'w-full shrink-0'}`}>
+      <div
+        className={`bg-white relative flex items-start justify-between p-[10px] ${showHelper ? 'rounded-t-[5px]' : 'rounded-[5px]'} h-[56px]`}
+        style={{
+          border: `1px solid ${focused ? 'var(--cp-brand-primary)' : 'var(--cp-border-default)'}`,
+          borderBottom: showHelper ? `1px solid var(--cp-brand-primary)` : undefined,
+          transition: 'border-color 0.1s',
+        }}
+      >
+        {/* Label + input */}
+        <div className="flex flex-col items-start justify-between self-stretch flex-1 min-w-0">
+          <div className="flex gap-[5px] items-center shrink-0">
+            <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[11px] text-[var(--cp-text-tertiary)] uppercase whitespace-nowrap leading-none">
+              {label}
+            </p>
+            {hasInfo && <InfoIcon />}
+          </div>
+          <input
+            type="text"
+            value={value}
+            onChange={e => onChange(e.target.value)}
+            placeholder={placeholder}
+            onFocus={() => setFocused(true)}
+            onBlur={() => setFocused(false)}
+            className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] bg-transparent border-none outline-none w-full min-w-0 leading-none placeholder:text-[var(--cp-text-quinary)] overflow-hidden text-ellipsis whitespace-nowrap"
+            style={{
+              color: dimValue ? 'var(--cp-text-quaternary)' : 'var(--cp-text-primary)',
+              caretColor: 'var(--cp-brand-primary)',
+            }}
+          />
         </div>
-        <input
-          type="text"
-          value={value}
-          onChange={e => onChange(e.target.value)}
-          placeholder={placeholder}
-          onFocus={() => setFocused(true)}
-          onBlur={() => setFocused(false)}
-          className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] bg-transparent border-none outline-none w-full min-w-0 leading-none placeholder:text-[var(--cp-text-quinary)] overflow-hidden text-ellipsis whitespace-nowrap"
-          style={{
-            color: dimValue ? 'var(--cp-text-quaternary)' : 'var(--cp-text-primary)',
-            caretColor: 'var(--cp-brand-primary)',
-          }}
-        />
+        {hasChevron && <ChevronSelector />}
       </div>
-      {hasChevron && <ChevronSelector />}
+      {/* Helper text bar */}
+      {showHelper && (
+        <div
+          className="w-full px-[10px] py-[6px] rounded-b-[5px]"
+          style={{ background: 'var(--cp-brand-primary)', border: '1px solid var(--cp-brand-primary)', borderTop: 'none' }}
+        >
+          <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-white leading-tight">{helper}</p>
+        </div>
+      )}
     </div>
   );
 }
@@ -333,13 +351,13 @@ export default function AddNewBankModal({ onClose }: Props) {
 
           {/* Form */}
           <div className="flex flex-col gap-[8px] items-start relative shrink-0 w-full">
-            <Field label="Account Holder Name" value={holderName}  onChange={setHolderName} />
+            <Field label="Account Holder Name" value={holderName}  onChange={setHolderName} helper="Must exactly match the name registered with your bank" />
             <BankCountryField value={bankCountry} onChange={setBankCountry} />
             <IBANField value={iban} onChange={setIban} />
             <Field label="BIC / SWIFT"  value={bic}         onChange={setBic} />
-            <Field label="Address"      value={address}     onChange={setAddress} />
-            <Field label="Town / City"  value={city}        onChange={setCity} />
-            <Field label="Postal / ZIP Code" value={postalCode} onChange={setPostalCode} />
+            <Field label="Address"      value={address}     onChange={setAddress} helper="Must exactly match the billing address registered with your bank" />
+            <Field label="Town / City"  value={city}        onChange={setCity}    helper="Must exactly match the billing address registered with your bank" />
+            <Field label="Postal / ZIP Code" value={postalCode} onChange={setPostalCode} helper="Must exactly match the billing address registered with your bank" />
             <Field label="Bank Account Type" value={accountType} onChange={setAccountType} placeholder="Business" dimValue={accountType === ''} hasInfo />
           </div>
 
