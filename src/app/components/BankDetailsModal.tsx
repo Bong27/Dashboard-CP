@@ -135,15 +135,12 @@ export default function BankDetailsModal({ onClose, bankName = 'Wise', bankAccou
           </p>
 
           {/* Bank selector */}
-          <div className="relative w-full" style={{ overflow: 'visible' }}>
+          <div className="relative w-full cursor-pointer" style={{ overflow: 'visible' }} onClick={() => setBankOpen(o => !o)}>
             <SelectField
               label="BANK"
               height={56}
               selector={
-                <div
-                  className="content-stretch flex items-center justify-between relative shrink-0 w-[21px] cursor-pointer"
-                  onClick={() => setBankOpen(o => !o)}
-                >
+                <div className="content-stretch flex items-center justify-between relative shrink-0 w-[21px]">
                   <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" />
                   <Chevron open={bankOpen} />
                 </div>
