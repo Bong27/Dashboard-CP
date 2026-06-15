@@ -62,13 +62,26 @@ function Field({
   inactive?: boolean;
 }) {
   const [focused, setFocused] = useState(false);
+  const [hovered, setHovered] = useState(false);
   const showHelper = focused && helper;
+  const borderColor = inactive
+    ? 'var(--cp-border-default)'
+    : focused
+      ? 'var(--cp-brand-primary)'
+      : hovered
+        ? 'var(--cp-border-hover)'
+        : 'var(--cp-border-default)';
   return (
-    <div className={`relative ${halfWidth ? 'flex-1 min-w-0' : 'w-full shrink-0'}`} style={{ overflow: 'visible' }}>
+    <div
+      className={`relative ${halfWidth ? 'flex-1 min-w-0' : 'w-full shrink-0'}`}
+      style={{ overflow: 'visible' }}
+      onMouseEnter={() => !inactive && setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
       <div
         className="bg-white relative rounded-[5px] h-[56px] flex items-start justify-between p-[10px]"
         style={{
-          border: `1px solid ${focused && !inactive ? 'var(--cp-brand-primary)' : 'var(--cp-border-default)'}`,
+          border: `1px solid ${borderColor}`,
           transition: 'border-color 0.1s',
           borderRadius: showHelper ? '5px 5px 0 0' : '5px',
           pointerEvents: inactive ? 'none' : undefined,
