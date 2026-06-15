@@ -128,7 +128,7 @@ export default function BankAccountsPage() {
   const [accounts] = useState<BankAccount[]>(MOCK_ACCOUNTS);
 
   return (
-    <div className="content-stretch flex flex-col gap-[20px] items-start p-[10px] relative w-full">
+    <div className="content-stretch flex flex-col gap-[20px] items-start relative w-full">
 
       {/* Header row */}
       <div className="content-stretch flex gap-[10px] items-center py-[10px] relative shrink-0 w-full">

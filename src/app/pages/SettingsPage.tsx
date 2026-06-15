@@ -27,7 +27,7 @@ export default function SettingsPage() {
   return (
     <div className="content-stretch flex flex-col items-start relative size-full">
       {/* Tabs */}
-      <div className="content-stretch flex gap-[10px] items-start relative shrink-0 px-[40px] pt-[20px]">
+      <div className="content-stretch flex gap-[10px] items-start relative shrink-0">
         <button
           onClick={() => setActiveTab('general')}
           className="content-stretch cursor-pointer flex items-center justify-center px-[8px] py-[12px] relative shrink-0 group"
@@ -68,7 +68,7 @@ export default function SettingsPage() {
 
       {/* Content */}
       {activeTab === 'general' && (
-        <div className="content-stretch flex flex-col gap-[20px] items-start px-[40px] py-[20px] relative shrink-0 w-full">
+        <div className="content-stretch flex flex-col gap-[20px] items-start py-[20px] relative shrink-0 w-full">
           {/* Underpayment Limits Section */}
           <div className="content-stretch flex flex-col gap-[10px] items-start pb-[20px] relative shrink-0 w-full">
             <div aria-hidden="true" className="absolute border-[var(--cp-border-default)] border-b border-solid inset-0 pointer-events-none" />
@@ -251,7 +251,7 @@ export default function SettingsPage() {
       )}
 
       {activeTab === 'email' && (
-        <div className="content-stretch flex flex-col items-start px-[40px] py-[20px] relative shrink-0 w-full">
+        <div className="content-stretch flex flex-col items-start py-[20px] relative shrink-0 w-full">
           <p className="font-['Inter:Regular',sans-serif] font-normal text-[var(--cp-text-secondary)] text-[14px]">
             Email notification settings will be displayed here.
           </p>

@@ -326,7 +326,7 @@ export default function DashboardLayout() {
         </div>
 
         {/* Page content — offset to clear fixed sidebar */}
-        <div className="flex-1 h-full overflow-y-auto ml-[225px]">
+        <div className="flex-1 h-full overflow-y-auto ml-[225px] p-[30px]">
           <Outlet />
         </div>
 
