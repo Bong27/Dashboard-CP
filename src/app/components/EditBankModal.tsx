@@ -142,6 +142,7 @@ export default function EditBankModal({
         {/* Card — fixed height matches BankDetailsModal */}
         <div
           className="bg-white flex flex-col gap-[20px] items-start p-[20px] relative rounded-[10px] w-full"
+          style={{ height: 634 }}
         >
           {/* Title */}
           <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[13px] text-[var(--cp-text-secondary)] uppercase whitespace-nowrap shrink-0">

@@ -128,7 +128,7 @@ export default function BankDetailsModal({ onClose, onUpdate, onEditBank, bankNa
         </button>
 
         {/* Card */}
-        <div className="bg-white content-stretch flex flex-col gap-[20px] items-start p-[20px] relative rounded-[10px] w-full overflow-hidden" style={{ height: 582 }}>
+        <div className="bg-white content-stretch flex flex-col gap-[20px] items-start p-[20px] relative rounded-[10px] w-full overflow-hidden" style={{ height: 634 }}>
 
           {/* Title */}
           <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[13px] text-[var(--cp-text-secondary)] uppercase whitespace-nowrap">
