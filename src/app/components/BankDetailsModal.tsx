@@ -3,6 +3,8 @@
 // Source: Figma node 1623:265565 "Bank Details Modal (label)"
 // ─────────────────────────────────────────────────────────────────────────────
 import { useState } from 'react';
+import { createPortal } from 'react-dom';
+import EditBankModal from './EditBankModal';
 import { SelectField } from './SelectField';
 
 type Props = {
@@ -95,6 +97,7 @@ export default function BankDetailsModal({ onClose, onUpdate, bankName = 'Wise',
 
   const details = BANK_DETAILS[selectedBank.name] ?? BANK_DETAILS['Wise'];
   const hasChanged = selectedBank.name !== initialBank.name;
+  const [showEditBank, setShowEditBank] = useState(false);
 
   const handleUpdate = () => {
     if (!hasChanged) return;
@@ -111,6 +114,22 @@ export default function BankDetailsModal({ onClose, onUpdate, bankName = 'Wise',
   };
 
   return (
+    <>
+    {showEditBank && createPortal(
+      <EditBankModal
+        onClose={() => setShowEditBank(false)}
+        onSave={() => setShowEditBank(false)}
+        label={details.label}
+        holderName={details.holder}
+        accountNumber={details.accountNumber}
+        bic={details.bic}
+        address={details.address}
+        city=""
+        postalCode=""
+        bankCountry="United Kingdom"
+      />,
+      document.body
+    )}
     <div
       className="fixed inset-0 z-50 flex items-center justify-center"
       style={{ background: 'rgba(0,0,0,0.55)' }}
@@ -192,7 +211,16 @@ export default function BankDetailsModal({ onClose, onUpdate, bankName = 'Wise',
 
                   {/* Action buttons — same style as bank rows */}
                   <div className="content-stretch flex flex-col gap-[5px] items-start relative shrink-0 w-full">
-                    {(['Edit Bank', 'Add New Bank', 'Manage Bank Accounts'] as const).map(action => (
+                    {/* Edit Bank — opens EditBankModal */}
+                    <button
+                      className="bg-white border border-[var(--cp-border-default)] border-solid content-stretch cursor-pointer flex flex-col items-start p-[10px] relative rounded-[5px] shrink-0 w-full hover:bg-[var(--cp-bg-1)] transition-colors"
+                      onClick={() => { setBankOpen(false); setShowEditBank(true); }}
+                    >
+                      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[11px] text-[var(--cp-brand-primary)] leading-[normal] not-italic relative shrink-0 w-full text-left">
+                        Edit Bank
+                      </p>
+                    </button>
+                    {(['Add New Bank', 'Manage Bank Accounts'] as const).map(action => (
                       <button
                         key={action}
                         className="bg-white border border-[var(--cp-border-default)] border-solid content-stretch cursor-pointer flex flex-col items-start p-[10px] relative rounded-[5px] shrink-0 w-full hover:bg-[var(--cp-bg-1)] transition-colors"
@@ -261,5 +289,6 @@ export default function BankDetailsModal({ onClose, onUpdate, bankName = 'Wise',
         </div>
       </div>
     </div>
+    </>
   );
 }
