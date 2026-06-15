@@ -209,6 +209,7 @@ export default function BankAccountsPage() {
         />,
         document.body
       )}
+      {showAddNew && createPortal(
         <AddNewBankModal onClose={() => setShowAddNew(false)} />,
         document.body
       )}
