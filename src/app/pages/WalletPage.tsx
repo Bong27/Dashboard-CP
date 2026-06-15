@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import svgPaths from '../../imports/Wallet-2/svg-tfchl2zu4w';
-import { useState } from 'react';
 import BankPayoutModal from '../components/BankPayoutModal';
 import { CircleIcon } from '../components/CircleIcon';
 

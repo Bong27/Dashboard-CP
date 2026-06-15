@@ -105,6 +105,7 @@ type State = 'empty' | 'loading-payout' | 'loading-amount' | 'filled' | 'countdo
 export default function BankPayoutModal({ onClose }: { onClose: () => void }) {
   const [usdtAmount, setUsdtAmount]     = useState('');
   const [usdAmount, setUsdAmount]       = useState('');
+  const [note, setNote]                 = useState('');
   const [state, setState]               = useState<State>('empty');
   const [countdown, setCountdown]       = useState(COUNTDOWN_SEC);
   const [convFee, setConvFee]           = useState(0);
@@ -269,9 +270,14 @@ export default function BankPayoutModal({ onClose }: { onClose: () => void }) {
 
             {/* Add Note */}
             <SelectField label="ADD NOTE" height={56}>
-              <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-quaternary)] whitespace-nowrap">
-                Optional description or reference
-              </p>
+              <input
+                type="text"
+                value={note}
+                onChange={e => setNote(e.target.value)}
+                placeholder="Optional description or reference"
+                className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] bg-transparent border-none outline-none w-full min-w-0 block"
+                style={{ color: note ? 'var(--cp-text-primary)' : 'var(--cp-text-quaternary)' }}
+              />
             </SelectField>
           </div>
 

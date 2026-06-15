@@ -61,29 +61,10 @@ export function SelectField({ label, labelInfo, children, selector, height = 62 
         </div>
       </div>
 
-      {/* Right: selector */}
+      {/* Right: selector slot — caller provides full content including divider/chevron */}
       {selector && (
-        <div
-          className="content-stretch flex gap-[5px] items-center relative self-stretch shrink-0 rounded-r-[4px] transition-colors duration-100"
-          onMouseEnter={() => setSelectorHovered(true)}
-          onMouseLeave={() => setSelectorHovered(false)}
-        >
+        <div className="content-stretch flex items-center relative self-stretch shrink-0">
           {selector}
-          {/* Divider + chevron */}
-          <div className="content-stretch flex items-center justify-between relative shrink-0 w-[21px]">
-            <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" />
-            <div className="overflow-clip relative shrink-0 size-[12px]">
-              <div className="absolute inset-[34.38%_21.88%]">
-                <svg className="absolute block inset-0 size-full" fill="none" viewBox="0 0 8 6">
-                  <path
-                    fillRule="evenodd" clipRule="evenodd"
-                    d="M0.18306 0.18306C0.42714 -0.06102 0.82286 -0.06102 1.06694 0.18306L4 3.11612L6.93306 0.18306C7.17714 -0.06102 7.57286 -0.06102 7.81694 0.18306C8.06102 0.42714 8.06102 0.82286 7.81694 1.06694L4.44194 4.44194C4.19786 4.68602 3.80214 4.68602 3.55806 4.44194L0.18306 1.06694C-0.06102 0.82286 -0.06102 0.42714 0.18306 0.18306Z"
-                    fill="var(--cp-text-quinary)"
-                  />
-                </svg>
-              </div>
-            </div>
-          </div>
         </div>
       )}
     </div>
