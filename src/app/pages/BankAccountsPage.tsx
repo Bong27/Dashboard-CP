@@ -106,7 +106,7 @@ function MoreButton({ isPrimary, onSetPrimary }: { isPrimary: boolean; onSetPrim
   const handleOpen = () => {
     if (btnRef.current) {
       const r = btnRef.current.getBoundingClientRect();
-      setCoords({ top: r.top, right: window.innerWidth - r.left + 8 });
+      setCoords({ top: r.top, right: window.innerWidth - r.left + 4 });
     }
     setOpen(o => !o);
   };
@@ -220,7 +220,9 @@ export default function BankAccountsPage() {
 
       {/* List */}
       <div className="content-stretch flex flex-col items-start relative shrink-0 w-full overflow-hidden rounded-[5px]">
-        {accounts.map((account, i) => (
+        {[...accounts]
+          .sort((a, b) => (a.id === primaryId ? -1 : b.id === primaryId ? 1 : 0))
+          .map((account, i) => (
           <BankRow
             key={account.id}
             account={account}
