@@ -301,7 +301,7 @@ export default function DashboardLayout() {
                     </div>
                   </button>
                   {accountOpen && (
-                    <div className="fixed top-0 right-0 z-[300]">
+                    <div className="fixed top-[10px] right-[40px] z-[300]">
                       <AccountDropdown onClose={() => setAccountOpen(false)} />
                     </div>
                   )}
