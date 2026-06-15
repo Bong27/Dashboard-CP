@@ -232,7 +232,7 @@ function DataRow({ label, value }: { label: string; value: string }) {
   return (
     <div className="content-stretch flex flex-col gap-[5px] items-start relative shrink-0 w-full">
       <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[11px] text-[var(--cp-text-tertiary)] uppercase whitespace-nowrap leading-none">{label}</p>
-      <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-primary)] leading-tight">{value}</p>
+      <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-primary)] leading-tight break-all">{value}</p>
     </div>
   );
 }
@@ -367,8 +367,12 @@ export default function AddNewBankModal({ onClose }: Props) {
 
             {/* Account Number + BIC side by side */}
             <div className="flex items-start justify-between relative shrink-0 w-full gap-[10px]">
-              <DataRow label="Account Number" value={iban.replace(/\s/g, '').slice(-8) || '---'} />
-              <DataRow label="BIC / SWIFT" value={bic} />
+              <div className="flex-1 min-w-0">
+                <DataRow label="Account Number" value={iban.replace(/\s/g, '').slice(-8) || '---'} />
+              </div>
+              <div className="flex-1 min-w-0">
+                <DataRow label="BIC / SWIFT" value={bic} />
+              </div>
             </div>
 
             {/* Recipient Address */}
