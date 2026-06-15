@@ -27,18 +27,23 @@ function UKFlag() {
 }
 
 // ─── Status badge ─────────────────────────────────────────────────────────────
-function StatusBadge() {
+function StatusBadge({ status }: { status: BankEntry['status'] }) {
+  const isReview = status === 'under_review';
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0">
-      <div className="relative rounded-[100px] shrink-0 size-[8px]" style={{ background: 'var(--cp-success)' }} />
-      <p className="font-['Inter:Medium',sans-serif] font-medium text-[13px] text-[var(--cp-text-tertiary)] whitespace-nowrap">Approved</p>
+      <div className="relative rounded-[100px] shrink-0 size-[8px]"
+        style={{ background: isReview ? 'var(--cp-warning, #f59e0b)' : 'var(--cp-success)' }} />
+      <p className="font-['Inter:Medium',sans-serif] font-medium text-[13px] text-[var(--cp-text-tertiary)] whitespace-nowrap">
+        {isReview ? 'Under Review' : 'Approved'}
+      </p>
     </div>
   );
 }
 
 // ─── Context menu ─────────────────────────────────────────────────────────────
-function ContextMenu({ isPrimary, onSetPrimary, onDelete, onEdit, onClose }: {
+function ContextMenu({ isPrimary, isReview, onSetPrimary, onDelete, onEdit, onClose }: {
   isPrimary: boolean;
+  isReview: boolean;
   onSetPrimary: () => void;
   onDelete: () => void;
   onEdit: () => void;
@@ -55,17 +60,19 @@ function ContextMenu({ isPrimary, onSetPrimary, onDelete, onEdit, onClose }: {
 
   return (
     <div ref={ref} className="bg-white border border-[var(--cp-border-default)] rounded-[8px] shadow-lg overflow-hidden w-[180px]">
-      {!isPrimary && (
+      {!isReview && !isPrimary && (
         <button className="w-full px-[14px] py-[10px] text-left font-['Inter:Medium',sans-serif] font-medium text-[13px] text-[var(--cp-text-primary)] hover:bg-[var(--cp-bg-1)] transition-colors"
           onClick={() => { onSetPrimary(); onClose(); }}>
           Set as Primary
         </button>
       )}
-      <button className="w-full px-[14px] py-[10px] text-left font-['Inter:Medium',sans-serif] font-medium text-[13px] text-[var(--cp-text-secondary)] hover:bg-[var(--cp-bg-1)] transition-colors border-t border-[var(--cp-border-default)]"
-        onClick={() => { onEdit(); onClose(); }}>
-        Edit
-      </button>
-      <button className="w-full px-[14px] py-[10px] text-left font-['Inter:Medium',sans-serif] font-medium text-[13px] text-red-500 hover:bg-red-50 transition-colors border-t border-[var(--cp-border-default)]"
+      {!isReview && (
+        <button className={`w-full px-[14px] py-[10px] text-left font-['Inter:Medium',sans-serif] font-medium text-[13px] text-[var(--cp-text-secondary)] hover:bg-[var(--cp-bg-1)] transition-colors ${!isPrimary ? 'border-t border-[var(--cp-border-default)]' : ''}`}
+          onClick={() => { onEdit(); onClose(); }}>
+          Edit
+        </button>
+      )}
+      <button className={`w-full px-[14px] py-[10px] text-left font-['Inter:Medium',sans-serif] font-medium text-[13px] text-red-500 hover:bg-red-50 transition-colors ${!isReview ? 'border-t border-[var(--cp-border-default)]' : ''}`}
         onClick={() => { onDelete(); onClose(); }}>
         Delete
       </button>
@@ -74,7 +81,7 @@ function ContextMenu({ isPrimary, onSetPrimary, onDelete, onEdit, onClose }: {
 }
 
 // ─── More button + menu ───────────────────────────────────────────────────────
-function MoreButton({ isPrimary, onSetPrimary, onDelete, onEdit }: { isPrimary: boolean; onSetPrimary: () => void; onDelete: () => void; onEdit: () => void }) {
+function MoreButton({ isPrimary, isReview, onSetPrimary, onDelete, onEdit }: { isPrimary: boolean; isReview: boolean; onSetPrimary: () => void; onDelete: () => void; onEdit: () => void }) {
   const [open, setOpen] = useState(false);
   const btnRef = useRef<HTMLButtonElement>(null);
   const [coords, setCoords] = useState({ top: 0, right: 0 });
@@ -107,6 +114,7 @@ function MoreButton({ isPrimary, onSetPrimary, onDelete, onEdit }: { isPrimary: 
         >
           <ContextMenu
             isPrimary={isPrimary}
+            isReview={isReview}
             onSetPrimary={onSetPrimary}
             onDelete={onDelete}
             onEdit={onEdit}
@@ -129,6 +137,7 @@ function BankRow({ account, index, isPrimary, onSetPrimary, onDelete, onEdit }: 
   onEdit: () => void;
 }) {
   const bg = index % 2 === 0 ? 'var(--cp-bg-2)' : 'var(--cp-bg-1)';
+  const isReview = account.status === 'under_review';
   const address = `${account.address}, ${account.city}, ${account.postalCode}, ${account.country}`;
   return (
     <div
@@ -136,7 +145,8 @@ function BankRow({ account, index, isPrimary, onSetPrimary, onDelete, onEdit }: 
       style={{ background: bg }}
     >
       {isPrimary && <PrimaryRibbon />}
-      <div className="content-stretch flex items-center relative flex-1 min-w-0">
+      {/* Left — 50% opacity when under review */}
+      <div className="content-stretch flex items-center relative flex-1 min-w-0" style={{ opacity: isReview ? 0.5 : 1 }}>
         <div className="content-stretch flex gap-[10px] items-center relative shrink-0 w-[288px]">
           <div className="relative shrink-0 size-[36px] flex items-center justify-center"><UKFlag /></div>
           <div className="content-stretch flex flex-col items-start leading-[normal] not-italic relative shrink-0">
@@ -160,8 +170,8 @@ function BankRow({ account, index, isPrimary, onSetPrimary, onDelete, onEdit }: 
         </div>
       </div>
       <div className="content-stretch flex items-center justify-between pl-[20px] relative shrink-0 w-[180px]">
-        <StatusBadge />
-        <MoreButton isPrimary={isPrimary} onSetPrimary={onSetPrimary} onDelete={onDelete} onEdit={onEdit} />
+        <StatusBadge status={account.status} />
+        <MoreButton isPrimary={isPrimary} isReview={isReview} onSetPrimary={onSetPrimary} onDelete={onDelete} onEdit={onEdit} />
       </div>
     </div>
   );

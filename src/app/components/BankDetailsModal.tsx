@@ -101,7 +101,7 @@ export const BANK_DETAILS: Record<string, {
 export default function BankDetailsModal({ onClose, onUpdate, onEditBank, onAddNewBank, onManageBankAccounts, bankName = 'Wise', bankAccount = 'GB97TRWI23080120507810', selectedBankName }: Props) {
   const { banks } = useBanks();
   // Build dropdown options from live context
-  const BANK_OPTIONS = banks.map(b => ({ name: b.label, account: b.iban.replace(/\s/g, ''), id: b.id }));
+  const BANK_OPTIONS = banks.map(b => ({ name: b.label, account: b.iban.replace(/\s/g, ''), id: b.id, status: b.status }));
   const initialBank = BANK_OPTIONS.find(b => b.name === bankName) ?? BANK_OPTIONS[0];
   const restoredBank = selectedBankName ? (BANK_OPTIONS.find(b => b.name === selectedBankName) ?? initialBank) : initialBank;
   const [selectedBank, setSelectedBank] = useState(restoredBank ?? BANK_OPTIONS[0]);
@@ -191,29 +191,42 @@ export default function BankDetailsModal({ onClose, onUpdate, onEditBank, onAddN
                 <div className="content-stretch flex flex-col gap-[20px] items-start p-[10px] relative">
                   {/* Bank list */}
                   <div className="content-stretch flex flex-col gap-[5px] items-start relative shrink-0 w-full">
-                    {BANK_OPTIONS.map(bank => (
-                      <div
-                        key={bank.name}
-                        className={`relative rounded-[5px] shrink-0 w-full cursor-pointer transition-colors ${
-                          selectedBank.name === bank.name
-                            ? 'bg-[var(--cp-brand-primary)]'
-                            : 'bg-white hover:bg-[var(--cp-bg-1)]'
-                        }`}
-                        onClick={() => { setSelectedBank(bank); setBankOpen(false); setRemoveState('idle'); }}
-                      >
-                        {selectedBank.name !== bank.name && (
-                          <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[5px]" />
-                        )}
-                        <div className="content-stretch flex flex-col items-start leading-[normal] not-italic p-[10px] relative size-full text-[11px]">
-                          <p className={`font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 w-full ${selectedBank.name === bank.name ? 'text-white' : 'text-[var(--cp-text-primary)]'}`}>
-                            {bank.name}
-                          </p>
-                          <p className={`font-['Inter:Medium',sans-serif] font-medium relative shrink-0 w-full ${selectedBank.name === bank.name ? 'text-white/80' : 'text-[var(--cp-text-secondary)]'}`}>
-                            {bank.account}
-                          </p>
+                    {BANK_OPTIONS.map(bank => {
+                      const isUnderReview = bank.status === 'under_review';
+                      const isSelected = selectedBank.name === bank.name;
+                      return (
+                        <div
+                          key={bank.name}
+                          className={`relative rounded-[5px] shrink-0 w-full transition-colors ${
+                            isUnderReview
+                              ? 'opacity-60 cursor-not-allowed bg-white'
+                              : isSelected
+                                ? 'bg-[var(--cp-brand-primary)] cursor-pointer'
+                                : 'bg-white hover:bg-[var(--cp-bg-1)] cursor-pointer'
+                          }`}
+                          onClick={() => { if (!isUnderReview) { setSelectedBank(bank); setBankOpen(false); setRemoveState('idle'); } }}
+                        >
+                          {!isSelected && (
+                            <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[5px]" />
+                          )}
+                          <div className="content-stretch flex flex-col items-start leading-[normal] not-italic p-[10px] relative size-full text-[11px]">
+                            <div className="flex items-center gap-[6px] w-full">
+                              <p className={`font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 ${isSelected ? 'text-white' : 'text-[var(--cp-text-primary)]'}`}>
+                                {bank.name}
+                              </p>
+                              {isUnderReview && (
+                                <span className="bg-orange-100 text-orange-600 font-['Inter:Semi_Bold',sans-serif] font-semibold text-[9px] uppercase px-[5px] py-[1px] rounded-[3px] whitespace-nowrap">
+                                  Under Review
+                                </span>
+                              )}
+                            </div>
+                            <p className={`font-['Inter:Medium',sans-serif] font-medium relative shrink-0 w-full ${isSelected ? 'text-white/80' : 'text-[var(--cp-text-secondary)]'}`}>
+                              {bank.account}
+                            </p>
+                          </div>
                         </div>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
 
                   {/* Action buttons — same style as bank rows */}
