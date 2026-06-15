@@ -1,3 +1,4 @@
+import BankDetailsModal from '../../src/app/components/BankDetailsModal';
 import { useState, useEffect, useRef } from 'react';
 import svgPaths from "./svg-dulsyl96to";
 
@@ -11,6 +12,7 @@ function LayerX1() {
         </g>
       </svg>
     </div>
+    </>
   );
 }
 
@@ -261,7 +263,7 @@ type PaySettingsRowProps = {
 };
 
 
-function EditButton() {
+function EditButton({ onClick }: { onClick: () => void }) {
   const [hovered, setHovered] = useState(false);
   const frameColor = hovered ? '#1C60DD' : '#8492A6';
   const penColor   = hovered ? '#1C60DD' : '#8492A6';
@@ -269,6 +271,7 @@ function EditButton() {
     <div className="relative shrink-0" style={{overflow:'visible'}}>
       <button
         className="content-stretch flex h-full items-center justify-center px-[10px] py-[5px] relative shrink-0 cursor-pointer"
+        onClick={onClick}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
       >
@@ -314,6 +317,7 @@ export default function PaySettingsRow({
   coinSymbol,
 }: PaySettingsRowProps = {}) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [showBankDetails, setShowBankDetails] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -333,6 +337,8 @@ export default function PaySettingsRow({
   }, [isDropdownOpen]);
 
   return (
+    <>
+    {showBankDetails && <BankDetailsModal onClose={() => setShowBankDetails(false)} />}
     <div className={`bg-[var(--cp-bg-1)] content-stretch flex gap-[10px] items-center pl-[20px] py-[10px] relative size-full ${isDropdownOpen ? 'z-[100]' : ''}`} data-name="PaySettingsRow">
         <div aria-hidden="true" className="absolute border-[var(--cp-border-default)] border-solid border-t inset-0 pointer-events-none" />
         {coinLogo ? (
@@ -378,7 +384,7 @@ export default function PaySettingsRow({
                 )}
               </div>
               <div className="content-stretch flex gap-[8px] h-full items-center relative shrink-0" style={{overflow:'visible'}}>
-                {mode === 'bank' && <EditButton />}
+                {mode === 'bank' && <EditButton onClick={() => setShowBankDetails(true)} />}
                 <div onClick={() => setIsDropdownOpen(!isDropdownOpen)} className="content-stretch flex items-center justify-between relative shrink-0 w-[21px] cursor-pointer">
                   <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" />
                   <div className={`flex items-center justify-center relative shrink-0 ${isDropdownOpen ? 'rotate-180' : ''}`}>
