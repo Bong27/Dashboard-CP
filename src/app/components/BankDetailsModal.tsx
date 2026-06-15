@@ -59,6 +59,7 @@ const BANK_OPTIONS = [
 export const BANK_DETAILS: Record<string, {
   holder: string; bankName: string; iban: string;
   accountNumber: string; bic: string; address: string; label: string;
+  city: string; postalCode: string;
 }> = {
   Wise: {
     holder: 'Acme Corp',
@@ -66,7 +67,9 @@ export const BANK_DETAILS: Record<string, {
     iban: 'GB97 TRWI 2308 0120 5078 10',
     accountNumber: '20507810',
     bic: 'TRWIGB2LXXX',
-    address: 'Flat 4, 25 Baker Street, London, W1U 8EE, United Kingdom',
+    address: 'Flat 4, 25 Baker Street',
+    city: 'London',
+    postalCode: 'W1U 8EE',
     label: 'Wise',
   },
   Barclays: {
@@ -75,7 +78,9 @@ export const BANK_DETAILS: Record<string, {
     iban: 'GB29 NWBK 6016 1331 9268 19',
     accountNumber: '31926819',
     bic: 'BARCGB22XXX',
-    address: '1 Churchill Place, London, E14 5HP, United Kingdom',
+    address: '1 Churchill Place',
+    city: 'London',
+    postalCode: 'E14 5HP',
     label: 'Barclays',
   },
   HSBC: {
@@ -84,7 +89,9 @@ export const BANK_DETAILS: Record<string, {
     iban: 'GB94 MIDL 4005 1512 3456 78',
     accountNumber: '12345678',
     bic: 'MIDLGB22XXX',
-    address: '8 Canada Square, London, E14 5HQ, United Kingdom',
+    address: '8 Canada Square',
+    city: 'London',
+    postalCode: 'E14 5HQ',
     label: 'HSBC',
   },
 };
@@ -235,7 +242,7 @@ export default function BankDetailsModal({ onClose, onUpdate, onEditBank, onAddN
             <DataRow label="IBAN"                 value={details.iban} />
             <DataRow label="Account Number"       value={details.accountNumber} />
             <DataRow label="BIC / SWIFT"          value={details.bic} />
-            <DataRow label="Recipient Address"    value={details.address} />
+            <DataRow label="Recipient Address"    value={`${details.address}, ${details.city}, ${details.postalCode}, United Kingdom`} />
             <DataRow label="Label"                value={details.label} />
           </div>
 

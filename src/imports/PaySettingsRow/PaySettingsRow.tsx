@@ -368,6 +368,8 @@ export default function PaySettingsRow({
         accountNumber={BANK_DETAILS[editingBankName]?.accountNumber ?? ''}
         bic={BANK_DETAILS[editingBankName]?.bic ?? ''}
         address={BANK_DETAILS[editingBankName]?.address ?? ''}
+        city={BANK_DETAILS[editingBankName]?.city ?? ''}
+        postalCode={BANK_DETAILS[editingBankName]?.postalCode ?? ''}
         city=""
         postalCode=""
         bankCountry="United Kingdom"
