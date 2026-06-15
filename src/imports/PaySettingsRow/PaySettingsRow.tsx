@@ -3,6 +3,7 @@ import EditBankModal from '../../app/components/EditBankModal';
 import AddNewBankModal from '../../app/components/AddNewBankModal';
 import { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
+import { useNavigate } from 'react-router';
 import svgPaths from "./svg-dulsyl96to";
 
 function LayerX1() {
@@ -318,6 +319,7 @@ export default function PaySettingsRow({
   coinName,
   coinSymbol,
 }: PaySettingsRowProps = {}) {
+  const navigate = useNavigate();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [showBankDetails, setShowBankDetails] = useState(false);
   const [showEditBank, setShowEditBank] = useState(false);
@@ -351,6 +353,7 @@ export default function PaySettingsRow({
         onUpdate={(name, account) => { setBankName(name); setBankAccount(account); }}
         onEditBank={(name) => { setEditingBankName(name); setShowEditBank(true); }}
         onAddNewBank={() => setShowAddNewBank(true)}
+        onManageBankAccounts={() => navigate('/bank-accounts')}
         bankName={bankName}
         bankAccount={bankAccount}
       />, document.body)}

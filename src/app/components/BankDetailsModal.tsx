@@ -10,6 +10,7 @@ type Props = {
   onUpdate?: (name: string, account: string) => void;
   onEditBank?: (name: string) => void;
   onAddNewBank?: () => void;
+  onManageBankAccounts?: () => void;
   bankName?: string;
   bankAccount?: string;
 };
@@ -88,7 +89,7 @@ export const BANK_DETAILS: Record<string, {
 };
 
 // ─── Modal ────────────────────────────────────────────────────────────────────
-export default function BankDetailsModal({ onClose, onUpdate, onEditBank, onAddNewBank, bankName = 'Wise', bankAccount = 'GB97TRWI23080120507810' }: Props) {
+export default function BankDetailsModal({ onClose, onUpdate, onEditBank, onAddNewBank, onManageBankAccounts, bankName = 'Wise', bankAccount = 'GB97TRWI23080120507810' }: Props) {
   // Find initial bank from options, fall back to Wise
   const initialBank = BANK_OPTIONS.find(b => b.name === bankName) ?? BANK_OPTIONS[0];
   const [selectedBank, setSelectedBank] = useState(initialBank);
@@ -210,6 +211,7 @@ export default function BankDetailsModal({ onClose, onUpdate, onEditBank, onAddN
                         onClick={() => {
                           setBankOpen(false);
                           if (action === 'Add New Bank') { onClose(); onAddNewBank?.(); }
+                          else if (action === 'Manage Bank Accounts') { onClose(); onManageBankAccounts?.(); }
                           else setBankOpen(false);
                         }}
                       >

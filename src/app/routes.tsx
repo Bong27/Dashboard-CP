@@ -7,6 +7,7 @@ import IntegrationsPage from './pages/IntegrationsPage';
 import InvoicingPage from './pages/InvoicingPage';
 import POSPage from './pages/POSPage';
 import SupportPage from './pages/SupportPage';
+import BankAccountsPage from './pages/BankAccountsPage';
 
 export const router = createBrowserRouter([
   {
@@ -20,6 +21,7 @@ export const router = createBrowserRouter([
       { path: 'invoicing', Component: InvoicingPage },
       { path: 'pos', Component: POSPage },
       { path: 'support', Component: SupportPage },
+      { path: 'bank-accounts', Component: BankAccountsPage },
     ],
   },
 ]);

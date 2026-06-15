@@ -14,6 +14,7 @@ const PAGE_TITLES: Record<string, string> = {
   '/invoicing': 'Invoicing',
   '/pos': 'POS',
   '/support': 'Support',
+  '/bank-accounts': 'Bank Accounts',
 };
 
 // ─── Logo ─────────────────────────────────────────────────────────────────────
@@ -227,12 +228,19 @@ export default function DashboardLayout() {
               <div className="content-stretch flex gap-[40px] items-center relative shrink-0">
                 <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" />
                 <div className="overflow-clip relative shrink-0 size-[24px]">
-                  <div className="absolute inset-[5%_-0.9%_0_0]">
-                    <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 24.2167 22.8">
-                      <path clipRule="evenodd" d={svgPaths.p104ea440} fill="var(--cp-brand-primary)" fillRule="evenodd" />
-                      <path clipRule="evenodd" d={svgPaths.p3438aa00} fill="var(--cp-brand-primary)" fillRule="evenodd" />
+                  {location.pathname === '/bank-accounts' ? (
+                    <svg className="absolute block inset-0 size-full" fill="none" viewBox="0 0 24 24">
+                      <path fillRule="evenodd" clipRule="evenodd" d="M4 3a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h6a1 1 0 1 1 0 2H4a4 4 0 0 1-4-4V5a4 4 0 0 1 4-4h12a4 4 0 0 1 4 4v5a1 1 0 1 1-2 0V5a2 2 0 0 0-2-2H4Z" fill="var(--cp-brand-primary)"/>
+                      <path fillRule="evenodd" clipRule="evenodd" d="M0 7a1 1 0 0 1 1-1h18a1 1 0 1 1 0 2H1a1 1 0 0 1-1-1ZM4 11a1 1 0 1 1 0 2H4a1 1 0 1 1 0-2Zm4 0a1 1 0 1 1 0 2H6a1 1 0 1 1 0-2ZM21 15a1 1 0 0 1 1 1v1h1a1 1 0 1 1 0 2h-1v1a1 1 0 1 1-2 0v-1h-1a1 1 0 1 1 0-2h1v-1a1 1 0 0 1 1-1Z" fill="var(--cp-brand-primary)"/>
                     </svg>
-                  </div>
+                  ) : (
+                    <div className="absolute inset-[5%_-0.9%_0_0]">
+                      <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 24.2167 22.8">
+                        <path clipRule="evenodd" d={svgPaths.p104ea440} fill="var(--cp-brand-primary)" fillRule="evenodd" />
+                        <path clipRule="evenodd" d={svgPaths.p3438aa00} fill="var(--cp-brand-primary)" fillRule="evenodd" />
+                      </svg>
+                    </div>
+                  )}
                 </div>
                 <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" />
                 <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-primary)] text-[18px] tracking-[-0.2px] whitespace-nowrap">{pageTitle}</p>
