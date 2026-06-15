@@ -261,7 +261,7 @@ export default function DashboardLayout() {
               </div>
 
               {/* Account Controls */}
-              <div className="bg-[var(--cp-bg-1)] content-stretch flex gap-[10px] items-center overflow-clip pl-[5px] relative rounded-[100px] shrink-0">
+              <div className="bg-[var(--cp-bg-1)] content-stretch flex gap-[10px] items-center pl-[5px] relative rounded-[100px] shrink-0">
                 <div className="content-stretch flex gap-[5px] items-center relative shrink-0">
                   <div className="bg-[var(--cp-bg-1)] content-stretch flex gap-[5px] items-center p-[5px] relative rounded-[100px] shrink-0">
                     <div aria-hidden="true" className="absolute border border-[var(--cp-bg-1)] border-solid inset-0 pointer-events-none rounded-[100px]" />
