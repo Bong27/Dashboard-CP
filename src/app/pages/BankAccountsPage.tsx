@@ -5,6 +5,7 @@
 // Not in sidebar nav — no active state on any nav item
 // ─────────────────────────────────────────────────────────────────────────────
 import { useState } from 'react';
+import { BANK_DETAILS } from '../components/BankDetailsModal';
 
 // ─── Static mock data ─────────────────────────────────────────────────────────
 type BankAccount = {
@@ -16,16 +17,14 @@ type BankAccount = {
   status: 'Approved' | 'Pending' | 'Rejected';
 };
 
-const MOCK_ACCOUNTS: BankAccount[] = [
-  {
-    id: '1',
-    label: 'Wise',
-    iban: 'GB97TRWI23080120507810',
-    holderName: 'Acme Corp',
-    address: 'Flat 4, 25 Baker Street, London, W1U 8EE, United Kingdom',
-    status: 'Approved',
-  },
-];
+const MOCK_ACCOUNTS: BankAccount[] = Object.entries(BANK_DETAILS).map(([, d], i) => ({
+  id: String(i + 1),
+  label: d.label,
+  iban: d.iban.replace(/\s/g, ''),
+  holderName: d.holder,
+  address: `${d.address}, ${d.city}, ${d.postalCode}, United Kingdom`,
+  status: 'Approved' as const,
+}));
 
 // ─── UK flag ──────────────────────────────────────────────────────────────────
 function UKFlag() {
