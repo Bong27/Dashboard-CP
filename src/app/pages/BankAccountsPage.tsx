@@ -1,13 +1,9 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// BankAccountsPage
-// Source: Figma node 1594:237451 "Bank Payouts (address book)"
-// Accessible from: BankDetailsModal > "Manage Bank Accounts" button
-// Not in sidebar nav — no active state on any nav item
+// BankAccountsPage — Figma node 1594:237451 / 2016:47623
 // ─────────────────────────────────────────────────────────────────────────────
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { BANK_DETAILS } from '../components/BankDetailsModal';
 
-// ─── Static mock data ─────────────────────────────────────────────────────────
 type BankAccount = {
   id: string;
   label: string;
@@ -17,7 +13,7 @@ type BankAccount = {
   status: 'Approved' | 'Pending' | 'Rejected';
 };
 
-const MOCK_ACCOUNTS: BankAccount[] = Object.entries(BANK_DETAILS).map(([, d], i) => ({
+const INITIAL_ACCOUNTS: BankAccount[] = Object.entries(BANK_DETAILS).map(([, d], i) => ({
   id: String(i + 1),
   label: d.label,
   iban: d.iban.replace(/\s/g, ''),
@@ -26,31 +22,29 @@ const MOCK_ACCOUNTS: BankAccount[] = Object.entries(BANK_DETAILS).map(([, d], i)
   status: 'Approved' as const,
 }));
 
-// ─── UK flag ──────────────────────────────────────────────────────────────────
-function UKFlag() {
+// ─── Primary ribbon — exact Figma geometry ────────────────────────────────────
+function PrimaryRibbon() {
   return (
-    <span className="text-[28px] leading-none shrink-0" style={{ lineHeight: '36px' }}>🇬🇧</span>
+    <div className="absolute flex items-center justify-center pointer-events-none"
+      style={{ left: -21, top: -18.69, width: 65.761, height: 65.761 }}>
+      <div style={{ transform: 'rotate(-45deg)' }}>
+        <div className="bg-[var(--cp-brand-primary)]"
+          style={{ height: 10, width: 83 }} />
+      </div>
+    </div>
   );
 }
 
-// ─── Three-dot button ─────────────────────────────────────────────────────────
-function MoreButton() {
-  return (
-    <button className="bg-white border border-[var(--cp-border-default)] border-solid overflow-clip relative rounded-[100px] shrink-0 size-[36px] flex items-center justify-center hover:bg-[var(--cp-bg-1)] transition-colors cursor-pointer">
-      <svg width="17" height="16" viewBox="0 0 17 16" fill="none">
-        <circle cx="8.5" cy="8" r="1.5" fill="#8492A6" />
-        <circle cx="3.5" cy="8" r="1.5" fill="#8492A6" />
-        <circle cx="13.5" cy="8" r="1.5" fill="#8492A6" />
-      </svg>
-    </button>
-  );
+// ─── UK flag ──────────────────────────────────────────────────────────────────
+function UKFlag() {
+  return <span className="text-[28px] leading-none shrink-0" style={{ lineHeight: '36px' }}>🇬🇧</span>;
 }
 
 // ─── Status badge ─────────────────────────────────────────────────────────────
 function StatusBadge({ status }: { status: BankAccount['status'] }) {
   const colors: Record<BankAccount['status'], string> = {
     Approved: 'var(--cp-success)',
-    Pending:  'var(--cp-warning)',
+    Pending: 'var(--cp-warning)',
     Rejected: 'var(--cp-error)',
   };
   return (
@@ -61,79 +55,135 @@ function StatusBadge({ status }: { status: BankAccount['status'] }) {
   );
 }
 
+// ─── Context menu ─────────────────────────────────────────────────────────────
+function ContextMenu({ isPrimary, onSetPrimary, onClose }: {
+  isPrimary: boolean;
+  onSetPrimary: () => void;
+  onClose: () => void;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) onClose();
+    };
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, [onClose]);
+
+  return (
+    <div ref={ref} className="absolute right-0 top-[44px] z-50 bg-white border border-[var(--cp-border-default)] rounded-[8px] shadow-lg overflow-hidden w-[180px]">
+      {!isPrimary && (
+        <button
+          className="w-full px-[14px] py-[10px] text-left font-['Inter:Medium',sans-serif] font-medium text-[13px] text-[var(--cp-text-primary)] hover:bg-[var(--cp-bg-1)] transition-colors"
+          onClick={() => { onSetPrimary(); onClose(); }}
+        >
+          Set as Primary
+        </button>
+      )}
+      {isPrimary && (
+        <div className="px-[14px] py-[10px] font-['Inter:Medium',sans-serif] font-medium text-[13px] text-[var(--cp-text-tertiary)] flex items-center gap-[6px]">
+          <div className="bg-[var(--cp-brand-primary)] rounded-[100px] size-[6px] shrink-0" />
+          Primary account
+        </div>
+      )}
+      <button className="w-full px-[14px] py-[10px] text-left font-['Inter:Medium',sans-serif] font-medium text-[13px] text-[var(--cp-text-secondary)] hover:bg-[var(--cp-bg-1)] transition-colors border-t border-[var(--cp-border-default)]">
+        Edit
+      </button>
+      <button className="w-full px-[14px] py-[10px] text-left font-['Inter:Medium',sans-serif] font-medium text-[13px] text-red-500 hover:bg-red-50 transition-colors border-t border-[var(--cp-border-default)]">
+        Remove
+      </button>
+    </div>
+  );
+}
+
+// ─── More button + menu ───────────────────────────────────────────────────────
+function MoreButton({ isPrimary, onSetPrimary }: { isPrimary: boolean; onSetPrimary: () => void }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className="relative shrink-0">
+      <button
+        className="bg-white border border-[var(--cp-border-default)] border-solid overflow-clip relative rounded-[100px] shrink-0 size-[36px] flex items-center justify-center hover:bg-[var(--cp-bg-1)] transition-colors cursor-pointer"
+        onClick={() => setOpen(o => !o)}
+      >
+        <svg width="17" height="16" viewBox="0 0 17 16" fill="none">
+          <circle cx="8.5" cy="8" r="1.5" fill="#8492A6" />
+          <circle cx="3.5" cy="8" r="1.5" fill="#8492A6" />
+          <circle cx="13.5" cy="8" r="1.5" fill="#8492A6" />
+        </svg>
+      </button>
+      {open && (
+        <ContextMenu
+          isPrimary={isPrimary}
+          onSetPrimary={onSetPrimary}
+          onClose={() => setOpen(false)}
+        />
+      )}
+    </div>
+  );
+}
+
 // ─── Bank row ─────────────────────────────────────────────────────────────────
-function BankRow({ account, index }: { account: BankAccount; index: number }) {
+function BankRow({ account, index, isPrimary, onSetPrimary }: {
+  account: BankAccount;
+  index: number;
+  isPrimary: boolean;
+  onSetPrimary: () => void;
+}) {
   const bg = index % 2 === 0 ? 'var(--cp-bg-2)' : 'var(--cp-bg-1)';
   return (
     <div
       className="content-stretch flex items-center justify-between overflow-clip px-[20px] py-[10px] relative shrink-0 w-full"
       style={{ background: bg }}
     >
+      {/* Primary ribbon */}
+      {isPrimary && <PrimaryRibbon />}
 
-      {/* Left: flag + name + data columns */}
-      <div className="content-stretch flex items-center relative flex-1 min-w-0 gap-0">
-
-        {/* Bank identity */}
+      {/* Left */}
+      <div className="content-stretch flex items-center relative flex-1 min-w-0">
         <div className="content-stretch flex gap-[10px] items-center relative shrink-0 w-[288px]">
           <div className="relative shrink-0 size-[36px] flex items-center justify-center">
             <UKFlag />
           </div>
           <div className="content-stretch flex flex-col items-start leading-[normal] not-italic relative shrink-0">
-            <p className="font-['Inter:Medium',sans-serif] font-medium relative shrink-0 text-[14.5px] text-[var(--cp-text-primary)] whitespace-nowrap">{account.label}</p>
-            <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[13px] text-[var(--cp-text-tertiary)] whitespace-nowrap">{account.iban}</p>
+            <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-primary)] whitespace-nowrap">{account.label}</p>
+            <p className="font-['Inter:Regular',sans-serif] font-normal text-[13px] text-[var(--cp-text-tertiary)] whitespace-nowrap">{account.iban}</p>
           </div>
         </div>
-
-        {/* Divider */}
-        <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px mx-0" />
-
-        {/* Account Holder Name */}
+        <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" />
         <div className="content-stretch flex h-[56px] items-start min-w-[200px] p-[10px] relative rounded-[5px] shrink-0">
           <div className="content-stretch flex flex-col h-full items-start justify-between relative shrink-0">
-            <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[11px] text-[var(--cp-text-tertiary)] uppercase whitespace-nowrap leading-none">
-              Account Holder Name
-            </p>
-            <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-primary)] whitespace-nowrap leading-none">
-              {account.holderName}
-            </p>
+            <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[11px] text-[var(--cp-text-tertiary)] uppercase whitespace-nowrap leading-none">Account Holder Name</p>
+            <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-primary)] whitespace-nowrap leading-none">{account.holderName}</p>
           </div>
         </div>
-
-        {/* Divider */}
-        <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px mx-0" />
-
-        {/* Recipient Address */}
+        <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" />
         <div className="content-stretch flex flex-1 h-[56px] items-start min-w-[200px] overflow-clip p-[10px] relative rounded-[5px]">
           <div className="content-stretch flex flex-1 flex-col h-full items-start justify-between min-w-0 relative">
-            <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[11px] text-[var(--cp-text-tertiary)] uppercase whitespace-nowrap leading-none shrink-0">
-              Recipient Address
-            </p>
-            <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-primary)] leading-none overflow-hidden text-ellipsis whitespace-nowrap w-full">
-              {account.address}
-            </p>
+            <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[11px] text-[var(--cp-text-tertiary)] uppercase whitespace-nowrap leading-none shrink-0">Recipient Address</p>
+            <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-primary)] leading-none overflow-hidden text-ellipsis whitespace-nowrap w-full">{account.address}</p>
           </div>
         </div>
-
       </div>
 
-      {/* Right: status + more button */}
+      {/* Right */}
       <div className="content-stretch flex items-center justify-between pl-[20px] relative shrink-0 w-[180px]">
         <StatusBadge status={account.status} />
-        <MoreButton />
+        <MoreButton isPrimary={isPrimary} onSetPrimary={onSetPrimary} />
       </div>
-
     </div>
   );
 }
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 export default function BankAccountsPage() {
-  const [accounts] = useState<BankAccount[]>(MOCK_ACCOUNTS);
+  const [accounts] = useState<BankAccount[]>(INITIAL_ACCOUNTS);
+  // Wise (id '1') is primary by default
+  const [primaryId, setPrimaryId] = useState('1');
 
   return (
     <div className="content-stretch flex flex-col gap-[20px] items-start relative w-full">
 
-      {/* Header row */}
+      {/* Header */}
       <div className="content-stretch flex gap-[10px] items-center py-[10px] relative shrink-0 w-full">
         <div className="content-stretch flex flex-1 flex-col gap-[10px] items-start min-w-0 relative">
           <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[18px] text-[var(--cp-text-secondary)] tracking-[-0.2px] whitespace-nowrap leading-none">
@@ -149,10 +199,16 @@ export default function BankAccountsPage() {
         </button>
       </div>
 
-      {/* Bank list */}
+      {/* List */}
       <div className="content-stretch flex flex-col items-start relative shrink-0 w-full overflow-hidden rounded-[5px]">
         {accounts.map((account, i) => (
-          <BankRow key={account.id} account={account} index={i} />
+          <BankRow
+            key={account.id}
+            account={account}
+            index={i}
+            isPrimary={account.id === primaryId}
+            onSetPrimary={() => setPrimaryId(account.id)}
+          />
         ))}
       </div>
 
