@@ -327,6 +327,7 @@ export default function PaySettingsRow({
   const [editingBankName, setEditingBankName] = useState(bankNameProp);
   const [bankName, setBankName] = useState(bankNameProp);
   const [bankAccount, setBankAccount] = useState(bankAccountProp);
+  const [selectedMode, setSelectedMode] = useState(mode === 'bank' ? 'Nightly to Bank' : 'To Custody');
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -444,54 +445,31 @@ export default function PaySettingsRow({
         {isDropdownOpen && (
           <div className="absolute bg-white left-0 mt-[5px] rounded-[5px] shadow-lg top-[56px] w-full z-50">
             <div aria-hidden="true" className="absolute border border-[var(--cp-border-hover)] border-solid inset-0 pointer-events-none rounded-[5px]" />
-            <div className="content-stretch flex flex-col gap-[5px] items-start p-[10px] relative">
-              <div className="bg-white relative rounded-[5px] shrink-0 w-full">
-                <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[5px]" />
-                <div className="content-stretch flex flex-col items-start p-[10px] relative size-full">
-                  <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-primary)] text-[11px] w-full">Disabled</p>
-                </div>
-              </div>
-              <div className="bg-[var(--cp-brand-primary)] relative rounded-[5px] shrink-0 w-full cursor-pointer hover:bg-[var(--cp-brand-active)] transition-colors">
-                <div className="content-stretch flex flex-col items-start leading-[normal] not-italic p-[10px] relative size-full text-[11px] text-white">
-                  <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 w-full">To Custody</p>
-                  <p className="font-['Inter:Medium',sans-serif] font-medium relative shrink-0 w-full">Received payments are stored in your CoinPayments wallet for later withdrawal at your leisure. This option allows you to automatically convert payments into another currency as well.</p>
-                </div>
-              </div>
-              <div className="bg-white relative rounded-[5px] shrink-0 w-full cursor-pointer hover:bg-[var(--cp-bg-1)] transition-colors">
-                <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[5px]" />
-                <div className="content-stretch flex flex-col items-start leading-[normal] not-italic p-[10px] relative size-full text-[11px]">
-                  <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[var(--cp-text-primary)] w-full">Nightly to Bank</p>
-                  <p className="font-['Inter:Medium',sans-serif] font-medium relative shrink-0 text-[var(--cp-text-secondary)] w-full">Received payments are batched and wired nightly to your USD bank account. A $100 minimum balance is required per wire.</p>
-                </div>
-              </div>
-              <div className="bg-white relative rounded-[5px] shrink-0 w-full cursor-pointer hover:bg-[var(--cp-bg-1)] transition-colors">
-                <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[5px]" />
-                <div className="content-stretch flex flex-col items-start leading-[normal] not-italic p-[10px] relative size-full text-[11px]">
-                  <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[var(--cp-text-primary)] w-full">To Non-Custody</p>
-                  <p className="font-['Inter:Medium',sans-serif] font-medium relative shrink-0 text-[var(--cp-text-secondary)] w-full">Received payments are sent to the address or wallet ID you specify as soon as they are received and confirmed. This option allows you to automatically convert payments into another currency as well.</p>
-                </div>
-              </div>
-              <div className="bg-white relative rounded-[5px] shrink-0 w-full cursor-pointer hover:bg-[var(--cp-bg-1)] transition-colors">
-                <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[5px]" />
-                <div className="content-stretch flex flex-col items-start leading-[normal] not-italic p-[10px] relative size-full text-[11px]">
-                  <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[var(--cp-text-primary)] w-full">Hourly To Non-Custody</p>
-                  <p className="font-['Inter:Medium',sans-serif] font-medium relative shrink-0 text-[var(--cp-text-secondary)] w-full">Received payments are grouped together and sent hourly. The main benefit of this option is it will save you coin network fees.</p>
-                </div>
-              </div>
-              <div className="bg-white relative rounded-[5px] shrink-0 w-full cursor-pointer hover:bg-[var(--cp-bg-1)] transition-colors">
-                <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[5px]" />
-                <div className="content-stretch flex flex-col items-start leading-[normal] not-italic p-[10px] relative size-full text-[11px]">
-                  <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[var(--cp-text-primary)] w-full">Nightly To Non-Custody</p>
-                  <p className="font-['Inter:Medium',sans-serif] font-medium relative shrink-0 text-[var(--cp-text-secondary)] w-full">Received payments are grouped together and sent daily (at approx. midnight EST GMT-05:00). The main benefit of this option is it will save you coin network fees.</p>
-                </div>
-              </div>
-              <div className="bg-white relative rounded-[5px] shrink-0 w-full cursor-pointer hover:bg-[var(--cp-bg-1)] transition-colors">
-                <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[5px]" />
-                <div className="content-stretch flex flex-col items-start leading-[normal] not-italic p-[10px] relative size-full text-[11px]">
-                  <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[var(--cp-text-primary)] w-full">Weekly To Non-Custody</p>
-                  <p className="font-['Inter:Medium',sans-serif] font-medium relative shrink-0 text-[var(--cp-text-secondary)] w-full">Received payments are grouped together and sent every Sunday (at approx. midnight EST GMT-05:00). The main benefit of this option is it will save you coin network fees.</p>
-                </div>
-              </div>
+          <div className="content-stretch flex flex-col gap-[5px] items-start p-[10px] relative">
+              {[
+                { label: 'Disabled', description: '' },
+                { label: 'To Custody', description: 'Received payments are stored in your CoinPayments wallet for later withdrawal at your leisure. This option allows you to automatically convert payments into another currency as well.' },
+                { label: 'Nightly to Bank', description: 'Received payments are batched and wired nightly to your USD bank account. A $100 minimum balance is required per wire.' },
+                { label: 'To Non-Custody', description: 'Received payments are sent to the address or wallet ID you specify as soon as they are received and confirmed. This option allows you to automatically convert payments into another currency as well.' },
+                { label: 'Hourly To Non-Custody', description: 'Received payments are grouped together and sent hourly. The main benefit of this option is it will save you coin network fees.' },
+                { label: 'Nightly To Non-Custody', description: 'Received payments are grouped together and sent daily (at approx. midnight EST GMT-05:00). The main benefit of this option is it will save you coin network fees.' },
+                { label: 'Weekly To Non-Custody', description: 'Received payments are grouped together and sent every Sunday (at approx. midnight EST GMT-05:00). The main benefit of this option is it will save you coin network fees.' },
+              ].map(({ label, description }) => {
+                const isActive = label === selectedMode;
+                return (
+                  <div
+                    key={label}
+                    className={`relative rounded-[5px] shrink-0 w-full cursor-pointer transition-colors ${isActive ? 'bg-[var(--cp-brand-primary)] hover:bg-[var(--cp-brand-active)]' : 'bg-white hover:bg-[var(--cp-bg-1)]'}`}
+                    onClick={() => { setSelectedMode(label); setIsDropdownOpen(false); }}
+                  >
+                    {!isActive && <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[5px]" />}
+                    <div className={`content-stretch flex flex-col items-start leading-[normal] not-italic p-[10px] relative size-full text-[11px] ${isActive ? 'text-white' : ''}`}>
+                      <p className={`font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 w-full ${isActive ? 'text-white' : 'text-[var(--cp-text-primary)]'}`}>{label}</p>
+                      {description && <p className={`font-['Inter:Medium',sans-serif] font-medium relative shrink-0 w-full ${isActive ? 'text-white/80' : 'text-[var(--cp-text-secondary)]'}`}>{description}</p>}
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
         )}
