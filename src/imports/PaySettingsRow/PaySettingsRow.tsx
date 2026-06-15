@@ -1,4 +1,4 @@
-import BankDetailsModal from '../../src/app/components/BankDetailsModal';
+import BankDetailsModal from '../../app/components/BankDetailsModal';
 import { useState, useEffect, useRef } from 'react';
 import svgPaths from "./svg-dulsyl96to";
 
