@@ -356,6 +356,7 @@ export default function PaySettingsRow({
         onManageBankAccounts={() => navigate('/bank-accounts')}
         bankName={bankName}
         bankAccount={bankAccount}
+        selectedBankName={editingBankName !== bankName ? editingBankName : undefined}
       />, document.body)}
     {showEditBank && createPortal(
       <EditBankModal

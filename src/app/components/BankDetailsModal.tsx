@@ -13,6 +13,7 @@ type Props = {
   onManageBankAccounts?: () => void;
   bankName?: string;
   bankAccount?: string;
+  selectedBankName?: string;
 };
 
 // ─── Data row ─────────────────────────────────────────────────────────────────
@@ -89,10 +90,11 @@ export const BANK_DETAILS: Record<string, {
 };
 
 // ─── Modal ────────────────────────────────────────────────────────────────────
-export default function BankDetailsModal({ onClose, onUpdate, onEditBank, onAddNewBank, onManageBankAccounts, bankName = 'Wise', bankAccount = 'GB97TRWI23080120507810' }: Props) {
+export default function BankDetailsModal({ onClose, onUpdate, onEditBank, onAddNewBank, onManageBankAccounts, bankName = 'Wise', bankAccount = 'GB97TRWI23080120507810', selectedBankName }: Props) {
   // Find initial bank from options, fall back to Wise
   const initialBank = BANK_OPTIONS.find(b => b.name === bankName) ?? BANK_OPTIONS[0];
-  const [selectedBank, setSelectedBank] = useState(initialBank);
+  const restoredBank = selectedBankName ? (BANK_OPTIONS.find(b => b.name === selectedBankName) ?? initialBank) : initialBank;
+  const [selectedBank, setSelectedBank] = useState(restoredBank);
   const [bankOpen, setBankOpen] = useState(false);
   const [removeState, setRemoveState] = useState<'idle' | 'confirm'>('idle');
 
@@ -130,7 +132,7 @@ export default function BankDetailsModal({ onClose, onUpdate, onEditBank, onAddN
         </button>
 
         {/* Card */}
-        <div className="bg-white content-stretch flex flex-col gap-[20px] items-start p-[20px] relative rounded-[10px] w-full overflow-hidden" style={{ height: 634 }}>
+        <div className="bg-white content-stretch flex flex-col gap-[20px] items-start p-[20px] relative rounded-[10px] w-full overflow-hidden" style={{ height: 590 }}>
 
           {/* Title */}
           <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[13px] text-[var(--cp-text-secondary)] uppercase whitespace-nowrap">
