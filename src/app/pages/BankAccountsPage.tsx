@@ -62,9 +62,13 @@ function StatusBadge({ status }: { status: BankAccount['status'] }) {
 }
 
 // ─── Bank row ─────────────────────────────────────────────────────────────────
-function BankRow({ account }: { account: BankAccount }) {
+function BankRow({ account, index }: { account: BankAccount; index: number }) {
+  const bg = index % 2 === 0 ? 'var(--cp-bg-2)' : 'var(--cp-bg-1)';
   return (
-    <div className="bg-[var(--cp-bg-2)] content-stretch flex items-center justify-between overflow-clip px-[20px] py-[10px] relative rounded-[5px] shrink-0 w-full">
+    <div
+      className="content-stretch flex items-center justify-between overflow-clip px-[20px] py-[10px] relative shrink-0 w-full"
+      style={{ background: bg }}
+    >
 
       {/* Left: flag + name + data columns */}
       <div className="content-stretch flex items-center relative flex-1 min-w-0 gap-0">
@@ -146,9 +150,9 @@ export default function BankAccountsPage() {
       </div>
 
       {/* Bank list */}
-      <div className="content-stretch flex flex-col items-start relative shrink-0 w-full gap-[5px]">
-        {accounts.map(account => (
-          <BankRow key={account.id} account={account} />
+      <div className="content-stretch flex flex-col items-start relative shrink-0 w-full overflow-hidden rounded-[5px]">
+        {accounts.map((account, i) => (
+          <BankRow key={account.id} account={account} index={i} />
         ))}
       </div>
 
