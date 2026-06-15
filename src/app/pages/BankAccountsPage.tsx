@@ -61,12 +61,6 @@ function ContextMenu({ isPrimary, onSetPrimary, onDelete, onEdit, onClose }: {
           Set as Primary
         </button>
       )}
-      {isPrimary && (
-        <div className="px-[14px] py-[10px] font-['Inter:Medium',sans-serif] font-medium text-[13px] text-[var(--cp-text-tertiary)] flex items-center gap-[6px]">
-          <div className="bg-[var(--cp-brand-primary)] rounded-[100px] size-[6px] shrink-0" />
-          Primary account
-        </div>
-      )}
       <button className="w-full px-[14px] py-[10px] text-left font-['Inter:Medium',sans-serif] font-medium text-[13px] text-[var(--cp-text-secondary)] hover:bg-[var(--cp-bg-1)] transition-colors border-t border-[var(--cp-border-default)]"
         onClick={() => { onEdit(); onClose(); }}>
         Edit
