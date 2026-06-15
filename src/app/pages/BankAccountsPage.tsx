@@ -6,6 +6,7 @@ import { createPortal } from 'react-dom';
 import { useBanks, BankEntry } from '../context/BankContext';
 import AddNewBankModal from '../components/AddNewBankModal';
 import EditBankModal from '../components/EditBankModal';
+import DeleteBankModal from '../components/DeleteBankModal';
 
 // ─── Primary ribbon — exact Figma geometry ────────────────────────────────────
 function PrimaryRibbon() {
@@ -36,10 +37,10 @@ function StatusBadge() {
 }
 
 // ─── Context menu ─────────────────────────────────────────────────────────────
-function ContextMenu({ isPrimary, onSetPrimary, onRemove, onEdit, onClose }: {
+function ContextMenu({ isPrimary, onSetPrimary, onDelete, onEdit, onClose }: {
   isPrimary: boolean;
   onSetPrimary: () => void;
-  onRemove: () => void;
+  onDelete: () => void;
   onEdit: () => void;
   onClose: () => void;
 }) {
@@ -71,15 +72,15 @@ function ContextMenu({ isPrimary, onSetPrimary, onRemove, onEdit, onClose }: {
         Edit
       </button>
       <button className="w-full px-[14px] py-[10px] text-left font-['Inter:Medium',sans-serif] font-medium text-[13px] text-red-500 hover:bg-red-50 transition-colors border-t border-[var(--cp-border-default)]"
-        onClick={() => { onRemove(); onClose(); }}>
-        Remove
+        onClick={() => { onDelete(); onClose(); }}>
+        Delete
       </button>
     </div>
   );
 }
 
 // ─── More button + menu ───────────────────────────────────────────────────────
-function MoreButton({ isPrimary, onSetPrimary, onRemove, onEdit }: { isPrimary: boolean; onSetPrimary: () => void; onRemove: () => void; onEdit: () => void }) {
+function MoreButton({ isPrimary, onSetPrimary, onDelete, onEdit }: { isPrimary: boolean; onSetPrimary: () => void; onDelete: () => void; onEdit: () => void }) {
   const [open, setOpen] = useState(false);
   const btnRef = useRef<HTMLButtonElement>(null);
   const [coords, setCoords] = useState({ top: 0, right: 0 });
@@ -113,7 +114,7 @@ function MoreButton({ isPrimary, onSetPrimary, onRemove, onEdit }: { isPrimary: 
           <ContextMenu
             isPrimary={isPrimary}
             onSetPrimary={onSetPrimary}
-            onRemove={onRemove}
+            onDelete={onDelete}
             onEdit={onEdit}
             onClose={() => setOpen(false)}
           />
@@ -125,12 +126,12 @@ function MoreButton({ isPrimary, onSetPrimary, onRemove, onEdit }: { isPrimary: 
 }
 
 // ─── Bank row ─────────────────────────────────────────────────────────────────
-function BankRow({ account, index, isPrimary, onSetPrimary, onRemove, onEdit }: {
+function BankRow({ account, index, isPrimary, onSetPrimary, onDelete, onEdit }: {
   account: BankEntry;
   index: number;
   isPrimary: boolean;
   onSetPrimary: () => void;
-  onRemove: () => void;
+  onDelete: () => void;
   onEdit: () => void;
 }) {
   const bg = index % 2 === 0 ? 'var(--cp-bg-2)' : 'var(--cp-bg-1)';
@@ -166,7 +167,7 @@ function BankRow({ account, index, isPrimary, onSetPrimary, onRemove, onEdit }: 
       </div>
       <div className="content-stretch flex items-center justify-between pl-[20px] relative shrink-0 w-[180px]">
         <StatusBadge />
-        <MoreButton isPrimary={isPrimary} onSetPrimary={onSetPrimary} onRemove={onRemove} onEdit={onEdit} />
+        <MoreButton isPrimary={isPrimary} onSetPrimary={onSetPrimary} onDelete={onDelete} onEdit={onEdit} />
       </div>
     </div>
   );
@@ -177,6 +178,7 @@ export default function BankAccountsPage() {
   const { banks, primaryId, setPrimaryId, removeBank } = useBanks();
   const [showAddNew, setShowAddNew] = useState(false);
   const [editingBank, setEditingBank] = useState<BankEntry | null>(null);
+  const [deletingBank, setDeletingBank] = useState<BankEntry | null>(null);
   return (
     <div className="content-stretch flex flex-col gap-[20px] items-start relative w-full">
 
@@ -199,7 +201,14 @@ export default function BankAccountsPage() {
         </button>
       </div>
 
-      {showAddNew && createPortal(
+      {deletingBank && createPortal(
+        <DeleteBankModal
+          bankLabel={deletingBank.label}
+          onConfirm={() => removeBank(deletingBank.id)}
+          onClose={() => setDeletingBank(null)}
+        />,
+        document.body
+      )}
         <AddNewBankModal onClose={() => setShowAddNew(false)} />,
         document.body
       )}
@@ -233,7 +242,7 @@ export default function BankAccountsPage() {
             index={i}
             isPrimary={bank.id === primaryId}
             onSetPrimary={() => setPrimaryId(bank.id)}
-            onRemove={() => removeBank(bank.id)}
+            onDelete={() => setDeletingBank(bank)}
             onEdit={() => setEditingBank(bank)}
           />
         ))}
