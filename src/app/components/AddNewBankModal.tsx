@@ -228,7 +228,7 @@ function IBANField({ value, onChange }: { value: string; onChange: (v: string) =
 }
 
 // ─── Edit button — same as PaySettingsRow EditButton (Figma 743:5958) ─────────
-function AddLabelEditButton() {
+function AddLabelEditButton({ onClick }: { onClick?: () => void }) {
   const [hovered, setHovered] = useState(false);
   const color = hovered ? '#1C60DD' : '#8492A6';
   return (
@@ -237,6 +237,7 @@ function AddLabelEditButton() {
         className="content-stretch flex h-full items-center justify-center px-[10px] py-[5px] relative shrink-0 cursor-pointer"
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
+        onClick={onClick}
       >
         <div className="relative shrink-0 size-[16px]">
           <div className="absolute inset-[12.29%_12.29%_3.96%_3.96%]">
@@ -298,6 +299,7 @@ export default function AddNewBankModal({ onClose }: Props) {
   const [accountType, setAccountType]   = useState('');
   const [check1, setCheck1]             = useState(true);
   const [check2, setCheck2]             = useState(true);
+  const labelInputRef                   = useRef<HTMLInputElement>(null);
 
   const bankName = BIC_TO_BANK[bic.trim().toUpperCase()] ?? null;
   const [label, setLabel]               = useState('');
@@ -419,10 +421,11 @@ export default function AddNewBankModal({ onClose }: Props) {
           </div>
 
           {/* Add Label editable field */}
-          <div className="bg-white border border-[var(--cp-border-default)] border-solid content-stretch flex h-[56px] items-start justify-between p-[10px] relative rounded-[5px] shrink-0 w-full">
+          <div className="bg-white border border-[var(--cp-border-default)] border-solid content-stretch flex h-[56px] items-center justify-between p-[10px] relative rounded-[5px] shrink-0 w-full">
             <div className="flex flex-col h-full items-start justify-between relative shrink-0 flex-1 min-w-0">
               <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[11px] text-[var(--cp-text-tertiary)] uppercase whitespace-nowrap leading-none">Add Label</p>
               <input
+                ref={labelInputRef}
                 type="text"
                 value={labelValue === '---' && !label ? '' : label}
                 onChange={e => setLabel(e.target.value)}
@@ -431,7 +434,7 @@ export default function AddNewBankModal({ onClose }: Props) {
                 style={{ caretColor: 'var(--cp-brand-primary)' }}
               />
             </div>
-            <AddLabelEditButton />
+            <AddLabelEditButton onClick={() => labelInputRef.current?.focus()} />
           </div>
 
           {/* Spacer — absorbs extra height to match step 1 modal height */}
