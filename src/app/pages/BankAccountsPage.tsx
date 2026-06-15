@@ -5,6 +5,7 @@ import { useState, useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { useBanks, BankEntry } from '../context/BankContext';
 import AddNewBankModal from '../components/AddNewBankModal';
+import EditBankModal from '../components/EditBankModal';
 
 // ─── Primary ribbon — exact Figma geometry ────────────────────────────────────
 function PrimaryRibbon() {
@@ -35,10 +36,11 @@ function StatusBadge() {
 }
 
 // ─── Context menu ─────────────────────────────────────────────────────────────
-function ContextMenu({ isPrimary, onSetPrimary, onRemove, onClose }: {
+function ContextMenu({ isPrimary, onSetPrimary, onRemove, onEdit, onClose }: {
   isPrimary: boolean;
   onSetPrimary: () => void;
   onRemove: () => void;
+  onEdit: () => void;
   onClose: () => void;
 }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -65,7 +67,7 @@ function ContextMenu({ isPrimary, onSetPrimary, onRemove, onClose }: {
         </div>
       )}
       <button className="w-full px-[14px] py-[10px] text-left font-['Inter:Medium',sans-serif] font-medium text-[13px] text-[var(--cp-text-secondary)] hover:bg-[var(--cp-bg-1)] transition-colors border-t border-[var(--cp-border-default)]"
-        onClick={onClose}>
+        onClick={() => { onEdit(); onClose(); }}>
         Edit
       </button>
       <button className="w-full px-[14px] py-[10px] text-left font-['Inter:Medium',sans-serif] font-medium text-[13px] text-red-500 hover:bg-red-50 transition-colors border-t border-[var(--cp-border-default)]"
@@ -77,7 +79,7 @@ function ContextMenu({ isPrimary, onSetPrimary, onRemove, onClose }: {
 }
 
 // ─── More button + menu ───────────────────────────────────────────────────────
-function MoreButton({ isPrimary, onSetPrimary, onRemove }: { isPrimary: boolean; onSetPrimary: () => void; onRemove: () => void }) {
+function MoreButton({ isPrimary, onSetPrimary, onRemove, onEdit }: { isPrimary: boolean; onSetPrimary: () => void; onRemove: () => void; onEdit: () => void }) {
   const [open, setOpen] = useState(false);
   const btnRef = useRef<HTMLButtonElement>(null);
   const [coords, setCoords] = useState({ top: 0, right: 0 });
@@ -112,6 +114,7 @@ function MoreButton({ isPrimary, onSetPrimary, onRemove }: { isPrimary: boolean;
             isPrimary={isPrimary}
             onSetPrimary={onSetPrimary}
             onRemove={onRemove}
+            onEdit={onEdit}
             onClose={() => setOpen(false)}
           />
         </div>,
@@ -122,12 +125,13 @@ function MoreButton({ isPrimary, onSetPrimary, onRemove }: { isPrimary: boolean;
 }
 
 // ─── Bank row ─────────────────────────────────────────────────────────────────
-function BankRow({ account, index, isPrimary, onSetPrimary, onRemove }: {
+function BankRow({ account, index, isPrimary, onSetPrimary, onRemove, onEdit }: {
   account: BankEntry;
   index: number;
   isPrimary: boolean;
   onSetPrimary: () => void;
   onRemove: () => void;
+  onEdit: () => void;
 }) {
   const bg = index % 2 === 0 ? 'var(--cp-bg-2)' : 'var(--cp-bg-1)';
   const address = `${account.address}, ${account.city}, ${account.postalCode}, ${account.country}`;
@@ -162,7 +166,7 @@ function BankRow({ account, index, isPrimary, onSetPrimary, onRemove }: {
       </div>
       <div className="content-stretch flex items-center justify-between pl-[20px] relative shrink-0 w-[180px]">
         <StatusBadge />
-        <MoreButton isPrimary={isPrimary} onSetPrimary={onSetPrimary} onRemove={onRemove} />
+        <MoreButton isPrimary={isPrimary} onSetPrimary={onSetPrimary} onRemove={onRemove} onEdit={onEdit} />
       </div>
     </div>
   );
@@ -172,6 +176,7 @@ function BankRow({ account, index, isPrimary, onSetPrimary, onRemove }: {
 export default function BankAccountsPage() {
   const { banks, primaryId, setPrimaryId, removeBank } = useBanks();
   const [showAddNew, setShowAddNew] = useState(false);
+  const [editingBank, setEditingBank] = useState<BankEntry | null>(null);
   return (
     <div className="content-stretch flex flex-col gap-[20px] items-start relative w-full">
 
@@ -199,6 +204,24 @@ export default function BankAccountsPage() {
         document.body
       )}
 
+      {editingBank && createPortal(
+        <EditBankModal
+          key={editingBank.id}
+          onClose={() => setEditingBank(null)}
+          onSave={() => setEditingBank(null)}
+          bankId={editingBank.id}
+          label={editingBank.label}
+          holderName={editingBank.holder}
+          accountNumber={editingBank.accountNumber}
+          bic={editingBank.bic}
+          address={editingBank.address}
+          city={editingBank.city}
+          postalCode={editingBank.postalCode}
+          bankCountry={editingBank.country}
+        />,
+        document.body
+      )}
+
       {/* List */}
       <div className="content-stretch flex flex-col items-start relative shrink-0 w-full overflow-hidden rounded-[5px]">
         {[...banks]
@@ -211,6 +234,7 @@ export default function BankAccountsPage() {
             isPrimary={bank.id === primaryId}
             onSetPrimary={() => setPrimaryId(bank.id)}
             onRemove={() => removeBank(bank.id)}
+            onEdit={() => setEditingBank(bank)}
           />
         ))}
       </div>
