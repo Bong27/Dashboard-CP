@@ -62,16 +62,11 @@ function Field({
   const [focused, setFocused] = useState(false);
   const showHelper = focused && helper;
   return (
-    <div className={`relative ${halfWidth ? 'flex-1 min-w-0' : 'w-full shrink-0'}`}>
+    <div className={`relative ${halfWidth ? 'flex-1 min-w-0' : 'w-full shrink-0'}`} style={{ overflow: 'visible' }}>
       <div
-        className={`bg-white relative flex items-start justify-between p-[10px] ${showHelper ? 'rounded-t-[5px]' : 'rounded-[5px]'} h-[56px]`}
-        style={{
-          border: `1px solid ${focused ? 'var(--cp-brand-primary)' : 'var(--cp-border-default)'}`,
-          borderBottom: showHelper ? `1px solid var(--cp-brand-primary)` : undefined,
-          transition: 'border-color 0.1s',
-        }}
+        className="bg-white relative rounded-[5px] h-[56px] flex items-start justify-between p-[10px]"
+        style={{ border: `1px solid ${focused ? 'var(--cp-brand-primary)' : 'var(--cp-border-default)'}`, transition: 'border-color 0.1s' }}
       >
-        {/* Label + input */}
         <div className="flex flex-col items-start justify-between self-stretch flex-1 min-w-0">
           <div className="flex gap-[5px] items-center shrink-0">
             <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[11px] text-[var(--cp-text-tertiary)] uppercase whitespace-nowrap leading-none">
@@ -95,11 +90,11 @@ function Field({
         </div>
         {hasChevron && <ChevronSelector />}
       </div>
-      {/* Helper text bar */}
+      {/* Helper — absolute overlay, never affects layout */}
       {showHelper && (
         <div
-          className="w-full px-[10px] py-[6px] rounded-b-[5px]"
-          style={{ background: 'var(--cp-brand-primary)', border: '1px solid var(--cp-brand-primary)', borderTop: 'none' }}
+          className="absolute left-0 right-0 px-[10px] py-[6px] rounded-b-[5px] z-10"
+          style={{ top: '100%', background: 'var(--cp-brand-primary)', border: '1px solid var(--cp-brand-primary)', borderTop: 'none' }}
         >
           <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-white leading-tight">{helper}</p>
         </div>
