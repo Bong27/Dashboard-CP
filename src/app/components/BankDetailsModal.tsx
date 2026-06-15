@@ -189,6 +189,22 @@ export default function BankDetailsModal({ onClose, bankName = 'Wise', bankAccou
                       </div>
                     </div>
                   ))}
+
+                  {/* Divider */}
+                  <div className="bg-[var(--cp-border-default)] h-px relative shrink-0 w-full my-[2px]" />
+
+                  {/* Action buttons */}
+                  {(['Edit Bank', 'Add New Bank', 'Manage Bank Accounts'] as const).map(action => (
+                    <button
+                      key={action}
+                      className="content-stretch flex items-center relative shrink-0 w-full cursor-pointer px-[10px] py-[9px] rounded-[5px] hover:bg-[var(--cp-bg-1)] transition-colors"
+                      onClick={() => setBankOpen(false)}
+                    >
+                      <p className="font-['Inter:Medium',sans-serif] font-medium text-[13px] text-[var(--cp-brand-primary)] whitespace-nowrap">
+                        {action}
+                      </p>
+                    </button>
+                  ))}
                 </div>
               </div>
             )}
