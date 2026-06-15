@@ -2,6 +2,7 @@
 // BankAccountsPage — Figma node 1594:237451 / 2016:47623
 // ─────────────────────────────────────────────────────────────────────────────
 import { useState, useRef, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { BANK_DETAILS } from '../components/BankDetailsModal';
 
 type BankAccount = {
@@ -99,11 +100,23 @@ function ContextMenu({ isPrimary, onSetPrimary, onClose }: {
 // ─── More button + menu ───────────────────────────────────────────────────────
 function MoreButton({ isPrimary, onSetPrimary }: { isPrimary: boolean; onSetPrimary: () => void }) {
   const [open, setOpen] = useState(false);
+  const btnRef = useRef<HTMLButtonElement>(null);
+  const [coords, setCoords] = useState({ top: 0, right: 0 });
+
+  const handleOpen = () => {
+    if (btnRef.current) {
+      const r = btnRef.current.getBoundingClientRect();
+      setCoords({ top: r.bottom + 4, right: window.innerWidth - r.right });
+    }
+    setOpen(o => !o);
+  };
+
   return (
     <div className="relative shrink-0">
       <button
+        ref={btnRef}
         className="bg-white border border-[var(--cp-border-default)] border-solid overflow-clip relative rounded-[100px] shrink-0 size-[36px] flex items-center justify-center hover:bg-[var(--cp-bg-1)] transition-colors cursor-pointer"
-        onClick={() => setOpen(o => !o)}
+        onClick={handleOpen}
       >
         <svg width="17" height="16" viewBox="0 0 17 16" fill="none">
           <circle cx="8.5" cy="8" r="1.5" fill="#8492A6" />
@@ -111,12 +124,18 @@ function MoreButton({ isPrimary, onSetPrimary }: { isPrimary: boolean; onSetPrim
           <circle cx="13.5" cy="8" r="1.5" fill="#8492A6" />
         </svg>
       </button>
-      {open && (
-        <ContextMenu
-          isPrimary={isPrimary}
-          onSetPrimary={onSetPrimary}
-          onClose={() => setOpen(false)}
-        />
+      {open && createPortal(
+        <div
+          className="fixed z-[500]"
+          style={{ top: coords.top, right: coords.right }}
+        >
+          <ContextMenu
+            isPrimary={isPrimary}
+            onSetPrimary={onSetPrimary}
+            onClose={() => setOpen(false)}
+          />
+        </div>,
+        document.body
       )}
     </div>
   );
