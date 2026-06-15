@@ -259,6 +259,7 @@ function Controls2() {
 
 type PaySettingsRowProps = {
   mode?: 'custody' | 'bank';
+  bankId?: string;
   bankName?: string;
   bankAccount?: string;
   coinLogo?: React.ReactNode;
@@ -314,6 +315,7 @@ function EditButton({ onClick }: { onClick: () => void }) {
 
 export default function PaySettingsRow({
   mode = 'custody',
+  bankId: bankIdProp,
   bankName: bankNameProp = 'Wise',
   bankAccount: bankAccountProp = 'GB97TRWI23080120507810',
   coinLogo,
@@ -322,13 +324,21 @@ export default function PaySettingsRow({
 }: PaySettingsRowProps = {}) {
   const navigate = useNavigate();
   const { banks } = useBanks();
+
+  // The committed bank — prefer bankId lookup, else match by label, else use props
+  const [committedBankId, setCommittedBankId] = useState<string | undefined>(
+    bankIdProp ?? banks.find(b => b.label === bankNameProp)?.id
+  );
+  const committedBank = banks.find(b => b.id === committedBankId);
+  // Always read label + iban from live context so edits reflect instantly
+  const bankName    = committedBank?.label   ?? bankNameProp;
+  const bankAccount = committedBank?.iban.replace(/\s/g, '') ?? bankAccountProp;
+
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [showBankDetails, setShowBankDetails] = useState(false);
   const [showEditBank, setShowEditBank] = useState(false);
   const [showAddNewBank, setShowAddNewBank] = useState(false);
-  const [editingBankName, setEditingBankName] = useState(bankNameProp);
-  const [bankName, setBankName] = useState(bankNameProp);
-  const [bankAccount, setBankAccount] = useState(bankAccountProp);
+  const [editingBankName, setEditingBankName] = useState(bankName);
   const [selectedMode, setSelectedMode] = useState(mode === 'bank' ? 'Nightly to Bank' : 'To Custody');
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -353,7 +363,11 @@ export default function PaySettingsRow({
     {showBankDetails && !showEditBank && !showAddNewBank && createPortal(
       <BankDetailsModal
         onClose={() => setShowBankDetails(false)}
-        onUpdate={(name, account) => { setBankName(name); setBankAccount(account); setEditingBankName(name); }}
+        onUpdate={(name, _account) => {
+          const bank = banks.find(b => b.label === name);
+          if (bank) setCommittedBankId(bank.id);
+          setEditingBankName(name);
+        }}
         onEditBank={(name) => { setEditingBankName(name); setShowEditBank(true); }}
         onAddNewBank={() => setShowAddNewBank(true)}
         onManageBankAccounts={() => navigate('/bank-accounts')}

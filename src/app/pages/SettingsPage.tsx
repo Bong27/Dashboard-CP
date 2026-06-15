@@ -215,6 +215,7 @@ export default function SettingsPage() {
               <div className="relative w-full min-h-[76px]">
                 <PaySettingsRow
                   mode="bank"
+                  bankId="wise"
                   coinLogo={
                     <div className="relative shrink-0 size-[36px] rounded-[999px] bg-[#50af95] flex items-center justify-center">
                       <span className="text-white font-bold leading-none select-none" style={{fontSize:14}}>₮</span>
@@ -222,13 +223,12 @@ export default function SettingsPage() {
                   }
                   coinName="Tether USD"
                   coinSymbol="USDT.ERC20"
-                  bankName="Wise"
-                  bankAccount="GB97TRWI23080120507810"
                 />
               </div>
               <div className="relative w-full min-h-[76px]">
                 <PaySettingsRow
                   mode="bank"
+                  bankId="wise"
                   coinLogo={
                     <div className="relative shrink-0 size-[36px] rounded-[999px] bg-[#2775CA] flex items-center justify-center">
                       <span className="text-white font-bold leading-none select-none" style={{fontSize:12}}>$</span>
@@ -236,8 +236,6 @@ export default function SettingsPage() {
                   }
                   coinName="USD Coin"
                   coinSymbol="USDC.ERC20"
-                  bankName="Wise"
-                  bankAccount="GB97TRWI23080120507810"
                 />
               </div>
               {[1, 2, 3, 4, 5, 6, 7].map((index) => (
