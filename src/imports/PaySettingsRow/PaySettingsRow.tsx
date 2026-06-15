@@ -351,13 +351,13 @@ export default function PaySettingsRow({
     {showBankDetails && !showEditBank && !showAddNewBank && createPortal(
       <BankDetailsModal
         onClose={() => setShowBankDetails(false)}
-        onUpdate={(name, account) => { setBankName(name); setBankAccount(account); }}
+        onUpdate={(name, account) => { setBankName(name); setBankAccount(account); setEditingBankName(name); }}
         onEditBank={(name) => { setEditingBankName(name); setShowEditBank(true); }}
         onAddNewBank={() => setShowAddNewBank(true)}
         onManageBankAccounts={() => navigate('/bank-accounts')}
         bankName={bankName}
         bankAccount={bankAccount}
-        selectedBankName={editingBankName !== bankName ? editingBankName : undefined}
+        selectedBankName={editingBankName}
       />, document.body)}
     {showEditBank && createPortal(
       <EditBankModal
