@@ -50,10 +50,14 @@ function EditField({
   hasSelector?: boolean;
 }) {
   const [focused, setFocused] = useState(false);
+  const [hovered, setHovered] = useState(false);
+  const borderColor = focused ? 'var(--cp-border-active)' : hovered ? 'var(--cp-border-hover)' : 'var(--cp-border-default)';
   return (
     <div
       className={`bg-white relative rounded-[5px] h-[56px] flex items-start justify-between p-[10px] ${halfWidth ? 'flex-1 min-w-0' : 'w-full shrink-0'}`}
-      style={{ border: `1px solid ${focused ? 'var(--cp-border-active)' : 'var(--cp-border-default)'}`, transition: 'border-color 0.1s' }}
+      style={{ border: `1px solid ${borderColor}`, transition: 'border-color 0.1s' }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
     >
       {/* Left: label + input */}
       <div className="flex flex-col items-start justify-between self-stretch flex-1 min-w-0">

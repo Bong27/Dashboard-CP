@@ -133,10 +133,14 @@ function BankCountryField({
   onChange: (v: string) => void;
 }) {
   const [focused, setFocused] = useState(false);
+  const [hovered, setHovered] = useState(false);
+  const borderColor = focused ? 'var(--cp-border-active)' : hovered ? 'var(--cp-border-hover)' : 'var(--cp-border-default)';
   return (
     <div
       className="bg-white relative rounded-[5px] h-[56px] flex items-start justify-between p-[10px] w-full shrink-0"
-      style={{ border: `1px solid ${focused ? 'var(--cp-border-active)' : 'var(--cp-border-default)'}`, transition: 'border-color 0.1s' }}
+      style={{ border: `1px solid ${borderColor}`, transition: 'border-color 0.1s' }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
     >
       <div className="flex flex-col items-start justify-between self-stretch flex-1 min-w-0">
         <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[11px] text-[var(--cp-text-tertiary)] uppercase whitespace-nowrap leading-none shrink-0">
@@ -169,6 +173,7 @@ const IBAN_TYPES = [
 
 function IBANField({ value, onChange }: { value: string; onChange: (v: string) => void }) {
   const [focused, setFocused] = useState(false);
+  const [hovered, setHovered] = useState(false);
   const [open, setOpen] = useState(false);
   const [ibanType, setIbanType] = useState('IBAN');
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -190,7 +195,9 @@ function IBANField({ value, onChange }: { value: string; onChange: (v: string) =
       {/* Input row */}
       <div
         className="bg-white relative rounded-[5px] h-[56px] flex items-start justify-between p-[10px] w-full"
-        style={{ border: `1px solid ${focused || open ? 'var(--cp-border-active)' : 'var(--cp-border-default)'}`, transition: 'border-color 0.1s' }}
+        style={{ border: `1px solid ${focused || open ? 'var(--cp-border-active)' : hovered ? 'var(--cp-border-hover)' : 'var(--cp-border-default)'}`, transition: 'border-color 0.1s' }}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
       >
         <div className="flex flex-col items-start justify-between self-stretch flex-1 min-w-0">
           <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[11px] text-[var(--cp-text-tertiary)] uppercase whitespace-nowrap leading-none shrink-0">
