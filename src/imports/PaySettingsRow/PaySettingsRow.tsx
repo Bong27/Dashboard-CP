@@ -325,13 +325,19 @@ export default function PaySettingsRow({
   const navigate = useNavigate();
   const { banks } = useBanks();
 
-  // The committed bank — prefer bankId lookup, else match by label, else use props
+  // Track which bank is committed by id
   const [committedBankId, setCommittedBankId] = useState<string | undefined>(
-    bankIdProp ?? banks.find(b => b.label === bankNameProp)?.id
+    () => bankIdProp ?? banks.find(b => b.label === bankNameProp)?.id
   );
+
+  // Keep in sync if bankIdProp changes externally
+  useEffect(() => {
+    if (bankIdProp) setCommittedBankId(bankIdProp);
+  }, [bankIdProp]);
+
   const committedBank = banks.find(b => b.id === committedBankId);
-  // Always read label + iban from live context so edits reflect instantly
-  const bankName    = committedBank?.label   ?? bankNameProp;
+  // Always derive label + iban live from context — reflects edits instantly
+  const bankName    = committedBank?.label ?? bankNameProp;
   const bankAccount = committedBank?.iban.replace(/\s/g, '') ?? bankAccountProp;
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -365,8 +371,10 @@ export default function PaySettingsRow({
         onClose={() => setShowBankDetails(false)}
         onUpdate={(name, _account) => {
           const bank = banks.find(b => b.label === name);
-          if (bank) setCommittedBankId(bank.id);
-          setEditingBankName(name);
+          if (bank) {
+            setCommittedBankId(bank.id);
+            setEditingBankName(name);
+          }
         }}
         onEditBank={(name) => { setEditingBankName(name); setShowEditBank(true); }}
         onAddNewBank={() => setShowAddNewBank(true)}
