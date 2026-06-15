@@ -7,6 +7,7 @@ import { useState } from 'react';
 
 type Props = {
   onClose: () => void;
+  onBack?: () => void;
   onSave: (data: EditBankData) => void;
   // pre-filled from current bank
   label?: string;
@@ -88,6 +89,7 @@ function EditField({
 // ─── Modal ────────────────────────────────────────────────────────────────────
 export default function EditBankModal({
   onClose,
+  onBack,
   onSave,
   label: labelProp = '',
   holderName: holderProp = '',
@@ -142,7 +144,6 @@ export default function EditBankModal({
         {/* Card — fixed height matches BankDetailsModal */}
         <div
           className="bg-white flex flex-col gap-[20px] items-start p-[20px] relative rounded-[10px] w-full"
-          style={{ height: 634 }}
         >
           {/* Title */}
           <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[13px] text-[var(--cp-text-secondary)] uppercase whitespace-nowrap shrink-0">
@@ -150,7 +151,7 @@ export default function EditBankModal({
           </p>
 
           {/* Form — flex-1 fills space, pushing buttons to bottom */}
-          <div className="flex flex-col gap-[8px] items-start relative w-full flex-1">
+          <div className="flex flex-col gap-[8px] items-start relative w-full">
             <EditField label="Label"                value={label}         onChange={setLabel} />
             <EditField label="Account Holder Name"  value={holderName}    onChange={setHolderName} />
             <EditField label="Bank Country"         value={bankCountry}   onChange={setBankCountry} hasSelector />
@@ -168,9 +169,9 @@ export default function EditBankModal({
           <div className="content-stretch flex gap-[10px] items-center relative shrink-0 w-full">
             <button
               className="bg-white border border-[var(--cp-border-default)] border-solid content-stretch flex flex-1 h-[46px] items-center justify-center overflow-clip px-[10px] relative rounded-[5px] cursor-pointer hover:bg-[var(--cp-bg-2)] transition-colors"
-              onClick={onClose}
+              onClick={onBack ?? onClose}
             >
-              <p className="font-['Inter:Medium',sans-serif] font-medium text-[13px] text-[var(--cp-text-secondary)] text-center whitespace-nowrap">Cancel</p>
+              <p className="font-['Inter:Medium',sans-serif] font-medium text-[13px] text-[var(--cp-text-secondary)] text-center whitespace-nowrap">Back</p>
             </button>
             <button
               disabled={!isDirty}

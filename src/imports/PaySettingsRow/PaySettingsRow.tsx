@@ -360,6 +360,7 @@ export default function PaySettingsRow({
     {showEditBank && createPortal(
       <EditBankModal
         onClose={() => setShowEditBank(false)}
+        onBack={() => { setShowEditBank(false); setShowBankDetails(true); }}
         onSave={() => setShowEditBank(false)}
         label={BANK_DETAILS[editingBankName]?.label ?? editingBankName}
         holderName={BANK_DETAILS[editingBankName]?.holder ?? ''}
