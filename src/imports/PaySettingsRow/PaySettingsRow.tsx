@@ -481,5 +481,6 @@ export default function PaySettingsRow({
         </button>
       </div>
     </div>
+    </>
   );
 }
