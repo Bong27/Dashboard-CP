@@ -371,8 +371,6 @@ export default function PaySettingsRow({
         address={BANK_DETAILS[editingBankName]?.address ?? ''}
         city={BANK_DETAILS[editingBankName]?.city ?? ''}
         postalCode={BANK_DETAILS[editingBankName]?.postalCode ?? ''}
-        city=""
-        postalCode=""
         bankCountry="United Kingdom"
       />, document.body)}
     {showAddNewBank && createPortal(
