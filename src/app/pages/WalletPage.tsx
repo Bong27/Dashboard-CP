@@ -324,7 +324,7 @@ function WalletList({ onBankPayout }: { onBankPayout: () => void }) {
 export default function WalletPage() {
   const [showBankPayout, setShowBankPayout] = useState(false);
   return (
-    <div className="content-stretch flex flex-col gap-[20px] items-start p-[20px] relative w-full">
+    <div className="content-stretch flex flex-col gap-[20px] items-start relative w-full">
       {showBankPayout && <BankPayoutModal onClose={() => setShowBankPayout(false)} />}
       <TopControls />
       <SwitchBalances />
