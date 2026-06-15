@@ -398,7 +398,7 @@ export default function PaySettingsRow({
           <div className="flex flex-row justify-center min-w-[inherit] rounded-[inherit] size-full">
             <div className="content-stretch flex items-start justify-between min-w-[inherit] p-[10px] relative size-full">
               <div className="content-stretch flex flex-col h-full items-start justify-between relative shrink-0">
-                {mode === 'bank' ? (
+                {selectedMode === 'Nightly to Bank' ? (
                   <>
                     <div className="content-stretch flex gap-[5px] items-center relative shrink-0">
                       <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-tertiary)] text-[11px] uppercase whitespace-nowrap">SETTLEMENT MODE (Nightly to Bank)</p>
@@ -423,7 +423,7 @@ export default function PaySettingsRow({
                 )}
               </div>
               <div className="content-stretch flex gap-[8px] h-full items-center relative shrink-0" style={{overflow:'visible'}}>
-                {mode === 'bank' && <EditButton onClick={() => setShowBankDetails(true)} />}
+                {selectedMode === 'Nightly to Bank' && <EditButton onClick={() => setShowBankDetails(true)} />}
                 <div onClick={() => setIsDropdownOpen(!isDropdownOpen)} className="content-stretch flex items-center justify-between relative shrink-0 w-[21px] cursor-pointer">
                   <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" />
                   <div className={`flex items-center justify-center relative shrink-0 ${isDropdownOpen ? 'rotate-180' : ''}`}>
