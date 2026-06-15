@@ -1,5 +1,6 @@
 import BankDetailsModal from '../../app/components/BankDetailsModal';
 import { useState, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import svgPaths from "./svg-dulsyl96to";
 
 function LayerX1() {
@@ -338,7 +339,7 @@ export default function PaySettingsRow({
 
   return (
     <>
-    {showBankDetails && <BankDetailsModal onClose={() => setShowBankDetails(false)} />}
+    {showBankDetails && createPortal(<BankDetailsModal onClose={() => setShowBankDetails(false)} />, document.body)}
     <div className={`bg-[var(--cp-bg-1)] content-stretch flex gap-[10px] items-center pl-[20px] py-[10px] relative size-full ${isDropdownOpen ? 'z-[100]' : ''}`} data-name="PaySettingsRow">
         <div aria-hidden="true" className="absolute border-[var(--cp-border-default)] border-solid border-t inset-0 pointer-events-none" />
         {coinLogo ? (
