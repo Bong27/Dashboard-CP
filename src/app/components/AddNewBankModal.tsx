@@ -281,7 +281,7 @@ export default function AddNewBankModal({ onClose }: Props) {
         </button>
 
         {/* Card — natural height */}
-        <div className="bg-white flex flex-col gap-[20px] items-start p-[20px] relative rounded-[10px] w-full">
+        <div className="bg-white flex flex-col gap-[20px] items-start p-[20px] relative rounded-[10px] w-full" style={{ minHeight: 704 }}>
 
           {/* Title area */}
           <div className="flex flex-col gap-[20px] items-start relative shrink-0 w-full">
@@ -343,9 +343,7 @@ export default function AddNewBankModal({ onClose }: Props) {
           <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[14px] text-white">Dismiss</p>
         </button>
 
-        <div className="bg-white flex flex-col gap-[20px] items-start p-[20px] relative rounded-[10px] w-full">
-
-          {/* Title */}
+        <div className="bg-white flex flex-col gap-[20px] items-start p-[20px] relative rounded-[10px] w-full" style={{ minHeight: 704 }}>
           <div className="flex flex-col gap-[20px] items-start relative shrink-0 w-full">
             <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[13px] text-[var(--cp-text-secondary)] uppercase whitespace-nowrap">Bank Details</p>
             <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-primary)] leading-tight">
@@ -400,6 +398,9 @@ export default function AddNewBankModal({ onClose }: Props) {
               </svg>
             </div>
           </div>
+
+          {/* Spacer — absorbs extra height to match step 1 modal height */}
+          <div className="flex-1" />
 
           {/* Terms */}
           <div className="flex flex-col gap-[5px] items-start relative shrink-0 w-full">
