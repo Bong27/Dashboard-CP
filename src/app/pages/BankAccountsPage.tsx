@@ -88,7 +88,7 @@ function MoreButton({ isPrimary, onSetPrimary, onDelete, onEdit }: { isPrimary: 
   const handleOpen = () => {
     if (btnRef.current) {
       const r = btnRef.current.getBoundingClientRect();
-      setCoords({ top: r.top, right: window.innerWidth - r.left + 4 });
+      setCoords({ top: r.top + r.height / 2, right: window.innerWidth - r.left + 4 });
     }
     setOpen(o => !o);
   };
@@ -109,7 +109,7 @@ function MoreButton({ isPrimary, onSetPrimary, onDelete, onEdit }: { isPrimary: 
       {open && createPortal(
         <div
           className="fixed z-[500]"
-          style={{ top: coords.top, right: coords.right }}
+          style={{ top: coords.top, right: coords.right, transform: 'translateY(-50%)' }}
         >
           <ContextMenu
             isPrimary={isPrimary}
