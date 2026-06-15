@@ -127,7 +127,7 @@ export default function BankDetailsModal({ onClose, bankName = 'Wise', bankAccou
         </button>
 
         {/* Card */}
-        <div className="bg-white content-stretch flex flex-col gap-[20px] items-start p-[20px] relative rounded-[10px] w-full">
+        <div className="bg-white content-stretch flex flex-col gap-[20px] items-start p-[20px] relative rounded-[10px] w-full overflow-hidden" style={{ height: 582 }}>
 
           {/* Title */}
           <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[13px] text-[var(--cp-text-secondary)] uppercase whitespace-nowrap">
@@ -210,7 +210,7 @@ export default function BankDetailsModal({ onClose, bankName = 'Wise', bankAccou
           </div>
 
           {/* Bank detail rows */}
-          <div className="content-stretch flex flex-col gap-[10px] items-start relative shrink-0 w-full">
+          <div className="content-stretch flex flex-col gap-[10px] items-start relative flex-1 overflow-hidden w-full">
             <DataRow label="Account Holder Name" value={details.holder} />
             <DataRow label="Bank Name"            value={details.bankName} />
             <DataRow label="IBAN"                 value={details.iban} />
