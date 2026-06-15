@@ -77,7 +77,7 @@ function Field({
           placeholder={placeholder}
           onFocus={() => setFocused(true)}
           onBlur={() => setFocused(false)}
-          className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] bg-transparent border-none outline-none w-full min-w-0 leading-none placeholder:text-[var(--cp-text-quinary)]"
+          className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] bg-transparent border-none outline-none w-full min-w-0 leading-none placeholder:text-[var(--cp-text-quinary)] overflow-hidden text-ellipsis whitespace-nowrap"
           style={{
             color: dimValue ? 'var(--cp-text-quaternary)' : 'var(--cp-text-primary)',
             caretColor: 'var(--cp-brand-primary)',

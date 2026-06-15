@@ -64,7 +64,7 @@ function EditField({
           placeholder={placeholder}
           onFocus={() => setFocused(true)}
           onBlur={() => setFocused(false)}
-          className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-primary)] bg-transparent border-none outline-none w-full min-w-0 leading-none"
+          className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-primary)] bg-transparent border-none outline-none w-full min-w-0 leading-none overflow-hidden text-ellipsis whitespace-nowrap"
           style={{ caretColor: 'var(--cp-brand-primary)' }}
         />
       </div>
@@ -141,7 +141,7 @@ export default function EditBankModal({
 
         {/* Card — fixed height matches BankDetailsModal */}
         <div
-          className="bg-white flex flex-col justify-between gap-[20px] items-start p-[20px] relative rounded-[10px] w-full"
+          className="bg-white flex flex-col gap-[20px] items-start p-[20px] relative rounded-[10px] w-full"
           style={{ height: 634 }}
         >
           {/* Title */}
@@ -149,8 +149,8 @@ export default function EditBankModal({
             Edit Bank Details
           </p>
 
-          {/* Form — flex-1 so it fills available space */}
-          <div className="flex flex-col gap-[8px] items-start relative w-full">
+          {/* Form — flex-1 fills space, pushing buttons to bottom */}
+          <div className="flex flex-col gap-[8px] items-start relative w-full flex-1">
             <EditField label="Label"                value={label}         onChange={setLabel} />
             <EditField label="Account Holder Name"  value={holderName}    onChange={setHolderName} />
             <EditField label="Bank Country"         value={bankCountry}   onChange={setBankCountry} hasSelector />
