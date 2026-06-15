@@ -54,7 +54,7 @@ function ContextMenu({ isPrimary, onSetPrimary, onDelete, onEdit, onClose }: {
   }, [onClose]);
 
   return (
-    <div ref={ref} className="absolute right-0 top-[44px] z-50 bg-white border border-[var(--cp-border-default)] rounded-[8px] shadow-lg overflow-hidden w-[180px]">
+    <div ref={ref} className="bg-white border border-[var(--cp-border-default)] rounded-[8px] shadow-lg overflow-hidden w-[180px]">
       {!isPrimary && (
         <button className="w-full px-[14px] py-[10px] text-left font-['Inter:Medium',sans-serif] font-medium text-[13px] text-[var(--cp-text-primary)] hover:bg-[var(--cp-bg-1)] transition-colors"
           onClick={() => { onSetPrimary(); onClose(); }}>
