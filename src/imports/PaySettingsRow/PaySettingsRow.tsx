@@ -1,4 +1,5 @@
-import BankDetailsModal from '../../app/components/BankDetailsModal';
+import BankDetailsModal, { BANK_DETAILS } from '../../app/components/BankDetailsModal';
+import EditBankModal from '../../app/components/EditBankModal';
 import { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import svgPaths from "./svg-dulsyl96to";
@@ -318,6 +319,7 @@ export default function PaySettingsRow({
 }: PaySettingsRowProps = {}) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [showBankDetails, setShowBankDetails] = useState(false);
+  const [showEditBank, setShowEditBank] = useState(false);
   const [bankName, setBankName] = useState(bankNameProp);
   const [bankAccount, setBankAccount] = useState(bankAccountProp);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -340,12 +342,26 @@ export default function PaySettingsRow({
 
   return (
     <>
-    {showBankDetails && createPortal(
+    {showBankDetails && !showEditBank && createPortal(
       <BankDetailsModal
         onClose={() => setShowBankDetails(false)}
         onUpdate={(name, account) => { setBankName(name); setBankAccount(account); }}
+        onEditBank={() => { setShowBankDetails(false); setShowEditBank(true); }}
         bankName={bankName}
         bankAccount={bankAccount}
+      />, document.body)}
+    {showEditBank && createPortal(
+      <EditBankModal
+        onClose={() => setShowEditBank(false)}
+        onSave={() => setShowEditBank(false)}
+        label={BANK_DETAILS[bankName]?.label ?? bankName}
+        holderName={BANK_DETAILS[bankName]?.holder ?? ''}
+        accountNumber={BANK_DETAILS[bankName]?.accountNumber ?? ''}
+        bic={BANK_DETAILS[bankName]?.bic ?? ''}
+        address={BANK_DETAILS[bankName]?.address ?? ''}
+        city=""
+        postalCode=""
+        bankCountry="United Kingdom"
       />, document.body)}
     <div className={`bg-[var(--cp-bg-1)] content-stretch flex gap-[10px] items-center pl-[20px] py-[10px] relative size-full ${isDropdownOpen ? 'z-[100]' : ''}`} data-name="PaySettingsRow">
         <div aria-hidden="true" className="absolute border-[var(--cp-border-default)] border-solid border-t inset-0 pointer-events-none" />

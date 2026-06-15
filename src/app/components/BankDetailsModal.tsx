@@ -3,13 +3,12 @@
 // Source: Figma node 1623:265565 "Bank Details Modal (label)"
 // ─────────────────────────────────────────────────────────────────────────────
 import { useState } from 'react';
-import { createPortal } from 'react-dom';
-import EditBankModal from './EditBankModal';
 import { SelectField } from './SelectField';
 
 type Props = {
   onClose: () => void;
   onUpdate?: (name: string, account: string) => void;
+  onEditBank?: () => void;
   bankName?: string;
   bankAccount?: string;
 };
@@ -54,7 +53,7 @@ const BANK_OPTIONS = [
 ];
 
 // Detail data keyed by bank name
-const BANK_DETAILS: Record<string, {
+export const BANK_DETAILS: Record<string, {
   holder: string; bankName: string; iban: string;
   accountNumber: string; bic: string; address: string; label: string;
 }> = {
@@ -88,7 +87,7 @@ const BANK_DETAILS: Record<string, {
 };
 
 // ─── Modal ────────────────────────────────────────────────────────────────────
-export default function BankDetailsModal({ onClose, onUpdate, bankName = 'Wise', bankAccount = 'GB97TRWI23080120507810' }: Props) {
+export default function BankDetailsModal({ onClose, onUpdate, onEditBank, bankName = 'Wise', bankAccount = 'GB97TRWI23080120507810' }: Props) {
   // Find initial bank from options, fall back to Wise
   const initialBank = BANK_OPTIONS.find(b => b.name === bankName) ?? BANK_OPTIONS[0];
   const [selectedBank, setSelectedBank] = useState(initialBank);
@@ -97,7 +96,6 @@ export default function BankDetailsModal({ onClose, onUpdate, bankName = 'Wise',
 
   const details = BANK_DETAILS[selectedBank.name] ?? BANK_DETAILS['Wise'];
   const hasChanged = selectedBank.name !== initialBank.name;
-  const [showEditBank, setShowEditBank] = useState(false);
 
   const handleUpdate = () => {
     if (!hasChanged) return;
@@ -114,22 +112,6 @@ export default function BankDetailsModal({ onClose, onUpdate, bankName = 'Wise',
   };
 
   return (
-    <>
-    {showEditBank && createPortal(
-      <EditBankModal
-        onClose={() => setShowEditBank(false)}
-        onSave={() => setShowEditBank(false)}
-        label={details.label}
-        holderName={details.holder}
-        accountNumber={details.accountNumber}
-        bic={details.bic}
-        address={details.address}
-        city=""
-        postalCode=""
-        bankCountry="United Kingdom"
-      />,
-      document.body
-    )}
     <div
       className="fixed inset-0 z-50 flex items-center justify-center"
       style={{ background: 'rgba(0,0,0,0.55)' }}
@@ -211,10 +193,10 @@ export default function BankDetailsModal({ onClose, onUpdate, bankName = 'Wise',
 
                   {/* Action buttons — same style as bank rows */}
                   <div className="content-stretch flex flex-col gap-[5px] items-start relative shrink-0 w-full">
-                    {/* Edit Bank — opens EditBankModal */}
+                    {/* Edit Bank — swaps to EditBankModal */}
                     <button
                       className="bg-white border border-[var(--cp-border-default)] border-solid content-stretch cursor-pointer flex flex-col items-start p-[10px] relative rounded-[5px] shrink-0 w-full hover:bg-[var(--cp-bg-1)] transition-colors"
-                      onClick={() => { setBankOpen(false); setShowEditBank(true); }}
+                      onClick={() => { setBankOpen(false); onClose(); onEditBank?.(); }}
                     >
                       <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[11px] text-[var(--cp-brand-primary)] leading-[normal] not-italic relative shrink-0 w-full text-left">
                         Edit Bank
@@ -289,6 +271,5 @@ export default function BankDetailsModal({ onClose, onUpdate, bankName = 'Wise',
         </div>
       </div>
     </div>
-    </>
   );
 }
