@@ -4,6 +4,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { BANK_DETAILS } from '../components/BankDetailsModal';
+import AddNewBankModal from '../components/AddNewBankModal';
 
 type BankAccount = {
   id: string;
@@ -198,7 +199,7 @@ export default function BankAccountsPage() {
   const [accounts] = useState<BankAccount[]>(INITIAL_ACCOUNTS);
   // Wise (id '1') is primary by default
   const [primaryId, setPrimaryId] = useState('1');
-
+  const [showAddNew, setShowAddNew] = useState(false);
   return (
     <div className="content-stretch flex flex-col gap-[20px] items-start relative w-full">
 
@@ -213,10 +214,18 @@ export default function BankAccountsPage() {
             These accounts are available as payout destinations across your automated and manual dashboard settings.
           </p>
         </div>
-        <button className="bg-[var(--cp-brand-primary)] content-stretch cursor-pointer flex h-[36px] items-center justify-center overflow-clip px-[10px] relative rounded-[5px] shrink-0 hover:bg-[var(--cp-brand-active)] transition-colors">
+        <button
+          className="bg-[var(--cp-brand-primary)] content-stretch cursor-pointer flex h-[36px] items-center justify-center overflow-clip px-[10px] relative rounded-[5px] shrink-0 hover:bg-[var(--cp-brand-active)] transition-colors"
+          onClick={() => setShowAddNew(true)}
+        >
           <p className="font-['Inter:Medium',sans-serif] font-medium text-[13px] text-white text-center whitespace-nowrap">Add Bank Account</p>
         </button>
       </div>
+
+      {showAddNew && createPortal(
+        <AddNewBankModal onClose={() => setShowAddNew(false)} />,
+        document.body
+      )}
 
       {/* List */}
       <div className="content-stretch flex flex-col items-start relative shrink-0 w-full overflow-hidden rounded-[5px]">
