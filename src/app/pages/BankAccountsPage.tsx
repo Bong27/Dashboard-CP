@@ -106,7 +106,7 @@ function MoreButton({ isPrimary, onSetPrimary }: { isPrimary: boolean; onSetPrim
   const handleOpen = () => {
     if (btnRef.current) {
       const r = btnRef.current.getBoundingClientRect();
-      setCoords({ top: r.bottom + 4, right: window.innerWidth - r.right });
+      setCoords({ top: r.top, right: window.innerWidth - r.left + 8 });
     }
     setOpen(o => !o);
   };
