@@ -226,7 +226,7 @@ export default function DashboardLayout() {
     <div className="bg-[var(--cp-bg-1)] content-stretch flex flex-col items-start relative size-full">
 
       {/* Top Navbar */}
-      <div className="bg-white content-stretch flex h-[70px] items-center justify-between overflow-clip fixed top-0 left-0 right-0 z-50 w-full">
+      <div className="bg-white content-stretch flex h-[70px] items-center justify-between fixed top-0 left-0 right-0 z-50 w-full">
         <div className="content-stretch flex items-center justify-center relative shrink-0 w-[225px]">
           <div className="content-stretch flex flex-col items-start px-[20px] py-[10px] relative shrink-0 w-[205px]">
             <Logo />
@@ -301,7 +301,7 @@ export default function DashboardLayout() {
                     </div>
                   </button>
                   {accountOpen && (
-                    <div className="absolute right-0 top-[48px] z-[200]">
+                    <div className="fixed top-[62px] right-[10px] z-[300]">
                       <AccountDropdown onClose={() => setAccountOpen(false)} />
                     </div>
                   )}
