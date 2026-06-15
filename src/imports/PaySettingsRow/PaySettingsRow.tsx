@@ -263,6 +263,8 @@ type PaySettingsRowProps = {
 
 function EditButton() {
   const [hovered, setHovered] = useState(false);
+  const frameColor = hovered ? '#1C60DD' : '#8492A6';
+  const penColor   = hovered ? '#1C60DD' : '#8492A6';
   return (
     <div className="relative shrink-0" style={{overflow:'visible'}}>
       <button
@@ -270,28 +272,21 @@ function EditButton() {
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
       >
-        {/* Edit icon — Figma node 2135:81679, two vector strokes */}
         <div className="relative shrink-0 size-[16px]">
-          {/* Pen body: inset 3.45% 3.45% 28.96% 28.96% of 16px = 0.55px 0.55px 4.63px 4.63px */}
-          <svg className="absolute block inset-0 size-full" viewBox="0 0 16 16" fill="none">
-            <path
-              d="M1.5 11.5V14.5H4.5L13.5 5.5L10.5 2.5L1.5 11.5Z"
-              stroke="var(--cp-text-tertiary)" strokeWidth="1.2" strokeLinejoin="round"
-              fill="none"
-            />
-            <path
-              d="M10.5 2.5L13.5 5.5"
-              stroke="var(--cp-text-tertiary)" strokeWidth="1.2" strokeLinecap="round"
-            />
-            <path
-              d="M1.5 11.5H4.5V14.5"
-              stroke="var(--cp-text-tertiary)" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"
-              fill="none"
-            />
-          </svg>
+          {/* Frame — Figma inset 12.29%/12.29%/3.96%/3.96% */}
+          <div className="absolute inset-[12.29%_12.29%_3.96%_3.96%]">
+            <svg className="absolute block inset-0 size-full" viewBox="0 0 13.4 13.4" fill="none" preserveAspectRatio="none">
+              <path fillRule="evenodd" clipRule="evenodd" d="M0.595549 0.595549C0.976874 0.214225 1.49406 0 2.03333 0H6.7C7.0866 0 7.4 0.313401 7.4 0.7C7.4 1.0866 7.0866 1.4 6.7 1.4H2.03333C1.86536 1.4 1.70427 1.46673 1.5855 1.5855C1.46673 1.70427 1.4 1.86536 1.4 2.03333V11.3667C1.4 11.5346 1.46673 11.6957 1.5855 11.8145C1.70427 11.9333 1.86536 12 2.03333 12H11.3667C11.5346 12 11.6957 11.9333 11.8145 11.8145C11.9333 11.6957 12 11.5346 12 11.3667V6.7C12 6.3134 12.3134 6 12.7 6C13.0866 6 13.4 6.3134 13.4 6.7V11.3667C13.4 11.9059 13.1858 12.4231 12.8045 12.8045C12.4231 13.1858 11.9059 13.4 11.3667 13.4H2.03333C1.49406 13.4 0.976873 13.1858 0.595549 12.8045C0.214226 12.4231 0 11.9059 0 11.3667V2.03333C0 1.49406 0.214225 0.976874 0.595549 0.595549Z" fill={frameColor}/>
+            </svg>
+          </div>
+          {/* Pen — Figma inset 3.45%/3.45%/28.96%/28.96% */}
+          <div className="absolute inset-[3.45%_3.45%_28.96%_28.96%]">
+            <svg className="absolute block inset-0 size-full" viewBox="0 0 10.8142 10.8142" fill="none" preserveAspectRatio="none">
+              <path fillRule="evenodd" clipRule="evenodd" d="M8.70002 1.4C8.51059 1.4 8.32893 1.47525 8.19499 1.60919L1.99876 7.80542L1.66207 9.15216L3.00881 8.81547L9.20504 2.61924C9.33898 2.4853 9.41423 2.30363 9.41423 2.11421C9.41423 1.92479 9.33898 1.74313 9.20504 1.60919C9.0711 1.47525 8.88944 1.4 8.70002 1.4ZM7.20504 0.619239C7.60153 0.222747 8.13929 0 8.70002 0C9.26074 0 9.7985 0.222747 10.195 0.619239C10.5915 1.01573 10.8142 1.55349 10.8142 2.11421C10.8142 2.67494 10.5915 3.2127 10.195 3.60919L3.86166 9.94252C3.77195 10.0322 3.65954 10.0959 3.53646 10.1266L0.86979 10.7933C0.631247 10.8529 0.378906 10.7831 0.20504 10.6092C0.0311738 10.4353 -0.0387205 10.183 0.0209151 9.94444L0.687582 7.27777C0.718352 7.15469 0.781996 7.04228 0.871707 6.95257L7.20504 0.619239Z" fill={penColor}/>
+            </svg>
+          </div>
         </div>
       </button>
-      {/* Tooltip — same pattern as CircleIcon, bottom caret */}
       {hovered && (
         <div
           className="absolute flex flex-col items-center pointer-events-none z-50"
@@ -301,13 +296,14 @@ function EditButton() {
             <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-white leading-none">Edit</p>
           </div>
           <svg width="10" height="5" viewBox="0 0 10 5" fill="none" className="shrink-0">
-            <path d="M10 0H0L3.58579 3.58579C4.36684 4.36684 5.63316 4.36684 6.41421 3.58579L10 0Z" fill="black" />
+            <path d="M10 0H0L3.58579 3.58579C4.36684 4.36684 5.63316 4.36684 6.41421 3.58579L10 0Z" fill="black"/>
           </svg>
         </div>
       )}
     </div>
   );
 }
+
 
 export default function PaySettingsRow({
   mode = 'custody',
