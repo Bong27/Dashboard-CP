@@ -7,6 +7,7 @@ import { SelectField } from './SelectField';
 
 type Props = {
   onClose: () => void;
+  onUpdate?: (name: string, account: string) => void;
   bankName?: string;
   bankAccount?: string;
 };
@@ -85,21 +86,20 @@ const BANK_DETAILS: Record<string, {
 };
 
 // ─── Modal ────────────────────────────────────────────────────────────────────
-export default function BankDetailsModal({ onClose, bankName = 'Wise', bankAccount = 'GB97TRWI23080120507810' }: Props) {
+export default function BankDetailsModal({ onClose, onUpdate, bankName = 'Wise', bankAccount = 'GB97TRWI23080120507810' }: Props) {
   // Find initial bank from options, fall back to Wise
   const initialBank = BANK_OPTIONS.find(b => b.name === bankName) ?? BANK_OPTIONS[0];
   const [selectedBank, setSelectedBank] = useState(initialBank);
   const [bankOpen, setBankOpen] = useState(false);
-  const [updateState, setUpdateState] = useState<'idle' | 'saved'>('idle');
   const [removeState, setRemoveState] = useState<'idle' | 'confirm'>('idle');
 
   const details = BANK_DETAILS[selectedBank.name] ?? BANK_DETAILS['Wise'];
+  const hasChanged = selectedBank.name !== initialBank.name;
 
   const handleUpdate = () => {
-    setUpdateState('saved');
-    setTimeout(() => {
-      setUpdateState('idle');
-    }, 2000);
+    if (!hasChanged) return;
+    onUpdate?.(selectedBank.name, selectedBank.account);
+    onClose();
   };
 
   const handleRemoveClick = () => {
@@ -173,7 +173,7 @@ export default function BankDetailsModal({ onClose, bankName = 'Wise', bankAccou
                             ? 'bg-[var(--cp-brand-primary)]'
                             : 'bg-white hover:bg-[var(--cp-bg-1)]'
                         }`}
-                        onClick={() => { setSelectedBank(bank); setBankOpen(false); setRemoveState('idle'); setUpdateState('idle'); }}
+                        onClick={() => { setSelectedBank(bank); setBankOpen(false); setRemoveState('idle'); }}
                       >
                         {selectedBank.name !== bank.name && (
                           <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[5px]" />
@@ -241,22 +241,18 @@ export default function BankDetailsModal({ onClose, bankName = 'Wise', bankAccou
 
             {/* Update */}
             <button
-              className={`content-stretch flex flex-1 h-[46px] items-center justify-center gap-[6px] overflow-clip px-[10px] relative rounded-[5px] cursor-pointer transition-colors ${
-                updateState === 'saved'
-                  ? 'bg-[var(--cp-success)]'
-                  : 'bg-[var(--cp-bg-2)] hover:bg-[var(--cp-bg-3)]'
+              className={`content-stretch flex flex-1 h-[46px] items-center justify-center overflow-clip px-[10px] relative rounded-[5px] transition-colors ${
+                hasChanged
+                  ? 'bg-[var(--cp-brand-primary)] hover:bg-[var(--cp-brand-active)] cursor-pointer'
+                  : 'bg-[var(--cp-bg-2)] cursor-not-allowed'
               }`}
               onClick={handleUpdate}
+              disabled={!hasChanged}
             >
-              {updateState === 'saved' && (
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" className="shrink-0">
-                  <path d="M2 6L5 9L10 3" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              )}
               <p className={`font-['Inter:Medium',sans-serif] font-medium text-[13px] text-center whitespace-nowrap ${
-                updateState === 'saved' ? 'text-white' : 'text-[var(--cp-text-secondary)]'
+                hasChanged ? 'text-white' : 'text-[var(--cp-text-secondary)]'
               }`}>
-                {updateState === 'saved' ? 'Saved' : 'Update'}
+                Update
               </p>
             </button>
 

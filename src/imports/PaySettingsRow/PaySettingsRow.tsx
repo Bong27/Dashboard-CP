@@ -310,14 +310,16 @@ function EditButton({ onClick }: { onClick: () => void }) {
 
 export default function PaySettingsRow({
   mode = 'custody',
-  bankName = 'Wise',
-  bankAccount = 'GB97TRWI23080120507810',
+  bankName: bankNameProp = 'Wise',
+  bankAccount: bankAccountProp = 'GB97TRWI23080120507810',
   coinLogo,
   coinName,
   coinSymbol,
 }: PaySettingsRowProps = {}) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [showBankDetails, setShowBankDetails] = useState(false);
+  const [bankName, setBankName] = useState(bankNameProp);
+  const [bankAccount, setBankAccount] = useState(bankAccountProp);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -338,7 +340,13 @@ export default function PaySettingsRow({
 
   return (
     <>
-    {showBankDetails && createPortal(<BankDetailsModal onClose={() => setShowBankDetails(false)} bankName={bankName} bankAccount={bankAccount} />, document.body)}
+    {showBankDetails && createPortal(
+      <BankDetailsModal
+        onClose={() => setShowBankDetails(false)}
+        onUpdate={(name, account) => { setBankName(name); setBankAccount(account); }}
+        bankName={bankName}
+        bankAccount={bankAccount}
+      />, document.body)}
     <div className={`bg-[var(--cp-bg-1)] content-stretch flex gap-[10px] items-center pl-[20px] py-[10px] relative size-full ${isDropdownOpen ? 'z-[100]' : ''}`} data-name="PaySettingsRow">
         <div aria-hidden="true" className="absolute border-[var(--cp-border-default)] border-solid border-t inset-0 pointer-events-none" />
         {coinLogo ? (
