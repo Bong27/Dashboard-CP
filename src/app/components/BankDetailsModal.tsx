@@ -18,7 +18,7 @@ function DataRow({ label, value }: { label: string; value: string }) {
       <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[11px] text-[var(--cp-text-tertiary)] uppercase whitespace-nowrap leading-none">
         {label}
       </p>
-      <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-primary)] leading-tight overflow-hidden line-clamp-2" style={{ minHeight: '38px' }}>
+      <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-primary)] leading-tight">
         {value}
       </p>
     </div>
