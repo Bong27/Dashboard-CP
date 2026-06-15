@@ -211,6 +211,35 @@ export default function SettingsPage() {
 
             {/* Cryptocurrency List */}
             <div className="content-stretch flex flex-col items-start relative shrink-0 w-full">
+              {/* Bank Payout rows — top of list, checked by default */}
+              <div className="relative w-full min-h-[76px]">
+                <PaySettingsRow
+                  mode="bank"
+                  coinLogo={
+                    <div className="relative shrink-0 size-[36px] rounded-[999px] bg-[#50af95] flex items-center justify-center">
+                      <span className="text-white font-bold leading-none select-none" style={{fontSize:14}}>₮</span>
+                    </div>
+                  }
+                  coinName="Tether USD"
+                  coinSymbol="USDT.ERC20"
+                  bankName="Wise"
+                  bankAccount="GB97TRWI23080120507810"
+                />
+              </div>
+              <div className="relative w-full min-h-[76px]">
+                <PaySettingsRow
+                  mode="bank"
+                  coinLogo={
+                    <div className="relative shrink-0 size-[36px] rounded-[999px] bg-[#2775CA] flex items-center justify-center">
+                      <span className="text-white font-bold leading-none select-none" style={{fontSize:12}}>$</span>
+                    </div>
+                  }
+                  coinName="USD Coin"
+                  coinSymbol="USDC.ERC20"
+                  bankName="Wise"
+                  bankAccount="GB97TRWI23080120507810"
+                />
+              </div>
               {[1, 2, 3, 4, 5, 6, 7].map((index) => (
                 <div key={index} className="relative w-full min-h-[76px]">
                   <PaySettingsRow />
