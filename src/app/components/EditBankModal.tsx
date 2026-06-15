@@ -150,7 +150,7 @@ export default function EditBankModal({
           </p>
 
           {/* Form — flex-1 so it fills available space */}
-          <div className="flex flex-col gap-[8px] items-start relative flex-1 overflow-hidden w-full">
+          <div className="flex flex-col gap-[8px] items-start relative flex-1 overflow-y-auto w-full">
             <EditField label="Label"                value={label}         onChange={setLabel} />
             <EditField label="Account Holder Name"  value={holderName}    onChange={setHolderName} />
             <EditField label="Bank Country"         value={bankCountry}   onChange={setBankCountry} hasSelector />
