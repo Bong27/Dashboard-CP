@@ -133,3 +133,54 @@ export function IconPlus({ color = BRAND }: IconProps) {
     </div>
   );
 }
+
+export function IconProfile({ color = DEFAULT }: IconProps) {
+  return (
+    <div className="overflow-clip relative shrink-0 size-[16px]">
+      <svg className="absolute block inset-0 size-full" fill="none" viewBox="0 0 16 16">
+        <circle cx="8" cy="5.5" r="2.5" fill={color} />
+        <path fillRule="evenodd" clipRule="evenodd" d="M2 13.5C2 10.7386 4.68629 8.5 8 8.5C11.3137 8.5 14 10.7386 14 13.5H2Z" fill={color} />
+      </svg>
+    </div>
+  );
+}
+
+export function IconBankPayout({ color = DEFAULT }: IconProps) {
+  return (
+    <div className="overflow-clip relative shrink-0 size-[16px]">
+      <svg className="absolute block inset-0 size-full" fill="none" viewBox="0 0 16 16">
+        <path fillRule="evenodd" clipRule="evenodd" d="M1 5.5L8 1L15 5.5H1Z" fill={color} />
+        <rect x="2" y="6.5" width="2" height="5" fill={color} />
+        <rect x="7" y="6.5" width="2" height="5" fill={color} />
+        <rect x="12" y="6.5" width="2" height="5" fill={color} />
+        <rect x="1" y="12.5" width="14" height="1.5" fill={color} />
+        <path d="M11 10.5C11 9.11929 12.1193 8 13.5 8C14.8807 8 16 9.11929 16 10.5V11H14.5V10.5C14.5 9.94772 14.0523 9.5 13.5 9.5C12.9477 9.5 12.5 9.94772 12.5 10.5H11Z" fill={color} />
+        <path d="M12 11H15V13H12V11Z" fill={color} />
+        <path d="M11.5 13H15.5V14.5H11.5V13Z" fill={color} />
+      </svg>
+    </div>
+  );
+}
+
+export function IconSun({ color = DEFAULT }: IconProps) {
+  return (
+    <div className="overflow-clip relative shrink-0 size-[16px]">
+      <svg className="absolute block inset-0 size-full" fill="none" viewBox="0 0 16 16">
+        <circle cx="8" cy="8" r="3" fill={color} />
+        <path d="M8 1V3M8 13V15M1 8H3M13 8H15M3.22 3.22L4.64 4.64M11.36 11.36L12.78 12.78M12.78 3.22L11.36 4.64M4.64 11.36L3.22 12.78" stroke={color} strokeWidth="1.5" strokeLinecap="round" />
+      </svg>
+    </div>
+  );
+}
+
+export function IconLogout({ color = DEFAULT }: IconProps) {
+  return (
+    <div className="overflow-clip relative shrink-0 size-[16px]">
+      <svg className="absolute block inset-0 size-full" fill="none" viewBox="0 0 16 16">
+        <path d="M6 2H3C2.44772 2 2 2.44772 2 3V13C2 13.5523 2.44772 14 3 14H6" stroke={color} strokeWidth="1.5" strokeLinecap="round" />
+        <path d="M10.5 5L14 8L10.5 11" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M14 8H6" stroke={color} strokeWidth="1.5" strokeLinecap="round" />
+      </svg>
+    </div>
+  );
+}

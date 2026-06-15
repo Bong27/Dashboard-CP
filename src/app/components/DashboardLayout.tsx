@@ -1,8 +1,10 @@
 import { Outlet, Link, useLocation } from 'react-router';
+import { useState, useRef, useEffect } from 'react';
 import {
   IconWallet, IconTransactions, IconSettings, IconIntegrations,
   IconInvoicing, IconPOS, IconSupport, IconMore, IconPlus,
 } from './Icons';
+import AccountDropdown from './AccountDropdown';
 import svgPaths from '../../imports/Wallet-2/svg-tfchl2zu4w';
 import imgCircle from '../../imports/Wallet-2/7e6eebe580b2dba6f0a0b9b74d6ab1a4021a315d.png';
 
@@ -207,6 +209,18 @@ function SidenavFooter() {
 export default function DashboardLayout() {
   const location = useLocation();
   const pageTitle = PAGE_TITLES[location.pathname] ?? 'Dashboard';
+  const [accountOpen, setAccountOpen] = useState(false);
+  const accountRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (accountRef.current && !accountRef.current.contains(e.target as Node)) {
+        setAccountOpen(false);
+      }
+    };
+    if (accountOpen) document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, [accountOpen]);
 
   return (
     <div className="bg-[var(--cp-bg-1)] content-stretch flex flex-col items-start relative size-full">
@@ -269,18 +283,28 @@ export default function DashboardLayout() {
                   </div>
                   <div className="bg-[var(--cp-border-default)] h-[10px] relative shrink-0 w-px" />
                 </div>
-                <div className="bg-white content-stretch flex gap-[10px] h-[40px] items-center pl-[15px] pr-[5px] relative rounded-[100px] shrink-0">
-                  <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[100px]" />
-                  <div className="overflow-clip relative shrink-0 size-[15px]">
-                    <div className="absolute inset-[18.75%_6.25%]">
-                      <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 13.125 9.375">
-                        <path d={svgPaths.pa6db700} fill="var(--fill-0, #D3D6E1)" />
-                      </svg>
+                <div className="relative shrink-0" ref={accountRef}>
+                  <button
+                    className="bg-white content-stretch flex gap-[10px] h-[40px] items-center pl-[15px] pr-[5px] relative rounded-[100px] shrink-0 cursor-pointer hover:bg-[var(--cp-bg-1)] transition-colors"
+                    onClick={() => setAccountOpen(o => !o)}
+                  >
+                    <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[100px]" />
+                    <div className="overflow-clip relative shrink-0 size-[15px]">
+                      <div className="absolute inset-[18.75%_6.25%]">
+                        <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 13.125 9.375">
+                          <path d={svgPaths.pa6db700} fill="var(--fill-0, #D3D6E1)" />
+                        </svg>
+                      </div>
                     </div>
-                  </div>
-                  <div className="bg-[var(--cp-text-quaternary)] overflow-clip relative rounded-[100px] shrink-0 size-[28px]">
-                    <p className="-translate-x-1/2 absolute font-['Inter:Regular',sans-serif] font-normal leading-[normal] left-1/2 not-italic text-[13px] text-center text-white top-[calc(50%-8px)] whitespace-nowrap">C</p>
-                  </div>
+                    <div className="bg-[var(--cp-text-quaternary)] overflow-clip relative rounded-[100px] shrink-0 size-[28px]">
+                      <p className="-translate-x-1/2 absolute font-['Inter:Regular',sans-serif] font-normal leading-[normal] left-1/2 not-italic text-[13px] text-center text-white top-[calc(50%-8px)] whitespace-nowrap">C</p>
+                    </div>
+                  </button>
+                  {accountOpen && (
+                    <div className="absolute right-0 top-[48px] z-[200]">
+                      <AccountDropdown onClose={() => setAccountOpen(false)} />
+                    </div>
+                  )}
                 </div>
               </div>
 
