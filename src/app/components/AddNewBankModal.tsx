@@ -3,7 +3,7 @@
 // Source: Figma node 1613:185212 "New Bank (iban)"
 // Opens from BankDetailsModal > "Add New Bank" button
 // ─────────────────────────────────────────────────────────────────────────────
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
 type Props = {
   onClose: () => void;
@@ -126,6 +126,107 @@ function BankCountryField({
   );
 }
 
+// ─── IBAN field with type dropdown ───────────────────────────────────────────
+const IBAN_TYPES = [
+  { label: 'IBAN', description: 'International Bank Account Number — used for cross-border payments in Europe and beyond.' },
+  { label: 'Account Number', description: 'Local account number — used for domestic transfers within a specific country.' },
+];
+
+function IBANField({ value, onChange }: { value: string; onChange: (v: string) => void }) {
+  const [focused, setFocused] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [ibanType, setIbanType] = useState('IBAN');
+  const wrapperRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (wrapperRef.current && !wrapperRef.current.contains(e.target as Node)) setOpen(false);
+    };
+    if (open) document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, [open]);
+
+  const placeholder = ibanType === 'IBAN'
+    ? 'Enter a valid IBAN (up to 34 characters)'
+    : 'Enter account number';
+
+  return (
+    <div ref={wrapperRef} className="relative w-full shrink-0" style={{ overflow: 'visible' }}>
+      {/* Input row */}
+      <div
+        className="bg-white relative rounded-[5px] h-[56px] flex items-start justify-between p-[10px] w-full"
+        style={{ border: `1px solid ${focused || open ? 'var(--cp-border-active)' : 'var(--cp-border-default)'}`, transition: 'border-color 0.1s' }}
+      >
+        <div className="flex flex-col items-start justify-between self-stretch flex-1 min-w-0">
+          <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[11px] text-[var(--cp-text-tertiary)] uppercase whitespace-nowrap leading-none shrink-0">
+            {ibanType}
+          </p>
+          <input
+            type="text"
+            value={value}
+            onChange={e => onChange(e.target.value)}
+            placeholder={placeholder}
+            onFocus={() => setFocused(true)}
+            onBlur={() => setFocused(false)}
+            className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-primary)] bg-transparent border-none outline-none w-full min-w-0 leading-none overflow-hidden text-ellipsis whitespace-nowrap placeholder:text-[var(--cp-text-quinary)]"
+            style={{ caretColor: 'var(--cp-brand-primary)' }}
+          />
+        </div>
+        {/* Chevron toggle */}
+        <button
+          className="content-stretch flex items-center justify-between relative shrink-0 w-[21px] self-stretch cursor-pointer"
+          onClick={() => setOpen(o => !o)}
+          tabIndex={-1}
+          type="button"
+        >
+          <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" />
+          <div className={`flex items-center justify-center relative shrink-0 transition-transform duration-150 ${open ? 'rotate-180' : ''}`}>
+            <div className="overflow-clip relative shrink-0 size-[12px]">
+              <div className="absolute inset-[34.38%_21.88%]">
+                <svg className="absolute block inset-0 size-full" fill="none" viewBox="0 0 6.74999 3.74999">
+                  <path clipRule="evenodd" d="M0.292893,0.292893C0.455612,0.130168,0.719387,0.130168,0.882107,0.292893L3.375,2.78579L5.86789,0.292893C6.03061,0.130168,6.29439,0.130168,6.45711,0.292893C6.61983,0.455612,6.61983,0.719387,6.45711,0.882107L3.66961,3.66961C3.50688,3.83233,3.24312,3.83233,3.08039,3.66961L0.292893,0.882107C0.130168,0.719387,0.130168,0.455612,0.292893,0.292893Z" fill="var(--cp-text-quinary)" fillRule="evenodd" />
+                </svg>
+              </div>
+            </div>
+          </div>
+        </button>
+      </div>
+
+      {/* Dropdown */}
+      {open && (
+        <div
+          className="absolute bg-white left-0 mt-[5px] rounded-[5px] w-full z-50"
+          style={{ top: 56, boxShadow: '0 4px 12px rgba(0,0,0,0.1)', border: '1px solid var(--cp-border-hover)' }}
+          onClick={e => e.stopPropagation()}
+        >
+          <div className="flex flex-col gap-[5px] p-[10px]">
+            {IBAN_TYPES.map(type => {
+              const isActive = type.label === ibanType;
+              return (
+                <div
+                  key={type.label}
+                  className={`relative rounded-[5px] shrink-0 w-full cursor-pointer transition-colors ${isActive ? 'bg-[var(--cp-brand-primary)]' : 'bg-white hover:bg-[var(--cp-bg-1)]'}`}
+                  onClick={() => { setIbanType(type.label); setOpen(false); }}
+                >
+                  {!isActive && <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[5px]" />}
+                  <div className="flex flex-col items-start p-[10px]">
+                    <p className={`font-['Inter:Semi_Bold',sans-serif] font-semibold text-[11px] leading-none ${isActive ? 'text-white' : 'text-[var(--cp-text-primary)]'}`}>
+                      {type.label}
+                    </p>
+                    <p className={`font-['Inter:Medium',sans-serif] font-medium text-[11px] leading-tight mt-[4px] ${isActive ? 'text-white/80' : 'text-[var(--cp-text-secondary)]'}`}>
+                      {type.description}
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 // ─── Modal ────────────────────────────────────────────────────────────────────
 export default function AddNewBankModal({ onClose }: Props) {
   const [holderName, setHolderName]     = useState('Acme Corp');
@@ -137,7 +238,7 @@ export default function AddNewBankModal({ onClose }: Props) {
   const [postalCode, setPostalCode]     = useState('W1U 8EE');
   const [accountType, setAccountType]   = useState('');
 
-  const canContinue = holderName.trim() !== '' && iban.trim() !== '';
+  const canContinue = iban.trim() !== '' && bic.trim() !== '';
 
   return (
     <div
@@ -172,7 +273,7 @@ export default function AddNewBankModal({ onClose }: Props) {
           <div className="flex flex-col gap-[8px] items-start relative shrink-0 w-full">
             <Field label="Account Holder Name" value={holderName}  onChange={setHolderName} />
             <BankCountryField value={bankCountry} onChange={setBankCountry} />
-            <Field label="IBAN"         value={iban}        onChange={setIban}     placeholder="Enter a valid IBAN (up to 34 characters)" hasChevron />
+            <IBANField value={iban} onChange={setIban} />
             <Field label="BIC / SWIFT"  value={bic}         onChange={setBic} />
             <Field label="Address"      value={address}     onChange={setAddress} />
             <Field label="Town / City"  value={city}        onChange={setCity} />
