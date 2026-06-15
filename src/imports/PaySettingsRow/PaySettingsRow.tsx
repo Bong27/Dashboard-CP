@@ -360,6 +360,7 @@ export default function PaySettingsRow({
       />, document.body)}
     {showEditBank && createPortal(
       <EditBankModal
+        key={editingBankName}
         onClose={() => setShowEditBank(false)}
         onBack={() => { setShowEditBank(false); setShowBankDetails(true); }}
         onSave={() => setShowEditBank(false)}
