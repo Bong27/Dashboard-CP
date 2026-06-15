@@ -65,7 +65,7 @@ function Field({
     <div className={`relative ${halfWidth ? 'flex-1 min-w-0' : 'w-full shrink-0'}`} style={{ overflow: 'visible' }}>
       <div
         className="bg-white relative rounded-[5px] h-[56px] flex items-start justify-between p-[10px]"
-        style={{ border: `1px solid ${focused ? 'var(--cp-brand-primary)' : 'var(--cp-border-default)'}`, transition: 'border-color 0.1s' }}
+        style={{ border: `1px solid ${focused ? 'var(--cp-brand-primary)' : 'var(--cp-border-default)'}`, transition: 'border-color 0.1s', borderRadius: showHelper ? '5px 5px 0 0' : '5px' }}
       >
         <div className="flex flex-col items-start justify-between self-stretch flex-1 min-w-0">
           <div className="flex gap-[5px] items-center shrink-0">
