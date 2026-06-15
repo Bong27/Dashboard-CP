@@ -210,19 +210,21 @@ export default function BankDetailsModal({ onClose, onUpdate, onEditBank, onAddN
                             <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[5px]" />
                           )}
                           <div className="content-stretch flex flex-col items-start leading-[normal] not-italic p-[10px] relative size-full text-[11px]">
-                            <div className="flex items-center gap-[6px] w-full">
-                              <p className={`font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 ${isSelected ? 'text-white' : 'text-[var(--cp-text-primary)]'}`}>
-                                {bank.name}
-                              </p>
+                          <div className="flex items-center justify-between w-full">
+                              <div className="flex flex-col items-start">
+                                <p className={`font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 ${isSelected ? 'text-white' : 'text-[var(--cp-text-primary)]'}`}>
+                                  {bank.name}
+                                </p>
+                                <p className={`font-['Inter:Medium',sans-serif] font-medium relative shrink-0 ${isSelected ? 'text-white/80' : 'text-[var(--cp-text-secondary)]'}`}>
+                                  {bank.account}
+                                </p>
+                              </div>
                               {isUnderReview && (
-                                <span className="bg-orange-100 text-orange-600 font-['Inter:Semi_Bold',sans-serif] font-semibold text-[9px] uppercase px-[5px] py-[1px] rounded-[3px] whitespace-nowrap">
+                                <span className="bg-orange-100 text-orange-600 font-['Inter:Semi_Bold',sans-serif] font-semibold text-[9px] uppercase px-[5px] py-[2px] rounded-[3px] whitespace-nowrap shrink-0 self-center">
                                   Under Review
                                 </span>
                               )}
                             </div>
-                            <p className={`font-['Inter:Medium',sans-serif] font-medium relative shrink-0 w-full ${isSelected ? 'text-white/80' : 'text-[var(--cp-text-secondary)]'}`}>
-                              {bank.account}
-                            </p>
                           </div>
                         </div>
                       );
