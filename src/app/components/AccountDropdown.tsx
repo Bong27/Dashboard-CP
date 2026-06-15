@@ -49,8 +49,8 @@ export default function AccountDropdown({ onClose }: Props) {
 
   return (
     <div
-      className="bg-white border border-[var(--cp-border-default)] border-solid content-stretch flex flex-col items-start overflow-clip pb-[5px] px-[5px] relative rounded-[20px] w-[311px]"
-      style={{ boxShadow: '0px 4px 4px 0px rgba(0,0,0,0.25)' }}
+      className="bg-white border border-[var(--cp-border-default)] border-solid content-stretch flex flex-col items-start overflow-clip pb-[5px] px-[5px] relative w-[311px]"
+      style={{ borderRadius: '0 0 20px 20px', boxShadow: '0px 4px 4px 0px rgba(0,0,0,0.25)' }}
     >
       {/* Header: email + avatar */}
       <div className="content-stretch flex items-center justify-between pb-[10px] pl-[10px] pt-[5px] relative shrink-0 w-full">
