@@ -459,7 +459,7 @@ export default function PaySettingsRow({
                     Under Review
                   </span>
                 )}
-                {selectedMode === 'Nightly to Bank' && <EditButton onClick={() => setShowBankDetails(true)} />}
+                {selectedMode === 'Nightly to Bank' && <EditButton onClick={() => { setEditingBankId(committedBankId); setShowBankDetails(true); }} />}
                 <div onClick={() => setIsDropdownOpen(!isDropdownOpen)} className="content-stretch flex items-center justify-between relative shrink-0 w-[21px] cursor-pointer">
                   <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" />
                   <div className={`flex items-center justify-center relative shrink-0 ${isDropdownOpen ? 'rotate-180' : ''}`}>
