@@ -238,6 +238,20 @@ export default function SettingsPage() {
                   coinSymbol="USDC.ERC20"
                 />
               </div>
+              <div className="relative w-full min-h-[76px]">
+                <PaySettingsRow
+                  mode="bank"
+                  bankId="wise"
+                  hideEditBank
+                  coinLogo={
+                    <div className="relative shrink-0 size-[36px] rounded-[999px] bg-[#50af95] flex items-center justify-center">
+                      <span className="text-white font-bold leading-none select-none" style={{fontSize:14}}>₮</span>
+                    </div>
+                  }
+                  coinName="Tether USD"
+                  coinSymbol="USDT.TRC20"
+                />
+              </div>
               {[1, 2, 3, 4, 5, 6, 7].map((index) => (
                 <div key={index} className="relative w-full min-h-[76px]">
                   <PaySettingsRow />

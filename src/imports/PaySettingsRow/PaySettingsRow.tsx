@@ -266,6 +266,7 @@ type PaySettingsRowProps = {
   coinLogo?: React.ReactNode;
   coinName?: string;
   coinSymbol?: string;
+  hideEditBank?: boolean;
 };
 
 
@@ -322,6 +323,7 @@ export default function PaySettingsRow({
   coinLogo,
   coinName,
   coinSymbol,
+  hideEditBank = false,
 }: PaySettingsRowProps = {}) {
   const navigate = useNavigate();
   const { banks, primaryId } = useBanks();
@@ -378,6 +380,7 @@ export default function PaySettingsRow({
           setPendingUpdate(false);
         }}
         pendingUpdate={pendingUpdate}
+        hideEditBank={hideEditBank}
         onEditBank={(name) => {
           const bank = banks.find(b => b.label === name);
           if (bank) { setEditingBankId(bank.id); setShowEditBank(true); }

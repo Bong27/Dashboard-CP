@@ -17,6 +17,7 @@ type Props = {
   bankAccount?: string;
   selectedBankName?: string;
   pendingUpdate?: boolean;
+  hideEditBank?: boolean;
 };
 
 // ─── Data row ─────────────────────────────────────────────────────────────────
@@ -100,7 +101,7 @@ export const BANK_DETAILS: Record<string, {
 };
 
 // ─── Modal ────────────────────────────────────────────────────────────────────
-export default function BankDetailsModal({ onClose, onUpdate, onEditBank, onAddNewBank, onManageBankAccounts, bankName = 'Wise', bankAccount = 'GB97TRWI23080120507810', selectedBankName, pendingUpdate = false }: Props) {
+export default function BankDetailsModal({ onClose, onUpdate, onEditBank, onAddNewBank, onManageBankAccounts, bankName = 'Wise', bankAccount = 'GB97TRWI23080120507810', selectedBankName, pendingUpdate = false, hideEditBank = false }: Props) {
   const { banks } = useBanks();
   // Build dropdown options from live context
   const BANK_OPTIONS = banks
@@ -250,7 +251,8 @@ export default function BankDetailsModal({ onClose, onUpdate, onEditBank, onAddN
 
                   {/* Action buttons — same style as bank rows */}
                   <div className="content-stretch flex flex-col gap-[5px] items-start relative shrink-0 w-full">
-                    {/* Edit Bank — swaps to EditBankModal */}
+                    {/* Edit Bank — hidden when hideEditBank is true */}
+                    {!hideEditBank && (
                     <button
                       className="bg-white border border-[var(--cp-border-default)] border-solid content-stretch cursor-pointer flex flex-col items-start p-[10px] relative rounded-[5px] shrink-0 w-full hover:bg-[var(--cp-bg-1)] transition-colors"
                       onClick={() => { setBankOpen(false); onClose(); onEditBank?.(selectedBank.name); }}
@@ -259,6 +261,7 @@ export default function BankDetailsModal({ onClose, onUpdate, onEditBank, onAddN
                         Edit Bank
                       </p>
                     </button>
+                    )}
                     {(['Add New Bank', 'Manage Bank Accounts'] as const).map(action => (
                       <button
                         key={action}
