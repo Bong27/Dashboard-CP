@@ -298,7 +298,10 @@ export default function BankPayoutModal({ onClose }: { onClose: () => void }) {
                   onClick={e => e.stopPropagation()}>
                   <div className="flex flex-col gap-[20px] p-[10px]">
                     <div className="flex flex-col gap-[5px]">
-                      {[...approvedBanks, ...banks.filter(b => b.status === 'under_review')].map(bank => {
+                      {[
+                        ...approvedBanks.sort((a, b) => a.id === selectedBank?.id ? -1 : b.id === selectedBank?.id ? 1 : 0),
+                        ...banks.filter(b => b.status === 'under_review')
+                      ].map(bank => {
                         const isUnderReview = bank.status === 'under_review';
                         const isSelected = bank.id === selectedBank?.id;
                         return (
