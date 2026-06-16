@@ -201,12 +201,14 @@ export default function BankAccountsPage() {
           <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[18px] text-[var(--cp-text-secondary)] tracking-[-0.2px] whitespace-nowrap leading-none">
             Manage Bank Accounts
           </p>
-          <p className="font-['Inter:Regular',sans-serif] font-normal text-[13px] text-[var(--cp-text-secondary)] leading-normal">
-            Configure and manage your saved bank details for fiat settlements.
-          </p>
-          <p className="font-['Inter:Regular',sans-serif] font-normal text-[13px] text-[var(--cp-text-secondary)] leading-normal">
-            These accounts are available as payout destinations across your automated and manual dashboard settings.
-          </p>
+          <div className="flex flex-col items-start">
+            <p className="font-['Inter:Regular',sans-serif] font-normal text-[13px] text-[var(--cp-text-secondary)] leading-normal">
+              Configure and manage your saved bank details for fiat settlements.
+            </p>
+            <p className="font-['Inter:Regular',sans-serif] font-normal text-[13px] text-[var(--cp-text-secondary)] leading-normal">
+              These accounts are available as payout destinations across your automated and manual dashboard settings.
+            </p>
+          </div>
         </div>
         <button
           className="bg-[var(--cp-brand-primary)] content-stretch cursor-pointer flex h-[36px] items-center justify-center overflow-clip px-[10px] relative rounded-[5px] shrink-0 hover:bg-[var(--cp-brand-active)] transition-colors"
