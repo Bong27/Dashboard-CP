@@ -189,14 +189,12 @@ export default function BankDetailsModal({ onClose, onUpdate, onEditBank, onAddN
                 </div>
               }
             >
-              <div className={`flex items-center gap-[5px] min-w-0 overflow-hidden ${isUnderReview ? 'opacity-60' : ''}`}>
-                <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-primary)] whitespace-nowrap shrink-0">
-                  {selectedBank.name}
-                </p>
-                <p className="font-['Inter:Regular',sans-serif] font-normal text-[13px] text-[var(--cp-text-tertiary)] overflow-hidden text-ellipsis whitespace-nowrap">
-                  {isUnderReview ? truncateIban(selectedBank.account) : selectedBank.account}
-                </p>
-              </div>
+              <p className={`font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-primary)] whitespace-nowrap shrink-0 ${isUnderReview ? 'opacity-60' : ''}`}>
+                {selectedBank.name}
+              </p>
+              <p className={`font-['Inter:Regular',sans-serif] font-normal text-[13px] text-[var(--cp-text-tertiary)] overflow-hidden text-ellipsis whitespace-nowrap ${isUnderReview ? 'opacity-60' : ''}`}>
+                {isUnderReview ? truncateIban(selectedBank.account) : selectedBank.account}
+              </p>
             </SelectField>
 
             {/* Bank dropdown */}
