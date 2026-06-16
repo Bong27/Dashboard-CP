@@ -174,25 +174,27 @@ export default function BankDetailsModal({ onClose, onUpdate, onEditBank, onAddN
               label="BANK"
               height={56}
               selector={
-                <div className="content-stretch flex items-center justify-between relative shrink-0 w-[21px]">
-                  <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" />
-                  <Chevron open={bankOpen} />
+                <div className="content-stretch flex items-center gap-[8px] relative shrink-0 self-stretch">
+                  {isUnderReview && (
+                    <span className="bg-orange-100 text-orange-600 font-['Inter:Semi_Bold',sans-serif] font-semibold text-[9px] uppercase px-[5px] py-[2px] rounded-[3px] whitespace-nowrap shrink-0 self-center">
+                      Under Review
+                    </span>
+                  )}
+                  <div className="content-stretch flex items-center justify-between relative shrink-0 w-[21px] self-stretch">
+                    <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" />
+                    <Chevron open={bankOpen} />
+                  </div>
                 </div>
               }
             >
-              <div className={`flex items-center gap-[6px] min-w-0 ${isUnderReview ? 'opacity-60' : ''}`}>
-                <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-primary)] whitespace-nowrap">
+              <div className={`flex items-center gap-[5px] min-w-0 ${isUnderReview ? 'opacity-60' : ''}`}>
+                <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-primary)] whitespace-nowrap shrink-0">
                   {selectedBank.name}
                 </p>
-                {isUnderReview && (
-                  <span className="bg-orange-100 text-orange-600 font-['Inter:Semi_Bold',sans-serif] font-semibold text-[9px] uppercase px-[5px] py-[1px] rounded-[3px] whitespace-nowrap shrink-0">
-                    Under Review
-                  </span>
-                )}
+                <p className="font-['Inter:Regular',sans-serif] font-normal text-[13px] text-[var(--cp-text-tertiary)] overflow-hidden text-ellipsis whitespace-nowrap min-w-0">
+                  {selectedBank.account}
+                </p>
               </div>
-              <p className={`font-['Inter:Regular',sans-serif] font-normal text-[13px] text-[var(--cp-text-tertiary)] overflow-hidden text-ellipsis whitespace-nowrap ${isUnderReview ? 'opacity-60' : ''}`}>
-                {selectedBank.account}
-              </p>
             </SelectField>
 
             {/* Bank dropdown */}
@@ -213,24 +215,24 @@ export default function BankDetailsModal({ onClose, onUpdate, onEditBank, onAddN
                         <div
                           key={bank.name}
                           className={`relative rounded-[5px] shrink-0 w-full transition-colors ${
-                            isUnderReview
-                              ? 'opacity-60 cursor-not-allowed bg-white'
-                              : isSelected
-                                ? 'bg-[var(--cp-brand-primary)] cursor-pointer'
-                                : 'bg-white hover:bg-[var(--cp-bg-1)] cursor-pointer'
+                            isUnderReview && isSelected
+                              ? 'bg-orange-50 cursor-not-allowed'
+                              : isUnderReview
+                                ? 'opacity-60 cursor-not-allowed bg-white'
+                                : isSelected
+                                  ? 'bg-[var(--cp-brand-primary)] cursor-pointer'
+                                  : 'bg-white hover:bg-[var(--cp-bg-1)] cursor-pointer'
                           }`}
                           onClick={() => { if (!isUnderReview) { setSelectedBank(bank); setBankOpen(false); } }}
                         >
-                          {!isSelected && (
-                            <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[5px]" />
-                          )}
+                          <div aria-hidden="true" className={`absolute border border-solid inset-0 pointer-events-none rounded-[5px] ${isUnderReview && isSelected ? 'border-orange-200' : isSelected ? 'border-transparent' : 'border-[var(--cp-border-default)]'}`} />
                           <div className="content-stretch flex flex-col items-start leading-[normal] not-italic p-[10px] relative size-full text-[11px]">
                           <div className="flex items-center justify-between w-full">
                               <div className="flex flex-col items-start">
-                                <p className={`font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 ${isSelected ? 'text-white' : 'text-[var(--cp-text-primary)]'}`}>
+                                <p className={`font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 ${isSelected && !isUnderReview ? 'text-white' : 'text-[var(--cp-text-primary)]'}`}>
                                   {bank.name}
                                 </p>
-                                <p className={`font-['Inter:Medium',sans-serif] font-medium relative shrink-0 ${isSelected ? 'text-white/80' : 'text-[var(--cp-text-secondary)]'}`}>
+                                <p className={`font-['Inter:Medium',sans-serif] font-medium relative shrink-0 ${isSelected && !isUnderReview ? 'text-white/80' : 'text-[var(--cp-text-secondary)]'}`}>
                                   {bank.account}
                                 </p>
                               </div>
