@@ -279,7 +279,7 @@ export default function BankPayoutModal({ onClose }: { onClose: () => void }) {
                   <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[11px] text-[var(--cp-text-tertiary)] uppercase whitespace-nowrap leading-none">Bank Account</p>
                   <div className="flex gap-[5px] items-center min-w-0">
                     <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-primary)] whitespace-nowrap">{selectedBank?.label ?? '---'}</p>
-                    <p className="font-['Inter:Regular',sans-serif] font-normal text-[13px] text-[var(--cp-text-tertiary)] overflow-hidden text-ellipsis whitespace-nowrap">{truncateIban(selectedBank?.iban ?? '')}</p>
+                    <p className="font-['Inter:Regular',sans-serif] font-normal text-[13px] text-[var(--cp-text-tertiary)] overflow-hidden text-ellipsis whitespace-nowrap">{(selectedBank?.iban ?? '').replace(/\s/g, '')}</p>
                   </div>
                 </div>
                 <div className="content-stretch flex items-center justify-between relative shrink-0 w-[21px] self-stretch">
@@ -313,7 +313,7 @@ export default function BankPayoutModal({ onClose }: { onClose: () => void }) {
                             <div className="flex items-center justify-between p-[10px]">
                               <div className="flex flex-col items-start">
                                 <p className={`font-['Inter:Semi_Bold',sans-serif] font-semibold text-[11px] ${isSelected ? 'text-white' : 'text-[var(--cp-text-primary)]'}`}>{bank.label}</p>
-                                <p className={`font-['Inter:Medium',sans-serif] font-medium text-[11px] ${isSelected ? 'text-white/80' : 'text-[var(--cp-text-secondary)]'}`}>{truncateIban(bank.iban)}</p>
+                                <p className={`font-['Inter:Medium',sans-serif] font-medium text-[11px] ${isSelected ? 'text-white/80' : 'text-[var(--cp-text-secondary)]'}`}>{bank.iban.replace(/\s/g, '')}</p>
                               </div>
                               {isUnderReview && <span className="bg-orange-100 text-orange-600 font-semibold text-[9px] uppercase px-[5px] py-[2px] rounded-[3px] whitespace-nowrap shrink-0">Under Review</span>}
                             </div>

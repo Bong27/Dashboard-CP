@@ -234,7 +234,7 @@ export default function BankDetailsModal({ onClose, onUpdate, onEditBank, onAddN
                                   {bank.name}
                                 </p>
                                 <p className={`font-['Inter:Medium',sans-serif] font-medium relative shrink-0 ${isSelected && !isUnderReview ? 'text-white/80' : 'text-[var(--cp-text-secondary)]'}`}>
-                                  {truncateIban(bank.account)}
+                                  {bank.account}
                                 </p>
                               </div>
                               {isUnderReview && (
