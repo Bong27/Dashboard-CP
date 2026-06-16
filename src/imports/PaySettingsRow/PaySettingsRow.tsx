@@ -344,6 +344,7 @@ export default function PaySettingsRow({
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [showBankDetails, setShowBankDetails] = useState(false);
+  const [pendingUpdate, setPendingUpdate] = useState(false);
   const [showEditBank, setShowEditBank] = useState(false);
   const [showAddNewBank, setShowAddNewBank] = useState(false);
   const [editingBankId, setEditingBankId] = useState<string | undefined>(committedBankId);
@@ -370,11 +371,13 @@ export default function PaySettingsRow({
     <>
     {showBankDetails && !showEditBank && !showAddNewBank && createPortal(
       <BankDetailsModal
-        onClose={() => setShowBankDetails(false)}
+        onClose={() => { setShowBankDetails(false); setPendingUpdate(false); }}
         onUpdate={(name, _account) => {
           const bank = banks.find(b => b.label === name);
           if (bank) { setCommittedBankId(bank.id); setEditingBankId(bank.id); }
+          setPendingUpdate(false);
         }}
+        pendingUpdate={pendingUpdate}
         onEditBank={(name) => {
           const bank = banks.find(b => b.label === name);
           if (bank) { setEditingBankId(bank.id); setShowEditBank(true); }
@@ -390,7 +393,7 @@ export default function PaySettingsRow({
         key={editingBankId}
         onClose={() => setShowEditBank(false)}
         onBack={() => { setShowEditBank(false); setShowBankDetails(true); }}
-        onSave={() => { setShowEditBank(false); setShowBankDetails(true); }}
+        onSave={() => { setShowEditBank(false); setShowBankDetails(true); setPendingUpdate(true); }}
         editMode={editingBankId === 'barclays' ? 'cautious' : editingBankId === 'hsbc' ? 'locked' : 'standard'}
         bankId={editingBankId}
         label={banks.find(b => b.id === editingBankId)?.label ?? ''}

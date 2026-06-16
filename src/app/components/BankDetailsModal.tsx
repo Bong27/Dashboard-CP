@@ -16,6 +16,7 @@ type Props = {
   bankName?: string;
   bankAccount?: string;
   selectedBankName?: string;
+  pendingUpdate?: boolean;
 };
 
 // ─── Data row ─────────────────────────────────────────────────────────────────
@@ -99,7 +100,7 @@ export const BANK_DETAILS: Record<string, {
 };
 
 // ─── Modal ────────────────────────────────────────────────────────────────────
-export default function BankDetailsModal({ onClose, onUpdate, onEditBank, onAddNewBank, onManageBankAccounts, bankName = 'Wise', bankAccount = 'GB97TRWI23080120507810', selectedBankName }: Props) {
+export default function BankDetailsModal({ onClose, onUpdate, onEditBank, onAddNewBank, onManageBankAccounts, bankName = 'Wise', bankAccount = 'GB97TRWI23080120507810', selectedBankName, pendingUpdate = false }: Props) {
   const { banks } = useBanks();
   // Build dropdown options from live context
   const BANK_OPTIONS = banks
@@ -136,23 +137,8 @@ export default function BankDetailsModal({ onClose, onUpdate, onEditBank, onAddN
     label: bankEntry.label,
   } : { holder: '---', bankName: '---', iban: '---', accountNumber: '---', bic: '---', address: '---', label: '---' };
 
-  // Snapshot the initial bank's data at mount to detect edits
-  const initialBankData = useRef(bankEntry ? {
-    label: bankEntry.label, holder: bankEntry.holder, iban: bankEntry.iban,
-    bic: bankEntry.bic, address: bankEntry.address, city: bankEntry.city, postalCode: bankEntry.postalCode,
-  } : null);
-
   const isUnderReview = bankEntry?.status === 'under_review';
-  const bankDataChanged = bankEntry ? (
-    bankEntry.label !== initialBankData.current?.label ||
-    bankEntry.holder !== initialBankData.current?.holder ||
-    bankEntry.iban !== initialBankData.current?.iban ||
-    bankEntry.bic !== initialBankData.current?.bic ||
-    bankEntry.address !== initialBankData.current?.address ||
-    bankEntry.city !== initialBankData.current?.city ||
-    bankEntry.postalCode !== initialBankData.current?.postalCode
-  ) : false;
-  const hasChanged = selectedBank?.name !== initialBank?.name || bankDataChanged;
+  const hasChanged = pendingUpdate || selectedBank?.name !== initialBank?.name;
 
   const handleUpdate = () => {
     if (!hasChanged || isUnderReview) return;
