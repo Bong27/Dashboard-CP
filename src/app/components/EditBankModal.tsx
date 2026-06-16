@@ -41,7 +41,7 @@ function EditField({
   const showHelper = focused && !!helper;
   const borderColor = inactive
     ? 'var(--cp-border-default)'
-    : focused ? 'var(--cp-brand-primary)'
+    : focused ? (helper ? '#f59e0b' : 'var(--cp-brand-primary)')
     : hovered ? 'var(--cp-border-hover)'
     : 'var(--cp-border-default)';
   return (
@@ -86,9 +86,14 @@ function EditField({
         )}
       </div>
       {showHelper && (
-        <div className="absolute left-0 right-0 px-[10px] py-[6px] rounded-b-[5px] z-10"
-          style={{ top: '100%', background: 'var(--cp-brand-primary)', border: '1px solid var(--cp-brand-primary)', borderTop: 'none' }}>
-          <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-white leading-tight">{helper}</p>
+        <div className="absolute left-0 right-0 px-[10px] py-[6px] rounded-b-[5px] z-10 flex gap-[8px] items-center"
+          style={{ top: '100%', background: 'rgba(245,158,11,0.2)', border: '1px solid rgba(245,158,11,0.3)', borderTop: 'none' }}>
+          <svg className="shrink-0" width="12" height="12" viewBox="0 0 16 16" fill="none">
+            <circle cx="8" cy="8" r="8" fill="#f59e0b" />
+            <path d="M8 7V11" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
+            <circle cx="8" cy="5.5" r="0.75" fill="white" />
+          </svg>
+          <p className="font-['Inter:Regular',sans-serif] font-normal text-[11px] leading-tight" style={{ color: '#f59e0b' }}>{helper}</p>
         </div>
       )}
     </div>
@@ -174,18 +179,24 @@ export default function EditBankModal({
           {/* Form */}
           <div className="flex flex-col gap-[8px] items-start relative w-full flex-1 overflow-hidden">
 
-            {/* HSBC locked banner — above the fields */}
+            {/* HSBC locked banner — between Label and below fields */}
             {editMode === 'locked' && !unlocked && (
-              <div className="bg-[#ebf1fb] border border-[var(--cp-border-default)] border-solid flex gap-[10px] items-start p-[14px] relative rounded-[5px] shrink-0 w-full">
-                <svg className="shrink-0 mt-[1px]" width="16" height="16" viewBox="0 0 16 16" fill="none">
-                  <circle cx="8" cy="8" r="8" fill="#8492A6" />
+              <div
+                className="flex gap-[10px] items-center overflow-clip p-[10px] relative rounded-[5px] shrink-0 w-full"
+                style={{ background: 'rgba(245,158,11,0.2)' }}
+              >
+                <svg className="shrink-0" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <circle cx="8" cy="8" r="8" fill="#f59e0b" />
                   <path d="M8 7V11" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
                   <circle cx="8" cy="5.5" r="0.75" fill="white" />
                 </svg>
-                <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-[var(--cp-text-secondary)] leading-normal flex-1 min-w-0">
-                  {LOCKED_BANNER}{' '}
+                <p className="font-['Inter:Regular',sans-serif] font-normal text-[13px] leading-normal flex-1 min-w-px" style={{ color: '#f59e0b' }}>
+                  Editing bank details requires re-verification, which can take{' '}
+                  <span className="font-['Inter:Bold',sans-serif] font-bold">up to 48 hours</span>
+                  . During this time, incoming payments will settle to your CoinPayments wallet. Payouts switch back to your bank automatically once verified.{' '}
                   <span
-                    className="text-[var(--cp-brand-primary)] cursor-pointer underline"
+                    className="font-['Inter:Bold',sans-serif] font-bold underline cursor-pointer"
+                    style={{ color: '#f59e0b' }}
                     onClick={() => setUnlocked(true)}
                   >
                     Continue to edit
@@ -206,13 +217,18 @@ export default function EditBankModal({
             <EditField label="Address"             value={address}       onChange={setAddress}        inactive={isLocked} helper={cautionHelper} />
           </div>
 
-          {/* Bottom warning for cautious + locked after editing */}
+          {/* Bottom warning — HSBC after unlocking and editing non-Label field */}
           {showBottomWarning && (
-            <div className="bg-orange-50 border border-orange-200 border-solid flex gap-[10px] items-start p-[12px] relative rounded-[5px] shrink-0 w-full">
-              <svg className="shrink-0 mt-[1px]" width="14" height="14" viewBox="0 0 16 16" fill="none">
-                <path fillRule="evenodd" clipRule="evenodd" d="M6.856 1.756a1.3 1.3 0 0 1 2.288 0l5.85 10.4A1.3 1.3 0 0 1 13.85 14H2.15a1.3 1.3 0 0 1-1.144-1.844l5.85-10.4ZM8 5.5a.75.75 0 0 1 .75.75v3a.75.75 0 0 1-1.5 0v-3A.75.75 0 0 1 8 5.5Zm0 6a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z" fill="#D97706"/>
+            <div
+              className="flex gap-[10px] items-center overflow-clip p-[10px] relative rounded-[5px] shrink-0 w-full"
+              style={{ background: 'rgba(245,158,11,0.2)' }}
+            >
+              <svg className="shrink-0" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <circle cx="8" cy="8" r="8" fill="#f59e0b" />
+                <path d="M8 7V11" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
+                <circle cx="8" cy="5.5" r="0.75" fill="white" />
               </svg>
-              <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-orange-700 leading-normal flex-1 min-w-0">
+              <p className="font-['Inter:Regular',sans-serif] font-normal text-[13px] leading-normal flex-1 min-w-px" style={{ color: '#f59e0b' }}>
                 {BOTTOM_WARNING}
               </p>
             </div>
