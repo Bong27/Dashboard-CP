@@ -103,7 +103,10 @@ export default function BankDetailsModal({ onClose, onUpdate, onEditBank, onAddN
   // Build dropdown options from live context
   const BANK_OPTIONS = banks
     .map(b => ({ name: b.label, account: b.iban.replace(/\s/g, ''), id: b.id, status: b.status }))
-    .sort((a, b) => a.name === (restoredBank?.name ?? initialBank?.name) ? -1 : b.name === (restoredBank?.name ?? initialBank?.name) ? 1 : 0);
+    .sort((a, b) => {
+      const current = selectedBankName ?? bankName;
+      return a.name === current ? -1 : b.name === current ? 1 : 0;
+    });
   const initialBank = BANK_OPTIONS.find(b => b.name === bankName) ?? BANK_OPTIONS[0];
   const restoredBank = selectedBankName ? (BANK_OPTIONS.find(b => b.name === selectedBankName) ?? initialBank) : initialBank;
   const [selectedBank, setSelectedBank] = useState(restoredBank ?? BANK_OPTIONS[0]);
