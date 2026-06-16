@@ -16,6 +16,8 @@
 // ─────────────────────────────────────────────────────────────────────────────
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { SelectField } from './SelectField';
+import { useBanks } from '../context/BankContext';
+import { useNavigate } from 'react-router';
 import svgPaths from '../../imports/Wallet-2/svg-tfchl2zu4w';
 
 // ─── Constants ────────────────────────────────────────────────────────────────
@@ -103,6 +105,22 @@ function CountdownRing({ seconds, total }: { seconds: number; total: number }) {
 type State = 'empty' | 'loading-payout' | 'loading-amount' | 'filled' | 'countdown' | 'refreshing';
 
 export default function BankPayoutModal({ onClose }: { onClose: () => void }) {
+  const { banks, primaryId } = useBanks();
+  const navigate = useNavigate();
+  const approvedBanks = banks.filter(b => b.status === 'approved');
+  const [selectedBankId, setSelectedBankId] = useState(primaryId);
+  const [bankOpen, setBankOpen] = useState(false);
+  const bankDropdownRef = useRef<HTMLDivElement>(null);
+  const selectedBank = approvedBanks.find(b => b.id === selectedBankId) ?? approvedBanks[0];
+
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (bankDropdownRef.current && !bankDropdownRef.current.contains(e.target as Node)) setBankOpen(false);
+    };
+    if (bankOpen) document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, [bankOpen]);
+
   const [usdtAmount, setUsdtAmount]     = useState('');
   const [usdAmount, setUsdAmount]       = useState('');
   const [note, setNote]                 = useState('');
@@ -249,24 +267,71 @@ export default function BankPayoutModal({ onClose }: { onClose: () => void }) {
             </SelectField>
 
             {/* Bank Account */}
-            <SelectField label="BANK ACCOUNT" height={56}
-              selector={
-                <div className="content-stretch flex items-center justify-between relative shrink-0 w-[21px]">
+            {/* Bank Account — live dropdown */}
+            <div className="relative w-full shrink-0" ref={bankDropdownRef} style={{ overflow: 'visible' }}>
+              <div
+                className="bg-white cursor-pointer flex h-[56px] items-start justify-between p-[10px] relative rounded-[5px] w-full"
+                style={{ border: '1px solid var(--cp-border-default)' }}
+                onClick={() => setBankOpen(o => !o)}
+              >
+                <div className="flex flex-col h-full items-start justify-between shrink-0 flex-1 min-w-0">
+                  <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[11px] text-[var(--cp-text-tertiary)] uppercase whitespace-nowrap leading-none">Bank Account</p>
+                  <div className="flex gap-[5px] items-center min-w-0">
+                    <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-primary)] whitespace-nowrap">{selectedBank?.label ?? '---'}</p>
+                    <p className="font-['Inter:Regular',sans-serif] font-normal text-[13px] text-[var(--cp-text-tertiary)] overflow-hidden text-ellipsis whitespace-nowrap">{selectedBank?.iban.replace(/\s/g, '') ?? ''}</p>
+                  </div>
+                </div>
+                <div className="content-stretch flex items-center justify-between relative shrink-0 w-[21px] self-stretch">
                   <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" />
-                  <div className="overflow-clip relative shrink-0 size-[12px]">
+                  <div className={`overflow-clip relative shrink-0 size-[12px] transition-transform duration-150 ${bankOpen ? 'rotate-180' : ''}`}>
                     <div className="absolute inset-[34.38%_21.88%]">
-                      <svg className="absolute block inset-0 size-full" fill="none" viewBox="0 0 8 6">
-                        <path fillRule="evenodd" clipRule="evenodd" d="M0.18306 0.18306C0.42714-0.06102 0.82286-0.06102 1.06694 0.18306L4 3.11612L6.93306 0.18306C7.17714-0.06102 7.57286-0.06102 7.81694 0.18306C8.06102 0.42714 8.06102 0.82286 7.81694 1.06694L4.44194 4.44194C4.19786 4.68602 3.80214 4.68602 3.55806 4.44194L0.18306 1.06694C-0.06102 0.82286-0.06102 0.42714 0.18306 0.18306Z" fill="var(--cp-text-quinary)"/>
+                      <svg className="absolute block inset-0 size-full" fill="none" viewBox="0 0 6.74999 3.74999">
+                        <path clipRule="evenodd" d="M0.292893,0.292893C0.455612,0.130168,0.719387,0.130168,0.882107,0.292893L3.375,2.78579L5.86789,0.292893C6.03061,0.130168,6.29439,0.130168,6.45711,0.292893C6.61983,0.455612,6.61983,0.719387,6.45711,0.882107L3.66961,3.66961C3.50688,3.83233,3.24312,3.83233,3.08039,3.66961L0.292893,0.882107C0.130168,0.719387,0.130168,0.455612,0.292893,0.292893Z" fill="var(--cp-text-quinary)" fillRule="evenodd" />
                       </svg>
                     </div>
                   </div>
                 </div>
-              }>
-              <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-primary)] whitespace-nowrap">Wise</p>
-              <p className="font-['Inter:Regular',sans-serif] font-normal text-[13px] text-[var(--cp-text-tertiary)] overflow-hidden text-ellipsis whitespace-nowrap">
-                GB97TRWI23080120507810
-              </p>
-            </SelectField>
+              </div>
+              {bankOpen && (
+                <div className="absolute bg-white left-0 w-full z-50 rounded-[5px]"
+                  style={{ top: 60, boxShadow: '0 4px 16px rgba(0,0,0,0.12)', border: '1px solid var(--cp-border-hover)' }}
+                  onClick={e => e.stopPropagation()}>
+                  <div className="flex flex-col gap-[20px] p-[10px]">
+                    <div className="flex flex-col gap-[5px]">
+                      {[...approvedBanks, ...banks.filter(b => b.status === 'under_review')].map(bank => {
+                        const isUnderReview = bank.status === 'under_review';
+                        const isSelected = bank.id === selectedBank?.id;
+                        return (
+                          <div key={bank.id}
+                            className={`relative rounded-[5px] shrink-0 w-full transition-colors ${isUnderReview ? 'opacity-60 cursor-not-allowed' : isSelected ? 'bg-[var(--cp-brand-primary)] cursor-pointer' : 'bg-white hover:bg-[var(--cp-bg-1)] cursor-pointer'}`}
+                            onClick={() => { if (!isUnderReview) { setSelectedBankId(bank.id); setBankOpen(false); } }}>
+                            {!isSelected && <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[5px]" />}
+                            <div className="flex items-center justify-between p-[10px]">
+                              <div className="flex flex-col items-start">
+                                <p className={`font-['Inter:Semi_Bold',sans-serif] font-semibold text-[11px] ${isSelected ? 'text-white' : 'text-[var(--cp-text-primary)]'}`}>{bank.label}</p>
+                                <p className={`font-['Inter:Medium',sans-serif] font-medium text-[11px] ${isSelected ? 'text-white/80' : 'text-[var(--cp-text-secondary)]'}`}>{bank.iban.replace(/\s/g, '')}</p>
+                              </div>
+                              {isUnderReview && <span className="bg-orange-100 text-orange-600 font-semibold text-[9px] uppercase px-[5px] py-[2px] rounded-[3px] whitespace-nowrap shrink-0">Under Review</span>}
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                    <div className="flex flex-col gap-[5px]">
+                      {[
+                        { label: 'Edit Bank', action: () => setBankOpen(false) },
+                        { label: 'Add New Bank', action: () => setBankOpen(false) },
+                        { label: 'Manage Bank Accounts', action: () => { setBankOpen(false); onClose(); navigate('/bank-accounts'); } },
+                      ].map(({ label, action }) => (
+                        <button key={label} className="bg-white border border-[var(--cp-border-default)] border-solid cursor-pointer flex flex-col items-start p-[10px] relative rounded-[5px] shrink-0 w-full hover:bg-[var(--cp-bg-1)] transition-colors text-left" onClick={action}>
+                          <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[11px] text-[var(--cp-brand-primary)]">{label}</p>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
 
             {/* Add Note */}
             <SelectField label="ADD NOTE" height={56}>
