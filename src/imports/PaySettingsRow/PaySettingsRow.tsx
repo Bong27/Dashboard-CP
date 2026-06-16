@@ -323,11 +323,11 @@ export default function PaySettingsRow({
   coinSymbol,
 }: PaySettingsRowProps = {}) {
   const navigate = useNavigate();
-  const { banks } = useBanks();
+  const { banks, primaryId } = useBanks();
 
-  // Track which bank is committed by id
+  // Default to primary bank when no explicit bankId given
   const [committedBankId, setCommittedBankId] = useState<string | undefined>(
-    () => bankIdProp ?? banks.find(b => b.label === bankNameProp)?.id
+    () => bankIdProp ?? primaryId
   );
 
   // Keep in sync if bankIdProp changes externally
@@ -485,7 +485,15 @@ export default function PaySettingsRow({
                   <div
                     key={label}
                     className={`relative rounded-[5px] shrink-0 w-full cursor-pointer transition-colors ${isActive ? 'bg-[var(--cp-brand-primary)] hover:bg-[var(--cp-brand-active)]' : 'bg-white hover:bg-[var(--cp-bg-1)]'}`}
-                    onClick={() => { setSelectedMode(label); setIsDropdownOpen(false); }}
+                    onClick={() => {
+                      setSelectedMode(label);
+                      setIsDropdownOpen(false);
+                      // When switching to Nightly to Bank, pull the primary bank
+                      if (label === 'Nightly to Bank') {
+                        setCommittedBankId(primaryId);
+                        setEditingBankName(banks.find(b => b.id === primaryId)?.label ?? '');
+                      }
+                    }}
                   >
                     {!isActive && <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[5px]" />}
                     <div className={`content-stretch flex flex-col items-start leading-[normal] not-italic p-[10px] relative size-full text-[11px] ${isActive ? 'text-white' : ''}`}>
