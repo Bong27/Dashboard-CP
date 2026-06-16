@@ -22,7 +22,7 @@ export function SelectField({ label, labelInfo, children, selector, height = 62 
   const [hovered, setHovered] = useState(false);
   return (
     <div
-      className="bg-white flex items-stretch justify-between p-[10px] relative rounded-[5px] shrink-0 w-full transition-colors duration-100 cursor-pointer"
+      className="bg-white relative flex items-start justify-between p-[10px] rounded-[5px] shrink-0 w-full transition-colors duration-100 cursor-pointer"
       style={{
         height,
         border: `1px solid ${hovered ? 'var(--cp-border-hover)' : 'var(--cp-border-default)'}`,
@@ -30,22 +30,22 @@ export function SelectField({ label, labelInfo, children, selector, height = 62 
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      {/* Left: label + value — self-stretch fills the padded height, justify-between pins label top / value bottom */}
-      <div className="flex flex-col items-start justify-between self-stretch flex-1 min-w-0 overflow-hidden">
+      {/* Left — exact same structure as EditField */}
+      <div className="flex flex-col items-start justify-between self-stretch flex-1 min-w-0">
         <div className="flex gap-[5px] items-center shrink-0">
           <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[11px] text-[var(--cp-text-tertiary)] uppercase whitespace-nowrap leading-none">
             {label}
           </p>
           {labelInfo && <InfoIcon />}
         </div>
-        <div className="flex gap-[5px] items-center shrink-0">
+        <div className="flex gap-[5px] items-center shrink-0 min-w-0 overflow-hidden">
           {children}
         </div>
       </div>
 
-      {/* Right: selector slot */}
+      {/* Right — optional selector (chevron, badges etc) */}
       {selector && (
-        <div className="flex self-stretch items-stretch shrink-0">
+        <div className="flex items-center justify-between relative shrink-0 self-stretch">
           {selector}
         </div>
       )}
