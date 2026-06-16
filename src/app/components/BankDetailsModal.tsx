@@ -5,6 +5,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { SelectField } from './SelectField';
 import { useBanks } from '../context/BankContext';
+import { truncateIban } from '../utils';
 
 type Props = {
   onClose: () => void;
@@ -192,7 +193,7 @@ export default function BankDetailsModal({ onClose, onUpdate, onEditBank, onAddN
                   {selectedBank.name}
                 </p>
                 <p className="font-['Inter:Regular',sans-serif] font-normal text-[13px] text-[var(--cp-text-tertiary)] overflow-hidden text-ellipsis whitespace-nowrap">
-                  {selectedBank.account}
+                  {truncateIban(selectedBank.account)}
                 </p>
               </div>
             </SelectField>
@@ -233,7 +234,7 @@ export default function BankDetailsModal({ onClose, onUpdate, onEditBank, onAddN
                                   {bank.name}
                                 </p>
                                 <p className={`font-['Inter:Medium',sans-serif] font-medium relative shrink-0 ${isSelected && !isUnderReview ? 'text-white/80' : 'text-[var(--cp-text-secondary)]'}`}>
-                                  {bank.account}
+                                  {truncateIban(bank.account)}
                                 </p>
                               </div>
                               {isUnderReview && (

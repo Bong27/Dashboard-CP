@@ -5,6 +5,7 @@ import { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router';
 import { useBanks } from '../../app/context/BankContext';
+import { truncateIban } from '../../app/utils';
 import svgPaths from "./svg-dulsyl96to";
 
 function LayerX1() {
@@ -438,7 +439,7 @@ export default function PaySettingsRow({
                     </div>
                     <div className="content-stretch flex gap-[5px] items-center relative shrink-0">
                       <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-primary)] text-[14.5px] whitespace-nowrap">{bankName}</p>
-                      <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[var(--cp-text-tertiary)] text-[13px] overflow-hidden text-ellipsis whitespace-nowrap">{bankAccount}</p>
+                      <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[var(--cp-text-tertiary)] text-[13px] overflow-hidden text-ellipsis whitespace-nowrap">{truncateIban(bankAccount)}</p>
                     </div>
                   </>
                 ) : (

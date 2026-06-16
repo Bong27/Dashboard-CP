@@ -7,6 +7,7 @@ import { useBanks, BankEntry } from '../context/BankContext';
 import AddNewBankModal from '../components/AddNewBankModal';
 import EditBankModal from '../components/EditBankModal';
 import DeleteBankModal from '../components/DeleteBankModal';
+import { truncateIban } from '../utils';
 
 // ─── Primary ribbon — exact Figma geometry ────────────────────────────────────
 function PrimaryRibbon() {
@@ -160,7 +161,7 @@ function BankRow({ account, index, isPrimary, onSetPrimary, onDelete, onEdit }: 
           <div className="relative shrink-0 size-[36px] flex items-center justify-center"><UKFlag /></div>
           <div className="content-stretch flex flex-col items-start leading-[normal] not-italic relative shrink-0">
             <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-primary)] whitespace-nowrap">{account.label}</p>
-            <p className="font-['Inter:Regular',sans-serif] font-normal text-[13px] text-[var(--cp-text-tertiary)] whitespace-nowrap">{account.iban.replace(/\s/g, '')}</p>
+            <p className="font-['Inter:Regular',sans-serif] font-normal text-[13px] text-[var(--cp-text-tertiary)] whitespace-nowrap">{truncateIban(account.iban)}</p>
           </div>
         </div>
         <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" />
