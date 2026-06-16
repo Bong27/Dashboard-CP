@@ -165,13 +165,13 @@ export default function EditBankModal({
           <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[14px] text-white">Dismiss</p>
         </button>
 
-        <div className="bg-white flex flex-col gap-[20px] items-start p-[20px] relative rounded-[10px] w-full" style={{ height: isLocked ? undefined : 590 }}>
+        <div className="bg-white flex flex-col gap-[20px] items-start p-[20px] relative rounded-[10px] w-full" style={{ height: (isLocked || showBottomWarning) ? undefined : 590 }}>
           <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[13px] text-[var(--cp-text-secondary)] uppercase whitespace-nowrap shrink-0">
             Edit Bank Details
           </p>
 
           {/* Form */}
-          <div className={`flex flex-col gap-[8px] items-start relative w-full ${isLocked ? '' : 'flex-1 overflow-hidden'}`}>
+          <div className={`flex flex-col gap-[8px] items-start relative w-full ${(isLocked || showBottomWarning) ? '' : 'flex-1 overflow-hidden'}`}>
 
             <EditField label="Label"               value={label}         onChange={setLabel} />
 
