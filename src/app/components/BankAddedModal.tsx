@@ -51,13 +51,13 @@ export default function BankAddedModal({ onClose }: Props) {
                   <circle cx="8" cy="5.5" r="0.75" fill="white" />
                 </svg>
               </div>
-              <p className="flex-[1_0_0] font-['Inter:Regular',sans-serif] font-normal text-[13px] text-[var(--cp-text-secondary)] leading-normal min-w-px">
+              <p className="flex-[1_0_0] font-['Inter:Regular',sans-serif] font-normal text-[13px] text-[var(--cp-text-secondary)] leading-[1.2] min-w-px">
                 Your Bank Account is under review
               </p>
             </div>
 
             {/* Body text */}
-            <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-primary)] leading-normal">
+            <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-primary)] leading-[1.2]">
               Our team is currently verifying your bank account details to ensure secure processing.
               <br /><br />
               This review typically takes up to 24 business hours. Please note that you won't be able to initiate payouts or move funds to this account until the verification process is complete. We'll notify you as soon as it's approved!
@@ -83,7 +83,7 @@ export default function BankAddedModal({ onClose }: Props) {
                 <div className="bg-[var(--cp-text-tertiary)] content-stretch flex flex-col items-center justify-center overflow-clip relative rounded-[100px] shrink-0 size-[12px]">
                   <p className="font-['Inter:Bold',sans-serif] font-bold text-[6px] text-white text-center w-full leading-none">{i + 1}</p>
                 </div>
-                <p className="flex-[1_0_0] font-['Inter:Medium',sans-serif] font-medium text-[11px] text-[var(--cp-text-tertiary)] leading-normal min-w-px">
+                <p className="flex-[1_0_0] font-['Inter:Medium',sans-serif] font-medium text-[11px] text-[var(--cp-text-tertiary)] leading-[1.2] min-w-px">
                   {text}
                 </p>
               </div>

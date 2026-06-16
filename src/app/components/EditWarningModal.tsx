@@ -22,7 +22,7 @@ export default function EditWarningModal({ onCancel, onProceed }: Props) {
           <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[13px] text-[var(--cp-text-secondary)] uppercase whitespace-nowrap leading-none">
             Re-verification Required
           </p>
-          <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-primary)] leading-normal">
+          <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-primary)] leading-[1.2]">
             Saving new bank details requires re-verification, which can take <span className="font-semibold">up to 48 hours.</span> During this time, incoming payments will settle to your CoinPayments wallet instead.
             <br /><br />
             Payouts switch back to your bank automatically once approved.

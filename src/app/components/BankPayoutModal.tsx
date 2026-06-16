@@ -437,7 +437,7 @@ export default function BankPayoutModal({ onClose }: { onClose: () => void }) {
             <button
               className="bg-white border border-[var(--cp-border-default)] border-solid content-stretch flex flex-1 h-[46px] items-center justify-center overflow-clip px-[10px] relative rounded-[5px] cursor-pointer hover:bg-[var(--cp-bg-2)] transition-colors"
               onClick={onClose}>
-              <p className="font-['Inter:Medium',sans-serif] font-medium text-[13px] text-[var(--cp-text-secondary)] text-center whitespace-nowrap">Cancel</p>
+              <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-secondary)] text-center whitespace-nowrap">Cancel</p>
             </button>
 
             <button
@@ -458,7 +458,7 @@ export default function BankPayoutModal({ onClose }: { onClose: () => void }) {
               ) : isLoading ? (
                 <div className="w-[80px] h-[16px] rounded-[4px] bg-[rgba(255,255,255,0.3)] animate-pulse" />
               ) : (
-                <p className="font-['Inter:Medium',sans-serif] font-medium text-[13px] text-center whitespace-nowrap"
+                <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-center whitespace-nowrap"
                    style={{ color: canConfirm ? 'white' : 'var(--cp-text-secondary)' }}>
                   Confirm
                 </p>

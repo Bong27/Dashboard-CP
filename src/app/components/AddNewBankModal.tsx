@@ -118,7 +118,7 @@ function Field({
           className="absolute left-0 right-0 px-[10px] py-[6px] rounded-b-[5px] z-10"
           style={{ top: '100%', background: 'var(--cp-brand-primary)', border: '1px solid var(--cp-brand-primary)', borderTop: 'none' }}
         >
-          <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-white leading-tight">{helper}</p>
+          <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-white leading-[1.2]">{helper}</p>
         </div>
       )}
     </div>
@@ -256,7 +256,7 @@ function IBANField({ value, onChange }: { value: string; onChange: (v: string) =
                     <p className={`font-['Inter:Semi_Bold',sans-serif] font-semibold text-[11px] leading-none ${isActive ? 'text-white' : 'text-[var(--cp-text-primary)]'}`}>
                       {type.label}
                     </p>
-                    <p className={`font-['Inter:Medium',sans-serif] font-medium text-[11px] leading-tight mt-[4px] ${isActive ? 'text-white/80' : 'text-[var(--cp-text-secondary)]'}`}>
+                    <p className={`font-['Inter:Medium',sans-serif] font-medium text-[11px] leading-[1.2] mt-[4px] ${isActive ? 'text-white/80' : 'text-[var(--cp-text-secondary)]'}`}>
                       {type.description}
                     </p>
                   </div>
@@ -317,7 +317,7 @@ function DataRow({ label, value }: { label: string; value: string }) {
   return (
     <div className="content-stretch flex flex-col gap-[5px] items-start relative shrink-0 w-full">
       <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[11px] text-[var(--cp-text-tertiary)] uppercase whitespace-nowrap leading-none">{label}</p>
-      <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-primary)] leading-tight break-words">{value}</p>
+      <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-primary)] leading-[1.2] break-words">{value}</p>
     </div>
   );
 }
@@ -370,7 +370,7 @@ export default function AddNewBankModal({ onClose }: Props) {
             <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[13px] text-[var(--cp-text-secondary)] uppercase whitespace-nowrap">
               Enter Bank Details
             </p>
-            <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-primary)] leading-tight">
+            <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-primary)] leading-[1.2]">
               You can withdraw your crypto balance as fiat to any supported bank with up to same day settlement.
             </p>
           </div>
@@ -393,7 +393,7 @@ export default function AddNewBankModal({ onClose }: Props) {
               className="bg-white border border-[var(--cp-border-default)] border-solid content-stretch flex flex-1 h-[46px] items-center justify-center overflow-clip px-[10px] relative rounded-[5px] cursor-pointer hover:bg-[var(--cp-bg-2)] transition-colors"
               onClick={onClose}
             >
-              <p className="font-['Inter:Medium',sans-serif] font-medium text-[13px] text-[var(--cp-text-secondary)] text-center whitespace-nowrap">Cancel</p>
+              <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-secondary)] text-center whitespace-nowrap">Cancel</p>
             </button>
             <button
               disabled={!canContinue}
@@ -404,7 +404,7 @@ export default function AddNewBankModal({ onClose }: Props) {
                   : 'bg-[var(--cp-bg-2)] cursor-not-allowed'
               }`}
             >
-              <p className={`font-['Inter:Medium',sans-serif] font-medium text-[13px] text-center whitespace-nowrap ${canContinue ? 'text-white' : 'text-[var(--cp-text-secondary)]'}`}>
+              <p className={`font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-center whitespace-nowrap ${canContinue ? 'text-white' : 'text-[var(--cp-text-secondary)]'}`}>
                 Continue
               </p>
             </button>
@@ -428,7 +428,7 @@ export default function AddNewBankModal({ onClose }: Props) {
         <div className="bg-white flex flex-col gap-[20px] items-start p-[20px] relative rounded-[10px] w-full" style={{ minHeight: 704 }}>
           <div className="flex flex-col gap-[20px] items-start relative shrink-0 w-full">
             <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[13px] text-[var(--cp-text-secondary)] uppercase whitespace-nowrap">Bank Details</p>
-            <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-primary)] leading-tight">
+            <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-primary)] leading-[1.2]">
               Please verify your banking information and make sure these details match your records.
             </p>
           </div>
@@ -500,12 +500,12 @@ export default function AddNewBankModal({ onClose }: Props) {
                   </button>
                   <div className="bg-[var(--cp-border-default)] h-[20px] relative shrink-0 w-px" />
                   {rich ? (
-                    <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-[var(--cp-text-tertiary)] flex-1 min-w-0 leading-normal">
+                    <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-[var(--cp-text-tertiary)] flex-1 min-w-0 leading-[1.2]">
                       I have read and agree with the terms listed above and in the{' '}
                       <span className="text-[var(--cp-brand-primary)] cursor-pointer">User Agreement</span>.
                     </p>
                   ) : (
-                    <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-[var(--cp-text-tertiary)] flex-1 min-w-0 leading-normal">{text}</p>
+                    <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-[var(--cp-text-tertiary)] flex-1 min-w-0 leading-[1.2]">{text}</p>
                   )}
                 </div>
               </div>
@@ -518,7 +518,7 @@ export default function AddNewBankModal({ onClose }: Props) {
               className="bg-white border border-[var(--cp-border-default)] border-solid content-stretch flex flex-1 h-[46px] items-center justify-center overflow-clip px-[10px] relative rounded-[5px] cursor-pointer hover:bg-[var(--cp-bg-2)] transition-colors"
               onClick={() => setStep('form')}
             >
-              <p className="font-['Inter:Medium',sans-serif] font-medium text-[13px] text-[var(--cp-text-secondary)] text-center whitespace-nowrap">Back</p>
+              <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-secondary)] text-center whitespace-nowrap">Back</p>
             </button>
             <button
               className="bg-[var(--cp-brand-primary)] hover:bg-[var(--cp-brand-active)] content-stretch flex flex-1 h-[46px] items-center justify-center overflow-clip px-[10px] relative rounded-[5px] cursor-pointer transition-colors"

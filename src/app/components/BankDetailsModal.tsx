@@ -26,7 +26,7 @@ function DataRow({ label, value }: { label: string; value: string }) {
       <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[11px] text-[var(--cp-text-tertiary)] uppercase whitespace-nowrap leading-none">
         {label}
       </p>
-      <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-primary)] leading-tight">
+      <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-primary)] leading-[1.2]">
         {value}
       </p>
     </div>
@@ -303,7 +303,7 @@ export default function BankDetailsModal({ onClose, onUpdate, onEditBank, onAddN
                 <path d="M8 7V11" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
                 <circle cx="8" cy="5.5" r="0.75" fill="white" />
               </svg>
-              <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] leading-normal flex-1 min-w-px" style={{ color: '#d97706' }}>
+              <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] leading-[1.2] flex-1 min-w-px" style={{ color: '#d97706' }}>
                 This account is under review. All transactions and payouts are paused until verification is complete and the account is approved.
               </p>
             </div>
@@ -317,7 +317,7 @@ export default function BankDetailsModal({ onClose, onUpdate, onEditBank, onAddN
               className="bg-white border border-[var(--cp-border-default)] border-solid content-stretch flex flex-1 h-[46px] items-center justify-center overflow-clip px-[10px] relative rounded-[5px] cursor-pointer hover:bg-[var(--cp-bg-2)] transition-colors"
               onClick={onClose}
             >
-              <p className="font-['Inter:Medium',sans-serif] font-medium text-[13px] text-[var(--cp-text-secondary)] text-center whitespace-nowrap">
+              <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-secondary)] text-center whitespace-nowrap">
                 Cancel
               </p>
             </button>
@@ -332,7 +332,7 @@ export default function BankDetailsModal({ onClose, onUpdate, onEditBank, onAddN
               onClick={handleUpdate}
               disabled={!hasChanged || isUnderReview}
             >
-              <p className={`font-['Inter:Medium',sans-serif] font-medium text-[13px] text-center whitespace-nowrap ${
+              <p className={`font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-center whitespace-nowrap ${
                 hasChanged && !isUnderReview ? 'text-white' : 'text-[var(--cp-text-secondary)]'
               }`}>
                 Update

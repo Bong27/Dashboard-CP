@@ -203,10 +203,10 @@ export default function BankAccountsPage() {
             Manage Bank Accounts
           </p>
           <div className="flex flex-col items-start">
-            <p className="font-['Inter:Regular',sans-serif] font-normal text-[13px] text-[var(--cp-text-secondary)] leading-normal">
+            <p className="font-['Inter:Regular',sans-serif] font-normal text-[13px] text-[var(--cp-text-secondary)] leading-[1.2]">
               Configure and manage your saved bank details for fiat settlements.
             </p>
-            <p className="font-['Inter:Regular',sans-serif] font-normal text-[13px] text-[var(--cp-text-secondary)] leading-normal">
+            <p className="font-['Inter:Regular',sans-serif] font-normal text-[13px] text-[var(--cp-text-secondary)] leading-[1.2]">
               These accounts are available as payout destinations across your automated and manual dashboard settings.
             </p>
           </div>

@@ -87,7 +87,7 @@ function EditField({
       {showHelper && (
         <div className="absolute left-0 right-0 px-[10px] py-[6px] rounded-b-[5px] z-10"
           style={{ top: '100%', background: 'var(--cp-brand-primary)', border: '1px solid var(--cp-brand-primary)', borderTop: 'none' }}>
-          <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-white leading-tight">{helper}</p>
+          <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-white leading-[1.2]">{helper}</p>
         </div>
       )}
     </div>
@@ -190,7 +190,7 @@ export default function EditBankModal({
                   <path d="M8 7V11" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
                   <circle cx="8" cy="5.5" r="0.75" fill="white" />
                 </svg>
-                <p className="font-['Inter:Regular',sans-serif] font-normal text-[13px] leading-normal flex-1 min-w-px" style={{ color: '#f59e0b' }}>
+                <p className="font-['Inter:Regular',sans-serif] font-normal text-[13px] leading-[1.2] flex-1 min-w-px" style={{ color: '#f59e0b' }}>
                   Editing bank details requires re-verification, which can take{' '}
                   <span className="font-['Inter:Bold',sans-serif] font-bold">up to 48 hours</span>
                   . During this time, incoming payments will settle to your CoinPayments wallet. Payouts switch back to your bank automatically once verified.{' '}
@@ -226,7 +226,7 @@ export default function EditBankModal({
                 <path d="M8 7V11" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
                 <circle cx="8" cy="5.5" r="0.75" fill="white" />
               </svg>
-              <p className="font-['Inter:Regular',sans-serif] font-normal text-[13px] leading-normal flex-1 min-w-px" style={{ color: '#f59e0b' }}>
+              <p className="font-['Inter:Regular',sans-serif] font-normal text-[13px] leading-[1.2] flex-1 min-w-px" style={{ color: '#f59e0b' }}>
                 {BOTTOM_WARNING}
               </p>
             </div>
@@ -238,7 +238,7 @@ export default function EditBankModal({
               className="bg-white border border-[var(--cp-border-default)] border-solid flex flex-1 h-[46px] items-center justify-center rounded-[5px] cursor-pointer hover:bg-[var(--cp-bg-2)] transition-colors"
               onClick={onBack ?? onClose}
             >
-              <p className="font-['Inter:Medium',sans-serif] font-medium text-[13px] text-[var(--cp-text-secondary)] text-center">Back</p>
+              <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-secondary)] text-center">Back</p>
             </button>
             <button
               disabled={!isDirty}
@@ -247,7 +247,7 @@ export default function EditBankModal({
                 isDirty ? 'bg-[var(--cp-brand-primary)] hover:bg-[var(--cp-brand-active)] cursor-pointer' : 'bg-[var(--cp-bg-2)] cursor-not-allowed'
               }`}
             >
-              <p className={`font-['Inter:Medium',sans-serif] font-medium text-[13px] text-center ${isDirty ? 'text-white' : 'text-[var(--cp-text-secondary)]'}`}>
+              <p className={`font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-center ${isDirty ? 'text-white' : 'text-[var(--cp-text-secondary)]'}`}>
                 Save Changes
               </p>
             </button>
