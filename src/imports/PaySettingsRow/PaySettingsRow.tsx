@@ -337,6 +337,7 @@ export default function PaySettingsRow({
   }, [bankIdProp]);
 
   const committedBank = banks.find(b => b.id === committedBankId);
+  const isCommittedUnderReview = committedBank?.status === 'under_review';
   // Always derive label + iban live from context — reflects edits instantly
   const bankName    = committedBank?.label ?? bankNameProp;
   const bankAccount = committedBank?.iban.replace(/\s/g, '') ?? bankAccountProp;
@@ -437,10 +438,13 @@ export default function PaySettingsRow({
                         </div>
                       </div>
                     </div>
-                    <div className="content-stretch flex gap-[5px] items-center relative shrink-0">
+                    <div className={`content-stretch flex gap-[5px] items-center relative shrink-0 min-w-0 overflow-hidden ${isCommittedUnderReview ? 'opacity-60' : ''}`}>
                       <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-primary)] text-[14.5px] whitespace-nowrap">{bankName}</p>
-                      <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[var(--cp-text-tertiary)] text-[13px] overflow-hidden text-ellipsis whitespace-nowrap">{bankAccount}</p>
+                      <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[var(--cp-text-tertiary)] text-[13px] overflow-hidden text-ellipsis whitespace-nowrap">{isCommittedUnderReview ? truncateIban(bankAccount) : bankAccount}</p>
                     </div>
+                    {isCommittedUnderReview && (
+                      <p className="font-['Inter:Medium',sans-serif] font-medium text-[10px] whitespace-nowrap" style={{ color: '#f59e0b' }}>⚠ Account under review — payouts paused</p>
+                    )}
                   </>
                 ) : (
                   <>
@@ -450,6 +454,11 @@ export default function PaySettingsRow({
                 )}
               </div>
               <div className="content-stretch flex gap-[8px] h-full items-center relative shrink-0" style={{overflow:'visible'}}>
+                {selectedMode === 'Nightly to Bank' && isCommittedUnderReview && (
+                  <span className="bg-orange-100 text-orange-600 font-['Inter:Semi_Bold',sans-serif] font-semibold text-[9px] uppercase px-[5px] py-[2px] rounded-[3px] whitespace-nowrap shrink-0">
+                    Under Review
+                  </span>
+                )}
                 {selectedMode === 'Nightly to Bank' && <EditButton onClick={() => setShowBankDetails(true)} />}
                 <div onClick={() => setIsDropdownOpen(!isDropdownOpen)} className="content-stretch flex items-center justify-between relative shrink-0 w-[21px] cursor-pointer">
                   <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" />
