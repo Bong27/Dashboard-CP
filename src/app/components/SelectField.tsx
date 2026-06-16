@@ -1,19 +1,3 @@
-// ─────────────────────────────────────────────────────────────────────────────
-// SelectField — reusable input field with selector
-// Source: Figma node 211:2998 (Settings / Settlement mode input component)
-//
-// States:
-//   default:  bg-white, border #e5e9f2
-//   hover:    border #bec4d0 (--cp-border-hover), selector area bg #eff1f8
-//   active:   border #2A5ED5 (--cp-border-active)
-//
-// Props:
-//   label        — uppercase label text (e.g. "AMOUNT")
-//   labelInfo    — show info icon next to label
-//   children     — the main content (value display)
-//   selector     — right-side slot (currency badge + chevron), omit for plain fields
-//   height       — field height, default 62px
-// ─────────────────────────────────────────────────────────────────────────────
 import { useState } from 'react';
 
 type SelectFieldProps = {
@@ -38,7 +22,7 @@ export function SelectField({ label, labelInfo, children, selector, height = 62 
   const [hovered, setHovered] = useState(false);
   return (
     <div
-      className="bg-white content-stretch flex items-start justify-between p-[10px] relative rounded-[5px] shrink-0 w-full transition-colors duration-100 cursor-pointer"
+      className="bg-white flex items-stretch justify-between p-[10px] relative rounded-[5px] shrink-0 w-full transition-colors duration-100 cursor-pointer"
       style={{
         height,
         border: `1px solid ${hovered ? 'var(--cp-border-hover)' : 'var(--cp-border-default)'}`,
@@ -46,24 +30,22 @@ export function SelectField({ label, labelInfo, children, selector, height = 62 
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      {/* Left: label + value */}
-      <div className="flex flex-col items-start justify-between relative flex-1 min-w-0 overflow-hidden" style={{ height: height - 20 }}>
-        {/* Label row */}
-        <div className="content-stretch flex gap-[5px] items-center relative shrink-0">
+      {/* Left: label + value — self-stretch fills the padded height, justify-between pins label top / value bottom */}
+      <div className="flex flex-col items-start justify-between self-stretch flex-1 min-w-0 overflow-hidden">
+        <div className="flex gap-[5px] items-center shrink-0">
           <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[11px] text-[var(--cp-text-tertiary)] uppercase whitespace-nowrap leading-none">
             {label}
           </p>
           {labelInfo && <InfoIcon />}
         </div>
-        {/* Value */}
-        <div className="content-stretch flex gap-[5px] items-center relative shrink-0">
+        <div className="flex gap-[5px] items-center shrink-0">
           {children}
         </div>
       </div>
 
-      {/* Right: selector slot — caller provides full content including divider/chevron */}
+      {/* Right: selector slot */}
       {selector && (
-        <div className="content-stretch flex self-stretch items-stretch relative shrink-0">
+        <div className="flex self-stretch items-stretch shrink-0">
           {selector}
         </div>
       )}
