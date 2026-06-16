@@ -193,7 +193,7 @@ export default function BankDetailsModal({ onClose, onUpdate, onEditBank, onAddN
                   {selectedBank.name}
                 </p>
                 <p className="font-['Inter:Regular',sans-serif] font-normal text-[13px] text-[var(--cp-text-tertiary)] overflow-hidden text-ellipsis whitespace-nowrap">
-                  {truncateIban(selectedBank.account)}
+                  {isUnderReview ? truncateIban(selectedBank.account) : selectedBank.account}
                 </p>
               </div>
             </SelectField>
