@@ -129,9 +129,7 @@ export default function EditBankModal({
   const isDirty = label !== labelProp || nonLabelDirty;
 
   // Cautious: show warning if non-label field changed
-  const showBottomWarning =
-    (editMode === 'cautious' && nonLabelDirty) ||
-    (editMode === 'locked' && unlocked && nonLabelDirty);
+  const showBottomWarning = editMode === 'locked' && unlocked && nonLabelDirty;
 
   const cautionHelper = editMode === 'cautious' ? PAUSE_WARNING : '';
 
@@ -175,18 +173,8 @@ export default function EditBankModal({
 
           {/* Form */}
           <div className="flex flex-col gap-[8px] items-start relative w-full flex-1 overflow-hidden">
-            <EditField label="Label"               value={label}         onChange={setLabel} />
-            <EditField label="Account Holder Name" value={holderName}    onChange={setHolderName}     inactive={isLocked} helper={cautionHelper} />
-            <EditField label="Bank Country"        value={bankCountry}   onChange={setBankCountry}    inactive={isLocked} helper={cautionHelper} hasSelector />
-            <EditField label="Account Number"      value={accountNumber} onChange={setAccountNumber}  inactive={isLocked} helper={cautionHelper} />
-            <EditField label="BIC / SWIFT"         value={bic}           onChange={setBic}            inactive={isLocked} helper={cautionHelper} />
-            <div className="flex gap-[8px] items-start relative shrink-0 w-full">
-              <EditField label="Town / City"       value={city}          onChange={setCity}           inactive={isLocked} helper={cautionHelper} halfWidth />
-              <EditField label="Postal / ZIP Code" value={postalCode}    onChange={setPostalCode}     inactive={isLocked} helper={cautionHelper} halfWidth />
-            </div>
-            <EditField label="Address"             value={address}       onChange={setAddress}        inactive={isLocked} helper={cautionHelper} />
 
-            {/* HSBC locked banner */}
+            {/* HSBC locked banner — above the fields */}
             {editMode === 'locked' && !unlocked && (
               <div className="bg-[#ebf1fb] border border-[var(--cp-border-default)] border-solid flex gap-[10px] items-start p-[14px] relative rounded-[5px] shrink-0 w-full">
                 <svg className="shrink-0 mt-[1px]" width="16" height="16" viewBox="0 0 16 16" fill="none">
@@ -205,6 +193,17 @@ export default function EditBankModal({
                 </p>
               </div>
             )}
+
+            <EditField label="Label"               value={label}         onChange={setLabel} />
+            <EditField label="Account Holder Name" value={holderName}    onChange={setHolderName}     inactive={isLocked} helper={cautionHelper} />
+            <EditField label="Bank Country"        value={bankCountry}   onChange={setBankCountry}    inactive={isLocked} helper={cautionHelper} hasSelector />
+            <EditField label="Account Number"      value={accountNumber} onChange={setAccountNumber}  inactive={isLocked} helper={cautionHelper} />
+            <EditField label="BIC / SWIFT"         value={bic}           onChange={setBic}            inactive={isLocked} helper={cautionHelper} />
+            <div className="flex gap-[8px] items-start relative shrink-0 w-full">
+              <EditField label="Town / City"       value={city}          onChange={setCity}           inactive={isLocked} helper={cautionHelper} halfWidth />
+              <EditField label="Postal / ZIP Code" value={postalCode}    onChange={setPostalCode}     inactive={isLocked} helper={cautionHelper} halfWidth />
+            </div>
+            <EditField label="Address"             value={address}       onChange={setAddress}        inactive={isLocked} helper={cautionHelper} />
           </div>
 
           {/* Bottom warning for cautious + locked after editing */}
