@@ -344,7 +344,7 @@ export default function PaySettingsRow({
   const [showBankDetails, setShowBankDetails] = useState(false);
   const [showEditBank, setShowEditBank] = useState(false);
   const [showAddNewBank, setShowAddNewBank] = useState(false);
-  const [editingBankName, setEditingBankName] = useState(bankName);
+  const [editingBankId, setEditingBankId] = useState<string | undefined>(committedBankId);
   const [selectedMode, setSelectedMode] = useState(mode === 'bank' ? 'Nightly to Bank' : 'To Custody');
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -371,32 +371,32 @@ export default function PaySettingsRow({
         onClose={() => setShowBankDetails(false)}
         onUpdate={(name, _account) => {
           const bank = banks.find(b => b.label === name);
-          if (bank) {
-            setCommittedBankId(bank.id);
-            setEditingBankName(name);
-          }
+          if (bank) { setCommittedBankId(bank.id); setEditingBankId(bank.id); }
         }}
-        onEditBank={(name) => { setEditingBankName(name); setShowEditBank(true); }}
+        onEditBank={(name) => {
+          const bank = banks.find(b => b.label === name);
+          if (bank) { setEditingBankId(bank.id); setShowEditBank(true); }
+        }}
         onAddNewBank={() => setShowAddNewBank(true)}
         onManageBankAccounts={() => navigate('/bank-accounts')}
         bankName={bankName}
         bankAccount={bankAccount}
-        selectedBankName={editingBankName}
+        selectedBankName={banks.find(b => b.id === editingBankId)?.label ?? bankName}
       />, document.body)}
     {showEditBank && createPortal(
       <EditBankModal
-        key={editingBankName}
+        key={editingBankId}
         onClose={() => setShowEditBank(false)}
         onBack={() => { setShowEditBank(false); setShowBankDetails(true); }}
         onSave={() => { setShowEditBank(false); setShowBankDetails(true); }}
-        bankId={banks.find(b => b.label === editingBankName)?.id}
-        label={banks.find(b => b.label === editingBankName)?.label ?? editingBankName}
-        holderName={banks.find(b => b.label === editingBankName)?.holder ?? ''}
-        accountNumber={banks.find(b => b.label === editingBankName)?.accountNumber ?? ''}
-        bic={banks.find(b => b.label === editingBankName)?.bic ?? ''}
-        address={banks.find(b => b.label === editingBankName)?.address ?? ''}
-        city={banks.find(b => b.label === editingBankName)?.city ?? ''}
-        postalCode={banks.find(b => b.label === editingBankName)?.postalCode ?? ''}
+        bankId={editingBankId}
+        label={banks.find(b => b.id === editingBankId)?.label ?? ''}
+        holderName={banks.find(b => b.id === editingBankId)?.holder ?? ''}
+        accountNumber={banks.find(b => b.id === editingBankId)?.accountNumber ?? ''}
+        bic={banks.find(b => b.id === editingBankId)?.bic ?? ''}
+        address={banks.find(b => b.id === editingBankId)?.address ?? ''}
+        city={banks.find(b => b.id === editingBankId)?.city ?? ''}
+        postalCode={banks.find(b => b.id === editingBankId)?.postalCode ?? ''}
         bankCountry="United Kingdom"
       />, document.body)}
     {showAddNewBank && createPortal(
@@ -491,7 +491,7 @@ export default function PaySettingsRow({
                       // When switching to Nightly to Bank, pull the primary bank
                       if (label === 'Nightly to Bank') {
                         setCommittedBankId(primaryId);
-                        setEditingBankName(banks.find(b => b.id === primaryId)?.label ?? '');
+                        setEditingBankId(primaryId);
                       }
                     }}
                   >
