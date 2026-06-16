@@ -4,7 +4,6 @@
 // Supports three modes: 'standard' | 'cautious' | 'locked'
 // ─────────────────────────────────────────────────────────────────────────────
 import { useState } from 'react';
-import { createPortal } from 'react-dom';
 import { useBanks } from '../context/BankContext';
 import EditWarningModal from './EditWarningModal';
 
@@ -41,7 +40,7 @@ function EditField({
   const showHelper = focused && !!helper;
   const borderColor = inactive
     ? 'var(--cp-border-default)'
-    : focused ? (helper ? '#f59e0b' : 'var(--cp-brand-primary)')
+    : focused ? 'var(--cp-brand-primary)'
     : hovered ? 'var(--cp-border-hover)'
     : 'var(--cp-border-default)';
   return (
@@ -86,14 +85,9 @@ function EditField({
         )}
       </div>
       {showHelper && (
-        <div className="absolute left-0 right-0 px-[10px] py-[6px] rounded-b-[5px] z-10 flex gap-[8px] items-center"
-          style={{ top: '100%', background: 'rgba(245,158,11,0.2)', border: '1px solid rgba(245,158,11,0.3)', borderTop: 'none' }}>
-          <svg className="shrink-0" width="12" height="12" viewBox="0 0 16 16" fill="none">
-            <circle cx="8" cy="8" r="8" fill="#f59e0b" />
-            <path d="M8 7V11" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
-            <circle cx="8" cy="5.5" r="0.75" fill="white" />
-          </svg>
-          <p className="font-['Inter:Regular',sans-serif] font-normal text-[11px] leading-tight" style={{ color: '#f59e0b' }}>{helper}</p>
+        <div className="absolute left-0 right-0 px-[10px] py-[6px] rounded-b-[5px] z-10"
+          style={{ top: '100%', background: 'var(--cp-brand-primary)', border: '1px solid var(--cp-brand-primary)', borderTop: 'none' }}>
+          <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-white leading-tight">{helper}</p>
         </div>
       )}
     </div>
@@ -153,14 +147,14 @@ export default function EditBankModal({
     }
   };
 
+  if (showWarning) return (
+    <EditWarningModal
+      onCancel={() => setShowWarning(false)}
+      onProceed={() => { setShowWarning(false); doSave(); }}
+    />
+  );
+
   return (
-    <>
-    {showWarning && createPortal(
-      <EditWarningModal
-        onCancel={() => setShowWarning(false)}
-        onProceed={() => { setShowWarning(false); doSave(); }}
-      />, document.body
-    )}
     <div
       className="fixed inset-0 z-[60] flex items-center justify-center"
       style={{ background: 'rgba(0,0,0,0.55)' }}
@@ -171,13 +165,15 @@ export default function EditBankModal({
           <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[14px] text-white">Dismiss</p>
         </button>
 
-        <div className="bg-white flex flex-col gap-[20px] items-start p-[20px] relative rounded-[10px] w-full" style={{ height: 590 }}>
+        <div className="bg-white flex flex-col gap-[20px] items-start p-[20px] relative rounded-[10px] w-full" style={{ height: isLocked ? undefined : 590 }}>
           <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[13px] text-[var(--cp-text-secondary)] uppercase whitespace-nowrap shrink-0">
             Edit Bank Details
           </p>
 
           {/* Form */}
-          <div className="flex flex-col gap-[8px] items-start relative w-full flex-1 overflow-hidden">
+          <div className={`flex flex-col gap-[8px] items-start relative w-full ${isLocked ? '' : 'flex-1 overflow-hidden'}`}>
+
+            <EditField label="Label"               value={label}         onChange={setLabel} />
 
             {/* HSBC locked banner — between Label and below fields */}
             {editMode === 'locked' && !unlocked && (
@@ -204,8 +200,6 @@ export default function EditBankModal({
                 </p>
               </div>
             )}
-
-            <EditField label="Label"               value={label}         onChange={setLabel} />
             <EditField label="Account Holder Name" value={holderName}    onChange={setHolderName}     inactive={isLocked} helper={cautionHelper} />
             <EditField label="Bank Country"        value={bankCountry}   onChange={setBankCountry}    inactive={isLocked} helper={cautionHelper} hasSelector />
             <EditField label="Account Number"      value={accountNumber} onChange={setAccountNumber}  inactive={isLocked} helper={cautionHelper} />
@@ -257,6 +251,5 @@ export default function EditBankModal({
         </div>
       </div>
     </div>
-    </>
   );
 }
