@@ -38,7 +38,7 @@ export function SelectField({ label, labelInfo, children, selector, height = 62 
   const [hovered, setHovered] = useState(false);
   return (
     <div
-      className="bg-white content-stretch flex items-stretch justify-between p-[10px] relative rounded-[5px] shrink-0 w-full transition-colors duration-100 cursor-pointer"
+      className="bg-white content-stretch flex items-start justify-between p-[10px] relative rounded-[5px] shrink-0 w-full transition-colors duration-100 cursor-pointer"
       style={{
         height,
         border: `1px solid ${hovered ? 'var(--cp-border-hover)' : 'var(--cp-border-default)'}`,
@@ -63,7 +63,7 @@ export function SelectField({ label, labelInfo, children, selector, height = 62 
 
       {/* Right: selector slot — caller provides full content including divider/chevron */}
       {selector && (
-        <div className="content-stretch flex items-center relative self-stretch shrink-0">
+        <div className="content-stretch flex self-stretch items-stretch relative shrink-0">
           {selector}
         </div>
       )}
