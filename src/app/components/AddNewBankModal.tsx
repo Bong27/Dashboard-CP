@@ -5,6 +5,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
 import { useState, useRef, useEffect } from 'react';
 import { useBanks, BIC_TO_BANK } from '../context/BankContext';
+import BankAddedModal from './BankAddedModal';
 
 type Props = {
   onClose: () => void;
@@ -324,7 +325,7 @@ function DataRow({ label, value }: { label: string; value: string }) {
 // ─── Modal ────────────────────────────────────────────────────────────────────
 export default function AddNewBankModal({ onClose }: Props) {
   const { addBank } = useBanks();
-  const [step, setStep]                 = useState<'form' | 'confirm'>('form');
+  const [step, setStep] = useState<'form' | 'confirm' | 'done'>('form');
   const [holderName, setHolderName]     = useState('Acme Corp');
   const [bankCountry, setBankCountry]   = useState('United Kingdom');
   const [iban, setIban]                 = useState('');
@@ -343,6 +344,8 @@ export default function AddNewBankModal({ onClose }: Props) {
   const labelValue = label || bankName || '---';
 
   const canContinue = iban.trim() !== '' && bic.trim() !== '';
+
+  if (step === 'done') return <BankAddedModal onClose={onClose} />;
 
   return step === 'form' ? (
     <div
@@ -531,8 +534,9 @@ export default function AddNewBankModal({ onClose }: Props) {
                   city: city,
                   postalCode: postalCode,
                   country: bankCountry,
+                  status: 'under_review',
                 });
-                onClose();
+                setStep('done');
               }}
             >
               <p className="font-['Inter:Medium',sans-serif] font-medium text-[13px] text-white text-center whitespace-nowrap">Confirm</p>
