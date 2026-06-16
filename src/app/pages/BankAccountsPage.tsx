@@ -236,6 +236,7 @@ export default function BankAccountsPage() {
           key={editingBank.id}
           onClose={() => setEditingBank(null)}
           onSave={() => setEditingBank(null)}
+          editMode={editingBank.id === 'barclays' ? 'cautious' : editingBank.id === 'hsbc' ? 'locked' : 'standard'}
           bankId={editingBank.id}
           label={editingBank.label}
           holderName={editingBank.holder}

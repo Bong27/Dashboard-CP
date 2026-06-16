@@ -389,6 +389,7 @@ export default function PaySettingsRow({
         onClose={() => setShowEditBank(false)}
         onBack={() => { setShowEditBank(false); setShowBankDetails(true); }}
         onSave={() => { setShowEditBank(false); setShowBankDetails(true); }}
+        editMode={editingBankId === 'barclays' ? 'cautious' : editingBankId === 'hsbc' ? 'locked' : 'standard'}
         bankId={editingBankId}
         label={banks.find(b => b.id === editingBankId)?.label ?? ''}
         holderName={banks.find(b => b.id === editingBankId)?.holder ?? ''}
