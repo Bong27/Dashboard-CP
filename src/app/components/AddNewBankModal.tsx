@@ -317,7 +317,7 @@ function DataRow({ label, value }: { label: string; value: string }) {
   return (
     <div className="content-stretch flex flex-col gap-[5px] items-start relative shrink-0 w-full">
       <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[11px] text-[var(--cp-text-tertiary)] uppercase whitespace-nowrap leading-none">{label}</p>
-      <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-primary)] leading-tight break-all">{value}</p>
+      <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-primary)] leading-tight break-words">{value}</p>
     </div>
   );
 }
