@@ -47,7 +47,7 @@ export function SelectField({ label, labelInfo, children, selector, height = 62 
       onMouseLeave={() => setHovered(false)}
     >
       {/* Left: label + value */}
-      <div className="content-stretch flex flex-col items-start justify-between relative self-stretch flex-1 min-w-0 overflow-hidden">
+      <div className="flex flex-col items-start justify-between relative flex-1 min-w-0 overflow-hidden" style={{ height: height - 20 }}>
         {/* Label row */}
         <div className="content-stretch flex gap-[5px] items-center relative shrink-0">
           <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[11px] text-[var(--cp-text-tertiary)] uppercase whitespace-nowrap leading-none">
