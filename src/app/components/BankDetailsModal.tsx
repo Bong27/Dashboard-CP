@@ -122,7 +122,6 @@ export default function BankDetailsModal({ onClose, onUpdate, onEditBank, onAddN
     if (bankOpen) document.addEventListener('mousedown', handler);
     return () => document.removeEventListener('mousedown', handler);
   }, [bankOpen]);
-  const [removeState, setRemoveState] = useState<'idle' | 'confirm'>('idle');
 
   // Derive details from context bank entry
   const bankEntry = banks.find(b => b.label === selectedBank?.name);
@@ -144,19 +143,11 @@ export default function BankDetailsModal({ onClose, onUpdate, onEditBank, onAddN
     onClose();
   };
 
-  const handleRemoveClick = () => {
-    if (removeState === 'idle') {
-      setRemoveState('confirm');
-    } else {
-      onClose();
-    }
-  };
-
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center"
       style={{ background: 'rgba(0,0,0,0.55)' }}
-      onClick={() => { setBankOpen(false); setRemoveState('idle'); onClose(); }}
+      onClick={() => { setBankOpen(false); onClose(); }}
     >
       <div className="relative flex flex-col" style={{ width: 400 }} onClick={e => e.stopPropagation()}>
 
@@ -220,7 +211,7 @@ export default function BankDetailsModal({ onClose, onUpdate, onEditBank, onAddN
                                 ? 'bg-[var(--cp-brand-primary)] cursor-pointer'
                                 : 'bg-white hover:bg-[var(--cp-bg-1)] cursor-pointer'
                           }`}
-                          onClick={() => { if (!isUnderReview) { setSelectedBank(bank); setBankOpen(false); setRemoveState('idle'); } }}
+                          onClick={() => { if (!isUnderReview) { setSelectedBank(bank); setBankOpen(false); } }}
                         >
                           {!isSelected && (
                             <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[5px]" />
@@ -294,19 +285,13 @@ export default function BankDetailsModal({ onClose, onUpdate, onEditBank, onAddN
           {/* Buttons */}
           <div className="content-stretch flex gap-[10px] items-center relative shrink-0 w-full">
 
-            {/* Remove */}
+            {/* Cancel */}
             <button
-              className={`border border-solid content-stretch flex flex-1 h-[46px] items-center justify-center overflow-clip px-[10px] relative rounded-[5px] cursor-pointer transition-colors ${
-                removeState === 'confirm'
-                  ? 'bg-red-50 border-red-300 hover:bg-red-100'
-                  : 'bg-white border-[var(--cp-border-default)] hover:bg-[var(--cp-bg-2)]'
-              }`}
-              onClick={handleRemoveClick}
+              className="bg-white border border-[var(--cp-border-default)] border-solid content-stretch flex flex-1 h-[46px] items-center justify-center overflow-clip px-[10px] relative rounded-[5px] cursor-pointer hover:bg-[var(--cp-bg-2)] transition-colors"
+              onClick={onClose}
             >
-              <p className={`font-['Inter:Medium',sans-serif] font-medium text-[13px] text-center whitespace-nowrap transition-colors ${
-                removeState === 'confirm' ? 'text-red-600' : 'text-[var(--cp-text-secondary)]'
-              }`}>
-                {removeState === 'confirm' ? 'Confirm Remove' : 'Remove'}
+              <p className="font-['Inter:Medium',sans-serif] font-medium text-[13px] text-[var(--cp-text-secondary)] text-center whitespace-nowrap">
+                Cancel
               </p>
             </button>
 
