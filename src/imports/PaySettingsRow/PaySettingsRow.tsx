@@ -440,11 +440,8 @@ export default function PaySettingsRow({
                     </div>
                     <div className={`content-stretch flex gap-[5px] items-center relative shrink-0 min-w-0 overflow-hidden ${isCommittedUnderReview ? 'opacity-60' : ''}`}>
                       <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-primary)] text-[14.5px] whitespace-nowrap">{bankName}</p>
-                      <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[var(--cp-text-tertiary)] text-[13px] overflow-hidden text-ellipsis whitespace-nowrap">{isCommittedUnderReview ? truncateIban(bankAccount) : bankAccount}</p>
+                      <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[var(--cp-text-tertiary)] text-[13px] overflow-hidden text-ellipsis whitespace-nowrap">{bankAccount}</p>
                     </div>
-                    {isCommittedUnderReview && (
-                      <p className="font-['Inter:Medium',sans-serif] font-medium text-[10px] whitespace-nowrap" style={{ color: '#f59e0b' }}>⚠ Account under review — payouts paused</p>
-                    )}
                   </>
                 ) : (
                   <>
