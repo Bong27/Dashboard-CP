@@ -58,22 +58,31 @@ function ContextMenu({ isPrimary, isReview, onSetPrimary, onDelete, onEdit, onCl
     return () => document.removeEventListener('mousedown', handler);
   }, [onClose]);
 
+  const itemBase = "w-full px-[14px] py-[10px] text-left font-['Inter:Medium',sans-serif] font-medium text-[13px] transition-colors cursor-pointer border-t border-[var(--cp-border-default)] first:border-t-0";
+
   return (
     <div ref={ref} className="bg-white border border-[var(--cp-border-default)] rounded-[8px] shadow-lg overflow-hidden w-[180px]">
-      {!isReview && !isPrimary && (
-        <button className="w-full px-[14px] py-[10px] text-left font-['Inter:Medium',sans-serif] font-medium text-[13px] text-[var(--cp-text-primary)] hover:bg-[var(--cp-bg-1)] transition-colors"
-          onClick={() => { onSetPrimary(); onClose(); }}>
-          Set as Primary
-        </button>
-      )}
-      {!isReview && (
-        <button className={`w-full px-[14px] py-[10px] text-left font-['Inter:Medium',sans-serif] font-medium text-[13px] text-[var(--cp-text-secondary)] hover:bg-[var(--cp-bg-1)] transition-colors ${!isPrimary ? 'border-t border-[var(--cp-border-default)]' : ''}`}
-          onClick={() => { onEdit(); onClose(); }}>
-          Edit
-        </button>
-      )}
-      <button className={`w-full px-[14px] py-[10px] text-left font-['Inter:Medium',sans-serif] font-medium text-[13px] text-red-500 hover:bg-red-50 transition-colors ${!isReview ? 'border-t border-[var(--cp-border-default)]' : ''}`}
-        onClick={() => { onDelete(); onClose(); }}>
+      {/* Set as Primary */}
+      <button
+        className={`${itemBase} ${isReview || isPrimary ? 'text-[var(--cp-text-tertiary)] opacity-40 cursor-not-allowed' : 'text-[var(--cp-text-secondary)] hover:bg-[var(--cp-bg-1)]'}`}
+        onClick={() => { if (!isReview && !isPrimary) { onSetPrimary(); onClose(); } }}
+        disabled={isReview || isPrimary}
+      >
+        Set as Primary
+      </button>
+      {/* Edit */}
+      <button
+        className={`${itemBase} ${isReview ? 'text-[var(--cp-text-tertiary)] opacity-40 cursor-not-allowed' : 'text-[var(--cp-text-secondary)] hover:bg-[var(--cp-bg-1)]'}`}
+        onClick={() => { if (!isReview) { onEdit(); onClose(); } }}
+        disabled={isReview}
+      >
+        Edit
+      </button>
+      {/* Delete */}
+      <button
+        className={`${itemBase} text-red-500 hover:bg-red-50 cursor-pointer`}
+        onClick={() => { onDelete(); onClose(); }}
+      >
         Delete
       </button>
     </div>
@@ -193,7 +202,9 @@ export default function BankAccountsPage() {
             Manage Bank Accounts
           </p>
           <p className="font-['Inter:Regular',sans-serif] font-normal text-[13px] text-[var(--cp-text-secondary)] leading-normal">
-            Configure and manage your saved bank details for fiat settlements.{'\n'}
+            Configure and manage your saved bank details for fiat settlements.
+          </p>
+          <p className="font-['Inter:Regular',sans-serif] font-normal text-[13px] text-[var(--cp-text-secondary)] leading-normal">
             These accounts are available as payout destinations across your automated and manual dashboard settings.
           </p>
         </div>
