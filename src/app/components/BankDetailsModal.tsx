@@ -135,10 +135,11 @@ export default function BankDetailsModal({ onClose, onUpdate, onEditBank, onAddN
     label: bankEntry.label,
   } : { holder: '---', bankName: '---', iban: '---', accountNumber: '---', bic: '---', address: '---', label: '---' };
 
+  const isUnderReview = bankEntry?.status === 'under_review';
   const hasChanged = selectedBank?.name !== initialBank?.name;
 
   const handleUpdate = () => {
-    if (!hasChanged) return;
+    if (!hasChanged || isUnderReview) return;
     onUpdate?.(selectedBank.name, selectedBank.account);
     onClose();
   };
@@ -179,10 +180,17 @@ export default function BankDetailsModal({ onClose, onUpdate, onEditBank, onAddN
                 </div>
               }
             >
-              <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-primary)] whitespace-nowrap">
-                {selectedBank.name}
-              </p>
-              <p className="font-['Inter:Regular',sans-serif] font-normal text-[13px] text-[var(--cp-text-tertiary)] overflow-hidden text-ellipsis whitespace-nowrap">
+              <div className={`flex items-center gap-[6px] min-w-0 ${isUnderReview ? 'opacity-60' : ''}`}>
+                <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-primary)] whitespace-nowrap">
+                  {selectedBank.name}
+                </p>
+                {isUnderReview && (
+                  <span className="bg-orange-100 text-orange-600 font-['Inter:Semi_Bold',sans-serif] font-semibold text-[9px] uppercase px-[5px] py-[1px] rounded-[3px] whitespace-nowrap shrink-0">
+                    Under Review
+                  </span>
+                )}
+              </div>
+              <p className={`font-['Inter:Regular',sans-serif] font-normal text-[13px] text-[var(--cp-text-tertiary)] overflow-hidden text-ellipsis whitespace-nowrap ${isUnderReview ? 'opacity-60' : ''}`}>
                 {selectedBank.account}
               </p>
             </SelectField>
@@ -282,6 +290,23 @@ export default function BankDetailsModal({ onClose, onUpdate, onEditBank, onAddN
             <DataRow label="Label"                value={details.label} />
           </div>
 
+          {/* Under review notice */}
+          {isUnderReview && (
+            <div
+              className="flex gap-[8px] items-start p-[10px] relative rounded-[5px] shrink-0 w-full"
+              style={{ background: 'rgba(245,158,11,0.15)' }}
+            >
+              <svg className="shrink-0 mt-[1px]" width="14" height="14" viewBox="0 0 16 16" fill="none">
+                <circle cx="8" cy="8" r="8" fill="#f59e0b" />
+                <path d="M8 7V11" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
+                <circle cx="8" cy="5.5" r="0.75" fill="white" />
+              </svg>
+              <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] leading-normal flex-1 min-w-px" style={{ color: '#d97706' }}>
+                This account is under review. All transactions and payouts are paused until verification is complete and the account is approved.
+              </p>
+            </div>
+          )}
+
           {/* Buttons */}
           <div className="content-stretch flex gap-[10px] items-center relative shrink-0 w-full">
 
@@ -298,15 +323,15 @@ export default function BankDetailsModal({ onClose, onUpdate, onEditBank, onAddN
             {/* Update */}
             <button
               className={`content-stretch flex flex-1 h-[46px] items-center justify-center overflow-clip px-[10px] relative rounded-[5px] transition-colors ${
-                hasChanged
+                hasChanged && !isUnderReview
                   ? 'bg-[var(--cp-brand-primary)] hover:bg-[var(--cp-brand-active)] cursor-pointer'
                   : 'bg-[var(--cp-bg-2)] cursor-not-allowed'
               }`}
               onClick={handleUpdate}
-              disabled={!hasChanged}
+              disabled={!hasChanged || isUnderReview}
             >
               <p className={`font-['Inter:Medium',sans-serif] font-medium text-[13px] text-center whitespace-nowrap ${
-                hasChanged ? 'text-white' : 'text-[var(--cp-text-secondary)]'
+                hasChanged && !isUnderReview ? 'text-white' : 'text-[var(--cp-text-secondary)]'
               }`}>
                 Update
               </p>
