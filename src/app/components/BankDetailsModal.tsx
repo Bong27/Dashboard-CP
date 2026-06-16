@@ -2,7 +2,7 @@
 // BankDetailsModal
 // Source: Figma node 1623:265565 "Bank Details Modal (label)"
 // ─────────────────────────────────────────────────────────────────────────────
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { SelectField } from './SelectField';
 import { useBanks } from '../context/BankContext';
 
@@ -111,6 +111,17 @@ export default function BankDetailsModal({ onClose, onUpdate, onEditBank, onAddN
   const restoredBank = selectedBankName ? (BANK_OPTIONS.find(b => b.name === selectedBankName) ?? initialBank) : initialBank;
   const [selectedBank, setSelectedBank] = useState(restoredBank ?? BANK_OPTIONS[0]);
   const [bankOpen, setBankOpen] = useState(false);
+  const bankDropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (bankDropdownRef.current && !bankDropdownRef.current.contains(e.target as Node)) {
+        setBankOpen(false);
+      }
+    };
+    if (bankOpen) document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, [bankOpen]);
   const [removeState, setRemoveState] = useState<'idle' | 'confirm'>('idle');
 
   // Derive details from context bank entry
@@ -166,7 +177,7 @@ export default function BankDetailsModal({ onClose, onUpdate, onEditBank, onAddN
           </p>
 
           {/* Bank selector */}
-          <div className="relative w-full cursor-pointer" style={{ overflow: 'visible' }} onClick={() => setBankOpen(o => !o)}>
+          <div ref={bankDropdownRef} className="relative w-full cursor-pointer" style={{ overflow: 'visible' }} onClick={() => setBankOpen(o => !o)}>
             <SelectField
               label="BANK"
               height={56}
