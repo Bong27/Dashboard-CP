@@ -388,7 +388,7 @@ export default function PaySettingsRow({
         key={editingBankName}
         onClose={() => setShowEditBank(false)}
         onBack={() => { setShowEditBank(false); setShowBankDetails(true); }}
-        onSave={() => setShowEditBank(false)}
+        onSave={() => { setShowEditBank(false); setShowBankDetails(true); }}
         bankId={banks.find(b => b.label === editingBankName)?.id}
         label={banks.find(b => b.label === editingBankName)?.label ?? editingBankName}
         holderName={banks.find(b => b.label === editingBankName)?.holder ?? ''}
