@@ -134,7 +134,11 @@ export default function EditBankModal({
 
   const doSave = () => {
     if (!isDirty) return;
-    if (bankId) updateBank(bankId, { label, holder: holderName, accountNumber, bic, address, city, postalCode, country: bankCountry });
+    const needsReview = (editMode === 'cautious' || editMode === 'locked') && nonLabelDirty;
+    if (bankId) updateBank(bankId, {
+      label, holder: holderName, accountNumber, bic, address, city, postalCode, country: bankCountry,
+      ...(needsReview ? { status: 'under_review' } : {}),
+    });
     onSave({ label, holderName, accountNumber, bic, address, city, postalCode, bankCountry });
   };
 
