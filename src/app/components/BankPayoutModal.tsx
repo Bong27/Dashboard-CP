@@ -147,9 +147,14 @@ export default function BankPayoutModal({ onClose }: { onClose: () => void }) {
       setCountdown(prev => {
         if (prev <= 1) {
           clearInterval(countTimer.current!);
-          // Refresh — briefly show 'refreshing' then reset to filled
+          // Expire — briefly refresh then restart
           setState('refreshing');
-          setTimeout(() => setState('filled'), 1000);
+          setTimeout(() => {
+            setUsdtAmount('');
+            setUsdAmount('');
+            setConvFee(0);
+            setState('empty');
+          }, 800);
           return COUNTDOWN_SEC;
         }
         return prev - 1;
@@ -157,7 +162,12 @@ export default function BankPayoutModal({ onClose }: { onClose: () => void }) {
     }, 1000);
   }, []);
 
-  // ── Handle USDT input ────────────────────────────────────────────────────────
+  // ── Auto-start countdown when quote is ready ─────────────────────────────────
+  useEffect(() => {
+    if (state === 'filled') {
+      startCountdown();
+    }
+  }, [state === 'filled']);
   const onUsdtChange = (val: string) => {
     clearTimers();
     setUsdtAmount(val);
@@ -193,7 +203,6 @@ export default function BankPayoutModal({ onClose }: { onClose: () => void }) {
 
   const isFilled     = state === 'filled' || state === 'countdown' || state === 'refreshing';
   const isLoading    = state === 'loading-payout' || state === 'loading-amount' || state === 'refreshing';
-  const canConfirm   = state === 'filled';
   const inCountdown  = state === 'countdown';
 
   // Derived fee values
@@ -438,25 +447,22 @@ export default function BankPayoutModal({ onClose }: { onClose: () => void }) {
             </button>
 
             <button
-              disabled={!canConfirm && !inCountdown}
-              onClick={canConfirm ? startCountdown : undefined}
+              disabled={!inCountdown}
+              onClick={inCountdown ? onClose : undefined}
               className="content-stretch flex flex-1 h-[46px] items-center justify-center gap-[8px] overflow-clip px-[10px] relative rounded-[5px] transition-colors"
               style={{
-                background: (canConfirm || inCountdown) ? 'var(--cp-brand-primary)' : 'var(--cp-bg-2)',
-                cursor: canConfirm ? 'pointer' : inCountdown ? 'default' : 'not-allowed',
+                background: inCountdown ? 'var(--cp-brand-primary)' : 'var(--cp-bg-2)',
+                cursor: inCountdown ? 'pointer' : 'not-allowed',
               }}>
               {inCountdown ? (
-                <>
-                  <CountdownRing seconds={countdown} total={COUNTDOWN_SEC} />
-                  <p className="font-['Inter:Medium',sans-serif] font-medium text-[13px] text-white text-center whitespace-nowrap">
-                    Confirming…
-                  </p>
-                </>
+                <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-white text-center whitespace-nowrap">
+                  Confirm ({countdown}s)
+                </p>
               ) : isLoading ? (
-                <div className="w-[80px] h-[16px] rounded-[4px] bg-[rgba(255,255,255,0.3)] animate-pulse" />
+                <div className="w-[80px] h-[16px] rounded-[4px] bg-[rgba(0,0,0,0.1)] animate-pulse" />
               ) : (
                 <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-center whitespace-nowrap"
-                   style={{ color: canConfirm ? 'white' : 'var(--cp-text-secondary)' }}>
+                   style={{ color: 'var(--cp-text-secondary)' }}>
                   Confirm
                 </p>
               )}
