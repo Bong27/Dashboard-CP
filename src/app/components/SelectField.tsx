@@ -30,14 +30,14 @@ export function SelectField({ label, labelInfo, children, selector, height = 62 
       onMouseLeave={() => setHovered(false)}
     >
       {/* Left — h-full works because parent height is set via Tailwind class */}
-      <div className="flex flex-col h-full items-start justify-between flex-1 min-w-0 shrink-0">
+      <div className="flex flex-col h-full items-stretch justify-between flex-1 min-w-0">
         <div className="flex gap-[5px] items-center shrink-0">
           <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[11px] text-[var(--cp-text-tertiary)] uppercase whitespace-nowrap leading-none">
             {label}
           </p>
           {labelInfo && <InfoIcon />}
         </div>
-        <div className="flex gap-[5px] items-center shrink-0 min-w-0 overflow-hidden">
+        <div className="flex gap-[5px] items-center w-full min-w-0">
           {children}
         </div>
       </div>

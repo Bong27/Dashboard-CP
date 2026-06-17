@@ -2,6 +2,7 @@ import { useState } from 'react';
 import svgPaths from '../../imports/Wallet-2/svg-tfchl2zu4w';
 import BankPayoutModal from '../components/BankPayoutModal';
 import { CircleIcon } from '../components/CircleIcon';
+import { WalletExpandedTabs } from '../components/WalletRowExpanded';
 
 // ─── Inline SVG icons (paths from Figma export, inlined so fill color is controllable) ──
 
@@ -32,7 +33,7 @@ function IconReceive() {
 
 function IconBankPayout() {
   return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+    <svg className="block size-full" viewBox="0 0 24 24" fill="none" aria-hidden>
       <path fillRule="evenodd" clipRule="evenodd" d="M12 1L23 7H1L12 1Z" fill="currentColor"/>
       <rect x="3" y="9" width="2.5" height="8" fill="currentColor"/>
       <rect x="7.75" y="9" width="2.5" height="8" fill="currentColor"/>
@@ -107,7 +108,7 @@ type ActionDef = {
 const ACTIONS: ActionDef[] = [
   { label: 'Convert',     iconEl: <IconConvert />,    icon: () => <IconConvert />,    inset: 'inset-[9.27%_17.99%]' },
   { label: 'Receive',     iconEl: <IconReceive />,    icon: () => <IconReceive />,    inset: 'inset-[11.82%_13.6%_11.83%_13.6%]' },
-  { label: 'Bank Payout', iconEl: <IconBankPayout />, icon: () => <IconBankPayout />, inset: 'inset-[16.67%_4.17%_4.17%_8.33%]' },
+  { label: 'Bank Payout', iconEl: <IconBankPayout />, icon: () => <IconBankPayout />, inset: 'inset-0' },
   { label: 'Send',        iconEl: <IconSend />,       icon: () => <IconSend />,       inset: 'inset-[18.75%_24.1%_22.48%_20.59%]' },
 ];
 
@@ -119,8 +120,8 @@ function CtaCard({ label, icon, inset }: ActionDef) {
       <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[13px] text-[var(--cp-text-primary)] text-center whitespace-nowrap">
         {label}
       </p>
-      <div className={`relative size-[14px]`}>
-        <div className={`absolute ${inset}`}>
+      <div className="relative flex size-[14px] shrink-0 items-center justify-center text-[#8492A6]">
+        <div className={`absolute ${inset} flex items-center justify-center`}>
           {icon('#8492A6')}
         </div>
       </div>
@@ -278,6 +279,7 @@ function WalletList({ onBankPayout }: { onBankPayout: () => void }) {
                   ))}
                 </div>
 
+                <WalletExpandedTabs />
               </div>
             ) : (
               <div

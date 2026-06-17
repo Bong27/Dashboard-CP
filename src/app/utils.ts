@@ -4,3 +4,10 @@ export function truncateIban(iban: string, head = 5, tail = 3): string {
   if (s.length <= head + tail + 3) return s;
   return `${s.slice(0, head)}...${s.slice(-tail)}`;
 }
+
+/** IBAN or account number — whichever was provided when the bank was added. */
+export function getBankAccountIdentifier(bank: { iban: string; accountNumber: string }): string {
+  const iban = bank.iban.replace(/\s/g, '').trim();
+  if (iban) return iban;
+  return bank.accountNumber.trim();
+}

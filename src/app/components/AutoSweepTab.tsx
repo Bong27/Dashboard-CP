@@ -1,10 +1,71 @@
-import svgPaths from '../../imports/Wallet-2/svg-tfchl2zu4w';
+import { useState } from 'react';
 import { InputMaster } from './InputMaster';
+import { SweepDestinationDropdown, type SweepDestination } from './SweepDestinationDropdown';
+import { SweepBankAccountDropdown } from './SweepBankAccountDropdown';
+import { useBanks } from '../context/BankContext';
+
+function UsdtTrc20Badge() {
+  return (
+    <>
+      <div className="content-stretch flex items-center relative shrink-0">
+        <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" />
+      </div>
+      <div className="content-stretch flex gap-[10px] items-center pl-[5px] pr-[20px] py-[5px] relative shrink-0">
+        <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-tertiary)] text-[11px] text-center whitespace-nowrap">USDT.TRC20</p>
+        <div className="relative shrink-0 size-[24px]">
+          <div className="absolute bg-[#50af95] inset-0 rounded-[999px]">
+            <div className="absolute inset-[9.9%_4.65%_-1.56%_3.69%] overflow-clip">
+              <div className="absolute inset-[5.56%_0_7.45%_0]">
+                <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 21.9993 19.1378">
+                  <g>
+                    <path clipRule="evenodd" d="M11.0003,0C4.92535,0,0,4.28578,0,9.56973C0,14.8529,4.92535,19.1378,11.0003,19.1378C17.0751,19.1378,22.0005,14.8529,22.0005,9.56973C21.9993,4.28578,17.0751,0,11.0003,0ZM12.1449,12.0726V14.3042C10.7736,14.2677,9.41664,14.2187,8.43048,14.1077V11.9138C9.86048,12.0973,11.2373,12.137,12.1449,12.0726Z" fill="var(--fill-0, #50AF95)" fillRule="evenodd" />
+                    <path clipRule="evenodd" d="M14.4734,4.09648C13.4451,4.09648,12.4119,4.22473,11.6299,4.41098V5.21748C12.4131,5.03273,13.4451,4.90348,14.4734,4.90348C15.5026,4.90348,16.5354,5.03273,17.3174,5.21748V4.41098C16.5359,4.22473,15.5026,4.09648,14.4734,4.09648Z" fill="var(--fill-0, white)" fillRule="evenodd" />
+                  </g>
+                </svg>
+              </div>
+            </div>
+          </div>
+          <div className="absolute bg-white border-[0.529px] border-solid border-white bottom-0 h-[10.667px] left-[55.56%] overflow-clip right-0 rounded-[792.727px]">
+            <div className="absolute inset-[calc(16.67%-0.35px)] overflow-clip">
+              <div className="absolute inset-[0_2.54%_0_2.42%]">
+                <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 6.75859 7.11121">
+                  <path d="M0.0795898,6.90446L0.0795898,6.55946L0.0795898,0.137207L0.652589,0.0742188L3.52609,0.00146484L3.86559,0.0137207L5.88259,1.49221L6.75859,2.08071L3.86559,7.11121L0.652589,7.08821C0.300589,7.08671,0.0799898,6.90446,0.0795898,6.90446ZM3.49809,1.69621C3.49159,1.67696,3.47109,1.66696,3.45534,1.66696L1.52409,1.60996L1.42634,1.64671L1.42634,5.57496L3.52459,5.57946L3.58709,5.53471L5.80534,1.96396L3.94784,1.69471L3.49809,1.69621Z" fill="var(--fill-0, #FF060A)" />
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
 
 export function AutoSweepTab() {
+  const { primaryId } = useBanks();
+  const [sweepDestination, setSweepDestination] = useState<SweepDestination>(null);
+  const [selectedBankId, setSelectedBankId] = useState(primaryId);
+  const isBankAccount = sweepDestination === 'bank-account';
+
+  const triggerAmountField = (
+    <InputMaster
+      label="trigger amount (usdt.trc20)"
+      value="Min-Max Payout: $100 - $1,000,000"
+      placeholder
+      showDropdown={false}
+      className={`h-[56px] min-w-[200px] ${isBankAccount ? 'flex-[1_0_0]' : 'w-full'}`}
+      rightContent={<UsdtTrc20Badge />}
+    />
+  );
+
+  const saveButton = (
+    <div className="bg-[var(--cp-bg-2)] content-stretch flex h-[46px] items-center justify-center overflow-clip px-[20px] py-[10px] relative rounded-[5px] shrink-0 cursor-pointer hover:bg-[var(--cp-border-default)] transition-colors">
+      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-secondary)] text-[13px] text-center whitespace-nowrap">Save</p>
+    </div>
+  );
+
   return (
     <div className="bg-[var(--cp-bg-1)] relative shrink-0 w-full">
-      <div className="overflow-clip rounded-[inherit] size-full">
+      <div className="rounded-[inherit] size-full" style={{ overflow: 'visible' }}>
         <div className="content-stretch flex flex-col gap-[10px] items-start p-[20px] relative size-full">
           {/* Warning Banner */}
           <div className="bg-[var(--cp-bg-4)] relative rounded-[5px] shrink-0 w-full">
@@ -25,77 +86,41 @@ export function AutoSweepTab() {
             <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[5px]" />
           </div>
 
-          {/* First Row: Wallet and Sweep Destination */}
-          <div className="content-stretch flex gap-[10px] items-start pt-[10px] relative shrink-0 w-full">
-            <InputMaster
-              label="wallet"
-              value="Primary Balance"
-              className="flex-1 h-[56px] min-w-[200px]"
-            />
-            <InputMaster
-              label="SWEEP DESTINATION"
-              value="Bank Account"
-              className="flex-1 h-[56px] min-w-[200px]"
-            />
-          </div>
+          {isBankAccount ? (
+            <div className="content-stretch flex flex-col gap-[10px] items-start pt-[10px] relative shrink-0 w-full">
+              <div className="content-stretch flex gap-[10px] items-start relative shrink-0 w-full">
+                <InputMaster label="wallet" value="Primary Balance" className="flex-[1_0_0] h-[56px] min-w-[200px]" />
+                <SweepDestinationDropdown
+                  value={sweepDestination}
+                  onChange={setSweepDestination}
+                  className="flex-[1_0_0] min-w-[200px]"
+                />
+              </div>
+              <div className="content-stretch flex gap-[10px] items-start relative shrink-0 w-full">
+                {triggerAmountField}
+                <SweepBankAccountDropdown
+                  value={selectedBankId}
+                  onChange={setSelectedBankId}
+                  className="flex-[1_0_0] min-w-[200px]"
+                />
+              </div>
+              {saveButton}
+            </div>
+          ) : (
+            <div className="content-stretch flex gap-[10px] items-start pt-[10px] relative shrink-0 w-full">
+              <div className="content-stretch flex flex-[1_0_0] flex-col gap-[10px] items-start min-w-[200px] relative">
+                <InputMaster label="wallet" value="Primary Balance" className="h-[56px] w-full" />
+                {triggerAmountField}
+                {saveButton}
+              </div>
 
-          {/* Second Row: Trigger Amount and Sweep Bank Account */}
-          <div className="content-stretch flex gap-[10px] items-start relative shrink-0 w-full">
-            <InputMaster
-              label="trigger amount (usdt.trc20)"
-              value="Min-Max Payout: $100 - $1,000,000"
-              placeholder
-              showDropdown={false}
-              className="flex-1 h-[56px] min-w-[200px]"
-              rightContent={
-                <>
-                  <div className="content-stretch flex items-center relative shrink-0">
-                    <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" />
-                  </div>
-                  <div className="content-stretch flex gap-[10px] items-center pl-[5px] pr-[20px] py-[5px] relative shrink-0">
-                    <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-tertiary)] text-[11px] text-center whitespace-nowrap">USDT.TRC20</p>
-                    <div className="relative shrink-0 size-[24px]">
-                      <div className="absolute bg-[#50af95] inset-0 rounded-[999px]">
-                        <div className="absolute inset-[9.9%_4.65%_-1.56%_3.69%] overflow-clip">
-                          <div className="absolute inset-[5.56%_0_7.45%_0]">
-                            <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 21.9993 19.1378">
-                              <g>
-                                <path clipRule="evenodd" d="M11.0003,0C4.92535,0,0,4.28578,0,9.56973C0,14.8529,4.92535,19.1378,11.0003,19.1378C17.0751,19.1378,22.0005,14.8529,22.0005,9.56973C21.9993,4.28578,17.0751,0,11.0003,0ZM12.1449,12.0726V14.3042C10.7736,14.2677,9.41664,14.2187,8.43048,14.1077V11.9138C9.86048,12.0973,11.2373,12.137,12.1449,12.0726ZM12.1449,11.1941C11.0772,11.2705,9.74164,11.2245,8.43048,11.0527V9.85473C9.74164,9.68273,11.0772,9.63598,12.1449,9.71373V11.1941ZM12.1449,8.83998C10.9806,8.75173,9.54161,8.80598,8.43048,8.99398V7.88923C9.54161,8.07698,10.9806,8.13098,12.1449,8.04273V8.83998ZM12.1449,7.16848C11.042,7.24773,9.69461,7.19698,8.43048,7.01848V6.01023C9.69461,6.18823,11.042,6.13898,12.1449,6.05898V7.16848ZM8.43048,5.13348C9.69461,5.31298,11.0416,5.36348,12.1449,5.28348V5.87398C10.7736,5.93123,9.41664,5.93098,8.43048,5.91298V5.13348ZM12.1449,4.40773C10.9806,4.48773,9.54161,4.43573,8.43048,4.25023V3.46248C9.41664,3.53923,10.7736,3.57573,12.1449,3.55648V4.40773ZM13.5689,14.3554V12.1266C14.2136,12.0774,14.8069,11.992,15.3151,11.8701V13.9999C14.8154,14.1522,14.2219,14.2692,13.5689,14.3554ZM15.3151,11.0341C14.8241,11.1486,14.2339,11.233,13.5689,11.2822V9.80023C14.2339,9.85048,14.8241,9.93498,15.3151,10.0494V11.0341ZM15.3151,9.21873C14.8236,9.10323,14.2334,9.01898,13.5689,8.96773V7.50398C14.2334,7.55448,14.8236,7.63798,15.3151,7.75198V9.21873ZM15.3151,6.91873C14.8236,6.80398,14.2334,6.72048,13.5689,6.66973V5.40798C14.2334,5.45923,14.8236,5.54273,15.3151,5.65748V6.91873ZM13.5689,5.53398C14.2334,5.58298,14.8236,5.66648,15.3151,5.78198V4.74123C14.8236,4.62573,14.2334,4.54223,13.5689,4.49298V5.53398ZM15.3151,3.91423C14.8154,3.76173,14.2219,3.64548,13.5689,3.55948V3.25923C13.8891,3.23473,14.1951,3.22198,14.4734,3.22198C14.7554,3.22198,15.0411,3.22873,15.3151,3.24898V3.91423ZM7.00636,4.14598C6.62373,4.18173,6.25048,4.23198,5.89436,4.29448V3.37048C6.20373,3.29648,6.52736,3.23873,6.86936,3.19398C6.91773,3.50773,6.96373,3.82473,7.00636,4.14598ZM7.00636,5.02423C6.95973,5.34423,6.91148,5.66548,6.85873,5.98573C6.52398,6.04548,6.19998,6.11548,5.89436,6.19773V5.13723C6.25048,5.07048,6.62373,5.01798,7.00636,4.98223V5.02423ZM7.00636,6.87348C6.95373,7.19348,6.90761,7.51673,6.85873,7.83948C6.52386,7.89723,6.19998,7.96873,5.89436,8.04973V6.98848C6.19998,6.90698,6.52398,6.83698,6.85873,6.77648C6.91148,7.09673,6.95973,7.41723,7.00636,7.73698V6.87348ZM7.00636,8.72323C6.95973,9.04323,6.91148,9.36348,6.85873,9.68423C6.52398,9.74248,6.19998,9.81398,5.89436,9.89473V8.83398C6.19998,8.75323,6.52398,8.68248,6.85873,8.62198C6.91148,8.94248,6.95973,9.26323,7.00636,9.58398V8.72323ZM7.00636,10.5735C6.95973,10.8935,6.91148,11.214,6.85873,11.5342C6.52398,11.593,6.19998,11.664,5.89436,11.7447V10.6847C6.19998,10.6037,6.52398,10.533,6.85873,10.4727C6.91148,10.7932,6.95973,11.1135,7.00636,11.4342V10.5735ZM7.00636,12.4242C6.96373,12.7455,6.91798,13.0625,6.86936,13.376C6.52736,13.331,6.20373,13.2735,5.89436,13.1995V12.2755C6.25048,12.3382,6.62373,12.388,7.00636,12.424V12.4242ZM18.8669,5.61073C18.5516,5.55523,18.2244,5.51398,17.8906,5.48923V4.64173C18.0341,4.64998,18.1776,4.66398,18.3204,4.68123C18.5003,4.97298,18.6781,5.28523,18.8669,5.61073ZM18.8669,6.46123C18.6781,6.78773,18.5003,7.09923,18.3204,7.39173C18.1776,7.40898,18.0341,7.42323,17.8906,7.43098V6.27448C18.2244,6.24873,18.5516,6.20748,18.8669,6.15123V6.46123ZM18.8669,8.31148C18.6781,8.63723,18.5003,8.94948,18.3204,9.24148C18.1776,9.25948,18.0341,9.27348,17.8906,9.28148V8.12498C18.2244,8.09848,18.5516,8.05748,18.8669,8.00098V8.31148ZM18.8669,10.1622C18.6781,10.4877,18.5003,10.7997,18.3204,11.0917C18.1776,11.1097,18.0341,11.1235,17.8906,11.1317V9.97523C18.2244,9.94898,18.5516,9.90773,18.8669,9.85148V10.1622ZM18.8669,12.0122C18.6781,12.3382,18.5003,12.6497,18.3204,12.9422C18.1776,12.96,18.0341,12.9735,17.8906,12.9817V11.826C18.2244,11.7997,18.5516,11.7585,18.8669,11.702V12.0122ZM17.8906,13.8565C18.0341,13.8645,18.1776,13.8785,18.3204,13.896C18.5003,14.1877,18.6781,14.4992,18.8669,14.8252V15.135C18.5516,15.0792,18.2244,15.038,17.8906,15.012V13.8565ZM16.4666,15.2625C16.1481,15.3132,15.8189,15.3492,15.4826,15.3747V14.3217C15.8194,14.2762,16.1481,14.2142,16.4666,14.1372V15.2625ZM16.4666,13.3012C16.1481,13.377,15.8194,13.4405,15.4826,13.4872V12.2132C15.8194,12.1665,16.1481,12.1047,16.4666,12.0277V13.3012ZM16.4666,11.1922C16.1481,11.2677,15.8194,11.3315,15.4826,11.3782V10.3945C15.8194,10.3477,16.1481,10.2862,16.4666,10.2102V11.1922ZM16.4666,9.37398C16.1481,9.44973,15.8194,9.51348,15.4826,9.56023V8.57623C15.8194,8.52948,16.1481,8.46773,16.4666,8.39173V9.37398ZM16.4666,7.55548C16.1481,7.63148,15.8194,7.69473,15.4826,7.74173V6.75773C15.8194,6.71098,16.1481,6.64923,16.4666,6.57323V7.55548ZM16.4666,5.73798C16.1481,5.81373,15.8194,5.87698,15.4826,5.92373V5.00773C15.8194,4.96048,16.1481,4.89823,16.4666,4.82323V5.73798Z" fill="var(--fill-0, #50AF95)" fillRule="evenodd" />
-                                <path clipRule="evenodd" d="M14.4734,4.09648C13.4451,4.09648,12.4119,4.22473,11.6299,4.41098V5.21748C12.4131,5.03273,13.4451,4.90348,14.4734,4.90348C15.5026,4.90348,16.5354,5.03273,17.3174,5.21748V4.41098C16.5359,4.22473,15.5026,4.09648,14.4734,4.09648ZM7.96611,5.30448C8.19261,4.40323,8.44786,3.50623,8.72798,2.62773C9.00523,2.53398,9.29411,2.44948,9.59011,2.37773C9.31548,3.23348,9.06361,4.10998,8.83161,4.98873C8.54248,5.09048,8.25273,5.19648,7.96611,5.30448ZM9.26873,14.4307C9.53861,13.553,9.78898,12.673,10.0186,11.777C10.3136,11.8527,10.6089,11.9225,10.9086,11.9885C10.6716,12.862,10.4239,13.7225,10.1559,14.5787C9.86036,14.5255,9.56561,14.4812,9.26873,14.4307ZM10.4854,10.9072C10.7214,10.0102,10.9394,9.11348,11.1344,8.20098C11.4219,8.24398,11.7094,8.28123,12.0011,8.31298C11.8009,9.21173,11.5774,10.096,11.3364,10.9792C11.0504,10.9552,10.7669,10.9327,10.4854,10.9072ZM11.6971,7.32548C11.8994,6.42748,12.0849,5.52823,12.2474,4.61423C12.5351,4.63923,12.8224,4.65823,13.1129,4.67723C12.9459,5.57548,12.7566,6.46048,12.5509,7.34398C12.2656,7.33748,11.9801,7.33073,11.6971,7.32548ZM13.1684,14.7185C12.8789,14.7002,12.5911,14.682,12.3034,14.657C12.5119,13.7605,12.7041,12.8632,12.8734,11.9517C13.1586,11.9582,13.4441,11.9655,13.7301,11.9725C13.5564,12.8982,13.3606,13.8107,13.1684,14.7185ZM16.8569,6.40548C16.5671,6.33423,16.2706,6.27423,15.9731,6.22623V5.15173C16.2709,5.19898,16.5671,5.25898,16.8569,5.33073V6.40548ZM16.8569,8.25523C16.5671,8.18398,16.2709,8.12398,15.9731,8.07548V6.99973C16.2709,7.04698,16.5671,7.10698,16.8569,7.17873V8.25523ZM16.8569,10.1047C16.5671,10.0335,16.2706,9.97398,15.9731,9.92473V8.84898C16.2709,8.89623,16.5671,8.95623,16.8569,9.02773V10.1047ZM16.8569,11.955C16.5671,11.8835,16.2706,11.824,15.9731,11.775V10.6995C16.2709,10.747,16.5671,10.8065,16.8569,10.878V11.955ZM16.8569,13.8052C16.5671,13.734,16.2709,13.6742,15.9731,13.625V12.5497C16.2709,12.597,16.5671,12.6572,16.8569,12.7285V13.8052Z" fill="var(--fill-0, white)" fillRule="evenodd" />
-                              </g>
-                            </svg>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="absolute bg-white border-[0.529px] border-solid border-white bottom-0 h-[10.667px] left-[55.56%] overflow-clip right-0 rounded-[792.727px]">
-                        <div className="absolute inset-[calc(16.67%-0.35px)] overflow-clip">
-                          <div className="absolute inset-[0_2.54%_0_2.42%]">
-                            <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 6.75859 7.11121">
-                              <g>
-                                <path d="M0.0795898,6.90446L0.0795898,6.55946L0.0795898,0.137207L0.652589,0.0742188L3.52609,0.00146484L3.86559,0.0137207L5.88259,1.49221L6.75859,2.08071L3.86559,7.11121L0.652589,7.08821C0.300589,7.08671,0.0799898,6.90446,0.0795898,6.90446ZM3.49809,1.69621C3.49159,1.67696,3.47109,1.66696,3.45534,1.66696L1.52409,1.60996L1.42634,1.64671L1.42634,5.57496L3.52459,5.57946L3.58709,5.53471L5.80534,1.96396L3.94784,1.69471L3.49809,1.69621Z" fill="var(--fill-0, #FF060A)" />
-                              </g>
-                            </svg>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </>
-              }
-            />
-            <InputMaster
-              label="SWEEP bank account"
-              value="xxxx5678 - Acme Corp"
-              showInfo
-              showDropdown={false}
-              className="flex-1 h-[56px] min-w-[200px]"
-            />
-          </div>
-
-          {/* Save Button */}
-          <div className="bg-[var(--cp-bg-2)] content-stretch flex h-[46px] items-center justify-center overflow-clip px-[20px] py-[10px] relative rounded-[5px] shrink-0 cursor-pointer hover:bg-[var(--cp-border-default)] transition-colors">
-            <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-secondary)] text-[13px] text-center whitespace-nowrap">Save</p>
-          </div>
+              <SweepDestinationDropdown
+                value={sweepDestination}
+                onChange={setSweepDestination}
+                className="flex-[1_0_0] min-w-[200px]"
+              />
+            </div>
+          )}
         </div>
       </div>
     </div>
