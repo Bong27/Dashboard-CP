@@ -148,15 +148,14 @@ export function IconProfile({ color = DEFAULT }: IconProps) {
 export function IconBankPayout({ color = DEFAULT }: IconProps) {
   return (
     <div className="overflow-clip relative shrink-0 size-[16px]">
-      <svg className="absolute block inset-0 size-full" fill="none" viewBox="0 0 16 16">
-        <path fillRule="evenodd" clipRule="evenodd" d="M1 5.5L8 1L15 5.5H1Z" fill={color} />
-        <rect x="2" y="6.5" width="2" height="5" fill={color} />
-        <rect x="7" y="6.5" width="2" height="5" fill={color} />
-        <rect x="12" y="6.5" width="2" height="5" fill={color} />
-        <rect x="1" y="12.5" width="14" height="1.5" fill={color} />
-        <path d="M11 10.5C11 9.11929 12.1193 8 13.5 8C14.8807 8 16 9.11929 16 10.5V11H14.5V10.5C14.5 9.94772 14.0523 9.5 13.5 9.5C12.9477 9.5 12.5 9.94772 12.5 10.5H11Z" fill={color} />
-        <path d="M12 11H15V13H12V11Z" fill={color} />
-        <path d="M11.5 13H15.5V14.5H11.5V13Z" fill={color} />
+      <svg className="absolute block inset-0 size-full" fill="none" viewBox="0 0 24 24">
+        <path fillRule="evenodd" clipRule="evenodd" d="M12 1L23 7H1L12 1Z" fill={color}/>
+        <rect x="3" y="9" width="2.5" height="8" fill={color}/>
+        <rect x="7.75" y="9" width="2.5" height="8" fill={color}/>
+        <rect x="12.5" y="9" width="2.5" height="8" fill={color}/>
+        <rect x="17.25" y="9" width="2.5" height="8" fill={color}/>
+        <rect x="1" y="18" width="22" height="2" fill={color}/>
+        <rect x="1" y="21" width="22" height="2" rx="1" fill={color}/>
       </svg>
     </div>
   );
