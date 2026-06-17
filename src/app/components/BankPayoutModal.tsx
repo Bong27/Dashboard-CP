@@ -234,9 +234,21 @@ export default function BankPayoutModal({ onClose }: { onClose: () => void }) {
             {/* Amount (USDT) */}
             <SelectField label="AMOUNT"
               selector={
-                <div className="content-stretch flex gap-[10px] items-center pl-[10px] pr-[20px] py-[5px] relative shrink-0">
-                  <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-[var(--cp-text-tertiary)]">USDT</p>
-                  <UsdtBadge size={24} />
+                <div className="content-stretch flex items-center justify-between relative shrink-0 self-stretch">
+                  <div className="content-stretch flex gap-[10px] items-center pl-[10px] pr-[10px] py-[5px] relative shrink-0">
+                    <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-[var(--cp-text-tertiary)]">USDT</p>
+                    <UsdtBadge size={24} />
+                  </div>
+                  <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" />
+                  <div className="flex items-center justify-center w-[21px] shrink-0">
+                    <div className="overflow-clip relative shrink-0 size-[12px]">
+                      <div className="absolute inset-[34.38%_21.88%]">
+                        <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 6.74999 3.74999">
+                          <path clipRule="evenodd" d="M0.292893,0.292893C0.455612,0.130168,0.719387,0.130168,0.882107,0.292893L3.375,2.78579L5.86789,0.292893C6.03061,0.130168,6.29439,0.130168,6.45711,0.292893C6.61983,0.455612,6.61983,0.719387,6.45711,0.882107L3.66961,3.66961C3.50688,3.83233,3.24312,3.83233,3.08039,3.66961L0.292893,0.882107C0.130168,0.719387,0.130168,0.455612,0.292893,0.292893Z" fill="var(--cp-text-quinary)" fillRule="evenodd" />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               }>
               <input
@@ -252,9 +264,21 @@ export default function BankPayoutModal({ onClose }: { onClose: () => void }) {
             {/* Estimated Payout (USD) */}
             <SelectField label="ESTIMATED PAYOUT" labelInfo
               selector={
-                <div className="content-stretch flex gap-[10px] items-center pl-[10px] pr-[20px] py-[5px] relative shrink-0">
-                  <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-[var(--cp-text-tertiary)]">USD</p>
-                  <UsdBadge size={24} />
+                <div className="content-stretch flex items-center justify-between relative shrink-0 self-stretch">
+                  <div className="content-stretch flex gap-[10px] items-center pl-[10px] pr-[10px] py-[5px] relative shrink-0">
+                    <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-[var(--cp-text-tertiary)]">USD</p>
+                    <UsdBadge size={24} />
+                  </div>
+                  <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" />
+                  <div className="flex items-center justify-center w-[21px] shrink-0">
+                    <div className="overflow-clip relative shrink-0 size-[12px]">
+                      <div className="absolute inset-[34.38%_21.88%]">
+                        <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 6.74999 3.74999">
+                          <path clipRule="evenodd" d="M0.292893,0.292893C0.455612,0.130168,0.719387,0.130168,0.882107,0.292893L3.375,2.78579L5.86789,0.292893C6.03061,0.130168,6.29439,0.130168,6.45711,0.292893C6.61983,0.455612,6.61983,0.719387,6.45711,0.882107L3.66961,3.66961C3.50688,3.83233,3.24312,3.83233,3.08039,3.66961L0.292893,0.882107C0.130168,0.719387,0.130168,0.455612,0.292893,0.292893Z" fill="var(--cp-text-quinary)" fillRule="evenodd" />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               }>
               <div style={{height:29, display:'flex', alignItems:'center', width:'100%', minWidth:0}}>
