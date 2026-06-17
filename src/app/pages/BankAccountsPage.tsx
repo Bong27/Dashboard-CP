@@ -25,11 +25,12 @@ function PrimaryRibbon() {
 // ─── UK flag ──────────────────────────────────────────────────────────────────
 function UKFlag() {
   return (
-    <div className="relative shrink-0 size-[36px] rounded-full overflow-hidden">
+    <div className="relative shrink-0 size-[36px] rounded-full overflow-hidden flex items-center justify-center" style={{ background: '#f0f0f0' }}>
       <img
-        src="https://flagcdn.com/w80/gb.png"
+        src="https://flagcdn.com/w160/gb.png"
         alt="United Kingdom"
-        className="absolute inset-0 w-full h-full object-cover"
+        className="w-full h-full object-cover"
+        style={{ transform: 'scale(1.15)' }}
       />
     </div>
   );
