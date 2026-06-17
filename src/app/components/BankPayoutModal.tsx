@@ -215,7 +215,7 @@ export default function BankPayoutModal({ onClose }: { onClose: () => void }) {
         <div className="bg-white content-stretch flex flex-col gap-[20px] items-start p-[20px] relative rounded-[10px] w-full">
 
           {/* Title */}
-          <div className="content-stretch flex flex-col gap-[20px] items-start relative shrink-0 w-full">
+          <div className="content-stretch flex flex-col gap-[10px] items-start relative shrink-0 w-full">
             <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[13px] text-[var(--cp-text-secondary)] whitespace-nowrap">BANK TRANSFER</p>
             <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-primary)]">
               Choose the amount to send and the currency your bank will receive.

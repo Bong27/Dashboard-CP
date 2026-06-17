@@ -366,7 +366,7 @@ export default function AddNewBankModal({ onClose }: Props) {
         <div className="bg-white flex flex-col gap-[20px] items-start p-[20px] relative rounded-[10px] w-full" style={{ minHeight: 704 }}>
 
           {/* Title area */}
-          <div className="flex flex-col gap-[20px] items-start relative shrink-0 w-full">
+          <div className="flex flex-col gap-[10px] items-start relative shrink-0 w-full">
             <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[13px] text-[var(--cp-text-secondary)] uppercase whitespace-nowrap">
               Enter Bank Details
             </p>
@@ -426,7 +426,7 @@ export default function AddNewBankModal({ onClose }: Props) {
         </button>
 
         <div className="bg-white flex flex-col gap-[20px] items-start p-[20px] relative rounded-[10px] w-full" style={{ minHeight: 704 }}>
-          <div className="flex flex-col gap-[20px] items-start relative shrink-0 w-full">
+          <div className="flex flex-col gap-[10px] items-start relative shrink-0 w-full">
             <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[13px] text-[var(--cp-text-secondary)] uppercase whitespace-nowrap">Bank Details</p>
             <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-primary)] leading-[1.2]">
               Please verify your banking information and make sure these details match your records.

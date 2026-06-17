@@ -36,7 +36,7 @@ export default function BankAddedModal({ onClose }: Props) {
         <div className="bg-white content-stretch flex flex-col gap-[20px] items-start p-[20px] relative rounded-[10px] w-full">
 
           {/* Title area */}
-          <div className="content-stretch flex flex-col gap-[20px] items-start relative shrink-0 w-full">
+          <div className="content-stretch flex flex-col gap-[10px] items-start relative shrink-0 w-full">
             <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[13px] text-[var(--cp-text-secondary)] uppercase whitespace-nowrap leading-none">
               New Bank Added
             </p>
