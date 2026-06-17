@@ -353,8 +353,16 @@ export default function BankPayoutModal({ onClose }: { onClose: () => void }) {
           {/* Fee Summary */}
           <div className="bg-[var(--cp-bg-1)] content-stretch flex flex-col gap-[10px] items-start p-[10px] relative rounded-[5px] shrink-0 w-full">
 
-            {/* Currency switcher */}
-            <div className="content-stretch flex items-center justify-end relative shrink-0 w-full">
+            {/* Exchange Rate row — label+rate left, currency switcher right */}
+            <div className="content-stretch flex items-center justify-between relative shrink-0 w-full">
+              <div className="content-stretch flex gap-[5px] items-center relative shrink-0">
+                <div className="content-stretch flex gap-[2px] items-center relative shrink-0">
+                  <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-[var(--cp-text-secondary)] whitespace-nowrap">Exchange Rate</p>
+                  <InfoIcon />
+                </div>
+                <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-[var(--cp-text-tertiary)] whitespace-nowrap">1 USDT = $0.99</p>
+              </div>
+              {/* Currency switcher */}
               <div className="content-stretch flex gap-[5px] items-center justify-center relative shrink-0">
                 <div className="content-stretch flex gap-[5px] items-center justify-center p-[10px] relative rounded-[5px] shrink-0">
                   <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-black whitespace-nowrap">USDT</p>
@@ -377,58 +385,47 @@ export default function BankPayoutModal({ onClose }: { onClose: () => void }) {
               </div>
             </div>
 
-            {/* Exchange Rate */}
-            <div className="content-stretch flex items-center justify-between py-[10px] relative shrink-0 w-full border-b border-[var(--cp-border-default)] border-solid" style={{height:33}}>
-              <div className="content-stretch flex gap-[5px] items-center relative shrink-0">
-                <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-[var(--cp-text-secondary)] whitespace-nowrap">Exchange Rate</p>
-                <InfoIcon />
-              </div>
-              {isLoading ? <Skeleton width="70px" /> : (
-                <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-[var(--cp-text-tertiary)] text-right whitespace-nowrap">
-                  <span className="font-bold">≈</span>$0.99 USD
-                </p>
-              )}
-            </div>
-
             {/* Fees section */}
-            <div className="content-stretch flex flex-col items-end relative shrink-0 w-full">
+            <div className="content-stretch flex flex-col items-start relative shrink-0 w-full gap-[5px]">
               <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-[var(--cp-text-secondary)] w-full">Fees</p>
 
-              {/* Conversion fee */}
-              <div className="content-stretch flex items-center justify-between py-[10px] relative shrink-0 w-full border-b border-[var(--cp-border-default)] border-solid" style={{height:33}}>
-                <div className="content-stretch flex gap-[5px] items-center relative shrink-0">
-                  <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-[var(--cp-text-tertiary)] whitespace-nowrap">Conversion fee (0.5%)</p>
-                  <InfoIcon />
+              <div className="content-stretch flex flex-col items-end relative shrink-0 w-full">
+                {/* Conversion fee */}
+                <div className="content-stretch flex items-center justify-between py-[10px] relative shrink-0 w-full border-b border-[var(--cp-border-default)] border-solid">
+                  <div className="content-stretch flex gap-[5px] items-center relative shrink-0">
+                    <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-[var(--cp-text-tertiary)] whitespace-nowrap">Conversion fee (0.5%)</p>
+                    <InfoIcon />
+                  </div>
+                  {isLoading ? <Skeleton width="70px" /> : (
+                    <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-[var(--cp-text-tertiary)] text-right whitespace-nowrap">
+                      <span className="font-['Inter:Bold',sans-serif] font-bold">≈</span>${convFeeDisplay} USD
+                    </p>
+                  )}
                 </div>
+
+                {/* Network fee */}
+                <div className="content-stretch flex items-center justify-between py-[10px] relative shrink-0 w-full">
+                  <div className="content-stretch flex gap-[5px] items-center relative shrink-0">
+                    <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-[var(--cp-text-tertiary)] whitespace-nowrap">Network fee</p>
+                    <InfoIcon />
+                  </div>
+                  {isLoading ? <Skeleton width="70px" /> : (
+                    <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-[var(--cp-text-tertiary)] text-right whitespace-nowrap">
+                      <span className="font-['Inter:Bold',sans-serif] font-bold">≈</span>$2.49 USD
+                    </p>
+                  )}
+                </div>
+              </div>
+
+              {/* Total fees */}
+              <div className="bg-[var(--cp-bg-3,#e5e9f2)] content-stretch flex items-center justify-between p-[10px] relative rounded-[5px] shrink-0 w-full">
+                <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-[var(--cp-text-primary)] whitespace-nowrap">Total fees</p>
                 {isLoading ? <Skeleton width="70px" /> : (
-                  <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-[var(--cp-text-tertiary)] text-right whitespace-nowrap">
-                    <span className="font-bold">≈</span>${convFeeDisplay} USD
+                  <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-[var(--cp-text-primary)] text-right whitespace-nowrap">
+                    <span className="font-['Inter:Bold',sans-serif] font-bold">≈</span>${totalFeeDisplay} USD
                   </p>
                 )}
               </div>
-
-              {/* Network fee */}
-              <div className="content-stretch flex items-center justify-between py-[10px] relative shrink-0 w-full" style={{height:33}}>
-                <div className="content-stretch flex gap-[5px] items-center relative shrink-0">
-                  <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-[var(--cp-text-tertiary)] whitespace-nowrap">Network fee</p>
-                  <InfoIcon />
-                </div>
-                {isLoading ? <Skeleton width="70px" /> : (
-                  <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-[var(--cp-text-tertiary)] text-right whitespace-nowrap">
-                    <span className="font-bold">≈</span>$2.49 USD
-                  </p>
-                )}
-              </div>
-            </div>
-
-            {/* Total fees */}
-            <div className="bg-[var(--cp-bg-3)] content-stretch flex items-center justify-between p-[10px] relative rounded-[5px] shrink-0 w-full">
-              <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-[var(--cp-text-primary)] whitespace-nowrap">Total fees</p>
-              {isLoading ? <Skeleton width="70px" /> : (
-                <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-[var(--cp-text-primary)] text-right whitespace-nowrap">
-                  <span className="font-['Inter:Bold',sans-serif] font-bold">≈</span>${totalFeeDisplay} USD
-                </p>
-              )}
             </div>
           </div>
 
