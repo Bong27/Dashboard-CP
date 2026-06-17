@@ -147,13 +147,10 @@ export default function BankPayoutModal({ onClose }: { onClose: () => void }) {
       setCountdown(prev => {
         if (prev <= 1) {
           clearInterval(countTimer.current!);
-          // Expire — briefly refresh then restart
+          // Expire — briefly show refreshing then restart with same values
           setState('refreshing');
           setTimeout(() => {
-            setUsdtAmount('');
-            setUsdAmount('');
-            setConvFee(0);
-            setState('empty');
+            setState('filled'); // will trigger useEffect → startCountdown again
           }, 800);
           return COUNTDOWN_SEC;
         }
