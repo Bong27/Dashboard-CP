@@ -234,13 +234,13 @@ export default function BankPayoutModal({ onClose }: { onClose: () => void }) {
             {/* Amount (USDT) */}
             <SelectField label="AMOUNT"
               selector={
-                <div className="content-stretch flex items-center justify-between relative shrink-0 self-stretch">
-                  <div className="content-stretch flex gap-[10px] items-center pl-[10px] pr-[10px] py-[5px] relative shrink-0">
+                <div className="content-stretch flex gap-[5px] items-center relative self-stretch shrink-0">
+                  <div className="content-stretch flex gap-[10px] items-center pl-[10px] pr-[20px] py-[5px] relative shrink-0">
                     <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-[var(--cp-text-tertiary)]">USDT</p>
                     <UsdtBadge size={24} />
                   </div>
-                  <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" />
-                  <div className="flex items-center justify-center w-[21px] shrink-0">
+                  <div className="content-stretch flex items-center justify-between relative shrink-0 w-[21px]">
+                    <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" />
                     <div className="overflow-clip relative shrink-0 size-[12px]">
                       <div className="absolute inset-[34.38%_21.88%]">
                         <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 6.74999 3.74999">
@@ -264,13 +264,13 @@ export default function BankPayoutModal({ onClose }: { onClose: () => void }) {
             {/* Estimated Payout (USD) */}
             <SelectField label="ESTIMATED PAYOUT" labelInfo
               selector={
-                <div className="content-stretch flex items-center justify-between relative shrink-0 self-stretch">
-                  <div className="content-stretch flex gap-[10px] items-center pl-[10px] pr-[10px] py-[5px] relative shrink-0">
+                <div className="content-stretch flex gap-[5px] items-center relative self-stretch shrink-0">
+                  <div className="content-stretch flex gap-[10px] items-center pl-[10px] pr-[20px] py-[5px] relative shrink-0">
                     <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-[var(--cp-text-tertiary)]">USD</p>
                     <UsdBadge size={24} />
                   </div>
-                  <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" />
-                  <div className="flex items-center justify-center w-[21px] shrink-0">
+                  <div className="content-stretch flex items-center justify-between relative shrink-0 w-[21px]">
+                    <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" />
                     <div className="overflow-clip relative shrink-0 size-[12px]">
                       <div className="absolute inset-[34.38%_21.88%]">
                         <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 6.74999 3.74999">
@@ -374,8 +374,8 @@ export default function BankPayoutModal({ onClose }: { onClose: () => void }) {
                 value={note}
                 onChange={e => setNote(e.target.value)}
                 placeholder="Optional description or reference"
-                className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] bg-transparent border-none outline-none w-full min-w-0 block"
-                style={{ color: note ? 'var(--cp-text-primary)' : 'var(--cp-text-quaternary)' }}
+                className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] bg-transparent border-none outline-none w-full min-w-0 block placeholder:text-[var(--cp-text-quinary)]"
+                style={{ color: note ? 'var(--cp-text-primary)' : 'var(--cp-text-quinary)' }}
               />
             </SelectField>
           </div>
