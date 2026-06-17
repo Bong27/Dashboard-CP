@@ -267,7 +267,7 @@ function WalletList({ onBankPayout }: { onBankPayout: () => void }) {
                     <div key={label} className="content-stretch flex flex-[1_0_0] flex-col gap-[20px] items-start min-w-px relative">
                       <div className="content-stretch flex flex-col gap-[5px] items-start relative shrink-0">
                         <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[11px] text-[var(--cp-text-primary)] uppercase whitespace-nowrap">{label}</p>
-                        <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[14.5px] text-[var(--cp-text-secondary)] whitespace-nowrap">0.0000000 {coin.symbol}</p>
+                        <p className="font-['Inter',sans-serif] font-bold relative shrink-0 text-[14.5px] text-[var(--cp-text-secondary)] whitespace-nowrap" style={{ letterSpacing: '-0.5px' }}>0.0000000 {coin.symbol}</p>
                       </div>
                       <div className="content-stretch flex flex-col gap-[5px] items-start relative shrink-0">
                         <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[11px] text-[var(--cp-text-primary)] uppercase whitespace-nowrap">VALUE</p>
@@ -294,7 +294,7 @@ function WalletList({ onBankPayout }: { onBankPayout: () => void }) {
                   </div>
                   <div className="content-stretch flex items-center px-[20px] relative shrink-0">
                     <div className="content-stretch flex flex-col items-start leading-[normal] not-italic relative shrink-0 w-[105px]">
-                      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[14.5px] text-[var(--cp-text-primary)] w-full">0.000000 {coin.symbol}</p>
+                      <p className="font-['Inter',sans-serif] font-bold relative shrink-0 text-[14.5px] text-[var(--cp-text-primary)] w-full" style={{ letterSpacing: '-0.5px' }}>0.000000 {coin.symbol}</p>
                       <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[13px] text-[var(--cp-text-tertiary)] w-full">{coin.symbol}</p>
                     </div>
                   </div>
