@@ -1,7 +1,8 @@
 
   # CP-Dashboard (demo)
 
-  This is a code bundle for CP-Dashboard (demo). The original project is available at https://www.figma.com/design/8WNkI4EExqwlPh6n8UIWtz/CP-Dashboard--demo-.
+  This is a code bundle for CP-Dashboard (frontend prototype). 
+  The live project is available at https://dashboard-cp-mu.vercel.app/ 
 
   ## Running the code
 
