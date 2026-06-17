@@ -36,7 +36,8 @@ function InfoTooltip() {
   const handleMouseEnter = () => {
     if (ref.current) {
       const r = ref.current.getBoundingClientRect();
-      setCoords({ top: r.top - 6, left: r.left + r.width / 2 });
+      // Position tooltip to the left of the icon, vertically centred
+      setCoords({ top: r.top + r.height / 2, left: r.left - 8 });
     }
     setHovered(true);
   };
@@ -55,16 +56,16 @@ function InfoTooltip() {
       {hovered && createPortal(
         <div
           className="pointer-events-none z-[1000]"
-          style={{ position: 'fixed', top: coords.top, left: coords.left, transform: 'translate(-50%, -100%)' }}
+          style={{ position: 'fixed', top: coords.top, right: window.innerWidth - coords.left, transform: 'translateY(-50%)' }}
         >
-          <div className="bg-[var(--cp-text-primary)] rounded-[5px] px-[8px] py-[6px] whitespace-nowrap">
-            <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-white leading-none">
-              Most approvals occur within 24 hours
-            </p>
-          </div>
-          <div className="flex justify-center mt-[1px]">
-            <svg width="10" height="5" viewBox="0 0 10 5" fill="none">
-              <path d="M10 0H0L3.58579 3.58579C4.36684 4.36684 5.63316 4.36684 6.41421 3.58579L10 0Z" fill="var(--cp-text-primary)" />
+          <div className="flex items-center">
+            <div className="bg-[var(--cp-text-primary)] rounded-[5px] px-[8px] py-[6px] whitespace-nowrap">
+              <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-white leading-none">
+                Most approvals occur within 24 hours
+              </p>
+            </div>
+            <svg width="5" height="10" viewBox="0 0 5 10" fill="none" className="shrink-0">
+              <path d="M0 0V10L3.58579 6.41421C4.36684 5.63316 4.36684 4.36684 3.58579 3.58579L0 0Z" fill="var(--cp-text-primary)" />
             </svg>
           </div>
         </div>,
@@ -226,7 +227,7 @@ function BankRow({ account, index, isPrimary, onSetPrimary, onDelete, onEdit }: 
           </div>
         </div>
       </div>
-      <div className="content-stretch flex items-center justify-between pl-[10px] relative shrink-0 w-[140px]">
+      <div className="flex items-center gap-[20px] pl-[20px] relative shrink-0">
         <StatusBadge status={account.status} />
         <MoreButton isPrimary={isPrimary} isReview={isReview} onSetPrimary={onSetPrimary} onDelete={onDelete} onEdit={onEdit} />
       </div>
