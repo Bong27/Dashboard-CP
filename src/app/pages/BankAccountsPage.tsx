@@ -228,7 +228,9 @@ function BankRow({ account, index, isPrimary, onSetPrimary, onDelete, onEdit }: 
         </div>
       </div>
       <div className="flex items-center gap-[20px] pl-[20px] relative shrink-0">
-        <StatusBadge status={account.status} />
+        <div className="shrink-0" style={{ minWidth: 140 }}>
+          <StatusBadge status={account.status} />
+        </div>
         <MoreButton isPrimary={isPrimary} isReview={isReview} onSetPrimary={onSetPrimary} onDelete={onDelete} onEdit={onEdit} />
       </div>
     </div>
