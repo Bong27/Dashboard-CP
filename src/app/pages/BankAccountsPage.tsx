@@ -30,32 +30,45 @@ function UKFlag() {
 // ─── Status badge ─────────────────────────────────────────────────────────────
 function InfoTooltip() {
   const [hovered, setHovered] = useState(false);
+  const [coords, setCoords] = useState({ top: 0, left: 0 });
+  const ref = useRef<HTMLDivElement>(null);
+
+  const handleMouseEnter = () => {
+    if (ref.current) {
+      const r = ref.current.getBoundingClientRect();
+      setCoords({ top: r.top - 6, left: r.left + r.width / 2 });
+    }
+    setHovered(true);
+  };
+
   return (
     <div className="relative shrink-0" style={{ overflow: 'visible' }}>
       <div
+        ref={ref}
         className="flex items-center justify-center rounded-full cursor-default shrink-0 size-[14px]"
         style={{ background: 'var(--cp-bg-2)', border: '1px solid var(--cp-border-default)' }}
-        onMouseEnter={() => setHovered(true)}
+        onMouseEnter={handleMouseEnter}
         onMouseLeave={() => setHovered(false)}
       >
         <span className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[8px] text-[var(--cp-text-tertiary)] leading-none select-none">i</span>
       </div>
-      {hovered && (
+      {hovered && createPortal(
         <div
-          className="absolute z-50 pointer-events-none"
-          style={{ bottom: 'calc(100% + 6px)', left: '50%', transform: 'translateX(-50%)', whiteSpace: 'nowrap' }}
+          className="pointer-events-none z-[1000]"
+          style={{ position: 'fixed', top: coords.top, left: coords.left, transform: 'translate(-50%, -100%)' }}
         >
-          <div className="bg-[var(--cp-text-primary)] rounded-[5px] px-[8px] py-[6px]">
+          <div className="bg-[var(--cp-text-primary)] rounded-[5px] px-[8px] py-[6px] whitespace-nowrap">
             <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-white leading-none">
               Most approvals occur within 24 hours
             </p>
           </div>
-          <div className="flex justify-center">
+          <div className="flex justify-center mt-[1px]">
             <svg width="10" height="5" viewBox="0 0 10 5" fill="none">
               <path d="M10 0H0L3.58579 3.58579C4.36684 4.36684 5.63316 4.36684 6.41421 3.58579L10 0Z" fill="var(--cp-text-primary)" />
             </svg>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   );
@@ -199,21 +212,21 @@ function BankRow({ account, index, isPrimary, onSetPrimary, onDelete, onEdit }: 
           </div>
         </div>
         <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" />
-        <div className="content-stretch flex h-[56px] items-start min-w-[200px] p-[10px] relative rounded-[5px] shrink-0">
+        <div className="content-stretch flex h-[56px] items-start min-w-[200px] px-[20px] py-[10px] relative rounded-[5px] shrink-0">
           <div className="content-stretch flex flex-col h-full items-start justify-between relative shrink-0">
             <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[11px] text-[var(--cp-text-tertiary)] uppercase whitespace-nowrap leading-none">Account Holder Name</p>
             <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-primary)] whitespace-nowrap leading-none">{account.holder}</p>
           </div>
         </div>
         <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" />
-        <div className="content-stretch flex flex-1 h-[56px] items-start min-w-0 overflow-hidden p-[10px] relative rounded-[5px]">
+        <div className="content-stretch flex flex-1 h-[56px] items-start min-w-0 overflow-hidden px-[20px] py-[10px] relative rounded-[5px]">
           <div className="content-stretch flex flex-1 flex-col h-full items-start justify-between min-w-0 relative">
             <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[11px] text-[var(--cp-text-tertiary)] uppercase whitespace-nowrap leading-none shrink-0">Recipient Address</p>
             <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-primary)] leading-none overflow-hidden text-ellipsis whitespace-nowrap w-full">{address}</p>
           </div>
         </div>
       </div>
-      <div className="content-stretch flex items-center justify-between pl-[10px] relative shrink-0 w-[160px]">
+      <div className="content-stretch flex items-center justify-between pl-[10px] relative shrink-0 w-[140px]">
         <StatusBadge status={account.status} />
         <MoreButton isPrimary={isPrimary} isReview={isReview} onSetPrimary={onSetPrimary} onDelete={onDelete} onEdit={onEdit} />
       </div>
