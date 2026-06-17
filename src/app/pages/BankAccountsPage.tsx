@@ -24,7 +24,11 @@ function PrimaryRibbon() {
 
 // ─── UK flag ──────────────────────────────────────────────────────────────────
 function UKFlag() {
-  return <span className="text-[28px] leading-none shrink-0" style={{ lineHeight: '36px' }}>🇬🇧</span>;
+  return (
+    <div className="relative shrink-0 size-[36px] rounded-full overflow-hidden flex items-center justify-center bg-white border border-[var(--cp-border-default)]">
+      <span className="text-[28px] leading-none" style={{ lineHeight: 1 }}>🇬🇧</span>
+    </div>
+  );
 }
 
 // ─── Status badge ─────────────────────────────────────────────────────────────
