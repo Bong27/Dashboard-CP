@@ -1,3 +1,10 @@
 @import './fonts.css';
 @import './tailwind.css';
 @import './theme.css';
+
+
+/* Disable optical sizing globally — prevents Inter variable font from
+   compressing numbers at small optical sizes */
+* {
+  font-optical-sizing: none;
+}

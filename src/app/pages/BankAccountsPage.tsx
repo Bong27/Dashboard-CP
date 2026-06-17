@@ -160,7 +160,7 @@ function BankRow({ account, index, isPrimary, onSetPrimary, onDelete, onEdit }: 
         <div className="content-stretch flex gap-[10px] items-center relative shrink-0 w-[288px]">
           <div className="relative shrink-0 size-[36px] flex items-center justify-center"><UKFlag /></div>
           <div className="content-stretch flex flex-col items-start leading-[normal] not-italic relative shrink-0">
-            <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-primary)] whitespace-nowrap">{account.label}</p>
+            <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[14.5px] text-[var(--cp-text-primary)] whitespace-nowrap">{account.label}</p>
             <p className="font-['Inter:Regular',sans-serif] font-normal text-[13px] text-[var(--cp-text-tertiary)] whitespace-nowrap">{account.iban.replace(/\s/g, '')}</p>
           </div>
         </div>
