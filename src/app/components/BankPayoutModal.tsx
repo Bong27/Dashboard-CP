@@ -238,7 +238,7 @@ export default function BankPayoutModal({ onClose }: { onClose: () => void }) {
                 value={usdtAmount}
                 onChange={e => onUsdtChange(e.target.value)}
                 placeholder="0"
-                className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[24px] tracking-[-0.6px] bg-transparent border-none outline-none w-full min-w-0 block"
+                className="font-['Inter',sans-serif] font-bold text-[24px] bg-transparent border-none outline-none w-full min-w-0 block" style={{ letterSpacing: '-1px' }}
                 style={{ color: usdtAmount ? 'var(--cp-text-primary)' : 'var(--cp-text-quaternary)' }}
               />
             </SelectField>
@@ -260,7 +260,7 @@ export default function BankPayoutModal({ onClose }: { onClose: () => void }) {
                     value={usdAmount}
                     onChange={e => onUsdChange(e.target.value)}
                     placeholder="$0"
-                    className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[24px] tracking-[-0.6px] bg-transparent border-none outline-none w-full min-w-0 block"
+                    className="font-['Inter',sans-serif] font-bold text-[24px] bg-transparent border-none outline-none w-full min-w-0 block" style={{ letterSpacing: '-1px' }}
                     style={{ color: usdAmount ? 'var(--cp-text-primary)' : 'var(--cp-text-quaternary)' }}
                   />
                 )}

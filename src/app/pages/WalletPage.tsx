@@ -176,7 +176,7 @@ function TopControls() {
       <div className="content-stretch flex gap-[16px] h-full items-center relative shrink-0">
         <div className="content-stretch flex flex-col font-['Inter:Semi_Bold',sans-serif] font-semibold items-end leading-[normal] not-italic relative shrink-0 w-[118px] whitespace-nowrap">
           <p className="relative shrink-0 text-[var(--cp-text-tertiary)] text-[11px] uppercase">ESTIMATED BALANCE</p>
-          <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[var(--cp-text-primary)] text-[18px] tracking-[-0.2px]">$0.00 USD</p>
+          <p className="font-['Inter',sans-serif] font-bold relative shrink-0 text-[var(--cp-text-primary)] text-[18px]" style={{ letterSpacing: '-1px' }}>$0.00 USD</p>
         </div>
         <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" />
         <div className="bg-white relative rounded-[100px] shrink-0 size-[24px]">
