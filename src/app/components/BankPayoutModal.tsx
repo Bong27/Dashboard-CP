@@ -503,7 +503,6 @@ export default function BankPayoutModal({ onClose }: { onClose: () => void }) {
                     </div>
                     <div className="flex flex-col gap-[5px]">
                       {[
-                        ...(approvedBanks.length > 0 ? [{ label: 'Edit Bank', action: () => setBankOpen(false) }] : []),
                         { label: 'Add New Bank', action: () => setBankOpen(false) },
                         { label: 'Manage Bank Accounts', action: () => { setBankOpen(false); onClose(); navigate('/bank-accounts'); } },
                       ].map(({ label, action }) => (

@@ -287,7 +287,6 @@ export default function SettingsPage() {
                 <PaySettingsRow
                   mode="bank"
                   bankId="wise"
-                  hideEditBank
                   coinLogo={
                     <div className="relative shrink-0 size-[36px] rounded-[999px] bg-[#50af95] flex items-center justify-center">
                       <span className="text-white font-bold leading-none select-none" style={{fontSize:14}}>₮</span>

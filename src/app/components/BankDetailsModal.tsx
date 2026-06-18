@@ -10,14 +10,12 @@ import { truncateIban } from '../utils';
 type Props = {
   onClose: () => void;
   onUpdate?: (name: string, account: string) => void;
-  onEditBank?: (name: string) => void;
   onAddNewBank?: () => void;
   onManageBankAccounts?: () => void;
   bankName?: string;
   bankAccount?: string;
   selectedBankName?: string;
   pendingUpdate?: boolean;
-  hideEditBank?: boolean;
 };
 
 // ─── Data row ─────────────────────────────────────────────────────────────────
@@ -101,7 +99,7 @@ export const BANK_DETAILS: Record<string, {
 };
 
 // ─── Modal ────────────────────────────────────────────────────────────────────
-export default function BankDetailsModal({ onClose, onUpdate, onEditBank, onAddNewBank, onManageBankAccounts, bankName = 'Wise', bankAccount = 'GB97TRWI23080120507810', selectedBankName, pendingUpdate = false, hideEditBank = false }: Props) {
+export default function BankDetailsModal({ onClose, onUpdate, onAddNewBank, onManageBankAccounts, bankName = 'Wise', bankAccount = 'GB97TRWI23080120507810', selectedBankName, pendingUpdate = false }: Props) {
   const { banks } = useBanks();
   // Build dropdown options from live context
   const BANK_OPTIONS = banks
@@ -114,7 +112,14 @@ export default function BankDetailsModal({ onClose, onUpdate, onEditBank, onAddN
   const restoredBank = selectedBankName ? (BANK_OPTIONS.find(b => b.name === selectedBankName) ?? initialBank) : initialBank;
   const [selectedBank, setSelectedBank] = useState(restoredBank ?? BANK_OPTIONS[0]);
   const [bankOpen, setBankOpen] = useState(false);
+  const [userPickedBank, setUserPickedBank] = useState(false);
   const bankDropdownRef = useRef<HTMLDivElement>(null);
+
+  // Guard: if no banks exist, close immediately rather than crashing
+  if (!selectedBank) {
+    onClose();
+    return null;
+  }
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
@@ -139,7 +144,7 @@ export default function BankDetailsModal({ onClose, onUpdate, onEditBank, onAddN
   } : { holder: '---', bankName: '---', iban: '---', accountNumber: '---', bic: '---', address: '---', label: '---' };
 
   const isUnderReview = bankEntry?.status === 'under_review';
-  const hasChanged = pendingUpdate || selectedBank?.name !== initialBank?.name;
+  const hasChanged = pendingUpdate || userPickedBank;
 
   const handleUpdate = () => {
     if (!hasChanged || isUnderReview) return;
@@ -224,7 +229,7 @@ export default function BankDetailsModal({ onClose, onUpdate, onEditBank, onAddN
                                   ? 'bg-[var(--cp-brand-primary)] cursor-pointer'
                                   : 'bg-white hover:bg-[var(--cp-bg-1)] cursor-pointer'
                           }`}
-                          onClick={() => { if (!isUnderReview) { setSelectedBank(bank); setBankOpen(false); } }}
+                          onClick={() => { if (!isUnderReview) { setSelectedBank(bank); setBankOpen(false); setUserPickedBank(true); } }}
                         >
                           <div aria-hidden="true" className={`absolute border border-solid inset-0 pointer-events-none rounded-[5px] ${isUnderReview && isSelected ? 'border-orange-200' : isSelected ? 'border-transparent' : 'border-[var(--cp-border-default)]'}`} />
                           <div className="content-stretch flex flex-col items-start leading-[normal] not-italic p-[10px] relative size-full text-[11px]">
@@ -251,17 +256,6 @@ export default function BankDetailsModal({ onClose, onUpdate, onEditBank, onAddN
 
                   {/* Action buttons — same style as bank rows */}
                   <div className="content-stretch flex flex-col gap-[5px] items-start relative shrink-0 w-full">
-                    {/* Edit Bank — hidden when hideEditBank is true */}
-                    {!hideEditBank && (
-                    <button
-                      className="bg-white border border-[var(--cp-border-default)] border-solid content-stretch cursor-pointer flex flex-col items-start p-[10px] relative rounded-[5px] shrink-0 w-full hover:bg-[var(--cp-bg-1)] transition-colors"
-                      onClick={() => { setBankOpen(false); onClose(); onEditBank?.(selectedBank.name); }}
-                    >
-                      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[11px] text-[var(--cp-brand-primary)] leading-[normal] not-italic relative shrink-0 w-full text-left">
-                        Edit Bank
-                      </p>
-                    </button>
-                    )}
                     {(['Add New Bank', 'Manage Bank Accounts'] as const).map(action => (
                       <button
                         key={action}

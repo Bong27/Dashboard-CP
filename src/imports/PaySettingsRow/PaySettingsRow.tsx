@@ -1,6 +1,5 @@
 import BankDetailsModal, { BANK_DETAILS } from '../../app/components/BankDetailsModal';
 import { PayoutCurrencyDropdown } from '../../app/components/PayoutCurrencyDropdown';
-import EditBankModal from '../../app/components/EditBankModal';
 import AddNewBankModal from '../../app/components/AddNewBankModal';
 import { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
@@ -267,7 +266,6 @@ type PaySettingsRowProps = {
   coinLogo?: React.ReactNode;
   coinName?: string;
   coinSymbol?: string;
-  hideEditBank?: boolean;
   onChanged?: () => void;
   onBankChanged?: () => void;
   onBankCurrencySelected?: () => void;
@@ -331,7 +329,6 @@ export default function PaySettingsRow({
   coinLogo,
   coinName,
   coinSymbol,
-  hideEditBank = false,
   onChanged,
   onBankChanged,
   onBankCurrencySelected,
@@ -362,7 +359,6 @@ export default function PaySettingsRow({
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [showBankDetails, setShowBankDetails] = useState(false);
   const [pendingUpdate, setPendingUpdate] = useState(false);
-  const [showEditBank, setShowEditBank] = useState(false);
   const [showAddNewBank, setShowAddNewBank] = useState(false);
   const [editingBankId, setEditingBankId] = useState<string | undefined>(committedBankId);
   const [selectedMode, setSelectedMode] = useState(mode === 'bank' && banks.some(b => b.status === 'approved') ? 'Nightly to Bank' : 'To Custody');
@@ -410,7 +406,7 @@ export default function PaySettingsRow({
 
   return (
     <>
-    {showBankDetails && !showEditBank && !showAddNewBank && createPortal(
+    {showBankDetails && !showAddNewBank && createPortal(
       <BankDetailsModal
         onClose={() => { setShowBankDetails(false); setPendingUpdate(false); }}
         onUpdate={(name, _account) => {
@@ -428,33 +424,11 @@ export default function PaySettingsRow({
           }
         }}
         pendingUpdate={pendingUpdate}
-        hideEditBank={hideEditBank}
-        onEditBank={(name) => {
-          const bank = banks.find(b => b.label === name);
-          if (bank) { setEditingBankId(bank.id); setShowEditBank(true); }
-        }}
         onAddNewBank={() => setShowAddNewBank(true)}
         onManageBankAccounts={() => navigate('/bank-accounts')}
         bankName={bankName}
         bankAccount={bankAccount}
         selectedBankName={banks.find(b => b.id === editingBankId)?.label ?? bankName}
-      />, document.body)}
-    {showEditBank && createPortal(
-      <EditBankModal
-        key={editingBankId}
-        onClose={() => setShowEditBank(false)}
-        onBack={() => { setShowEditBank(false); setShowBankDetails(true); }}
-        onSave={() => { setShowEditBank(false); setShowBankDetails(true); setPendingUpdate(true); onChanged?.(); }}
-        editMode={editingBankId === 'barclays' ? 'cautious' : editingBankId === 'hsbc' ? 'locked' : 'standard'}
-        bankId={editingBankId}
-        label={banks.find(b => b.id === editingBankId)?.label ?? ''}
-        holderName={banks.find(b => b.id === editingBankId)?.holder ?? ''}
-        accountNumber={banks.find(b => b.id === editingBankId)?.accountNumber ?? ''}
-        bic={banks.find(b => b.id === editingBankId)?.bic ?? ''}
-        address={banks.find(b => b.id === editingBankId)?.address ?? ''}
-        city={banks.find(b => b.id === editingBankId)?.city ?? ''}
-        postalCode={banks.find(b => b.id === editingBankId)?.postalCode ?? ''}
-        bankCountry="United Kingdom"
       />, document.body)}
     {showAddNewBank && createPortal(
       <AddNewBankModal
