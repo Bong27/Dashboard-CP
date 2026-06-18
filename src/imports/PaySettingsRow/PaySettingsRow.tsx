@@ -266,6 +266,7 @@ type PaySettingsRowProps = {
   coinLogo?: React.ReactNode;
   coinName?: string;
   coinSymbol?: string;
+  rowKey?: string;
   onChanged?: () => void;
   onBankChanged?: () => void;
   onBankCurrencySelected?: () => void;
@@ -329,6 +330,7 @@ export default function PaySettingsRow({
   coinLogo,
   coinName,
   coinSymbol,
+  rowKey,
   onChanged,
   onBankChanged,
   onBankCurrencySelected,
@@ -340,14 +342,20 @@ export default function PaySettingsRow({
   const navigate = useNavigate();
   const { banks, primaryId } = useBanks();
 
-  // Default to primary bank when no explicit bankId given
-  const [committedBankId, setCommittedBankId] = useState<string | undefined>(
-    () => bankIdProp ?? primaryId
-  );
+  const sk = rowKey ? `psr-${rowKey}` : null;
 
-  // Keep in sync if bankIdProp changes externally
+  // Default to primary bank when no explicit bankId given; restore from sessionStorage if available
+  const [committedBankId, setCommittedBankId] = useState<string | undefined>(() => {
+    if (sk) {
+      const saved = sessionStorage.getItem(`${sk}-bankId`);
+      if (saved) return saved;
+    }
+    return bankIdProp ?? primaryId;
+  });
+
+  // Keep in sync if bankIdProp changes externally and no persisted state exists
   useEffect(() => {
-    if (bankIdProp) setCommittedBankId(bankIdProp);
+    if (bankIdProp && !sk) setCommittedBankId(bankIdProp);
   }, [bankIdProp]);
 
   const committedBank = banks.find(b => b.id === committedBankId);
@@ -361,30 +369,38 @@ export default function PaySettingsRow({
   const [pendingUpdate, setPendingUpdate] = useState(false);
   const [showAddNewBank, setShowAddNewBank] = useState(false);
   const [editingBankId, setEditingBankId] = useState<string | undefined>(committedBankId);
-  const [selectedMode, setSelectedMode] = useState(mode === 'bank' && banks.some(b => b.status === 'approved') ? 'Nightly to Bank' : 'To Custody');
-  const [payoutCurrency, setPayoutCurrency] = useState<string | null>(mode === 'bank' ? 'USD' : null);
+  const [selectedMode, setSelectedMode] = useState(() => {
+    if (sk) {
+      const saved = sessionStorage.getItem(`${sk}-mode`);
+      if (saved) return saved;
+    }
+    const initBankId = bankIdProp ?? primaryId;
+    const initBank = initBankId ? banks.find(b => b.id === initBankId) : undefined;
+    return mode === 'bank' && initBank ? 'Nightly to Bank' : 'To Custody';
+  });
+  const [payoutCurrency, setPayoutCurrency] = useState<string | null>(() => {
+    if (sk) {
+      const saved = sessionStorage.getItem(`${sk}-payout`);
+      if (saved !== null) return saved === '__null__' ? null : saved;
+    }
+    return mode === 'bank' ? 'USD' : null;
+  });
   const [isCurrencyPending, setIsCurrencyPending] = useState(false);
+
+  // Persist key state to sessionStorage whenever it changes
+  useEffect(() => { if (sk) sessionStorage.setItem(`${sk}-mode`, selectedMode); }, [sk, selectedMode]);
+  useEffect(() => { if (sk && committedBankId) sessionStorage.setItem(`${sk}-bankId`, committedBankId); }, [sk, committedBankId]);
+  useEffect(() => { if (sk) sessionStorage.setItem(`${sk}-payout`, payoutCurrency ?? '__null__'); }, [sk, payoutCurrency]);
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const userChoseNightlyUnderReview = useRef(false);
 
   // Derived: treat Nightly to Bank as To Custody when no banks exist (avoids flash before effect fires)
   const effectiveMode = (banks.length === 0 && selectedMode === 'Nightly to Bank') ? 'To Custody' : selectedMode;
-  const allBanksUnderReview = banks.length > 0 && !banks.some(b => b.status === 'approved');
-  const isNightlyUnderReview = effectiveMode === 'Nightly to Bank' && allBanksUnderReview;
 
-  // Auto-reset to 'To Custody' when the last approved bank disappears (unless user explicitly chose under-review)
+  // Auto-reset to 'To Custody' only when committed bank is deleted (not on status change)
   useEffect(() => {
-    if (!banks.some(b => b.status === 'approved') && !userChoseNightlyUnderReview.current) {
+    if (selectedMode !== 'Nightly to Bank') return;
+    if (!committedBank) {
       setSelectedMode('To Custody');
-    }
-  }, [banks]);
-
-  // Fallback: if committed bank was deleted, switch to first available
-  useEffect(() => {
-    if (committedBankId && !banks.find(b => b.id === committedBankId)) {
-      const first = banks[0]?.id;
-      setCommittedBankId(first);
-      setEditingBankId(first);
     }
   }, [banks, committedBankId]);
 
@@ -480,9 +496,29 @@ export default function PaySettingsRow({
               </div>
               <div className="content-stretch flex gap-[8px] h-full items-center relative shrink-0" style={{overflow:'visible'}}>
                 {effectiveMode === 'Nightly to Bank' && isCommittedUnderReview && (
-                  <span className="bg-orange-100 text-orange-600 font-['Inter:Semi_Bold',sans-serif] font-semibold text-[9px] uppercase px-[5px] py-[2px] rounded-[3px] whitespace-nowrap shrink-0">
-                    Under Review
-                  </span>
+                  <div className="flex items-center gap-[4px] shrink-0">
+                    <span className="bg-orange-100 text-orange-600 font-['Inter:Semi_Bold',sans-serif] font-semibold text-[9px] uppercase px-[5px] py-[2px] rounded-[3px] whitespace-nowrap">
+                      Under Review
+                    </span>
+                    <div className="relative group/tooltip shrink-0">
+                      <div className="overflow-clip relative shrink-0 size-[12px] cursor-default">
+                        <svg className="absolute block inset-0 size-full" fill="none" viewBox="0 0 12 12">
+                          <circle cx="6" cy="6" r="6" fill="#FED7AA" />
+                          <text x="6" y="9" textAnchor="middle" fontSize="8" fontWeight="700" fill="#EA580C" fontFamily="Inter, sans-serif">i</text>
+                        </svg>
+                      </div>
+                      <div className="absolute bottom-[calc(100%+6px)] left-1/2 -translate-x-1/2 pointer-events-none opacity-0 group-hover/tooltip:opacity-100 transition-opacity z-[200] w-[200px]">
+                        <div className="bg-[#1a1a1a] rounded-[6px] px-[10px] py-[8px]">
+                          <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-white leading-[1.4] text-center">This bank account is under review. Settlement will resume once approved.</p>
+                        </div>
+                        <div className="flex justify-center">
+                          <svg width="10" height="5" viewBox="0 0 10 5" fill="none">
+                            <path d="M10 0H0L3.58579 3.58579C4.36684 4.36684 5.63316 4.36684 6.41421 3.58579L10 0Z" fill="#1a1a1a"/>
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 )}
                 {effectiveMode === 'Nightly to Bank' && committedBank && <EditButton onClick={() => { setEditingBankId(committedBankId); setShowBankDetails(true); }} />}
                 <div onClick={() => setIsDropdownOpen(!isDropdownOpen)} className="content-stretch flex items-center justify-between relative shrink-0 w-[21px] cursor-pointer">
@@ -530,12 +566,12 @@ export default function PaySettingsRow({
                       if (label !== selectedMode) onChanged?.();
                       setSelectedMode(label);
                       if (label === 'Nightly to Bank') {
-                        const bankId = primaryId || banks[0]?.id;
-                        setCommittedBankId(bankId);
-                        setEditingBankId(bankId);
-                        if (!banks.some(b => b.status === 'approved')) {
-                          userChoseNightlyUnderReview.current = true;
-                          setPayoutCurrency(null);
+                        // Preserve previously chosen bank; only fall back to primary if none committed
+                        const currentValid = committedBankId && banks.find(b => b.id === committedBankId);
+                        if (!currentValid) {
+                          const bankId = primaryId || banks[0]?.id;
+                          setCommittedBankId(bankId);
+                          setEditingBankId(bankId);
                         }
                       }
                     }}
@@ -552,21 +588,15 @@ export default function PaySettingsRow({
           </div>
         )}
       </div>
-      {lockedPayoutCurrency || isNightlyUnderReview ? (
+      {lockedPayoutCurrency || effectiveMode !== 'Nightly to Bank' ? (
         <div className="h-[56px] relative rounded-[5px] shrink-0 w-[200px] min-w-[200px]">
           <div className="content-stretch flex items-start justify-between h-full p-[10px] relative">
             <div className="flex flex-col h-full items-start justify-between">
               <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[11px] text-[var(--cp-text-tertiary)] uppercase whitespace-nowrap leading-none">PAYOUT CURRENCY</p>
-              {isNightlyUnderReview ? (
-                <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] whitespace-nowrap text-[var(--cp-text-quinary)]">Select currency</p>
-              ) : lockedPayoutCurrency === 'Bitcoin' ? (
-                <div className="flex gap-[5px] items-center">
-                  <div className="relative shrink-0 size-[14px]"><BitcoinBtcLogo1 /></div>
-                  <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] whitespace-nowrap text-[var(--cp-text-primary)]">Bitcoin</p>
-                </div>
-              ) : (
-                <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] whitespace-nowrap text-[var(--cp-text-primary)]">{lockedPayoutCurrency}</p>
-              )}
+              <div className="flex gap-[5px] items-center">
+                <div className="relative shrink-0 size-[14px]"><BitcoinBtcLogo1 /></div>
+                <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] whitespace-nowrap text-[var(--cp-text-primary)]">Bitcoin</p>
+              </div>
             </div>
             <div className="content-stretch flex items-center justify-between relative shrink-0 w-[21px] self-stretch">
               <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" />

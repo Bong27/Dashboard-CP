@@ -143,12 +143,13 @@ export function SweepBankAccountDropdown({ value, onChange, className = '' }: Sw
                   key={bank.id}
                   className={`relative rounded-[5px] shrink-0 w-full transition-colors ${
                     isUnderReview
-                      ? 'bg-white opacity-60 cursor-pointer hover:bg-[var(--cp-bg-1)]'
+                      ? 'bg-white cursor-not-allowed'
                       : isSelected
                       ? 'bg-[var(--cp-brand-primary)] hover:bg-[var(--cp-brand-active)] cursor-pointer'
                       : 'bg-white hover:bg-[var(--cp-bg-1)] cursor-pointer'
                   }`}
                   onClick={() => {
+                    if (isUnderReview) return;
                     onChange(bank.id);
                     setOpen(false);
                   }}

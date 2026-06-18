@@ -147,7 +147,7 @@ export default function BankDetailsModal({ onClose, onUpdate, onAddNewBank, onMa
   const hasChanged = pendingUpdate || userPickedBank;
 
   const handleUpdate = () => {
-    if (!hasChanged || isUnderReview) return;
+    if (!hasChanged) return;
     onUpdate?.(selectedBank.name, selectedBank.account);
     onClose();
   };
@@ -221,19 +221,17 @@ export default function BankDetailsModal({ onClose, onUpdate, onAddNewBank, onMa
                         <div
                           key={bank.name}
                           className={`relative rounded-[5px] shrink-0 w-full transition-colors ${
-                            isUnderReview && isSelected
-                              ? 'bg-orange-50 cursor-not-allowed'
-                              : isUnderReview
-                                ? 'opacity-60 cursor-not-allowed bg-white'
-                                : isSelected
-                                  ? 'bg-[var(--cp-brand-primary)] cursor-pointer'
-                                  : 'bg-white hover:bg-[var(--cp-bg-1)] cursor-pointer'
+                            isUnderReview
+                              ? 'opacity-50 cursor-not-allowed bg-white'
+                              : isSelected
+                              ? 'bg-[var(--cp-brand-primary)] cursor-pointer'
+                              : 'bg-white hover:bg-[var(--cp-bg-1)] cursor-pointer'
                           }`}
                           onClick={() => { if (!isUnderReview) { setSelectedBank(bank); setBankOpen(false); setUserPickedBank(true); } }}
                         >
-                          <div aria-hidden="true" className={`absolute border border-solid inset-0 pointer-events-none rounded-[5px] ${isUnderReview && isSelected ? 'border-orange-200' : isSelected ? 'border-transparent' : 'border-[var(--cp-border-default)]'}`} />
+                          <div aria-hidden="true" className={`absolute border border-solid inset-0 pointer-events-none rounded-[5px] ${isSelected ? (isUnderReview ? 'border-orange-200' : 'border-transparent') : 'border-[var(--cp-border-default)]'}`} />
                           <div className="content-stretch flex flex-col items-start leading-[normal] not-italic p-[10px] relative size-full text-[11px]">
-                          <div className="flex items-center justify-between w-full">
+                            <div className="flex items-center justify-between w-full">
                               <div className="flex flex-col items-start">
                                 <p className={`font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 ${isSelected && !isUnderReview ? 'text-white' : 'text-[var(--cp-text-primary)]'}`}>
                                   {bank.name}

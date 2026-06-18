@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { createPortal } from 'react-dom';
+import { TwoFaModal } from '../components/TwoFaModal';
 import { InputMaster } from '../components/InputMaster';
 import PaySettingsRow from '../../imports/PaySettingsRow/PaySettingsRow';
 import Rounded from '../../imports/Rounded/Rounded';
@@ -25,6 +27,7 @@ const BitcoinIcon = () => (
 export default function SettingsPage() {
   const [activeTab, setActiveTab] = useState<'general' | 'email'>('general');
   const [hasChanges, setHasChanges] = useState(false);
+  const [show2fa, setShow2fa] = useState(false);
 
   const { banks } = useBanks();
   const [selectedRows, setSelectedRows] = useState<Set<number>>(new Set());
@@ -161,7 +164,7 @@ export default function SettingsPage() {
             <div className="content-stretch flex gap-[10px] items-center pr-[10px] relative shrink-0 w-full">
               {hasChanges ? (
                 <button
-                  onClick={() => setHasChanges(false)}
+                  onClick={() => setShow2fa(true)}
                   className="bg-[var(--cp-brand-primary)] content-stretch flex items-center justify-center overflow-clip p-[10px] relative rounded-[5px] shrink-0 cursor-pointer hover:bg-[var(--cp-brand-active)] transition-colors"
                 >
                   <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[13px] text-center text-white whitespace-nowrap">
@@ -253,6 +256,7 @@ export default function SettingsPage() {
                 <PaySettingsRow
                   mode="bank"
                   bankId="wise"
+                  rowKey="bank-0"
                   coinLogo={
                     <div className="relative shrink-0 size-[36px] rounded-[999px] bg-[#50af95] flex items-center justify-center">
                       <span className="text-white font-bold leading-none select-none" style={{fontSize:14}}>₮</span>
@@ -270,6 +274,7 @@ export default function SettingsPage() {
                 <PaySettingsRow
                   mode="bank"
                   bankId="wise"
+                  rowKey="bank-1"
                   coinLogo={
                     <div className="relative shrink-0 size-[36px] rounded-[999px] bg-[#2775CA] flex items-center justify-center">
                       <span className="text-white font-bold leading-none select-none" style={{fontSize:12}}>$</span>
@@ -287,6 +292,7 @@ export default function SettingsPage() {
                 <PaySettingsRow
                   mode="bank"
                   bankId="wise"
+                  rowKey="bank-2"
                   coinLogo={
                     <div className="relative shrink-0 size-[36px] rounded-[999px] bg-[#50af95] flex items-center justify-center">
                       <span className="text-white font-bold leading-none select-none" style={{fontSize:14}}>₮</span>
@@ -333,6 +339,15 @@ export default function SettingsPage() {
             setSelectedRows(new Set());
           }}
         />
+      )}
+
+      {show2fa && createPortal(
+        <TwoFaModal
+          onDismiss={() => setShow2fa(false)}
+          onCancel={() => setShow2fa(false)}
+          onSubmit={() => { setShow2fa(false); setHasChanges(false); }}
+        />,
+        document.body
       )}
     </div>
   );
