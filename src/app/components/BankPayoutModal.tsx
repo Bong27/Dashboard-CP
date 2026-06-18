@@ -439,36 +439,7 @@ export default function BankPayoutModal({ onClose }: { onClose: () => void }) {
                   </div>
                 </div>
               </div>
-            ) : approvedBanks.length === 0 ? (() => {
-              const underReviewBank = banks[0];
-              return (
-                <div
-                  className="bg-white flex h-[56px] items-center justify-between p-[10px] relative rounded-[5px] w-full shrink-0"
-                  style={{ border: '1px solid var(--cp-border-default)' }}
-                >
-                  <div className="flex flex-col h-full items-start justify-between shrink-0 flex-1 min-w-0">
-                    <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[11px] text-[var(--cp-text-tertiary)] uppercase whitespace-nowrap leading-none">Bank Account</p>
-                    <div className="flex gap-[6px] items-center min-w-0">
-                      <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-primary)] whitespace-nowrap opacity-60">{underReviewBank.label}</p>
-                      <p className="font-['Inter:Regular',sans-serif] font-normal text-[13px] text-[var(--cp-text-tertiary)] overflow-hidden text-ellipsis whitespace-nowrap opacity-60">{underReviewBank.iban.replace(/\s/g, '')}</p>
-                    </div>
-                  </div>
-                  <div className="flex items-center self-stretch shrink-0 gap-[8px]">
-                    <span className="bg-orange-100 text-orange-600 font-['Inter:Semi_Bold',sans-serif] font-semibold text-[9px] uppercase px-[5px] py-[2px] rounded-[3px] whitespace-nowrap shrink-0">Under Review</span>
-                  </div>
-                  <div className="content-stretch flex items-center justify-between relative shrink-0 w-[21px] self-stretch">
-                    <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" />
-                    <div className="overflow-clip relative shrink-0 size-[12px]">
-                      <div className="absolute inset-[34.38%_21.88%]">
-                        <svg className="absolute block inset-0 size-full" fill="none" viewBox="0 0 6.74999 3.74999">
-                          <path clipRule="evenodd" d="M0.292893,0.292893C0.455612,0.130168,0.719387,0.130168,0.882107,0.292893L3.375,2.78579L5.86789,0.292893C6.03061,0.130168,6.29439,0.130168,6.45711,0.292893C6.61983,0.455612,6.61983,0.719387,6.45711,0.882107L3.66961,3.66961C3.50688,3.83233,3.24312,3.83233,3.08039,3.66961L0.292893,0.882107C0.130168,0.719387,0.130168,0.455612,0.292893,0.292893Z" fill="var(--cp-text-quinary)" fillRule="evenodd" />
-                        </svg>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              );
-            })() : (
+            ) : (
             <div className="relative w-full shrink-0" ref={bankDropdownRef} style={{ overflow: 'visible' }}>
               <div
                 className="bg-white cursor-pointer flex h-[56px] items-start justify-between p-[10px] relative rounded-[5px] w-full"
@@ -478,17 +449,26 @@ export default function BankPayoutModal({ onClose }: { onClose: () => void }) {
                 <div className="flex flex-col h-full items-start justify-between shrink-0 flex-1 min-w-0">
                   <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[11px] text-[var(--cp-text-tertiary)] uppercase whitespace-nowrap leading-none">Bank Account</p>
                   <div className="flex gap-[5px] items-center min-w-0">
-                    <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-primary)] whitespace-nowrap">{selectedBank?.label ?? '---'}</p>
-                    <p className="font-['Inter:Regular',sans-serif] font-normal text-[13px] text-[var(--cp-text-tertiary)] overflow-hidden text-ellipsis whitespace-nowrap">{(selectedBank?.iban ?? '').replace(/\s/g, '')}</p>
+                    <p className={`font-['Inter:Medium',sans-serif] font-medium text-[14.5px] whitespace-nowrap ${approvedBanks.length === 0 ? 'opacity-60 text-[var(--cp-text-primary)]' : 'text-[var(--cp-text-primary)]'}`}>
+                      {selectedBank?.label ?? banks[0]?.label ?? '---'}
+                    </p>
+                    <p className="font-['Inter:Regular',sans-serif] font-normal text-[13px] text-[var(--cp-text-tertiary)] overflow-hidden text-ellipsis whitespace-nowrap">
+                      {((selectedBank?.iban ?? banks[0]?.iban ?? '').replace(/\s/g, ''))}
+                    </p>
                   </div>
                 </div>
-                <div className="content-stretch flex items-center justify-between relative shrink-0 w-[21px] self-stretch">
-                  <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" />
-                  <div className={`overflow-clip relative shrink-0 size-[12px] transition-transform duration-150 ${bankOpen ? 'rotate-180' : ''}`}>
-                    <div className="absolute inset-[34.38%_21.88%]">
-                      <svg className="absolute block inset-0 size-full" fill="none" viewBox="0 0 6.74999 3.74999">
-                        <path clipRule="evenodd" d="M0.292893,0.292893C0.455612,0.130168,0.719387,0.130168,0.882107,0.292893L3.375,2.78579L5.86789,0.292893C6.03061,0.130168,6.29439,0.130168,6.45711,0.292893C6.61983,0.455612,6.61983,0.719387,6.45711,0.882107L3.66961,3.66961C3.50688,3.83233,3.24312,3.83233,3.08039,3.66961L0.292893,0.882107C0.130168,0.719387,0.130168,0.455612,0.292893,0.292893Z" fill="var(--cp-text-quinary)" fillRule="evenodd" />
-                      </svg>
+                <div className="flex items-center self-stretch shrink-0">
+                  {approvedBanks.length === 0 && banks.length > 0 && (
+                    <span className="bg-orange-100 text-orange-600 font-['Inter:Semi_Bold',sans-serif] font-semibold text-[9px] uppercase px-[5px] py-[2px] rounded-[3px] whitespace-nowrap shrink-0 mr-[8px]">Under Review</span>
+                  )}
+                  <div className="content-stretch flex items-center justify-between relative shrink-0 w-[21px] self-stretch">
+                    <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" />
+                    <div className={`overflow-clip relative shrink-0 size-[12px] transition-transform duration-150 ${bankOpen ? 'rotate-180' : ''}`}>
+                      <div className="absolute inset-[34.38%_21.88%]">
+                        <svg className="absolute block inset-0 size-full" fill="none" viewBox="0 0 6.74999 3.74999">
+                          <path clipRule="evenodd" d="M0.292893,0.292893C0.455612,0.130168,0.719387,0.130168,0.882107,0.292893L3.375,2.78579L5.86789,0.292893C6.03061,0.130168,6.29439,0.130168,6.45711,0.292893C6.61983,0.455612,6.61983,0.719387,6.45711,0.882107L3.66961,3.66961C3.50688,3.83233,3.24312,3.83233,3.08039,3.66961L0.292893,0.882107C0.130168,0.719387,0.130168,0.455612,0.292893,0.292893Z" fill="var(--cp-text-quinary)" fillRule="evenodd" />
+                        </svg>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -523,7 +503,7 @@ export default function BankPayoutModal({ onClose }: { onClose: () => void }) {
                     </div>
                     <div className="flex flex-col gap-[5px]">
                       {[
-                        { label: 'Edit Bank', action: () => setBankOpen(false) },
+                        ...(approvedBanks.length > 0 ? [{ label: 'Edit Bank', action: () => setBankOpen(false) }] : []),
                         { label: 'Add New Bank', action: () => setBankOpen(false) },
                         { label: 'Manage Bank Accounts', action: () => { setBankOpen(false); onClose(); navigate('/bank-accounts'); } },
                       ].map(({ label, action }) => (

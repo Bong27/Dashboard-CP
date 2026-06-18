@@ -11,9 +11,10 @@ type PayoutCurrencyDropdownProps = {
   value: string | null;
   onChange: (value: string) => void;
   className?: string;
+  variant?: 'default' | 'inline';
 };
 
-export function PayoutCurrencyDropdown({ value, onChange, className = '' }: PayoutCurrencyDropdownProps) {
+export function PayoutCurrencyDropdown({ value, onChange, className = '', variant = 'default' }: PayoutCurrencyDropdownProps) {
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState('');
   const ref = useRef<HTMLDivElement>(null);
@@ -38,7 +39,7 @@ export function PayoutCurrencyDropdown({ value, onChange, className = '' }: Payo
   return (
     <div ref={ref} className={`relative ${open ? 'z-[100]' : ''} ${className}`} style={{ overflow: 'visible' }}>
       <div
-        className={`${open ? 'bg-white' : ''} group h-[56px] relative rounded-[5px] cursor-pointer`}
+        className={`${variant === 'inline' ? (open ? 'bg-white' : '') : 'bg-white'} group h-[56px] relative rounded-[5px] cursor-pointer`}
         style={{ overflow: 'visible' }}
         onClick={() => setOpen(o => !o)}
       >
@@ -96,6 +97,8 @@ export function PayoutCurrencyDropdown({ value, onChange, className = '' }: Payo
           className={`absolute border border-solid inset-0 pointer-events-none rounded-[5px] transition-colors ${
             open
               ? 'border-[var(--cp-border-hover)]'
+              : variant === 'inline'
+              ? 'border-transparent group-hover:border-[var(--cp-border-hover)]'
               : 'border-[var(--cp-border-default)] group-hover:border-[var(--cp-border-hover)]'
           }`}
         />

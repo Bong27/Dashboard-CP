@@ -45,7 +45,9 @@ export function SweepBankAccountDropdown({ value, onChange, className = '' }: Sw
   const ref = useRef<HTMLDivElement>(null);
 
   const approvedBanks = banks.filter((bank) => bank.status === 'approved');
+  const underReviewBanks = banks.filter((bank) => bank.status === 'under_review');
   const selectedBank = banks.find((bank) => bank.id === value);
+  const selectedBankUnderReview = selectedBank?.status === 'under_review';
 
   useEffect(() => {
     if (!open) return;
@@ -96,7 +98,7 @@ export function SweepBankAccountDropdown({ value, onChange, className = '' }: Sw
               </p>
             ) : (
               <div className="content-stretch flex gap-[5px] items-center relative shrink-0 min-w-0 overflow-hidden w-full">
-                <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[14.5px] text-[var(--cp-text-primary)] whitespace-nowrap">
+                <p className={`font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[14.5px] whitespace-nowrap ${selectedBankUnderReview ? 'text-[var(--cp-text-primary)] opacity-60' : 'text-[var(--cp-text-primary)]'}`}>
                   {selectedBank.label}
                 </p>
                 <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[13px] text-[var(--cp-text-tertiary)] overflow-hidden text-ellipsis whitespace-nowrap">
@@ -105,6 +107,11 @@ export function SweepBankAccountDropdown({ value, onChange, className = '' }: Sw
               </div>
             )}
           </div>
+          {selectedBankUnderReview && (
+            <span className="bg-orange-100 text-orange-600 font-['Inter:Semi_Bold',sans-serif] font-semibold text-[9px] uppercase px-[5px] py-[2px] rounded-[3px] whitespace-nowrap shrink-0 mr-[8px] self-center">
+              Under Review
+            </span>
+          )}
           <DropdownChevron open={open} />
         </div>
         <div
@@ -125,13 +132,21 @@ export function SweepBankAccountDropdown({ value, onChange, className = '' }: Sw
           <div aria-hidden="true" className="absolute border border-[var(--cp-border-hover)] border-solid inset-0 pointer-events-none rounded-[5px]" />
           <div className="content-stretch flex flex-col gap-[20px] items-start p-[10px] relative">
             <div className="content-stretch flex flex-col gap-[5px] items-start relative shrink-0 w-full">
-            {approvedBanks.map((bank) => {
+            {[
+              ...approvedBanks.sort((a, b) => a.id === value ? -1 : b.id === value ? 1 : 0),
+              ...underReviewBanks,
+            ].map((bank) => {
               const isSelected = bank.id === value;
+              const isUnderReview = bank.status === 'under_review';
               return (
                 <div
                   key={bank.id}
-                  className={`relative rounded-[5px] shrink-0 w-full cursor-pointer transition-colors ${
-                    isSelected ? 'bg-[var(--cp-brand-primary)] hover:bg-[var(--cp-brand-active)]' : 'bg-white hover:bg-[var(--cp-bg-1)]'
+                  className={`relative rounded-[5px] shrink-0 w-full transition-colors ${
+                    isUnderReview
+                      ? 'bg-white opacity-60 cursor-pointer hover:bg-[var(--cp-bg-1)]'
+                      : isSelected
+                      ? 'bg-[var(--cp-brand-primary)] hover:bg-[var(--cp-brand-active)] cursor-pointer'
+                      : 'bg-white hover:bg-[var(--cp-bg-1)] cursor-pointer'
                   }`}
                   onClick={() => {
                     onChange(bank.id);
@@ -144,21 +159,20 @@ export function SweepBankAccountDropdown({ value, onChange, className = '' }: Sw
                       className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[5px]"
                     />
                   )}
-                  <div className="content-stretch flex flex-col items-start leading-[normal] not-italic p-[10px] relative size-full text-[11px]">
-                    <p
-                      className={`font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 w-full ${
-                        isSelected ? 'text-white' : 'text-[var(--cp-text-primary)]'
-                      }`}
-                    >
-                      {bank.label}
-                    </p>
-                    <p
-                      className={`font-['Inter:Medium',sans-serif] font-medium relative shrink-0 w-full ${
-                        isSelected ? 'text-white/80' : 'text-[var(--cp-text-secondary)]'
-                      }`}
-                    >
-                      {getBankAccountIdentifier(bank)}
-                    </p>
+                  <div className="content-stretch flex items-center justify-between leading-[normal] not-italic p-[10px] relative size-full text-[11px]">
+                    <div className="flex flex-col items-start">
+                      <p className={`font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 w-full ${isSelected ? 'text-white' : 'text-[var(--cp-text-primary)]'}`}>
+                        {bank.label}
+                      </p>
+                      <p className={`font-['Inter:Medium',sans-serif] font-medium relative shrink-0 w-full ${isSelected ? 'text-white/80' : 'text-[var(--cp-text-secondary)]'}`}>
+                        {getBankAccountIdentifier(bank)}
+                      </p>
+                    </div>
+                    {isUnderReview && (
+                      <span className="bg-orange-100 text-orange-600 font-['Inter:Semi_Bold',sans-serif] font-semibold text-[9px] uppercase px-[5px] py-[2px] rounded-[3px] whitespace-nowrap shrink-0">
+                        Under Review
+                      </span>
+                    )}
                   </div>
                 </div>
               );

@@ -44,7 +44,7 @@ function UsdtTrc20Badge() {
 export function AutoSweepTab() {
   const { primaryId, banks } = useBanks();
   const [sweepDestination, setSweepDestination] = useState<SweepDestination>(null);
-  const [selectedBankId, setSelectedBankId] = useState(primaryId);
+  const [selectedBankId, setSelectedBankId] = useState(primaryId || banks[0]?.id || '');
 
   // Reset to wallet address when no banks exist
   useEffect(() => {
@@ -67,7 +67,9 @@ export function AutoSweepTab() {
     const t = setTimeout(() => setShowError(true), 500);
     return () => clearTimeout(t);
   }, [isAmountInvalid]);
-  const saveEnabled = isBankAccount ? (isAmountValid && payoutCurrency !== null) : false;
+  const selectedBank = banks.find(b => b.id === selectedBankId);
+  const selectedBankUnderReview = selectedBank?.status === 'under_review';
+  const saveEnabled = isBankAccount ? (isAmountValid && payoutCurrency !== null && !selectedBankUnderReview) : false;
 
   const triggerAmountField = (
     <div className={`relative min-w-[200px] ${isBankAccount ? 'flex-[1_0_0]' : 'w-full'}`} style={{ overflow: 'visible' }}>

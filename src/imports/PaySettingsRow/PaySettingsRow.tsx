@@ -326,8 +326,8 @@ function EditButton({ onClick }: { onClick: () => void }) {
 export default function PaySettingsRow({
   mode = 'custody',
   bankId: bankIdProp,
-  bankName: bankNameProp = 'Wise',
-  bankAccount: bankAccountProp = 'GB97TRWI23080120507810',
+  bankName: bankNameProp = '',
+  bankAccount: bankAccountProp = '',
   coinLogo,
   coinName,
   coinSymbol,
@@ -365,9 +365,32 @@ export default function PaySettingsRow({
   const [showEditBank, setShowEditBank] = useState(false);
   const [showAddNewBank, setShowAddNewBank] = useState(false);
   const [editingBankId, setEditingBankId] = useState<string | undefined>(committedBankId);
-  const [selectedMode, setSelectedMode] = useState(mode === 'bank' ? 'Nightly to Bank' : 'To Custody');
+  const [selectedMode, setSelectedMode] = useState(mode === 'bank' && banks.some(b => b.status === 'approved') ? 'Nightly to Bank' : 'To Custody');
   const [payoutCurrency, setPayoutCurrency] = useState<string | null>(mode === 'bank' ? 'USD' : null);
+  const [isCurrencyPending, setIsCurrencyPending] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const userChoseNightlyUnderReview = useRef(false);
+
+  // Derived: treat Nightly to Bank as To Custody when no banks exist (avoids flash before effect fires)
+  const effectiveMode = (banks.length === 0 && selectedMode === 'Nightly to Bank') ? 'To Custody' : selectedMode;
+  const allBanksUnderReview = banks.length > 0 && !banks.some(b => b.status === 'approved');
+  const isNightlyUnderReview = effectiveMode === 'Nightly to Bank' && allBanksUnderReview;
+
+  // Auto-reset to 'To Custody' when the last approved bank disappears (unless user explicitly chose under-review)
+  useEffect(() => {
+    if (!banks.some(b => b.status === 'approved') && !userChoseNightlyUnderReview.current) {
+      setSelectedMode('To Custody');
+    }
+  }, [banks]);
+
+  // Fallback: if committed bank was deleted, switch to first available
+  useEffect(() => {
+    if (committedBankId && !banks.find(b => b.id === committedBankId)) {
+      const first = banks[0]?.id;
+      setCommittedBankId(first);
+      setEditingBankId(first);
+    }
+  }, [banks, committedBankId]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -392,8 +415,17 @@ export default function PaySettingsRow({
         onClose={() => { setShowBankDetails(false); setPendingUpdate(false); }}
         onUpdate={(name, _account) => {
           const bank = banks.find(b => b.label === name);
+          const bankChanged = bank && bank.id !== committedBankId;
           if (bank) { setCommittedBankId(bank.id); setEditingBankId(bank.id); }
           setPendingUpdate(false);
+          setShowBankDetails(false);
+          if (bankChanged) {
+            setPayoutCurrency(null);
+            setIsCurrencyPending(true);
+            onBankChanged?.();
+          } else {
+            onChanged?.();
+          }
         }}
         pendingUpdate={pendingUpdate}
         hideEditBank={hideEditBank}
@@ -412,7 +444,7 @@ export default function PaySettingsRow({
         key={editingBankId}
         onClose={() => setShowEditBank(false)}
         onBack={() => { setShowEditBank(false); setShowBankDetails(true); }}
-        onSave={() => { setShowEditBank(false); setShowBankDetails(true); setPendingUpdate(true); }}
+        onSave={() => { setShowEditBank(false); setShowBankDetails(true); setPendingUpdate(true); onChanged?.(); }}
         editMode={editingBankId === 'barclays' ? 'cautious' : editingBankId === 'hsbc' ? 'locked' : 'standard'}
         bankId={editingBankId}
         label={banks.find(b => b.id === editingBankId)?.label ?? ''}
@@ -448,7 +480,7 @@ export default function PaySettingsRow({
           <div className="flex flex-row justify-center min-w-[inherit] rounded-[inherit] size-full">
             <div className="content-stretch flex items-start justify-between min-w-[inherit] p-[10px] relative size-full">
               <div className="content-stretch flex flex-col h-full items-start justify-between relative shrink-0">
-                {selectedMode === 'Nightly to Bank' ? (
+                {effectiveMode === 'Nightly to Bank' ? (
                   <>
                     <div className="content-stretch flex gap-[5px] items-center relative shrink-0">
                       <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-tertiary)] text-[11px] uppercase whitespace-nowrap">SETTLEMENT MODE (Nightly to Bank)</p>
@@ -473,12 +505,12 @@ export default function PaySettingsRow({
                 )}
               </div>
               <div className="content-stretch flex gap-[8px] h-full items-center relative shrink-0" style={{overflow:'visible'}}>
-                {selectedMode === 'Nightly to Bank' && isCommittedUnderReview && (
+                {effectiveMode === 'Nightly to Bank' && isCommittedUnderReview && (
                   <span className="bg-orange-100 text-orange-600 font-['Inter:Semi_Bold',sans-serif] font-semibold text-[9px] uppercase px-[5px] py-[2px] rounded-[3px] whitespace-nowrap shrink-0">
                     Under Review
                   </span>
                 )}
-                {selectedMode === 'Nightly to Bank' && <EditButton onClick={() => { setEditingBankId(committedBankId); setShowBankDetails(true); }} />}
+                {effectiveMode === 'Nightly to Bank' && committedBank && <EditButton onClick={() => { setEditingBankId(committedBankId); setShowBankDetails(true); }} />}
                 <div onClick={() => setIsDropdownOpen(!isDropdownOpen)} className="content-stretch flex items-center justify-between relative shrink-0 w-[21px] cursor-pointer">
                   <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" />
                   <div className={`flex items-center justify-center relative shrink-0 ${isDropdownOpen ? 'rotate-180' : ''}`}>
@@ -516,12 +548,21 @@ export default function PaySettingsRow({
                     key={label}
                     className={`relative rounded-[5px] shrink-0 w-full cursor-pointer transition-colors ${isActive ? 'bg-[var(--cp-brand-primary)] hover:bg-[var(--cp-brand-active)]' : 'bg-white hover:bg-[var(--cp-bg-1)]'}`}
                     onClick={() => {
-                      setSelectedMode(label);
                       setIsDropdownOpen(false);
-                      // When switching to Nightly to Bank, pull the primary bank
+                      if (label === 'Nightly to Bank' && banks.length === 0) {
+                        setShowAddNewBank(true);
+                        return;
+                      }
+                      if (label !== selectedMode) onChanged?.();
+                      setSelectedMode(label);
                       if (label === 'Nightly to Bank') {
-                        setCommittedBankId(primaryId);
-                        setEditingBankId(primaryId);
+                        const bankId = primaryId || banks[0]?.id;
+                        setCommittedBankId(bankId);
+                        setEditingBankId(bankId);
+                        if (!banks.some(b => b.status === 'approved')) {
+                          userChoseNightlyUnderReview.current = true;
+                          setPayoutCurrency(null);
+                        }
                       }
                     }}
                   >
@@ -537,12 +578,14 @@ export default function PaySettingsRow({
           </div>
         )}
       </div>
-      {lockedPayoutCurrency ? (
+      {lockedPayoutCurrency || isNightlyUnderReview ? (
         <div className="h-[56px] relative rounded-[5px] shrink-0 w-[200px] min-w-[200px]">
           <div className="content-stretch flex items-start justify-between h-full p-[10px] relative">
             <div className="flex flex-col h-full items-start justify-between">
               <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[11px] text-[var(--cp-text-tertiary)] uppercase whitespace-nowrap leading-none">PAYOUT CURRENCY</p>
-              <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-primary)] whitespace-nowrap">{lockedPayoutCurrency}</p>
+              <p className={`font-['Inter:Medium',sans-serif] font-medium text-[14.5px] whitespace-nowrap ${isNightlyUnderReview ? 'text-[var(--cp-text-quinary)]' : 'text-[var(--cp-text-primary)]'}`}>
+                {isNightlyUnderReview ? 'Select currency' : lockedPayoutCurrency}
+              </p>
             </div>
             <div className="content-stretch flex items-center justify-between relative shrink-0 w-[21px] self-stretch">
               <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" />
@@ -559,6 +602,7 @@ export default function PaySettingsRow({
         </div>
       ) : (
         <PayoutCurrencyDropdown
+          variant="inline"
           value={payoutCurrency}
           onChange={(v) => {
             if (v !== payoutCurrency) {
