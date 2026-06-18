@@ -265,7 +265,7 @@ function TxRow({ tx, alt }: { tx: Transaction; alt: boolean }) {
 
       {/* ── Right: amount ── */}
       <div className="flex flex-col items-end shrink-0">
-        <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic text-[14.5px] text-[var(--cp-text-primary)] whitespace-nowrap">
+        <p className="font-['Inter',sans-serif] font-bold leading-[normal] not-italic text-[14.5px] text-[var(--cp-text-primary)] whitespace-nowrap" style={{ letterSpacing: '-0.5px' }}>
           {tx.amount}
         </p>
         <p className="font-['Inter:Regular',sans-serif] font-normal leading-[normal] not-italic text-[13px] text-[var(--cp-text-tertiary)] whitespace-nowrap">
