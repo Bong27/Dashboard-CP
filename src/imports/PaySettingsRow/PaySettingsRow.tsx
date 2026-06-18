@@ -268,6 +268,13 @@ type PaySettingsRowProps = {
   coinName?: string;
   coinSymbol?: string;
   hideEditBank?: boolean;
+  onChanged?: () => void;
+  onBankChanged?: () => void;
+  onBankCurrencySelected?: () => void;
+  lockedPayoutCurrency?: string;
+  selected?: boolean;
+  onToggleSelect?: () => void;
+  canSelect?: boolean;
 };
 
 
@@ -325,6 +332,13 @@ export default function PaySettingsRow({
   coinName,
   coinSymbol,
   hideEditBank = false,
+  onChanged,
+  onBankChanged,
+  onBankCurrencySelected,
+  lockedPayoutCurrency,
+  selected = false,
+  onToggleSelect,
+  canSelect = true,
 }: PaySettingsRowProps = {}) {
   const navigate = useNavigate();
   const { banks, primaryId } = useBanks();
@@ -414,7 +428,7 @@ export default function PaySettingsRow({
       <AddNewBankModal
         onClose={() => setShowAddNewBank(false)}
       />, document.body)}
-    <div className={`bg-[var(--cp-bg-1)] content-stretch flex gap-[10px] items-center pl-[20px] py-[10px] relative size-full ${isDropdownOpen ? 'z-[100]' : ''}`} data-name="PaySettingsRow">
+    <div className={`bg-[${selected ? 'var(--cp-bg-2)' : 'var(--cp-bg-1)'}] content-stretch flex gap-[10px] items-center pl-[20px] pr-[10px] py-[10px] relative size-full ${isDropdownOpen ? 'z-[100]' : ''}`} data-name="PaySettingsRow">
         <div aria-hidden="true" className="absolute border-[var(--cp-border-default)] border-solid border-t inset-0 pointer-events-none" />
         {coinLogo ? (
           <div className="content-stretch flex h-[56px] items-center relative shrink-0 w-[178px]">
@@ -429,7 +443,7 @@ export default function PaySettingsRow({
         ) : (
           <Left />
         )}
-        <div ref={dropdownRef} className="flex-[1_0_0] min-w-[200px] relative shrink-0 z-50">
+        <div ref={dropdownRef} className="flex-[1_0_0] min-w-[180px] relative shrink-0 z-50">
         <div className="bg-white group h-[56px] relative rounded-[5px]" style={{overflow:'visible'}}>
           <div className="flex flex-row justify-center min-w-[inherit] rounded-[inherit] size-full">
             <div className="content-stretch flex items-start justify-between min-w-[inherit] p-[10px] relative size-full">
@@ -523,11 +537,39 @@ export default function PaySettingsRow({
           </div>
         )}
       </div>
-      <PayoutCurrencyDropdown
-        value={payoutCurrency}
-        onChange={setPayoutCurrency}
-        className="shrink-0 w-[200px] min-w-[200px]"
-      />
+      {lockedPayoutCurrency ? (
+        <div className="h-[56px] relative rounded-[5px] shrink-0 w-[200px] min-w-[200px]">
+          <div className="content-stretch flex items-start justify-between h-full p-[10px] relative">
+            <div className="flex flex-col h-full items-start justify-between">
+              <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[11px] text-[var(--cp-text-tertiary)] uppercase whitespace-nowrap leading-none">PAYOUT CURRENCY</p>
+              <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-primary)] whitespace-nowrap">{lockedPayoutCurrency}</p>
+            </div>
+            <div className="content-stretch flex items-center justify-between relative shrink-0 w-[21px] self-stretch">
+              <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" />
+              <div className="overflow-clip relative shrink-0 size-[12px]">
+                <div className="absolute inset-[34.38%_21.88%]">
+                  <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 6.74999 3.74999">
+                    <path clipRule="evenodd" d={svgPaths.p1a1bd900} fill="var(--fill-0, #A2A5AC)" fillRule="evenodd" />
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[5px]" />
+        </div>
+      ) : (
+        <PayoutCurrencyDropdown
+          value={payoutCurrency}
+          onChange={(v) => {
+            if (v !== payoutCurrency) {
+              onBankCurrencySelected?.();
+              onChanged?.();
+            }
+            setPayoutCurrency(v);
+          }}
+          className="shrink-0 w-[200px] min-w-[200px]"
+        />
+      )}
       <div className="bg-white cursor-pointer group h-[56px] min-w-[200px] relative rounded-[5px] shrink-0 w-[200px]">
         <div className="content-stretch flex items-center justify-between min-w-[inherit] overflow-clip p-[10px] relative rounded-[inherit] size-full">
           <Content2 />
@@ -536,14 +578,21 @@ export default function PaySettingsRow({
         <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] group-hover:border-[var(--cp-border-hover)] border-solid inset-0 pointer-events-none rounded-[5px] transition-colors" />
       </div>
       <div className="flex h-[56px] items-center justify-center relative shrink-0">
-        <button className="block cursor-pointer relative shrink-0 size-[16px]" data-name="Radio-button">
-          <div className="absolute inset-[4.55%]" data-name="Border">
-            <div className="absolute inset-[-5.5%]">
-              <svg className="block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 16.1455 16.1455">
-                <circle cx="8.07273" cy="8.07273" fill="var(--fill-0, white)" id="Border" r="7.27273" stroke="var(--stroke-0, #E5E9F2)" strokeWidth="1.6" />
-              </svg>
-            </div>
-          </div>
+        <button
+          onClick={canSelect ? onToggleSelect : undefined}
+          className={`block relative shrink-0 size-[16px] ${canSelect ? 'cursor-pointer' : 'cursor-not-allowed opacity-40'}`}
+          data-name="Radio-button"
+        >
+          {selected ? (
+            <svg viewBox="0 0 16 16" fill="none" className="block size-full">
+              <circle cx="8" cy="8" r="8" fill="#1C60DD" />
+              <path d="M4.5 8L7 10.5L11.5 5.5" stroke="white" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          ) : (
+            <svg viewBox="0 0 16 16" fill="none" className="block size-full">
+              <circle cx="8" cy="8" r="7.2" stroke="#E5E9F2" strokeWidth="1.6" fill="white" />
+            </svg>
+          )}
         </button>
       </div>
     </div>

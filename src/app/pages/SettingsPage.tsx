@@ -4,6 +4,8 @@ import PaySettingsRow from '../../imports/PaySettingsRow/PaySettingsRow';
 import Rounded from '../../imports/Rounded/Rounded';
 import Buttons from '../../imports/Buttons/Buttons';
 import { SearchInput } from '../components/SearchInput';
+import { useBanks } from '../context/BankContext';
+import { BulkEditModal } from '../components/BulkEditModal';
 
 const BitcoinIcon = () => (
   <div className="relative shrink-0 size-[24px]">
@@ -23,6 +25,35 @@ const BitcoinIcon = () => (
 export default function SettingsPage() {
   const [activeTab, setActiveTab] = useState<'general' | 'email'>('general');
   const [hasChanges, setHasChanges] = useState(false);
+
+  const { banks } = useBanks();
+  const [selectedRows, setSelectedRows] = useState<Set<number>>(new Set());
+  const [showBulkEdit, setShowBulkEdit] = useState(false);
+
+  const canSelectRows = banks.some(b => b.status === 'approved');
+
+  const TOTAL_ROWS = 10;
+
+  const toggleRow = (idx: number) => {
+    if (!canSelectRows) return;
+    setSelectedRows(prev => {
+      const next = new Set(prev);
+      if (next.has(idx)) next.delete(idx); else next.add(idx);
+      return next;
+    });
+  };
+
+  const allSelected = canSelectRows && selectedRows.size === TOTAL_ROWS;
+  const someSelected = selectedRows.size > 0 && !allSelected;
+
+  const toggleAll = () => {
+    if (!canSelectRows) return;
+    if (allSelected) {
+      setSelectedRows(new Set());
+    } else {
+      setSelectedRows(new Set(Array.from({ length: TOTAL_ROWS }, (_, i) => i)));
+    }
+  };
 
   return (
     <div className="content-stretch flex flex-col items-start relative size-full">
@@ -127,7 +158,7 @@ export default function SettingsPage() {
             </p>
 
             {/* Controls Row */}
-            <div className="content-stretch flex gap-[10px] items-center relative shrink-0 w-full">
+            <div className="content-stretch flex gap-[10px] items-center pr-[10px] relative shrink-0 w-full">
               {hasChanges ? (
                 <button
                   onClick={() => setHasChanges(false)}
@@ -192,20 +223,26 @@ export default function SettingsPage() {
               {/* Spacer to push Bulk Edit to align with Discount column */}
               <div className="flex-1 min-w-0" />
 
-              {/* Bulk Edit - aligned with Discount input (200px + 10px gap + 16px radio) */}
+              {/* Bulk Edit */}
               <div className="h-[38px] shrink-0 w-[108px]">
-                <Rounded />
+                <Rounded active={selectedRows.size > 1} onClick={selectedRows.size > 1 ? () => setShowBulkEdit(true) : undefined} />
               </div>
 
-              {/* Radio Button */}
-              <button className="block cursor-pointer relative shrink-0 size-[16px]" data-name="Radio-button">
-                <div className="absolute inset-[4.55%]" data-name="Border">
-                  <div className="absolute inset-[-5.5%]">
-                    <svg className="block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 16.1455 16.1455">
-                      <circle cx="8.07273" cy="8.07273" fill="var(--fill-0, white)" id="Border" r="7.27273" stroke="var(--stroke-0, #E5E9F2)" strokeWidth="1.6" />
-                    </svg>
-                  </div>
-                </div>
+              {/* Select-all checkbox */}
+              <button
+                onClick={toggleAll}
+                className={`block relative shrink-0 size-[16px] ${canSelectRows ? 'cursor-pointer' : 'cursor-not-allowed opacity-40'}`}
+              >
+                {allSelected ? (
+                  <svg viewBox="0 0 16 16" fill="none" className="block size-full">
+                    <circle cx="8" cy="8" r="8" fill="#1C60DD" />
+                    <path d="M4.5 8L7 10.5L11.5 5.5" stroke="white" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                ) : (
+                  <svg viewBox="0 0 16 16" fill="none" className="block size-full">
+                    <circle cx="8" cy="8" r="7.2" stroke="#E5E9F2" strokeWidth="1.6" fill="white" />
+                  </svg>
+                )}
               </button>
             </div>
 
@@ -223,6 +260,10 @@ export default function SettingsPage() {
                   }
                   coinName="Tether USD"
                   coinSymbol="USDT.ERC20"
+                  selected={selectedRows.has(0)}
+                  onToggleSelect={() => toggleRow(0)}
+                  canSelect={canSelectRows}
+                  onChanged={() => setHasChanges(true)}
                 />
               </div>
               <div className="relative w-full min-h-[76px]">
@@ -236,6 +277,10 @@ export default function SettingsPage() {
                   }
                   coinName="USD Coin"
                   coinSymbol="USDC.ERC20"
+                  selected={selectedRows.has(1)}
+                  onToggleSelect={() => toggleRow(1)}
+                  canSelect={canSelectRows}
+                  onChanged={() => setHasChanges(true)}
                 />
               </div>
               <div className="relative w-full min-h-[76px]">
@@ -250,11 +295,21 @@ export default function SettingsPage() {
                   }
                   coinName="Tether USD"
                   coinSymbol="USDT.TRC20"
+                  selected={selectedRows.has(2)}
+                  onToggleSelect={() => toggleRow(2)}
+                  canSelect={canSelectRows}
+                  onChanged={() => setHasChanges(true)}
                 />
               </div>
-              {[1, 2, 3, 4, 5, 6, 7].map((index) => (
+              {[0, 1, 2, 3, 4, 5, 6].map((index) => (
                 <div key={index} className="relative w-full min-h-[76px]">
-                  <PaySettingsRow />
+                  <PaySettingsRow
+                    lockedPayoutCurrency="Bitcoin"
+                    selected={selectedRows.has(index + 3)}
+                    onToggleSelect={() => toggleRow(index + 3)}
+                    canSelect={canSelectRows}
+                    onChanged={() => setHasChanges(true)}
+                  />
                 </div>
               ))}
             </div>
@@ -268,6 +323,17 @@ export default function SettingsPage() {
             Email notification settings will be displayed here.
           </p>
         </div>
+      )}
+
+      {showBulkEdit && (
+        <BulkEditModal
+          selectedCount={selectedRows.size}
+          onClose={() => setShowBulkEdit(false)}
+          onConfirm={() => {
+            setShowBulkEdit(false);
+            setSelectedRows(new Set());
+          }}
+        />
       )}
     </div>
   );

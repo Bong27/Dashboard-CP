@@ -42,9 +42,16 @@ function UsdtTrc20Badge() {
 }
 
 export function AutoSweepTab() {
-  const { primaryId } = useBanks();
+  const { primaryId, banks } = useBanks();
   const [sweepDestination, setSweepDestination] = useState<SweepDestination>(null);
   const [selectedBankId, setSelectedBankId] = useState(primaryId);
+
+  // Reset to wallet address when no banks exist
+  useEffect(() => {
+    if (banks.length === 0 && sweepDestination === 'bank-account') {
+      setSweepDestination(null);
+    }
+  }, [banks.length]);
   const [payoutCurrency, setPayoutCurrency] = useState<string | null>(null);
   const [triggerAmount, setTriggerAmount] = useState('');
   const [showError, setShowError] = useState(false);

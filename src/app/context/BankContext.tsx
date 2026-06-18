@@ -57,7 +57,11 @@ export function BankProvider({ children }: { children: ReactNode }) {
   };
 
   const removeBank = (id: string) => {
-    setBanks(prev => prev.filter(b => b.id !== id));
+    setBanks(prev => {
+      const next = prev.filter(b => b.id !== id);
+      setPrimaryId(cur => cur === id ? (next[0]?.id ?? '') : cur);
+      return next;
+    });
   };
 
   return (

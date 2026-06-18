@@ -38,7 +38,7 @@ export function PayoutCurrencyDropdown({ value, onChange, className = '' }: Payo
   return (
     <div ref={ref} className={`relative ${open ? 'z-[100]' : ''} ${className}`} style={{ overflow: 'visible' }}>
       <div
-        className="bg-white group h-[56px] relative rounded-[5px] cursor-pointer"
+        className={`${open ? 'bg-white' : ''} group h-[56px] relative rounded-[5px] cursor-pointer`}
         style={{ overflow: 'visible' }}
         onClick={() => setOpen(o => !o)}
       >

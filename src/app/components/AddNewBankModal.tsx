@@ -322,6 +322,38 @@ function DataRow({ label, value }: { label: string; value: string }) {
   );
 }
 
+// ─── 2FA code input field ─────────────────────────────────────────────────────
+function TwoFaField({ value, onChange }: { value: string; onChange: (v: string) => void }) {
+  const [focused, setFocused] = useState(false);
+  const [hovered, setHovered] = useState(false);
+  const borderColor = focused ? 'var(--cp-brand-primary)' : hovered ? 'var(--cp-border-hover)' : 'var(--cp-border-default)';
+  return (
+    <div
+      className="bg-white relative rounded-[5px] shrink-0 w-full cursor-text"
+      style={{ border: `1px solid ${borderColor}`, transition: 'border-color 0.1s' }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      <div className="flex flex-col items-start justify-between p-[10px] relative" style={{ minHeight: 83 }}>
+        <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[11px] text-[var(--cp-text-tertiary)] uppercase whitespace-nowrap leading-none shrink-0">
+          CONFIRMATION CODE
+        </p>
+        <input
+          type="text"
+          inputMode="numeric"
+          value={value}
+          onChange={e => onChange(e.target.value)}
+          onFocus={() => setFocused(true)}
+          onBlur={() => setFocused(false)}
+          placeholder=""
+          className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[24px] text-[var(--cp-text-primary)] bg-transparent border-none outline-none w-full min-w-0 mt-[10px]"
+          style={{ letterSpacing: '-0.6px', caretColor: 'var(--cp-brand-primary)' }}
+        />
+      </div>
+    </div>
+  );
+}
+
 // ─── Add Label field with hover + focus border ───────────────────────────────
 function AddLabelField({ labelInputRef, label, setLabel, bankName, labelValue }: {
   labelInputRef: React.RefObject<HTMLInputElement>;
@@ -362,7 +394,8 @@ function AddLabelField({ labelInputRef, label, setLabel, bankName, labelValue }:
 // ─── Modal ────────────────────────────────────────────────────────────────────
 export default function AddNewBankModal({ onClose }: Props) {
   const { addBank } = useBanks();
-  const [step, setStep] = useState<'form' | 'confirm' | 'done'>('form');
+  const [step, setStep] = useState<'form' | 'confirm' | '2fa' | 'done'>('form');
+  const [twoFaCode, setTwoFaCode] = useState('');
   const [holderName, setHolderName]     = useState('Acme Corp');
   const [bankCountry, setBankCountry]   = useState('United Kingdom');
   const [iban, setIban]                 = useState('');
@@ -384,6 +417,71 @@ export default function AddNewBankModal({ onClose }: Props) {
 
   if (step === 'done') return <BankAddedModal onClose={onClose} />;
 
+  if (step === '2fa') return (
+    <div
+      className="fixed inset-0 z-[60] flex items-center justify-center"
+      style={{ background: 'rgba(0,0,0,0.55)' }}
+      onClick={onClose}
+    >
+      <div className="relative flex flex-col" style={{ width: 400 }} onClick={e => e.stopPropagation()}>
+        {/* Dismiss */}
+        <button
+          className="absolute right-0 top-[-30px] flex items-center justify-center p-[4px] cursor-pointer"
+          onClick={onClose}
+        >
+          <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[13px] text-white">Dismiss</p>
+        </button>
+        <div className="bg-white flex flex-col items-start justify-between p-[20px] rounded-[10px] w-full">
+          {/* Title area */}
+          <div className="flex flex-col gap-[20px] items-start relative shrink-0 w-full mb-[20px]">
+            <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[13px] text-[var(--cp-text-secondary)] uppercase whitespace-nowrap leading-none">
+              CONFIRMATION
+            </p>
+            <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-primary)] leading-[1.4]">
+              Please enter your authenticator app 2FA code.
+            </p>
+          </div>
+
+          {/* Code input */}
+          <TwoFaField value={twoFaCode} onChange={setTwoFaCode} />
+
+          {/* Buttons */}
+          <div className="flex gap-[10px] items-center relative shrink-0 w-full mt-[20px]">
+            <button
+              className="bg-white border border-[var(--cp-border-default)] border-solid flex flex-1 h-[46px] items-center justify-center overflow-clip px-[10px] relative rounded-[5px] cursor-pointer hover:bg-[var(--cp-bg-2)] transition-colors"
+              onClick={() => { setStep('confirm'); setTwoFaCode(''); }}
+            >
+              <p className="font-['Inter:Medium',sans-serif] font-medium text-[13px] text-[var(--cp-text-secondary)] text-center whitespace-nowrap">Cancel</p>
+            </button>
+            <button
+              disabled={twoFaCode.replace(/\D/g, '').length < 2}
+              className={`flex flex-1 h-[46px] items-center justify-center overflow-clip px-[10px] relative rounded-[5px] transition-colors ${twoFaCode.replace(/\D/g, '').length >= 2 ? 'bg-[var(--cp-brand-primary)] hover:bg-[var(--cp-brand-active)] cursor-pointer' : 'bg-[var(--cp-bg-2)] cursor-not-allowed'}`}
+              onClick={() => {
+                if (twoFaCode.replace(/\D/g, '').length < 2) return;
+                addBank({
+                  label: labelValue,
+                  bankName: bankName ?? '---',
+                  holder: holderName,
+                  iban: iban,
+                  accountNumber: iban.replace(/\s/g, '').slice(-8),
+                  bic: bic,
+                  address: address,
+                  city: city,
+                  postalCode: postalCode,
+                  country: bankCountry,
+                  status: 'under_review',
+                });
+                setStep('done');
+              }}
+            >
+              <p className={`font-['Inter:Medium',sans-serif] font-medium text-[13px] text-center whitespace-nowrap ${twoFaCode.replace(/\D/g, '').length >= 2 ? 'text-white' : 'text-[var(--cp-text-secondary)]'}`}>Submit</p>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
   return step === 'form' ? (
     <div
       className="fixed inset-0 z-[60] flex items-center justify-center"
@@ -400,7 +498,7 @@ export default function AddNewBankModal({ onClose }: Props) {
         </button>
 
         {/* Card — natural height */}
-        <div className="bg-white flex flex-col gap-[20px] items-start p-[20px] relative rounded-[10px] w-full" style={{ minHeight: 704 }}>
+        <div className="bg-white flex flex-col gap-[20px] items-start p-[20px] relative rounded-[10px] w-full" style={{ height: 704 }}>
 
           {/* Title area */}
           <div className="flex flex-col gap-[10px] items-start relative shrink-0 w-full">
@@ -412,8 +510,8 @@ export default function AddNewBankModal({ onClose }: Props) {
             </p>
           </div>
 
-          {/* Form */}
-          <div className="flex flex-col gap-[8px] items-start relative shrink-0 w-full">
+          {/* Form — scrollable so it never overflows the padded card */}
+          <div className="flex flex-col gap-[8px] items-start relative w-full flex-1 min-h-0 overflow-y-auto">
             <Field label="Account Holder Name" value={holderName}  onChange={setHolderName} helper="Must exactly match the name registered with your bank" />
             <BankCountryField value={bankCountry} onChange={setBankCountry} />
             <IBANField value={iban} onChange={setIban} />
@@ -462,7 +560,7 @@ export default function AddNewBankModal({ onClose }: Props) {
           <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[14px] text-white">Dismiss</p>
         </button>
 
-        <div className="bg-white flex flex-col gap-[20px] items-start p-[20px] relative rounded-[10px] w-full" style={{ minHeight: 704 }}>
+        <div className="bg-white flex flex-col gap-[20px] items-start p-[20px] relative rounded-[10px] w-full" style={{ height: 704 }}>
           <div className="flex flex-col gap-[10px] items-start relative shrink-0 w-full">
             <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[13px] text-[var(--cp-text-secondary)] uppercase whitespace-nowrap">Bank Details</p>
             <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-primary)] leading-[1.2]">
@@ -545,24 +643,9 @@ export default function AddNewBankModal({ onClose }: Props) {
             </button>
             <button
               className="bg-[var(--cp-brand-primary)] hover:bg-[var(--cp-brand-active)] content-stretch flex flex-1 h-[46px] items-center justify-center overflow-clip px-[10px] relative rounded-[5px] cursor-pointer transition-colors"
-              onClick={() => {
-                addBank({
-                  label: labelValue,
-                  bankName: bankName ?? '---',
-                  holder: holderName,
-                  iban: iban,
-                  accountNumber: iban.replace(/\s/g, '').slice(-8),
-                  bic: bic,
-                  address: address,
-                  city: city,
-                  postalCode: postalCode,
-                  country: bankCountry,
-                  status: 'under_review',
-                });
-                setStep('done');
-              }}
+              onClick={() => setStep('2fa')}
             >
-              <p className="font-['Inter:Medium',sans-serif] font-medium text-[13px] text-white text-center whitespace-nowrap">Confirm</p>
+              <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-white text-center whitespace-nowrap">Confirm</p>
             </button>
           </div>
 

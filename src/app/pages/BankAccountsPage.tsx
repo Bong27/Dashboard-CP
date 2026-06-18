@@ -99,12 +99,13 @@ function StatusBadge({ status }: { status: BankEntry['status'] }) {
 }
 
 // ─── Context menu ─────────────────────────────────────────────────────────────
-function ContextMenu({ isPrimary, isReview, onSetPrimary, onDelete, onEdit, onClose }: {
+function ContextMenu({ isPrimary, isReview, onSetPrimary, onDelete, onEdit, onReorder, onClose }: {
   isPrimary: boolean;
   isReview: boolean;
   onSetPrimary: () => void;
   onDelete: () => void;
   onEdit: () => void;
+  onReorder: () => void;
   onClose: () => void;
 }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -120,7 +121,6 @@ function ContextMenu({ isPrimary, isReview, onSetPrimary, onDelete, onEdit, onCl
 
   return (
     <div ref={ref} className="bg-white border border-[var(--cp-border-default)] rounded-[8px] shadow-lg overflow-hidden w-[180px]">
-      {/* Set as Primary */}
       <button
         className={`${itemBase} ${isReview || isPrimary ? 'text-[var(--cp-text-tertiary)] opacity-40 cursor-not-allowed' : 'text-[var(--cp-text-secondary)] hover:bg-[var(--cp-bg-1)]'}`}
         onClick={() => { if (!isReview && !isPrimary) { onSetPrimary(); onClose(); } }}
@@ -128,7 +128,12 @@ function ContextMenu({ isPrimary, isReview, onSetPrimary, onDelete, onEdit, onCl
       >
         Set as Primary
       </button>
-      {/* Edit */}
+      <button
+        className={`${itemBase} text-[var(--cp-text-secondary)] hover:bg-[var(--cp-bg-1)]`}
+        onClick={() => { onReorder(); onClose(); }}
+      >
+        Reorder
+      </button>
       <button
         className={`${itemBase} ${isReview ? 'text-[var(--cp-text-tertiary)] opacity-40 cursor-not-allowed' : 'text-[var(--cp-text-secondary)] hover:bg-[var(--cp-bg-1)]'}`}
         onClick={() => { if (!isReview) { onEdit(); onClose(); } }}
@@ -136,7 +141,6 @@ function ContextMenu({ isPrimary, isReview, onSetPrimary, onDelete, onEdit, onCl
       >
         Edit
       </button>
-      {/* Delete */}
       <button
         className={`${itemBase} text-red-500 hover:bg-red-50 cursor-pointer`}
         onClick={() => { onDelete(); onClose(); }}
@@ -148,7 +152,10 @@ function ContextMenu({ isPrimary, isReview, onSetPrimary, onDelete, onEdit, onCl
 }
 
 // ─── More button + menu ───────────────────────────────────────────────────────
-function MoreButton({ isPrimary, isReview, onSetPrimary, onDelete, onEdit }: { isPrimary: boolean; isReview: boolean; onSetPrimary: () => void; onDelete: () => void; onEdit: () => void }) {
+function MoreButton({ isPrimary, isReview, onSetPrimary, onDelete, onEdit, onReorder }: {
+  isPrimary: boolean; isReview: boolean;
+  onSetPrimary: () => void; onDelete: () => void; onEdit: () => void; onReorder: () => void;
+}) {
   const [open, setOpen] = useState(false);
   const btnRef = useRef<HTMLButtonElement>(null);
   const [coords, setCoords] = useState({ top: 0, right: 0 });
@@ -175,17 +182,11 @@ function MoreButton({ isPrimary, isReview, onSetPrimary, onDelete, onEdit }: { i
         </svg>
       </button>
       {open && createPortal(
-        <div
-          className="fixed z-[500]"
-          style={{ top: coords.top, right: coords.right, transform: 'translateY(-50%)' }}
-        >
+        <div className="fixed z-[500]" style={{ top: coords.top, right: coords.right, transform: 'translateY(-50%)' }}>
           <ContextMenu
-            isPrimary={isPrimary}
-            isReview={isReview}
-            onSetPrimary={onSetPrimary}
-            onDelete={onDelete}
-            onEdit={onEdit}
-            onClose={() => setOpen(false)}
+            isPrimary={isPrimary} isReview={isReview}
+            onSetPrimary={onSetPrimary} onDelete={onDelete} onEdit={onEdit}
+            onReorder={onReorder} onClose={() => setOpen(false)}
           />
         </div>,
         document.body
@@ -194,25 +195,62 @@ function MoreButton({ isPrimary, isReview, onSetPrimary, onDelete, onEdit }: { i
   );
 }
 
+// ─── Drag handle icon ─────────────────────────────────────────────────────────
+function DragHandle() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" className="shrink-0">
+      <rect x="2" y="2" width="10" height="1.5" rx="0.75" fill="var(--cp-text-tertiary)" />
+      <rect x="2" y="6.25" width="10" height="1.5" rx="0.75" fill="var(--cp-text-tertiary)" />
+      <rect x="2" y="10.5" width="10" height="1.5" rx="0.75" fill="var(--cp-text-tertiary)" />
+    </svg>
+  );
+}
+
 // ─── Bank row ─────────────────────────────────────────────────────────────────
-function BankRow({ account, index, isPrimary, onSetPrimary, onDelete, onEdit }: {
+function BankRow({ account, index, isPrimary, isReordering, reorderMode, hasDragged, onSetPrimary, onDelete, onEdit, onReorder, onDragStart, onDragOver, onDrop }: {
   account: BankEntry;
   index: number;
   isPrimary: boolean;
+  isReordering: boolean;
+  reorderMode: boolean;
+  hasDragged: boolean;
   onSetPrimary: () => void;
   onDelete: () => void;
   onEdit: () => void;
+  onReorder: () => void;
+  onDragStart: (index: number) => void;
+  onDragOver: (e: React.DragEvent, index: number) => void;
+  onDrop: () => void;
 }) {
-  const bg = index % 2 === 0 ? 'var(--cp-bg-2)' : 'var(--cp-bg-1)';
   const isReview = account.status === 'under_review';
   const address = `${account.address}, ${account.city}, ${account.postalCode}, ${account.country}`;
+
+  const bg = isReordering
+    ? 'var(--cp-brand-primary)10'
+    : index % 2 === 0 ? 'var(--cp-bg-2)' : 'var(--cp-bg-1)';
+
   return (
     <div
-      className="content-stretch flex items-center justify-between overflow-clip px-[20px] py-[10px] relative shrink-0 w-full"
-      style={{ background: bg }}
+      draggable={reorderMode}
+      onDragStart={() => onDragStart(index)}
+      onDragOver={e => onDragOver(e, index)}
+      onDrop={() => onDrop()}
+      className="content-stretch flex items-center justify-between overflow-clip px-[20px] py-[10px] relative shrink-0 w-full transition-colors duration-150"
+      style={{
+        background: bg,
+        outline: isReordering ? `2px solid ${hasDragged ? '#93b4f0' : 'var(--cp-brand-primary)'}` : 'none',
+        outlineOffset: '-2px',
+        cursor: reorderMode ? 'grab' : undefined,
+        opacity: 1,
+      }}
     >
       {isPrimary && <PrimaryRibbon />}
-      {/* Left — 50% opacity when under review */}
+      {/* Drag handle — visible in reorder mode */}
+      {reorderMode && (
+        <div className="flex items-center justify-center shrink-0 mr-[10px] opacity-50">
+          <DragHandle />
+        </div>
+      )}
       <div className="content-stretch flex items-center relative flex-1 min-w-0" style={{ opacity: isReview ? 0.5 : 1 }}>
         <div className="content-stretch flex gap-[10px] items-center relative shrink-0 w-[288px]">
           <div className="relative shrink-0 size-[36px] flex items-center justify-center"><UKFlag /></div>
@@ -240,7 +278,7 @@ function BankRow({ account, index, isPrimary, onSetPrimary, onDelete, onEdit }: 
         <div className="shrink-0" style={{ minWidth: 140 }}>
           <StatusBadge status={account.status} />
         </div>
-        <MoreButton isPrimary={isPrimary} isReview={isReview} onSetPrimary={onSetPrimary} onDelete={onDelete} onEdit={onEdit} />
+        <MoreButton isPrimary={isPrimary} isReview={isReview} onSetPrimary={onSetPrimary} onDelete={onDelete} onEdit={onEdit} onReorder={onReorder} />
       </div>
     </div>
   );
@@ -252,6 +290,49 @@ export default function BankAccountsPage() {
   const [showAddNew, setShowAddNew] = useState(false);
   const [editingBank, setEditingBank] = useState<BankEntry | null>(null);
   const [deletingBank, setDeletingBank] = useState<BankEntry | null>(null);
+
+  // Ordered list — initialised sorted (primary first), then user-controlled
+  const [orderedBanks, setOrderedBanks] = useState<BankEntry[]>(() =>
+    [...banks].sort((a, b) => (a.id === primaryId ? -1 : b.id === primaryId ? 1 : 0))
+  );
+  // Keep in sync when banks change externally (add/remove)
+  useEffect(() => {
+    setOrderedBanks(prev => {
+      const prevIds = prev.map(b => b.id);
+      const incoming = [...banks].sort((a, b) => (a.id === primaryId ? -1 : b.id === primaryId ? 1 : 0));
+      if (prevIds.join() === incoming.map(b => b.id).join()) return prev.map(p => banks.find(b => b.id === p.id) ?? p);
+      return incoming;
+    });
+  }, [banks, primaryId]);
+
+  // Reorder state
+  const [reorderingId, setReorderingId] = useState<string | null>(null);
+  const [hasDragged, setHasDragged] = useState(false);
+  const dragIndexRef = useRef<number | null>(null);
+
+  const handleDragStart = (index: number) => { dragIndexRef.current = index; setHasDragged(true); };
+  const handleDragOver = (e: React.DragEvent, index: number) => {
+    e.preventDefault();
+    const from = dragIndexRef.current;
+    if (from === null || from === index) return;
+    setOrderedBanks(prev => {
+      const next = [...prev];
+      const [moved] = next.splice(from, 1);
+      next.splice(index, 0, moved);
+      dragIndexRef.current = index;
+      return next;
+    });
+  };
+  const handleDrop = () => {
+    setOrderedBanks(prev => {
+      const first = prev[0];
+      if (first) setPrimaryId(first.id);
+      return prev;
+    });
+    dragIndexRef.current = null;
+    setReorderingId(null);
+    setHasDragged(false);
+  };
   return (
     <div className="content-stretch flex flex-col gap-[20px] items-start relative w-full">
 
@@ -310,19 +391,45 @@ export default function BankAccountsPage() {
         document.body
       )}
 
+      {/* Reorder banner — outside the list so it's excluded from drag images */}
+      <div
+        className="w-full overflow-hidden rounded-t-[5px]"
+        style={{ maxHeight: reorderingId ? 48 : 0, transition: 'max-height 0.2s ease' }}
+      >
+        <div className={`flex items-center gap-[8px] px-[20px] py-[8px] w-full border-b bg-[#f0f5ff] border-[var(--cp-border-default)]`}>
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" className="shrink-0 opacity-60">
+            <path d="M7 1v12M7 1L4 4M7 1l3 3M7 13l-3-3M7 13l3-3" stroke="var(--cp-brand-primary)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+          <p className="font-['Inter:Medium',sans-serif] font-medium text-[12px] text-[var(--cp-brand-primary)]">
+            Drag to reorder. Dropping in the first position sets the account as Primary.
+          </p>
+          <button
+            className="ml-auto font-['Inter:Medium',sans-serif] font-medium text-[12px] text-[var(--cp-text-tertiary)] hover:text-[var(--cp-text-secondary)] transition-colors"
+            onClick={() => { setReorderingId(null); setHasDragged(false); }}
+          >
+            Done
+          </button>
+        </div>
+      </div>
+
       {/* List */}
       <div className="content-stretch flex flex-col items-start relative shrink-0 w-full overflow-hidden rounded-[5px]">
-        {[...banks]
-          .sort((a, b) => (a.id === primaryId ? -1 : b.id === primaryId ? 1 : 0))
-          .map((bank, i) => (
+        {orderedBanks.map((bank, i) => (
           <BankRow
             key={bank.id}
             account={bank}
             index={i}
             isPrimary={bank.id === primaryId}
+            isReordering={reorderingId === bank.id}
+            hasDragged={hasDragged}
+            reorderMode={reorderingId !== null}
             onSetPrimary={() => setPrimaryId(bank.id)}
             onDelete={() => setDeletingBank(bank)}
             onEdit={() => setEditingBank(bank)}
+            onReorder={() => setReorderingId(bank.id)}
+            onDragStart={handleDragStart}
+            onDragOver={handleDragOver}
+            onDrop={handleDrop}
           />
         ))}
       </div>

@@ -20,6 +20,7 @@ import { useBanks } from '../context/BankContext';
 import { useNavigate } from 'react-router';
 import { truncateIban } from '../utils';
 import svgPaths from '../../imports/Wallet-2/svg-tfchl2zu4w';
+import AddNewBankModal from './AddNewBankModal';
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 const EXCHANGE_RATE   = 0.99;   // 1 USDT = $0.99 USD
@@ -110,6 +111,10 @@ export default function BankPayoutModal({ onClose }: { onClose: () => void }) {
   const navigate = useNavigate();
   const approvedBanks = banks.filter(b => b.status === 'approved');
   const [selectedBankId, setSelectedBankId] = useState(primaryId);
+  const [modalStep, setModalStep] = useState<'payout' | '2fa' | 'complete' | 'add-bank'>('payout');
+  const [twoFaCode, setTwoFaCode] = useState('');
+  const [twoFaFocused, setTwoFaFocused] = useState(false);
+  const [twoFaHovered, setTwoFaHovered] = useState(false);
   const [bankOpen, setBankOpen] = useState(false);
   const bankDropdownRef = useRef<HTMLDivElement>(null);
   const selectedBank = approvedBanks.find(b => b.id === selectedBankId) ?? approvedBanks[0];
@@ -159,9 +164,9 @@ export default function BankPayoutModal({ onClose }: { onClose: () => void }) {
     }, 1000);
   }, []);
 
-  // ── Auto-start countdown when quote is ready ─────────────────────────────────
+  // ── Auto-start countdown when quote is ready (only if a bank is selected) ────
   useEffect(() => {
-    if (state === 'filled') {
+    if (state === 'filled' && approvedBanks.length > 0) {
       startCountdown();
     }
   }, [state === 'filled']);
@@ -200,14 +205,123 @@ export default function BankPayoutModal({ onClose }: { onClose: () => void }) {
 
   const isFilled     = state === 'filled' || state === 'countdown' || state === 'refreshing';
   const isLoading    = state === 'loading-payout' || state === 'loading-amount' || state === 'refreshing';
-  const inCountdown  = state === 'countdown';
+  const hasBank      = approvedBanks.length > 0;
+  const inCountdown  = state === 'countdown' && hasBank;
 
   // Derived fee values
   const usdtNum = parseFloat(usdtAmount) || 0;
   const convFeeDisplay  = isFilled ? fmt(convFee) : '0.50';
   const totalFeeDisplay = isFilled ? fmt(convFee + NETWORK_FEE_USD) : '2.99';
 
+  // ── Add Bank step (swap) ──────────────────────────────────────────────────────
+  if (modalStep === 'add-bank') {
+    return (
+      <AddNewBankModal onClose={() => setModalStep('payout')} />
+    );
+  }
+
+  // ── Complete toast ────────────────────────────────────────────────────────────
+  if (modalStep === 'complete') {
+    return (
+      <div className="fixed inset-0 z-50 flex items-center justify-center pointer-events-none">
+        <div
+          className="flex flex-col gap-[20px] items-center justify-center rounded-[14px]"
+          style={{ background: 'rgba(0,0,0,0.82)', width: 160, height: 160 }}
+        >
+          <svg width="52" height="52" viewBox="0 0 52 52" fill="none">
+            <path d="M10 27L21 38L42 17" stroke="white" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+          <p className="font-['Inter:Medium',sans-serif] font-medium text-[13px] text-white text-center whitespace-nowrap">Complete</p>
+        </div>
+      </div>
+    );
+  }
+
+  // ── 2FA step ─────────────────────────────────────────────────────────────────
+  if (modalStep === '2fa') {
+    const canSubmit = twoFaCode.replace(/\D/g, '').length >= 2;
+    const twoFaBorderColor = twoFaFocused
+      ? 'var(--cp-brand-primary)'
+      : twoFaHovered ? 'var(--cp-border-hover)' : 'var(--cp-border-default)';
+
+    const handleSubmit = () => {
+      if (!canSubmit) return;
+      setModalStep('complete');
+      setTimeout(() => onClose(), 2000);
+    };
+
+    return (
+      <div
+        className="fixed inset-0 z-50 flex items-center justify-center"
+        style={{ background: 'rgba(0,0,0,0.55)' }}
+        onClick={() => setModalStep('payout')}
+      >
+        <div className="relative flex flex-col" style={{ width: 400 }} onClick={e => e.stopPropagation()}>
+          <button
+            className="absolute right-0 top-[-30px] flex items-center justify-center p-[4px] cursor-pointer"
+            onClick={() => setModalStep('payout')}
+          >
+            <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[14px] text-white">Dismiss</p>
+          </button>
+
+          <div className="bg-white flex flex-col items-start p-[20px] rounded-[10px] w-full gap-[20px]">
+            <div className="flex flex-col gap-[20px] items-start w-full">
+              <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[13px] text-[var(--cp-text-secondary)] uppercase whitespace-nowrap leading-none">
+                CONFIRMATION
+              </p>
+              <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-primary)] leading-[1.4]">
+                Please enter your authenticator app 2FA code.
+              </p>
+            </div>
+
+            <div
+              className="bg-white relative rounded-[5px] shrink-0 w-full cursor-text"
+              style={{ border: `1px solid ${twoFaBorderColor}`, transition: 'border-color 0.1s', minHeight: 83 }}
+              onMouseEnter={() => setTwoFaHovered(true)}
+              onMouseLeave={() => setTwoFaHovered(false)}
+            >
+              <div className="flex flex-col items-start justify-between p-[10px]" style={{ minHeight: 83 }}>
+                <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[11px] text-[var(--cp-text-tertiary)] uppercase whitespace-nowrap leading-none shrink-0">
+                  CONFIRMATION CODE
+                </p>
+                <input
+                  type="text"
+                  inputMode="numeric"
+                  value={twoFaCode}
+                  onChange={e => setTwoFaCode(e.target.value)}
+                  onFocus={() => setTwoFaFocused(true)}
+                  onBlur={() => setTwoFaFocused(false)}
+                  autoFocus
+                  className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[24px] text-[var(--cp-text-primary)] bg-transparent border-none outline-none w-full min-w-0 mt-[10px]"
+                  style={{ letterSpacing: '-0.6px', caretColor: 'var(--cp-brand-primary)' }}
+                />
+              </div>
+            </div>
+
+            <div className="flex gap-[10px] items-center w-full">
+              <button
+                className="bg-white border border-[var(--cp-border-default)] border-solid flex flex-1 h-[46px] items-center justify-center overflow-clip px-[10px] relative rounded-[5px] cursor-pointer hover:bg-[var(--cp-bg-2)] transition-colors"
+                onClick={() => setModalStep('payout')}
+              >
+                <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-secondary)] text-center whitespace-nowrap">Cancel</p>
+              </button>
+              <button
+                disabled={!canSubmit}
+                className={`flex flex-1 h-[46px] items-center justify-center overflow-clip px-[10px] relative rounded-[5px] transition-colors ${canSubmit ? 'bg-[var(--cp-brand-primary)] hover:bg-[var(--cp-brand-active)] cursor-pointer' : 'bg-[var(--cp-bg-2)] cursor-not-allowed'}`}
+                onClick={handleSubmit}
+              >
+                <p className={`font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-center whitespace-nowrap ${canSubmit ? 'text-white' : 'text-[var(--cp-text-secondary)]'}`}>Submit</p>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // ── Payout step ───────────────────────────────────────────────────────────────
   return (
+    <>
     <div className="fixed inset-0 z-50 flex items-center justify-center"
          style={{ background: 'rgba(0,0,0,0.55)' }} onClick={onClose}>
       <div className="relative flex flex-col" style={{ width: 400 }} onClick={e => e.stopPropagation()}>
@@ -281,24 +395,80 @@ export default function BankPayoutModal({ onClose }: { onClose: () => void }) {
                   </div>
                 </div>
               }>
-              <div style={{height:29, display:'flex', alignItems:'center', width:'100%', minWidth:0}}>
-                {state === 'loading-payout' ? (
-                  <Skeleton width="100px" height={29} />
-                ) : (
-                  <input
-                    type="text" inputMode="decimal"
-                    value={usdAmount}
-                    onChange={e => onUsdChange(e.target.value)}
-                    placeholder="$0"
-                    className="font-['Inter',sans-serif] font-bold text-[24px] bg-transparent border-none outline-none w-full min-w-0 block" style={{ letterSpacing: '-1px' }}
-                    style={{ color: usdAmount ? 'var(--cp-text-primary)' : 'var(--cp-text-quaternary)' }}
-                  />
-                )}
-              </div>
+              {state === 'loading-payout' ? (
+                <Skeleton width="100px" height={29} />
+              ) : (
+                <input
+                  type="text" inputMode="decimal"
+                  value={usdAmount}
+                  onChange={e => onUsdChange(e.target.value)}
+                  placeholder="$0"
+                  className="font-['Inter',sans-serif] font-bold text-[24px] bg-transparent border-none outline-none w-full min-w-0 block"
+                  style={{ letterSpacing: '-1px', color: usdAmount ? 'var(--cp-text-primary)' : 'var(--cp-text-quaternary)' }}
+                />
+              )}
             </SelectField>
 
             {/* Bank Account */}
-            {/* Bank Account — live dropdown */}
+            {banks.length === 0 ? (
+              <div
+                className="bg-white cursor-pointer flex h-[56px] items-center justify-between p-[10px] relative rounded-[5px] w-full shrink-0"
+                style={{ border: '1px solid var(--cp-border-default)' }}
+                onClick={() => setModalStep('add-bank')}
+              >
+                <div className="flex flex-col h-full items-start justify-between shrink-0 flex-1 min-w-0">
+                  <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[11px] text-[var(--cp-text-tertiary)] uppercase whitespace-nowrap leading-none">Bank Account</p>
+                  <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-quinary)] whitespace-nowrap">No bank account</p>
+                </div>
+                <div className="flex items-center self-stretch shrink-0">
+                  <button
+                    className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[11px] text-[var(--cp-brand-primary)] whitespace-nowrap pr-[10px] self-center hover:underline"
+                    onClick={e => { e.stopPropagation(); setModalStep('add-bank'); }}
+                  >
+                    Add Bank
+                  </button>
+                  <div className="content-stretch flex items-center justify-between relative shrink-0 w-[21px] self-stretch">
+                    <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" />
+                    <div className="overflow-clip relative shrink-0 size-[12px]">
+                      <div className="absolute inset-[34.38%_21.88%]">
+                        <svg className="absolute block inset-0 size-full" fill="none" viewBox="0 0 6.74999 3.74999">
+                          <path clipRule="evenodd" d="M0.292893,0.292893C0.455612,0.130168,0.719387,0.130168,0.882107,0.292893L3.375,2.78579L5.86789,0.292893C6.03061,0.130168,6.29439,0.130168,6.45711,0.292893C6.61983,0.455612,6.61983,0.719387,6.45711,0.882107L3.66961,3.66961C3.50688,3.83233,3.24312,3.83233,3.08039,3.66961L0.292893,0.882107C0.130168,0.719387,0.130168,0.455612,0.292893,0.292893Z" fill="var(--cp-text-quinary)" fillRule="evenodd" />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ) : approvedBanks.length === 0 ? (() => {
+              const underReviewBank = banks[0];
+              return (
+                <div
+                  className="bg-white flex h-[56px] items-center justify-between p-[10px] relative rounded-[5px] w-full shrink-0"
+                  style={{ border: '1px solid var(--cp-border-default)' }}
+                >
+                  <div className="flex flex-col h-full items-start justify-between shrink-0 flex-1 min-w-0">
+                    <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[11px] text-[var(--cp-text-tertiary)] uppercase whitespace-nowrap leading-none">Bank Account</p>
+                    <div className="flex gap-[6px] items-center min-w-0">
+                      <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-primary)] whitespace-nowrap opacity-60">{underReviewBank.label}</p>
+                      <p className="font-['Inter:Regular',sans-serif] font-normal text-[13px] text-[var(--cp-text-tertiary)] overflow-hidden text-ellipsis whitespace-nowrap opacity-60">{underReviewBank.iban.replace(/\s/g, '')}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center self-stretch shrink-0 gap-[8px]">
+                    <span className="bg-orange-100 text-orange-600 font-['Inter:Semi_Bold',sans-serif] font-semibold text-[9px] uppercase px-[5px] py-[2px] rounded-[3px] whitespace-nowrap shrink-0">Under Review</span>
+                  </div>
+                  <div className="content-stretch flex items-center justify-between relative shrink-0 w-[21px] self-stretch">
+                    <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" />
+                    <div className="overflow-clip relative shrink-0 size-[12px]">
+                      <div className="absolute inset-[34.38%_21.88%]">
+                        <svg className="absolute block inset-0 size-full" fill="none" viewBox="0 0 6.74999 3.74999">
+                          <path clipRule="evenodd" d="M0.292893,0.292893C0.455612,0.130168,0.719387,0.130168,0.882107,0.292893L3.375,2.78579L5.86789,0.292893C6.03061,0.130168,6.29439,0.130168,6.45711,0.292893C6.61983,0.455612,6.61983,0.719387,6.45711,0.882107L3.66961,3.66961C3.50688,3.83233,3.24312,3.83233,3.08039,3.66961L0.292893,0.882107C0.130168,0.719387,0.130168,0.455612,0.292893,0.292893Z" fill="var(--cp-text-quinary)" fillRule="evenodd" />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              );
+            })() : (
             <div className="relative w-full shrink-0" ref={bankDropdownRef} style={{ overflow: 'visible' }}>
               <div
                 className="bg-white cursor-pointer flex h-[56px] items-start justify-between p-[10px] relative rounded-[5px] w-full"
@@ -366,6 +536,7 @@ export default function BankPayoutModal({ onClose }: { onClose: () => void }) {
                 </div>
               )}
             </div>
+            )}
 
             {/* Add Note */}
             <SelectField label="ADD NOTE" height={56}>
@@ -469,7 +640,7 @@ export default function BankPayoutModal({ onClose }: { onClose: () => void }) {
 
             <button
               disabled={!inCountdown}
-              onClick={inCountdown ? onClose : undefined}
+              onClick={inCountdown ? () => setModalStep('2fa') : undefined}
               className="content-stretch flex flex-1 h-[46px] items-center justify-center gap-[8px] overflow-clip px-[10px] relative rounded-[5px] transition-colors"
               style={{
                 background: inCountdown ? 'var(--cp-brand-primary)' : 'var(--cp-bg-2)',
@@ -493,5 +664,7 @@ export default function BankPayoutModal({ onClose }: { onClose: () => void }) {
         </div>
       </div>
     </div>
+
+    </>
   );
 }
