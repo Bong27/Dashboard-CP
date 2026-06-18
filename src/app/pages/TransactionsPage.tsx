@@ -1,7 +1,22 @@
-// Figma asset URLs (served by local Figma MCP asset server)
-const imgReceiveIcon = 'http://localhost:3845/assets/7c5f682a4874454ebd1605ef4f2592373fd6a961.svg';
-const imgUsdtLogo    = 'http://localhost:3845/assets/1fad04a93f6ecf40e5232a53275eb325d38070c0.svg';
-const imgBtcLogo     = 'http://localhost:3845/assets/b4f0cd26d0d2e194e40d5ce7417cec6810d790d6.svg';
+// ─── Inline coin logos (no external dependencies) ────────────────────────────
+
+function SvgUsdtLogo({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 14.6663 12.7585" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <path fillRule="evenodd" clipRule="evenodd" d="M2.68524 0.0626632L0.0109944 5.67992C0.00081815 5.70082 -0.00240665 5.72442 0.00179163 5.74727C0.00598991 5.77013 0.017391 5.79105 0.0343277 5.80696L7.25683 12.7279C7.27734 12.7475 7.30467 12.7585 7.33309 12.7585C7.36152 12.7585 7.38884 12.7475 7.40936 12.7279L14.6319 5.80739C14.6488 5.79148 14.6602 5.77056 14.6644 5.74771C14.6686 5.72485 14.6654 5.70125 14.6552 5.68036L11.9809 0.0630953C11.9723 0.0442301 11.9584 0.028249 11.941 0.0170617C11.9235 0.00587452 11.9032 -4.5532e-05 11.8824 9.10716e-06H2.78462C2.76378 -0.000250221 2.74331 0.00552723 2.72567 0.0166445C2.70804 0.0277618 2.694 0.043744 2.68524 0.0626632Z" fill="#50AF95"/>
+      <path fillRule="evenodd" clipRule="evenodd" d="M8.26108 6.25676C8.20923 6.26065 7.94133 6.27663 7.34374 6.27663C6.86843 6.27663 6.53096 6.26238 6.41257 6.25676C4.57573 6.17596 3.20468 5.8562 3.20468 5.47337C3.20468 5.09053 4.57573 4.77121 6.41257 4.68911V5.9383C6.53269 5.94694 6.87664 5.96725 7.35195 5.96725C7.92232 5.96725 8.20793 5.94349 8.25935 5.93873V4.68997C10.0923 4.77164 11.4603 5.09139 11.4603 5.47337C11.4603 5.85534 10.0927 6.17509 8.25935 6.25633L8.26108 6.25676ZM8.26108 4.56078V3.44294H10.8191V1.73832H3.85456V3.44294H6.41214V4.56035C4.33332 4.65584 2.76999 5.06763 2.76999 5.56108C2.76999 6.05454 4.33332 6.46589 6.41214 6.56182V10.1439H8.26065V6.56052C10.3347 6.46503 11.8954 6.05367 11.8954 5.56065C11.8954 5.06763 10.336 4.65627 8.26065 4.56035L8.26108 4.56078Z" fill="white"/>
+    </svg>
+  );
+}
+
+function SvgBtcLogo({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 13.9984 14" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <path d="M13.789 8.69333C12.8541 12.4434 9.05592 14.7256 5.30544 13.7904C1.55653 12.8555 -0.725671 9.05711 0.20964 5.30738C1.14413 1.55693 4.94231 -0.725436 8.69163 0.209464C12.4418 1.14436 14.7239 4.94319 13.7889 8.6934L13.789 8.69333H13.789Z" fill="#F7931A"/>
+      <path d="M10.0859 6.00267C10.2252 5.07112 9.51601 4.57038 8.54621 4.23634L8.86082 2.97448L8.09269 2.78307L7.78642 4.01171C7.58448 3.96135 7.37711 3.91389 7.17099 3.86685L7.47948 2.6301L6.71182 2.4387L6.39704 3.70015C6.22993 3.6621 6.0658 3.6245 5.90656 3.58488L5.90745 3.58091L4.84818 3.31639L4.64385 4.13681C4.64385 4.13681 5.21374 4.26744 5.20173 4.27548C5.51278 4.35311 5.56903 4.55902 5.55969 4.72223L5.20132 6.15979C5.22274 6.16523 5.25052 6.1731 5.28118 6.18542C5.25555 6.17905 5.22828 6.17211 5.19998 6.16533L4.69767 8.17914C4.65965 8.27365 4.56317 8.41547 4.34569 8.36161C4.35339 8.37277 3.7874 8.22229 3.7874 8.22229L3.40604 9.10156L4.40564 9.35075C4.5916 9.39738 4.77383 9.44617 4.95329 9.49206L4.63543 10.7684L5.40267 10.9598L5.71746 9.69701C5.92706 9.75391 6.13047 9.80639 6.3296 9.85587L6.01588 11.1127L6.78405 11.3041L7.10188 10.0302C8.41171 10.2781 9.3966 10.1781 9.81115 8.99337C10.1452 8.03951 9.79452 7.48933 9.10543 7.13055C9.60733 7.0148 9.98538 6.68469 10.0862 6.00277L10.0859 6.0026L10.0859 6.00267ZM8.33089 8.46364C8.09351 9.4175 6.48751 8.90187 5.96682 8.77258L6.38862 7.08165C6.90928 7.21164 8.57899 7.46887 8.33093 8.46364H8.33089ZM8.56845 5.98885C8.3519 6.85648 7.01521 6.41568 6.5816 6.3076L6.96402 4.77403C7.39763 4.88212 8.79403 5.08385 8.56852 5.98885H8.56845Z" fill="white"/>
+    </svg>
+  );
+}
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -121,9 +136,11 @@ function TxCircle({ type, coin }: { type: TxType; coin: CoinType }) {
       {/* Centered icon */}
       <div className="absolute inset-0 flex items-center justify-center">
         {type === 'received' && (
-          <div className="overflow-clip size-[16px]">
-            <img alt="" className="block size-full" src={imgReceiveIcon} />
-          </div>
+          <svg width="13" height="13" viewBox="0 0 12.3758 12.2171" fill="none">
+            <path fillRule="evenodd" clipRule="evenodd" d="M6.18791 10.3001C5.92045 10.3001 5.70364 10.0833 5.70364 9.81578V0.68428C5.70364 0.41682 5.92045 0.2 6.18791 0.2C6.45536 0.2 6.67218 0.41682 6.67218 0.68428V9.81578C6.67218 10.0833 6.45536 10.3001 6.18791 10.3001Z" fill="var(--cp-text-secondary)"/>
+            <path fillRule="evenodd" clipRule="evenodd" d="M11.0961 4.9076C11.2852 5.09672 11.2852 5.40334 11.0961 5.59246L6.53034 10.1582C6.34122 10.3474 6.0346 10.3474 5.84548 10.1582L1.27972 5.59246C1.0906 5.40334 1.0906 5.09672 1.27972 4.9076C1.46884 4.71848 1.77546 4.71848 1.96458 4.9076L6.18791 9.13088L10.4112 4.9076C10.6004 4.71848 10.907 4.71848 11.0961 4.9076Z" fill="var(--cp-text-secondary)"/>
+            <path fillRule="evenodd" clipRule="evenodd" d="M0 11.7262C0 11.4551 0.21978 11.2353 0.49089 11.2353H11.885C12.1561 11.2353 12.3758 11.4551 12.3758 11.7262C12.3758 11.9973 12.1561 12.2171 11.885 12.2171H0.49089C0.21978 12.2171 0 11.9973 0 11.7262Z" fill="var(--cp-text-secondary)"/>
+          </svg>
         )}
         {type === 'sent' && (
           <svg width="10" height="10" viewBox="0 0 9.40295 9.40295" fill="none">
@@ -139,16 +156,12 @@ function TxCircle({ type, coin }: { type: TxType; coin: CoinType }) {
       <div className="absolute right-[-1px] top-[-1px] flex items-center">
         <div className="relative size-[16px]">
           {coin === 'usdt' ? (
-            <div className="absolute bg-[#50af95] inset-[1.22%_0_-1.22%_0] rounded-[999px] overflow-hidden">
-              <div className="absolute inset-[9.9%_4.65%_-1.56%_3.69%] overflow-clip">
-                <div className="absolute inset-[5.56%_0_7.45%_0]">
-                  <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgUsdtLogo} />
-                </div>
-              </div>
+            <div className="absolute bg-[#50af95] inset-[1.22%_0_-1.22%_0] rounded-[999px] overflow-hidden flex items-center justify-center">
+              <SvgUsdtLogo className="w-[75%] h-[75%]" />
             </div>
           ) : (
             <div className="absolute inset-0 overflow-clip rounded-[999px]">
-              <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgBtcLogo} />
+              <SvgBtcLogo className="absolute block inset-0 size-full" />
             </div>
           )}
         </div>
@@ -162,23 +175,14 @@ function TxCircle({ type, coin }: { type: TxType; coin: CoinType }) {
 function CurrencyIcon({ type }: { type: CoinType }) {
   if (type === 'btc') {
     return (
-      <div className="relative shrink-0 size-[14px]">
-        <div className="absolute inset-[0_0.01%_0_0] overflow-clip">
-          <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgBtcLogo} />
-        </div>
+      <div className="relative shrink-0 size-[14px] overflow-clip rounded-[999px]">
+        <SvgBtcLogo className="absolute block inset-0 size-full" />
       </div>
     );
   }
-  // USDT
   return (
-    <div className="relative shrink-0 size-[14px]">
-      <div className="absolute bg-[#50af95] inset-0 rounded-[999px] overflow-hidden">
-        <div className="absolute inset-[9.9%_4.65%_-1.56%_3.69%] overflow-clip">
-          <div className="absolute inset-[5.56%_0_7.45%_0]">
-            <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgUsdtLogo} />
-          </div>
-        </div>
-      </div>
+    <div className="relative shrink-0 size-[14px] bg-[#50af95] rounded-[999px] overflow-hidden flex items-center justify-center">
+      <SvgUsdtLogo className="w-[75%] h-[75%]" />
     </div>
   );
 }
