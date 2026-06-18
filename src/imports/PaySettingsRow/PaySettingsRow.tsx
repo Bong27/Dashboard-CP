@@ -583,9 +583,16 @@ export default function PaySettingsRow({
           <div className="content-stretch flex items-start justify-between h-full p-[10px] relative">
             <div className="flex flex-col h-full items-start justify-between">
               <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[11px] text-[var(--cp-text-tertiary)] uppercase whitespace-nowrap leading-none">PAYOUT CURRENCY</p>
-              <p className={`font-['Inter:Medium',sans-serif] font-medium text-[14.5px] whitespace-nowrap ${isNightlyUnderReview ? 'text-[var(--cp-text-quinary)]' : 'text-[var(--cp-text-primary)]'}`}>
-                {isNightlyUnderReview ? 'Select currency' : lockedPayoutCurrency}
-              </p>
+              {isNightlyUnderReview ? (
+                <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] whitespace-nowrap text-[var(--cp-text-quinary)]">Select currency</p>
+              ) : lockedPayoutCurrency === 'Bitcoin' ? (
+                <div className="flex gap-[5px] items-center">
+                  <div className="relative shrink-0 size-[14px]"><BitcoinBtcLogo1 /></div>
+                  <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] whitespace-nowrap text-[var(--cp-text-primary)]">Bitcoin</p>
+                </div>
+              ) : (
+                <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] whitespace-nowrap text-[var(--cp-text-primary)]">{lockedPayoutCurrency}</p>
+              )}
             </div>
             <div className="content-stretch flex items-center justify-between relative shrink-0 w-[21px] self-stretch">
               <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" />
