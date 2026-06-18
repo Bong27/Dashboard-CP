@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { InputMaster } from './InputMaster';
 import { SweepDestinationDropdown, type SweepDestination } from './SweepDestinationDropdown';
 import { SweepBankAccountDropdown } from './SweepBankAccountDropdown';
+import { PayoutCurrencyDropdown } from './PayoutCurrencyDropdown';
 import { useBanks } from '../context/BankContext';
 
 function UsdtTrc20Badge() {
@@ -44,21 +45,66 @@ export function AutoSweepTab() {
   const { primaryId } = useBanks();
   const [sweepDestination, setSweepDestination] = useState<SweepDestination>(null);
   const [selectedBankId, setSelectedBankId] = useState(primaryId);
+  const [payoutCurrency, setPayoutCurrency] = useState<string | null>(null);
+  const [triggerAmount, setTriggerAmount] = useState('');
+  const [showError, setShowError] = useState(false);
   const isBankAccount = sweepDestination === 'bank-account';
 
+  const numericAmount = parseFloat(triggerAmount);
+  const hasAmount = triggerAmount.trim() !== '';
+  const isAmountInvalid = hasAmount && (isNaN(numericAmount) || numericAmount < 100 || numericAmount > 1_000_000);
+  const isAmountValid = hasAmount && !isAmountInvalid;
+
+  useEffect(() => {
+    if (!isAmountInvalid) { setShowError(false); return; }
+    const t = setTimeout(() => setShowError(true), 500);
+    return () => clearTimeout(t);
+  }, [isAmountInvalid]);
+  const saveEnabled = isBankAccount ? (isAmountValid && payoutCurrency !== null) : false;
+
   const triggerAmountField = (
-    <InputMaster
-      label="trigger amount (usdt.trc20)"
-      value="Min-Max Payout: $100 - $1,000,000"
-      placeholder
-      showDropdown={false}
-      className={`h-[56px] min-w-[200px] ${isBankAccount ? 'flex-[1_0_0]' : 'w-full'}`}
-      rightContent={<UsdtTrc20Badge />}
-    />
+    <div className={`relative min-w-[200px] ${isBankAccount ? 'flex-[1_0_0]' : 'w-full'}`} style={{ overflow: 'visible' }}>
+      <div className="bg-white h-[56px] relative rounded-[5px] group">
+        <div className="content-stretch flex items-start justify-between overflow-clip p-[10px] relative rounded-[inherit] size-full">
+          <div className="content-stretch flex flex-col h-full items-start justify-between relative shrink-0 flex-1 min-w-0">
+            <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-tertiary)] text-[11px] uppercase whitespace-nowrap">
+              TRIGGER AMOUNT (USDT.TRC20)
+            </p>
+            <input
+              type="number"
+              value={triggerAmount}
+              onChange={e => setTriggerAmount(e.target.value)}
+              placeholder="Min-Max Payout: $100 - $1,000,000"
+              className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic text-[14.5px] text-[var(--cp-text-primary)] placeholder:text-[var(--cp-text-quinary)] bg-transparent outline-none border-none w-full min-w-0 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+            />
+          </div>
+          <UsdtTrc20Badge />
+        </div>
+        <div
+          aria-hidden="true"
+          className={`absolute border border-solid inset-0 pointer-events-none rounded-[5px] transition-colors ${
+            showError
+              ? 'border-[#E53935]'
+              : 'border-[var(--cp-border-default)] group-hover:border-[var(--cp-border-hover)]'
+          }`}
+        />
+      </div>
+      {showError && (
+        <div className="absolute left-0 right-0 top-full bg-[#E53935] px-[10px] py-[6px] rounded-b-[5px] z-10">
+          <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-white leading-[normal]">
+            Please enter a trigger amount equivalent to at least 100 USD and no more than 1,000,000 USD
+          </p>
+        </div>
+      )}
+    </div>
   );
 
-  const saveButton = (
-    <div className="bg-[var(--cp-bg-2)] content-stretch flex h-[46px] items-center justify-center overflow-clip px-[20px] py-[10px] relative rounded-[5px] shrink-0 cursor-pointer hover:bg-[var(--cp-border-default)] transition-colors">
+  const saveButton = saveEnabled ? (
+    <div className="bg-[var(--cp-brand-primary)] content-stretch flex h-[46px] items-center justify-center overflow-clip px-[20px] py-[10px] relative rounded-[5px] shrink-0 cursor-pointer hover:bg-[var(--cp-brand-active)] transition-colors">
+      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-white text-[13px] text-center whitespace-nowrap">Save</p>
+    </div>
+  ) : (
+    <div className="bg-[var(--cp-bg-2)] content-stretch flex h-[46px] items-center justify-center overflow-clip px-[20px] py-[10px] relative rounded-[5px] shrink-0 cursor-not-allowed">
       <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-secondary)] text-[13px] text-center whitespace-nowrap">Save</p>
     </div>
   );
@@ -103,6 +149,14 @@ export function AutoSweepTab() {
                   onChange={setSelectedBankId}
                   className="flex-[1_0_0] min-w-[200px]"
                 />
+              </div>
+              <div className="content-stretch flex gap-[10px] items-start relative shrink-0 w-full">
+                <PayoutCurrencyDropdown
+                  value={payoutCurrency}
+                  onChange={setPayoutCurrency}
+                  className="flex-[1_0_0] min-w-[200px]"
+                />
+                <div className="flex-[1_0_0] min-w-[200px]" />
               </div>
               {saveButton}
             </div>

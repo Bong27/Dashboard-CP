@@ -42,7 +42,7 @@ export default function BankAddedModal({ onClose }: Props) {
             </p>
 
             {/* Under review banner */}
-            <div className="bg-[#ebf1fb] border border-[var(--cp-border-default)] border-solid content-stretch flex gap-[10px] items-center justify-center overflow-clip p-[20px] relative rounded-[5px] shrink-0 w-full">
+            <div className="bg-[#ebf1fb] border border-[var(--cp-border-default)] border-solid content-stretch flex gap-[10px] items-center justify-center overflow-clip p-[20px] relative rounded-[5px] shrink-0 w-full my-[20px]">
               {/* Info icon */}
               <div className="overflow-clip relative shrink-0 size-[16px]">
                 <svg className="absolute block inset-0 size-full" viewBox="0 0 16 16" fill="none">

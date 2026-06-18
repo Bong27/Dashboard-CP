@@ -1,4 +1,5 @@
 import BankDetailsModal, { BANK_DETAILS } from '../../app/components/BankDetailsModal';
+import { PayoutCurrencyDropdown } from '../../app/components/PayoutCurrencyDropdown';
 import EditBankModal from '../../app/components/EditBankModal';
 import AddNewBankModal from '../../app/components/AddNewBankModal';
 import { useState, useEffect, useRef } from 'react';
@@ -351,6 +352,7 @@ export default function PaySettingsRow({
   const [showAddNewBank, setShowAddNewBank] = useState(false);
   const [editingBankId, setEditingBankId] = useState<string | undefined>(committedBankId);
   const [selectedMode, setSelectedMode] = useState(mode === 'bank' ? 'Nightly to Bank' : 'To Custody');
+  const [payoutCurrency, setPayoutCurrency] = useState<string | null>(mode === 'bank' ? 'USD' : null);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -521,10 +523,11 @@ export default function PaySettingsRow({
           </div>
         )}
       </div>
-      <div className="content-stretch cursor-pointer flex h-[56px] items-center justify-between min-w-[200px] overflow-clip p-[10px] relative rounded-[5px] shrink-0 w-[200px]">
-        <Content1 />
-        <Controls1 />
-      </div>
+      <PayoutCurrencyDropdown
+        value={payoutCurrency}
+        onChange={setPayoutCurrency}
+        className="shrink-0 w-[200px] min-w-[200px]"
+      />
       <div className="bg-white cursor-pointer group h-[56px] min-w-[200px] relative rounded-[5px] shrink-0 w-[200px]">
         <div className="content-stretch flex items-center justify-between min-w-[inherit] overflow-clip p-[10px] relative rounded-[inherit] size-full">
           <Content2 />

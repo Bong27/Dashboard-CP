@@ -100,29 +100,42 @@ export function SweepDestinationDropdown({ value, onChange, className = '' }: Sw
         >
           <div aria-hidden="true" className="absolute border border-[var(--cp-border-hover)] border-solid inset-0 pointer-events-none rounded-[5px]" />
           <div className="content-stretch flex flex-col gap-[5px] items-start p-[10px] relative">
-            {OPTIONS.map((option) => (
-              <div
-                key={option.id}
-                className="bg-white relative rounded-[5px] shrink-0 w-full cursor-pointer hover:bg-[var(--cp-bg-1)] transition-colors"
-                onClick={() => {
-                  onChange(option.id);
-                  setOpen(false);
-                }}
-              >
+            {OPTIONS.map((option) => {
+              const isActive = option.id === value;
+              return (
                 <div
-                  aria-hidden="true"
-                  className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[5px]"
-                />
-                <div className="content-stretch flex flex-col items-start leading-[normal] not-italic p-[10px] relative size-full text-[11px]">
-                  <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[var(--cp-text-primary)] w-full">
-                    {option.label}
-                  </p>
-                  <p className="font-['Inter:Medium',sans-serif] font-medium relative shrink-0 text-[var(--cp-text-secondary)] w-full">
-                    {option.description}
-                  </p>
+                  key={option.id}
+                  className={`relative rounded-[5px] shrink-0 w-full cursor-pointer transition-colors ${
+                    isActive
+                      ? 'bg-[var(--cp-brand-primary)] hover:bg-[var(--cp-brand-active)]'
+                      : 'bg-white hover:bg-[var(--cp-bg-1)]'
+                  }`}
+                  onClick={() => {
+                    onChange(option.id);
+                    setOpen(false);
+                  }}
+                >
+                  <div
+                    aria-hidden="true"
+                    className={`absolute border border-solid inset-0 pointer-events-none rounded-[5px] ${
+                      isActive ? 'border-[var(--cp-brand-primary)]' : 'border-[var(--cp-border-default)]'
+                    }`}
+                  />
+                  <div className="content-stretch flex flex-col items-start leading-[normal] not-italic p-[10px] relative size-full text-[11px]">
+                    <p className={`font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 w-full ${
+                      isActive ? 'text-white' : 'text-[var(--cp-text-primary)]'
+                    }`}>
+                      {option.label}
+                    </p>
+                    <p className={`font-['Inter:Medium',sans-serif] font-medium relative shrink-0 w-full ${
+                      isActive ? 'text-white/80' : 'text-[var(--cp-text-secondary)]'
+                    }`}>
+                      {option.description}
+                    </p>
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       )}

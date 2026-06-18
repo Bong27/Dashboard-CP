@@ -322,6 +322,43 @@ function DataRow({ label, value }: { label: string; value: string }) {
   );
 }
 
+// ─── Add Label field with hover + focus border ───────────────────────────────
+function AddLabelField({ labelInputRef, label, setLabel, bankName, labelValue }: {
+  labelInputRef: React.RefObject<HTMLInputElement>;
+  label: string;
+  setLabel: (v: string) => void;
+  bankName: string | null;
+  labelValue: string;
+}) {
+  const [focused, setFocused] = useState(false);
+  const [hovered, setHovered] = useState(false);
+  const borderColor = focused ? 'var(--cp-brand-primary)' : hovered ? 'var(--cp-border-hover)' : 'var(--cp-border-default)';
+  return (
+    <div
+      className="bg-white h-[56px] flex items-start justify-between p-[10px] relative rounded-[5px] shrink-0 w-full cursor-text"
+      style={{ border: `1px solid ${borderColor}`, transition: 'border-color 0.1s' }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      onClick={() => labelInputRef.current?.focus()}
+    >
+      <div className="flex flex-col h-full items-start justify-between relative shrink-0 flex-1 min-w-0">
+        <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[11px] text-[var(--cp-text-tertiary)] uppercase whitespace-nowrap leading-none">Add Label</p>
+        <input
+          ref={labelInputRef}
+          type="text"
+          value={labelValue === '---' && !label ? '' : label}
+          onChange={e => setLabel(e.target.value)}
+          placeholder={bankName ?? '---'}
+          onFocus={() => setFocused(true)}
+          onBlur={() => setFocused(false)}
+          className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-primary)] bg-transparent border-none outline-none w-full min-w-0 leading-none"
+          style={{ caretColor: 'var(--cp-brand-primary)' }}
+        />
+      </div>
+    </div>
+  );
+}
+
 // ─── Modal ────────────────────────────────────────────────────────────────────
 export default function AddNewBankModal({ onClose }: Props) {
   const { addBank } = useBanks();
@@ -460,21 +497,7 @@ export default function AddNewBankModal({ onClose }: Props) {
           </div>
 
           {/* Add Label editable field */}
-          <div className="bg-white border border-[var(--cp-border-default)] border-solid content-stretch flex h-[56px] items-center justify-between p-[10px] relative rounded-[5px] shrink-0 w-full">
-            <div className="flex flex-col h-full items-start justify-between relative shrink-0 flex-1 min-w-0">
-              <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[11px] text-[var(--cp-text-tertiary)] uppercase whitespace-nowrap leading-none">Add Label</p>
-              <input
-                ref={labelInputRef}
-                type="text"
-                value={labelValue === '---' && !label ? '' : label}
-                onChange={e => setLabel(e.target.value)}
-                placeholder={bankName ?? '---'}
-                className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-primary)] bg-transparent border-none outline-none w-full min-w-0 leading-none"
-                style={{ caretColor: 'var(--cp-brand-primary)' }}
-              />
-            </div>
-            <AddLabelEditButton onClick={() => labelInputRef.current?.focus()} />
-          </div>
+          <AddLabelField labelInputRef={labelInputRef} label={label} setLabel={setLabel} bankName={bankName} labelValue={labelValue} />
 
           {/* Spacer — absorbs extra height to match step 1 modal height */}
           <div className="flex-1" />
