@@ -450,12 +450,12 @@ export default function PaySettingsRow({
     {showAddNewBank && createPortal(
       <AddNewBankModal
         onClose={() => { setShowAddNewBank(false); setAddingBankForNightly(false); }}
-        onBankAdded={addingBankForNightly ? (bankId) => {
-          setSelectedMode('Nightly to Bank');
+        onBankAdded={(bankId) => {
+          if (addingBankForNightly) setSelectedMode('Nightly to Bank');
           setCommittedBankId(bankId);
           setEditingBankId(bankId);
           setAddingBankForNightly(false);
-        } : undefined}
+        }}
       />, document.body)}
     <div className={`bg-[${selected ? 'var(--cp-bg-2)' : 'var(--cp-bg-1)'}] content-stretch flex gap-[10px] items-center pl-[20px] pr-[10px] py-[10px] relative size-full ${isDropdownOpen ? 'z-[100]' : ''}`} data-name="PaySettingsRow">
         <div aria-hidden="true" className="absolute border-[var(--cp-border-default)] border-solid border-t inset-0 pointer-events-none" />
