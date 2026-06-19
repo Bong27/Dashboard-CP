@@ -45,8 +45,7 @@ function InfoTooltip() {
   const handleMouseEnter = () => {
     if (ref.current) {
       const r = ref.current.getBoundingClientRect();
-      // Position tooltip to the left of the icon, vertically centred
-      setCoords({ top: r.top + r.height / 2, left: r.left - 8 });
+      setCoords({ top: r.top - 8, left: r.left + r.width / 2 });
     }
     setHovered(true);
   };
@@ -64,19 +63,17 @@ function InfoTooltip() {
       </div>
       {hovered && createPortal(
         <div
-          className="pointer-events-none z-[1000]"
-          style={{ position: 'fixed', top: coords.top, right: window.innerWidth - coords.left, transform: 'translateY(-50%)' }}
+          className="pointer-events-none z-[1000] flex flex-col items-end"
+          style={{ position: 'fixed', bottom: window.innerHeight - coords.top, right: window.innerWidth - coords.left - 7 }}
         >
-          <div className="flex items-center">
-            <div className="bg-[var(--cp-text-primary)] rounded-[5px] px-[8px] py-[6px] whitespace-nowrap">
-              <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-white leading-none">
-                Most approvals occur within 24 hours
-              </p>
-            </div>
-            <svg width="5" height="10" viewBox="0 0 5 10" fill="none" className="shrink-0">
-              <path d="M0 0V10L3.58579 6.41421C4.36684 5.63316 4.36684 4.36684 3.58579 3.58579L0 0Z" fill="var(--cp-text-primary)" />
-            </svg>
+          <div className="bg-[var(--cp-text-primary)] rounded-[5px] px-[8px] py-[6px] whitespace-nowrap">
+            <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-white leading-none">
+              Most approvals occur within 24/48 hours
+            </p>
           </div>
+          <svg width="10" height="5" viewBox="0 0 10 5" fill="none" className="shrink-0 mr-[2px]">
+            <path d="M10 0H0L3.58579 3.58579C4.36684 4.36684 5.63316 4.36684 6.41421 3.58579L10 0Z" fill="var(--cp-text-primary)" />
+          </svg>
         </div>,
         document.body
       )}
