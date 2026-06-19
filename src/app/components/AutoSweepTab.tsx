@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { InputMaster } from './InputMaster';
 import { SweepDestinationDropdown, type SweepDestination } from './SweepDestinationDropdown';
 import { SweepBankAccountDropdown } from './SweepBankAccountDropdown';
 import { PayoutCurrencyDropdown } from './PayoutCurrencyDropdown';
+import { TwoFaModal } from './TwoFaModal';
 import { useBanks } from '../context/BankContext';
 
 function UsdtTrc20Badge() {
@@ -67,7 +69,12 @@ export function AutoSweepTab() {
     const t = setTimeout(() => setShowError(true), 500);
     return () => clearTimeout(t);
   }, [isAmountInvalid]);
-  const saveEnabled = isBankAccount ? (isAmountValid && payoutCurrency !== null) : false;
+  const [saved, setSaved] = useState(false);
+  const saveEnabled = isBankAccount ? (isAmountValid && payoutCurrency !== null && !saved) : false;
+  const [show2Fa, setShow2Fa] = useState(false);
+  const [showComplete, setShowComplete] = useState(false);
+
+  const markDirty = () => setSaved(false);
 
   const triggerAmountField = (
     <div className={`relative min-w-[200px] ${isBankAccount ? 'flex-[1_0_0]' : 'w-full'}`} style={{ overflow: 'visible' }}>
@@ -80,8 +87,8 @@ export function AutoSweepTab() {
             <input
               type="number"
               value={triggerAmount}
-              onChange={e => setTriggerAmount(e.target.value)}
-              placeholder="Min-Max Payout: $100 - $1,000,000"
+              onChange={e => { setTriggerAmount(e.target.value); markDirty(); }}
+              placeholder="0"
               className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic text-[14.5px] text-[var(--cp-text-primary)] placeholder:text-[var(--cp-text-quinary)] bg-transparent outline-none border-none w-full min-w-0 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
             />
           </div>
@@ -107,7 +114,7 @@ export function AutoSweepTab() {
   );
 
   const saveButton = saveEnabled ? (
-    <div className="bg-[var(--cp-brand-primary)] content-stretch flex h-[46px] items-center justify-center overflow-clip px-[20px] py-[10px] relative rounded-[5px] shrink-0 cursor-pointer hover:bg-[var(--cp-brand-active)] transition-colors">
+    <div className="bg-[var(--cp-brand-primary)] content-stretch flex h-[46px] items-center justify-center overflow-clip px-[20px] py-[10px] relative rounded-[5px] shrink-0 cursor-pointer hover:bg-[var(--cp-brand-active)] transition-colors" onClick={() => setShow2Fa(true)}>
       <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-white text-[14.5px] text-center whitespace-nowrap">Save</p>
     </div>
   ) : (
@@ -117,6 +124,29 @@ export function AutoSweepTab() {
   );
 
   return (
+    <>
+    {show2Fa && createPortal(
+      <TwoFaModal
+        onDismiss={() => setShow2Fa(false)}
+        onCancel={() => setShow2Fa(false)}
+        onSubmit={() => { setShow2Fa(false); setSaved(true); setShowComplete(true); setTimeout(() => setShowComplete(false), 2000); }}
+      />,
+      document.body
+    )}
+    {showComplete && createPortal(
+      <div className="fixed inset-0 z-50 flex items-center justify-center pointer-events-none">
+        <div
+          className="flex flex-col gap-[20px] items-center justify-center rounded-[14px]"
+          style={{ background: 'rgba(0,0,0,0.82)', width: 160, height: 160 }}
+        >
+          <svg width="52" height="52" viewBox="0 0 52 52" fill="none">
+            <path d="M10 27L21 38L42 17" stroke="white" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+          <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-white text-center whitespace-nowrap">Complete</p>
+        </div>
+      </div>,
+      document.body
+    )}
     <div className="bg-[var(--cp-bg-1)] relative shrink-0 w-full">
       <div className="rounded-[inherit] size-full" style={{ overflow: 'visible' }}>
         <div className="content-stretch flex flex-col gap-[10px] items-start p-[20px] relative size-full">
@@ -145,7 +175,7 @@ export function AutoSweepTab() {
                 <InputMaster label="wallet" value="Primary Balance" className="flex-[1_0_0] h-[56px] min-w-[200px]" />
                 <SweepDestinationDropdown
                   value={sweepDestination}
-                  onChange={setSweepDestination}
+                  onChange={v => { setSweepDestination(v); markDirty(); }}
                   className="flex-[1_0_0] min-w-[200px]"
                 />
               </div>
@@ -153,14 +183,14 @@ export function AutoSweepTab() {
                 {triggerAmountField}
                 <SweepBankAccountDropdown
                   value={selectedBankId}
-                  onChange={setSelectedBankId}
+                  onChange={v => { setSelectedBankId(v); markDirty(); }}
                   className="flex-[1_0_0] min-w-[200px]"
                 />
               </div>
               <div className="content-stretch flex gap-[10px] items-start relative shrink-0 w-full">
                 <PayoutCurrencyDropdown
                   value={payoutCurrency}
-                  onChange={setPayoutCurrency}
+                  onChange={v => { setPayoutCurrency(v); markDirty(); }}
                   className="flex-[1_0_0] min-w-[200px]"
                 />
                 <div className="flex-[1_0_0] min-w-[200px]" />
@@ -185,5 +215,6 @@ export function AutoSweepTab() {
         </div>
       </div>
     </div>
+    </>
   );
 }

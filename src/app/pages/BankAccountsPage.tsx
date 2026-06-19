@@ -7,6 +7,7 @@ import { useBanks, BankEntry } from '../context/BankContext';
 import AddNewBankModal from '../components/AddNewBankModal';
 import EditBankModal from '../components/EditBankModal';
 import DeleteBankModal from '../components/DeleteBankModal';
+import { TwoFaModal } from '../components/TwoFaModal';
 import { truncateIban } from '../utils';
 
 // ─── Primary ribbon — exact Figma geometry ────────────────────────────────────
@@ -306,6 +307,8 @@ export default function BankAccountsPage() {
   const [reorderingId, setReorderingId] = useState<string | null>(null);
   const [bannerMode, setBannerMode] = useState<'reorder' | 'primary' | null>(null);
   const [hasDragged, setHasDragged] = useState(false);
+  const [show2Fa, setShow2Fa] = useState(false);
+  const [showComplete, setShowComplete] = useState(false);
   const dragIndexRef = useRef<number | null>(null);
 
   const handleDragStart = (index: number) => { dragIndexRef.current = index; setHasDragged(true); };
@@ -356,6 +359,28 @@ export default function BankAccountsPage() {
         </button>
       </div>
 
+      {show2Fa && createPortal(
+        <TwoFaModal
+          onDismiss={() => setShow2Fa(false)}
+          onCancel={() => setShow2Fa(false)}
+          onSubmit={() => { setShow2Fa(false); setBannerMode(null); setReorderingId(null); setHasDragged(false); setShowComplete(true); setTimeout(() => setShowComplete(false), 2000); }}
+        />,
+        document.body
+      )}
+      {showComplete && createPortal(
+        <div className="fixed inset-0 z-50 flex items-center justify-center pointer-events-none">
+          <div
+            className="flex flex-col gap-[20px] items-center justify-center rounded-[14px]"
+            style={{ background: 'rgba(0,0,0,0.82)', width: 160, height: 160 }}
+          >
+            <svg width="52" height="52" viewBox="0 0 52 52" fill="none">
+              <path d="M10 27L21 38L42 17" stroke="white" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+            <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-white text-center whitespace-nowrap">Complete</p>
+          </div>
+        </div>,
+        document.body
+      )}
       {deletingBank && createPortal(
         <DeleteBankModal
           bankLabel={deletingBank.label}
@@ -394,12 +419,11 @@ export default function BankAccountsPage() {
         style={{ maxHeight: bannerMode ? 48 : 0, transition: 'max-height 0.2s ease' }}
       >
         <div className="flex items-center gap-[8px] px-[20px] py-[8px] w-full border-b bg-[#f0f5ff] border-[var(--cp-border-default)]">
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" className="shrink-0 opacity-60">
-            {bannerMode === 'primary'
-              ? <path d="M7 2l1.5 3H12l-2.7 2 1 3.2L7 8.5 4.7 10.2l1-3.2L3 5h3.5z" stroke="var(--cp-brand-primary)" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
-              : <path d="M7 1v12M7 1L4 4M7 1l3 3M7 13l-3-3M7 13l3-3" stroke="var(--cp-brand-primary)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-            }
-          </svg>
+          {bannerMode !== 'primary' && (
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" className="shrink-0 opacity-60">
+              <path d="M7 1v12M7 1L4 4M7 1l3 3M7 13l-3-3M7 13l3-3" stroke="var(--cp-brand-primary)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          )}
           <p className="font-['Inter:Medium',sans-serif] font-medium text-[12px] text-[var(--cp-brand-primary)]">
             {bannerMode === 'primary'
               ? 'Primary bank account updated.'
@@ -411,7 +435,7 @@ export default function BankAccountsPage() {
                 ? 'text-[var(--cp-brand-primary)] hover:text-[var(--cp-brand-active)] hover:underline cursor-pointer'
                 : 'text-[var(--cp-brand-primary)] opacity-30 cursor-default pointer-events-none'
             }`}
-            onClick={() => { setBannerMode(null); setReorderingId(null); setHasDragged(false); }}
+            onClick={() => setShow2Fa(true)}
           >
             Save Changes
           </button>
