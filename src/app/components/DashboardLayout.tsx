@@ -149,9 +149,11 @@ function PlusIcon() {
 
 // ─── NavItem — pill shape, matches source exactly ────────────────────────────
 
-function NavItem({ to, icon, label }: { to: string; icon: React.ReactNode; label: string }) {
+function NavItem({ to, icon: iconFn, label }: { to: string; icon: (isActive: boolean) => React.ReactNode; label: string }) {
   const location = useLocation();
   const isActive = location.pathname === to || (to === '/' && location.pathname === '/wallet');
+  const [isHovered, setIsHovered] = useState(false);
+  const highlighted = isActive || isHovered;
 
   return (
     <Link
@@ -159,11 +161,13 @@ function NavItem({ to, icon, label }: { to: string; icon: React.ReactNode; label
       className={`content-stretch flex flex-col items-start p-[10px] relative rounded-[100px] shrink-0 w-[205px] cursor-pointer transition-colors ${
         isActive ? 'bg-[var(--cp-bg-1)]' : 'hover:bg-[var(--cp-bg-1)]'
       }`}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
     >
       <div className="content-stretch flex gap-[5px] items-center relative shrink-0">
-        {icon}
-        <p className={`font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[14.5px] whitespace-nowrap ${
-          isActive ? 'text-[var(--cp-brand-primary)]' : 'text-[var(--cp-text-primary)]'
+        {iconFn(highlighted)}
+        <p className={`font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[14.5px] whitespace-nowrap transition-colors ${
+          highlighted ? 'text-[var(--cp-brand-primary)]' : 'text-[var(--cp-text-primary)]'
         }`}>
           {label}
         </p>
@@ -345,14 +349,14 @@ export default function DashboardLayout() {
 
               {/* Nav items */}
               <div className="content-stretch flex flex-col items-start relative shrink-0 w-full">
-                <NavItem to="/" label="Wallet" icon={<WalletIcon isActive={location.pathname === '/' || location.pathname === '/wallet'} />} />
-                <NavItem to="/transactions" label="Transactions" icon={<TransactionsIcon isActive={location.pathname === '/transactions'} />} />
+                <NavItem to="/" label="Wallet" icon={a => <WalletIcon isActive={a} />} />
+                <NavItem to="/transactions" label="Transactions" icon={a => <TransactionsIcon isActive={a} />} />
                 <Divider />
-                <NavItem to="/settings" label="Settings" icon={<SettingsIcon isActive={location.pathname === '/settings'} />} />
-                <NavItem to="/integrations" label="Integrations" icon={<IntegrationsIcon isActive={location.pathname === '/integrations'} />} />
-                <NavItem to="/invoicing" label="Invoicing" icon={<InvoicingIcon isActive={location.pathname === '/invoicing'} />} />
-                <NavItem to="/pos" label="POS" icon={<POSIcon isActive={location.pathname === '/pos'} />} />
-                <NavItem to="/support" label="Support" icon={<SupportIcon isActive={location.pathname === '/support'} />} />
+                <NavItem to="/settings" label="Settings" icon={a => <SettingsIcon isActive={a} />} />
+                <NavItem to="/integrations" label="Integrations" icon={a => <IntegrationsIcon isActive={a} />} />
+                <NavItem to="/invoicing" label="Invoicing" icon={a => <InvoicingIcon isActive={a} />} />
+                <NavItem to="/pos" label="POS" icon={a => <POSIcon isActive={a} />} />
+                <NavItem to="/support" label="Support" icon={a => <SupportIcon isActive={a} />} />
                 <Divider />
                 <button className="content-stretch cursor-pointer flex flex-col items-start p-[10px] relative rounded-[100px] shrink-0 w-[205px] hover:bg-[var(--cp-bg-1)] transition-colors">
                   <div className="content-stretch flex gap-[5px] items-center relative shrink-0">

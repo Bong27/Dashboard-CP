@@ -29,11 +29,11 @@ function MenuRow({
       className={`content-stretch flex items-center justify-between py-[5px] relative shrink-0 w-full cursor-pointer ${border ? 'border-b border-[var(--cp-border-default)] border-solid' : ''}`}
       onClick={onClick}
     >
-      <div className="content-stretch flex flex-1 items-center justify-between min-w-0 pl-[10px] pr-[5px] py-[5px] relative rounded-[100px] hover:bg-[var(--cp-bg-1)] transition-colors">
-        <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[13px] text-[var(--cp-text-secondary)] whitespace-nowrap leading-none">
+      <div className="group content-stretch flex flex-1 items-center justify-between min-w-0 pl-[10px] pr-[5px] py-[5px] relative rounded-[100px] hover:bg-[var(--cp-bg-1)] transition-colors">
+        <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[13px] text-[var(--cp-text-secondary)] group-hover:text-[var(--cp-brand-primary)] whitespace-nowrap leading-none transition-colors">
           {label}
         </p>
-        <div className="bg-[var(--cp-text-quaternary)] overflow-clip relative rounded-[100px] shrink-0 size-[28px] flex items-center justify-center">
+        <div className="bg-[var(--cp-text-quaternary)] group-hover:bg-[var(--cp-brand-primary)] overflow-clip relative rounded-[100px] shrink-0 size-[28px] flex items-center justify-center transition-colors">
           {icon}
         </div>
       </div>
