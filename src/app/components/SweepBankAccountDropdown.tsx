@@ -65,7 +65,10 @@ export function SweepBankAccountDropdown({ value, onChange, className = '' }: Sw
   return (
     <>
     {showAddNewBank && createPortal(
-      <AddNewBankModal onClose={() => setShowAddNewBank(false)} />,
+      <AddNewBankModal
+        onClose={() => setShowAddNewBank(false)}
+        onBankAdded={(bankId) => { onChange(bankId); }}
+      />,
       document.body,
     )}
     <div ref={ref} className={`relative ${open ? 'z-[100]' : ''} ${className}`} style={{ overflow: 'visible' }}>
@@ -108,9 +111,29 @@ export function SweepBankAccountDropdown({ value, onChange, className = '' }: Sw
             )}
           </div>
           {selectedBankUnderReview && (
-            <span className="bg-orange-100 text-orange-600 font-['Inter:Semi_Bold',sans-serif] font-semibold text-[9px] uppercase px-[5px] py-[2px] rounded-[3px] whitespace-nowrap shrink-0 mr-[8px] self-center">
-              Under Review
-            </span>
+            <div className="flex items-center gap-[4px] shrink-0 mr-[8px] self-center">
+              <span className="bg-orange-100 text-orange-600 font-['Inter:Semi_Bold',sans-serif] font-semibold text-[9px] uppercase px-[5px] py-[2px] rounded-[3px] whitespace-nowrap">
+                Under Review
+              </span>
+              <div className="relative group/tooltip shrink-0">
+                <div className="overflow-clip relative shrink-0 size-[12px] cursor-default">
+                  <svg className="absolute block inset-0 size-full" fill="none" viewBox="0 0 12 12">
+                    <circle cx="6" cy="6" r="6" fill="#FED7AA" />
+                    <text x="6" y="9" textAnchor="middle" fontSize="8" fontWeight="700" fill="#EA580C" fontFamily="Inter, sans-serif">i</text>
+                  </svg>
+                </div>
+                <div className="absolute bottom-[calc(100%+6px)] right-0 pointer-events-none opacity-0 group-hover/tooltip:opacity-100 transition-opacity z-[200] w-[280px]">
+                  <div className="bg-[#1a1a1a] rounded-[6px] px-[10px] py-[8px]">
+                    <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-white leading-[1.4] text-center">This bank account is under review. All settlements will temporarily route to your custodial wallet until approval is complete (24–48h). We will notify you as soon as your account is active.</p>
+                  </div>
+                  <div className="flex justify-end pr-[4px]">
+                    <svg width="10" height="5" viewBox="0 0 10 5" fill="none">
+                      <path d="M10 0H0L3.58579 3.58579C4.36684 4.36684 5.63316 4.36684 6.41421 3.58579L10 0Z" fill="#1a1a1a"/>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
           )}
           <DropdownChevron open={open} />
         </div>
@@ -141,18 +164,12 @@ export function SweepBankAccountDropdown({ value, onChange, className = '' }: Sw
               return (
                 <div
                   key={bank.id}
-                  className={`relative rounded-[5px] shrink-0 w-full transition-colors ${
-                    isUnderReview
-                      ? 'bg-white cursor-not-allowed'
-                      : isSelected
-                      ? 'bg-[var(--cp-brand-primary)] hover:bg-[var(--cp-brand-active)] cursor-pointer'
-                      : 'bg-white hover:bg-[var(--cp-bg-1)] cursor-pointer'
+                  className={`relative rounded-[5px] shrink-0 w-full transition-colors cursor-pointer ${
+                    isSelected
+                      ? 'bg-[var(--cp-brand-primary)] hover:bg-[var(--cp-brand-active)]'
+                      : 'bg-white hover:bg-[var(--cp-bg-1)]'
                   }`}
-                  onClick={() => {
-                    if (isUnderReview) return;
-                    onChange(bank.id);
-                    setOpen(false);
-                  }}
+                  onClick={() => { onChange(bank.id); setOpen(false); }}
                 >
                   {!isSelected && (
                     <div
@@ -170,7 +187,7 @@ export function SweepBankAccountDropdown({ value, onChange, className = '' }: Sw
                       </p>
                     </div>
                     {isUnderReview && (
-                      <span className="bg-orange-100 text-orange-600 font-['Inter:Semi_Bold',sans-serif] font-semibold text-[9px] uppercase px-[5px] py-[2px] rounded-[3px] whitespace-nowrap shrink-0">
+                      <span className={`font-['Inter:Semi_Bold',sans-serif] font-semibold text-[9px] uppercase px-[5px] py-[2px] rounded-[3px] whitespace-nowrap shrink-0 ${isSelected ? 'bg-white/20 text-white' : 'bg-orange-100 text-orange-600'}`}>
                         Under Review
                       </span>
                     )}

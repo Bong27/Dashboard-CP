@@ -67,9 +67,7 @@ export function AutoSweepTab() {
     const t = setTimeout(() => setShowError(true), 500);
     return () => clearTimeout(t);
   }, [isAmountInvalid]);
-  const selectedBank = banks.find(b => b.id === selectedBankId);
-  const selectedBankUnderReview = selectedBank?.status === 'under_review';
-  const saveEnabled = isBankAccount ? (isAmountValid && payoutCurrency !== null && !selectedBankUnderReview) : false;
+  const saveEnabled = isBankAccount ? (isAmountValid && payoutCurrency !== null) : false;
 
   const triggerAmountField = (
     <div className={`relative min-w-[200px] ${isBankAccount ? 'flex-[1_0_0]' : 'w-full'}`} style={{ overflow: 'visible' }}>
@@ -110,11 +108,11 @@ export function AutoSweepTab() {
 
   const saveButton = saveEnabled ? (
     <div className="bg-[var(--cp-brand-primary)] content-stretch flex h-[46px] items-center justify-center overflow-clip px-[20px] py-[10px] relative rounded-[5px] shrink-0 cursor-pointer hover:bg-[var(--cp-brand-active)] transition-colors">
-      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-white text-[13px] text-center whitespace-nowrap">Save</p>
+      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-white text-[14.5px] text-center whitespace-nowrap">Save</p>
     </div>
   ) : (
     <div className="bg-[var(--cp-bg-2)] content-stretch flex h-[46px] items-center justify-center overflow-clip px-[20px] py-[10px] relative rounded-[5px] shrink-0 cursor-not-allowed">
-      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-secondary)] text-[13px] text-center whitespace-nowrap">Save</p>
+      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-secondary)] text-[14.5px] text-center whitespace-nowrap">Save</p>
     </div>
   );
 

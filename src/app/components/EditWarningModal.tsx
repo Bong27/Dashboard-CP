@@ -19,7 +19,7 @@ export default function EditWarningModal({ onCancel, onProceed }: Props) {
           <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[14px] text-white">Dismiss</p>
         </button>
         <div className="bg-white flex flex-col gap-[20px] items-start p-[20px] relative rounded-[10px] w-full">
-          <div className="flex flex-col gap-[10px] items-start w-full">
+          <div className="flex flex-col gap-[20px] items-start w-full">
             <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[13px] text-[var(--cp-text-secondary)] uppercase whitespace-nowrap leading-none">
               Re-verification Required
             </p>
@@ -34,13 +34,13 @@ export default function EditWarningModal({ onCancel, onProceed }: Props) {
               className="bg-white border border-[var(--cp-border-default)] border-solid flex flex-1 h-[46px] items-center justify-center rounded-[5px] cursor-pointer hover:bg-[var(--cp-bg-2)] transition-colors"
               onClick={onCancel}
             >
-              <p className="font-['Inter:Medium',sans-serif] font-medium text-[13px] text-[var(--cp-text-secondary)]">Cancel</p>
+              <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-secondary)]">Cancel</p>
             </button>
             <button
               className="bg-[var(--cp-brand-primary)] hover:bg-[var(--cp-brand-active)] flex flex-1 h-[46px] items-center justify-center rounded-[5px] cursor-pointer transition-colors"
               onClick={onProceed}
             >
-              <p className="font-['Inter:Medium',sans-serif] font-medium text-[13px] text-white">Ok, proceed</p>
+              <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-white">Proceed</p>
             </button>
           </div>
         </div>

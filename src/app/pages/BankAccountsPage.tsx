@@ -270,7 +270,7 @@ function BankRow({ account, index, isPrimary, isReordering, reorderMode, hasDrag
         <div className="content-stretch flex flex-1 h-[56px] items-start min-w-0 overflow-hidden px-[20px] py-[10px] relative rounded-[5px]">
           <div className="content-stretch flex flex-1 flex-col h-full items-start justify-between min-w-0 relative">
             <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[11px] text-[var(--cp-text-tertiary)] uppercase whitespace-nowrap leading-none shrink-0">Recipient Address</p>
-            <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-primary)] leading-none overflow-hidden text-ellipsis whitespace-nowrap w-full">{address}</p>
+            <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-primary)] leading-normal overflow-hidden text-ellipsis whitespace-nowrap w-full">{address}</p>
           </div>
         </div>
       </div>
@@ -307,6 +307,7 @@ export default function BankAccountsPage() {
 
   // Reorder state
   const [reorderingId, setReorderingId] = useState<string | null>(null);
+  const [bannerMode, setBannerMode] = useState<'reorder' | 'primary' | null>(null);
   const [hasDragged, setHasDragged] = useState(false);
   const dragIndexRef = useRef<number | null>(null);
 
@@ -331,7 +332,6 @@ export default function BankAccountsPage() {
     });
     dragIndexRef.current = null;
     setReorderingId(null);
-    setHasDragged(false);
   };
   return (
     <div className="content-stretch flex flex-col gap-[20px] items-start relative w-full">
@@ -355,7 +355,7 @@ export default function BankAccountsPage() {
           className="bg-[var(--cp-brand-primary)] content-stretch cursor-pointer flex h-[36px] items-center justify-center overflow-clip px-[10px] relative rounded-[5px] shrink-0 hover:bg-[var(--cp-brand-active)] transition-colors"
           onClick={() => setShowAddNew(true)}
         >
-          <p className="font-['Inter:Medium',sans-serif] font-medium text-[13px] text-white text-center whitespace-nowrap">Add Bank Account</p>
+          <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-white text-center whitespace-nowrap">Add Bank Account</p>
         </button>
       </div>
 
@@ -391,23 +391,32 @@ export default function BankAccountsPage() {
         document.body
       )}
 
-      {/* Reorder banner — outside the list so it's excluded from drag images */}
+      {/* Action banner (reorder / set-primary) */}
       <div
         className="w-full overflow-hidden rounded-t-[5px]"
-        style={{ maxHeight: reorderingId ? 48 : 0, transition: 'max-height 0.2s ease' }}
+        style={{ maxHeight: bannerMode ? 48 : 0, transition: 'max-height 0.2s ease' }}
       >
-        <div className={`flex items-center gap-[8px] px-[20px] py-[8px] w-full border-b bg-[#f0f5ff] border-[var(--cp-border-default)]`}>
+        <div className="flex items-center gap-[8px] px-[20px] py-[8px] w-full border-b bg-[#f0f5ff] border-[var(--cp-border-default)]">
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none" className="shrink-0 opacity-60">
-            <path d="M7 1v12M7 1L4 4M7 1l3 3M7 13l-3-3M7 13l3-3" stroke="var(--cp-brand-primary)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            {bannerMode === 'primary'
+              ? <path d="M7 2l1.5 3H12l-2.7 2 1 3.2L7 8.5 4.7 10.2l1-3.2L3 5h3.5z" stroke="var(--cp-brand-primary)" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+              : <path d="M7 1v12M7 1L4 4M7 1l3 3M7 13l-3-3M7 13l3-3" stroke="var(--cp-brand-primary)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            }
           </svg>
           <p className="font-['Inter:Medium',sans-serif] font-medium text-[12px] text-[var(--cp-brand-primary)]">
-            Drag to reorder. Dropping in the first position sets the account as Primary.
+            {bannerMode === 'primary'
+              ? 'Primary bank account updated.'
+              : 'Drag to reorder. Dropping in the first position sets the account as Primary.'}
           </p>
           <button
-            className="ml-auto font-['Inter:Medium',sans-serif] font-medium text-[12px] text-[var(--cp-text-tertiary)] hover:text-[var(--cp-text-secondary)] transition-colors"
-            onClick={() => { setReorderingId(null); setHasDragged(false); }}
+            className={`ml-auto font-['Inter:Semi_Bold',sans-serif] font-semibold text-[12px] transition-colors ${
+              bannerMode === 'primary' || hasDragged
+                ? 'text-[var(--cp-brand-primary)] hover:text-[var(--cp-brand-active)] hover:underline cursor-pointer'
+                : 'text-[var(--cp-brand-primary)] opacity-30 cursor-default pointer-events-none'
+            }`}
+            onClick={() => { setBannerMode(null); setReorderingId(null); setHasDragged(false); }}
           >
-            Done
+            Save Changes
           </button>
         </div>
       </div>
@@ -423,10 +432,17 @@ export default function BankAccountsPage() {
             isReordering={reorderingId === bank.id}
             hasDragged={hasDragged}
             reorderMode={reorderingId !== null}
-            onSetPrimary={() => setPrimaryId(bank.id)}
+            onSetPrimary={() => {
+              setPrimaryId(bank.id);
+              setOrderedBanks(prev => {
+                const next = prev.filter(b => b.id !== bank.id);
+                return [bank, ...next];
+              });
+              setBannerMode('primary');
+            }}
             onDelete={() => setDeletingBank(bank)}
             onEdit={() => setEditingBank(bank)}
-            onReorder={() => setReorderingId(bank.id)}
+            onReorder={() => { setReorderingId(bank.id); setBannerMode('reorder'); }}
             onDragStart={handleDragStart}
             onDragOver={handleDragOver}
             onDrop={handleDrop}

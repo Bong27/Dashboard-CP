@@ -9,6 +9,7 @@ import BankAddedModal from './BankAddedModal';
 
 type Props = {
   onClose: () => void;
+  onBankAdded?: (bankId: string) => void;
 };
 
 // ─── Info icon ────────────────────────────────────────────────────────────────
@@ -392,7 +393,7 @@ function AddLabelField({ labelInputRef, label, setLabel, bankName, labelValue }:
 }
 
 // ─── Modal ────────────────────────────────────────────────────────────────────
-export default function AddNewBankModal({ onClose }: Props) {
+export default function AddNewBankModal({ onClose, onBankAdded }: Props) {
   const { addBank } = useBanks();
   const [step, setStep] = useState<'form' | 'confirm' | '2fa' | 'done'>('form');
   const [twoFaCode, setTwoFaCode] = useState('');
@@ -451,14 +452,14 @@ export default function AddNewBankModal({ onClose }: Props) {
               className="bg-white border border-[var(--cp-border-default)] border-solid flex flex-1 h-[46px] items-center justify-center overflow-clip px-[10px] relative rounded-[5px] cursor-pointer hover:bg-[var(--cp-bg-2)] transition-colors"
               onClick={() => { setStep('confirm'); setTwoFaCode(''); }}
             >
-              <p className="font-['Inter:Medium',sans-serif] font-medium text-[13px] text-[var(--cp-text-secondary)] text-center whitespace-nowrap">Cancel</p>
+              <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-secondary)] text-center whitespace-nowrap">Cancel</p>
             </button>
             <button
               disabled={twoFaCode.replace(/\D/g, '').length < 2}
               className={`flex flex-1 h-[46px] items-center justify-center overflow-clip px-[10px] relative rounded-[5px] transition-colors ${twoFaCode.replace(/\D/g, '').length >= 2 ? 'bg-[var(--cp-brand-primary)] hover:bg-[var(--cp-brand-active)] cursor-pointer' : 'bg-[var(--cp-bg-2)] cursor-not-allowed'}`}
               onClick={() => {
                 if (twoFaCode.replace(/\D/g, '').length < 2) return;
-                addBank({
+                const newId = addBank({
                   label: labelValue,
                   bankName: bankName ?? '---',
                   holder: holderName,
@@ -471,10 +472,11 @@ export default function AddNewBankModal({ onClose }: Props) {
                   country: bankCountry,
                   status: 'under_review',
                 });
+                onBankAdded?.(newId);
                 setStep('done');
               }}
             >
-              <p className={`font-['Inter:Medium',sans-serif] font-medium text-[13px] text-center whitespace-nowrap ${twoFaCode.replace(/\D/g, '').length >= 2 ? 'text-white' : 'text-[var(--cp-text-secondary)]'}`}>Submit</p>
+              <p className={`font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-center whitespace-nowrap ${twoFaCode.replace(/\D/g, '').length >= 2 ? 'text-white' : 'text-[var(--cp-text-secondary)]'}`}>Submit</p>
             </button>
           </div>
         </div>

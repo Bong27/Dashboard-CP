@@ -36,7 +36,7 @@ type BankContextValue = {
   banks: BankEntry[];
   primaryId: string;
   setPrimaryId: (id: string) => void;
-  addBank: (bank: Omit<BankEntry, 'id'>) => void;
+  addBank: (bank: Omit<BankEntry, 'id'>) => string;
   updateBank: (id: string, patch: Partial<BankEntry>) => void;
   removeBank: (id: string) => void;
 };
@@ -47,9 +47,10 @@ export function BankProvider({ children }: { children: ReactNode }) {
   const [banks, setBanks] = useState<BankEntry[]>(INITIAL_BANKS);
   const [primaryId, setPrimaryId] = useState('wise');
 
-  const addBank = (bank: Omit<BankEntry, 'id'>) => {
+  const addBank = (bank: Omit<BankEntry, 'id'>): string => {
     const id = `bank_${Date.now()}`;
     setBanks(prev => [...prev, { ...bank, id, status: 'under_review' }]);
+    return id;
   };
 
   const updateBank = (id: string, patch: Partial<BankEntry>) => {

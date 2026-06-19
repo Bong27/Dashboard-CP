@@ -368,6 +368,7 @@ export default function PaySettingsRow({
   const [showBankDetails, setShowBankDetails] = useState(false);
   const [pendingUpdate, setPendingUpdate] = useState(false);
   const [showAddNewBank, setShowAddNewBank] = useState(false);
+  const [addingBankForNightly, setAddingBankForNightly] = useState(false);
   const [editingBankId, setEditingBankId] = useState<string | undefined>(committedBankId);
   const [selectedMode, setSelectedMode] = useState(() => {
     if (sk) {
@@ -393,7 +394,7 @@ export default function PaySettingsRow({
   useEffect(() => { if (sk) sessionStorage.setItem(`${sk}-payout`, payoutCurrency ?? '__null__'); }, [sk, payoutCurrency]);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // Derived: treat Nightly to Bank as To Custody when no banks exist (avoids flash before effect fires)
+  // Derived: treat Nightly to Bank as To Custody only when there are truly no banks at all
   const effectiveMode = (banks.length === 0 && selectedMode === 'Nightly to Bank') ? 'To Custody' : selectedMode;
 
   // Auto-reset to 'To Custody' only when committed bank is deleted (not on status change)
@@ -448,7 +449,13 @@ export default function PaySettingsRow({
       />, document.body)}
     {showAddNewBank && createPortal(
       <AddNewBankModal
-        onClose={() => setShowAddNewBank(false)}
+        onClose={() => { setShowAddNewBank(false); setAddingBankForNightly(false); }}
+        onBankAdded={addingBankForNightly ? (bankId) => {
+          setSelectedMode('Nightly to Bank');
+          setCommittedBankId(bankId);
+          setEditingBankId(bankId);
+          setAddingBankForNightly(false);
+        } : undefined}
       />, document.body)}
     <div className={`bg-[${selected ? 'var(--cp-bg-2)' : 'var(--cp-bg-1)'}] content-stretch flex gap-[10px] items-center pl-[20px] pr-[10px] py-[10px] relative size-full ${isDropdownOpen ? 'z-[100]' : ''}`} data-name="PaySettingsRow">
         <div aria-hidden="true" className="absolute border-[var(--cp-border-default)] border-solid border-t inset-0 pointer-events-none" />
@@ -507,9 +514,9 @@ export default function PaySettingsRow({
                           <text x="6" y="9" textAnchor="middle" fontSize="8" fontWeight="700" fill="#EA580C" fontFamily="Inter, sans-serif">i</text>
                         </svg>
                       </div>
-                      <div className="absolute bottom-[calc(100%+6px)] left-1/2 -translate-x-1/2 pointer-events-none opacity-0 group-hover/tooltip:opacity-100 transition-opacity z-[200] w-[200px]">
+                      <div className="absolute bottom-[calc(100%+6px)] left-1/2 -translate-x-1/2 pointer-events-none opacity-0 group-hover/tooltip:opacity-100 transition-opacity z-[200] w-[280px]">
                         <div className="bg-[#1a1a1a] rounded-[6px] px-[10px] py-[8px]">
-                          <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-white leading-[1.4] text-center">This bank account is under review. Settlement will resume once approved.</p>
+                          <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-white leading-[1.4] text-center">This bank account is under review. All settlements will temporarily route to your custodial wallet until approval is complete (24–48h). We will notify you as soon as your account is active.</p>
                         </div>
                         <div className="flex justify-center">
                           <svg width="10" height="5" viewBox="0 0 10 5" fill="none">
@@ -546,7 +553,7 @@ export default function PaySettingsRow({
               {[
                 { label: 'Disabled', description: '' },
                 { label: 'To Custody', description: 'Received payments are stored in your CoinPayments wallet for later withdrawal at your leisure. This option allows you to automatically convert payments into another currency as well.' },
-                { label: 'Nightly to Bank', description: 'Received payments are batched and wired nightly to your USD bank account. A $100 minimum balance is required per wire.' },
+                ...(!lockedPayoutCurrency ? [{ label: 'Nightly to Bank', description: 'Received payments are batched and wired nightly to your USD bank account. A $100 minimum balance is required per wire.' }] : []),
                 { label: 'To Non-Custody', description: 'Received payments are sent to the address or wallet ID you specify as soon as they are received and confirmed. This option allows you to automatically convert payments into another currency as well.' },
                 { label: 'Hourly To Non-Custody', description: 'Received payments are grouped together and sent hourly. The main benefit of this option is it will save you coin network fees.' },
                 { label: 'Nightly To Non-Custody', description: 'Received payments are grouped together and sent daily (at approx. midnight EST GMT-05:00). The main benefit of this option is it will save you coin network fees.' },
@@ -560,6 +567,7 @@ export default function PaySettingsRow({
                     onClick={() => {
                       setIsDropdownOpen(false);
                       if (label === 'Nightly to Bank' && banks.length === 0) {
+                        setAddingBankForNightly(true);
                         setShowAddNewBank(true);
                         return;
                       }

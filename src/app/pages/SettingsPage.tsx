@@ -32,8 +32,9 @@ export default function SettingsPage() {
   const { banks } = useBanks();
   const [selectedRows, setSelectedRows] = useState<Set<number>>(new Set());
   const [showBulkEdit, setShowBulkEdit] = useState(false);
+  const [rowsResetKey, setRowsResetKey] = useState(0);
 
-  const canSelectRows = banks.some(b => b.status === 'approved');
+  const canSelectRows = banks.length > 0;
 
   const TOTAL_ROWS = 10;
 
@@ -167,13 +168,13 @@ export default function SettingsPage() {
                   onClick={() => setShow2fa(true)}
                   className="bg-[var(--cp-brand-primary)] content-stretch flex items-center justify-center overflow-clip p-[10px] relative rounded-[5px] shrink-0 cursor-pointer hover:bg-[var(--cp-brand-active)] transition-colors"
                 >
-                  <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[13px] text-center text-white whitespace-nowrap">
+                  <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[14.5px] text-center text-white whitespace-nowrap">
                     Save Changes
                   </p>
                 </button>
               ) : (
                 <div className="bg-[var(--cp-bg-2)] content-stretch flex items-center justify-center overflow-clip p-[10px] relative rounded-[5px] shrink-0">
-                  <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-secondary)] text-[13px] text-center whitespace-nowrap">Save Changes</p>
+                  <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-secondary)] text-[14.5px] text-center whitespace-nowrap">Save Changes</p>
                 </div>
               )}
 
@@ -252,7 +253,7 @@ export default function SettingsPage() {
             {/* Cryptocurrency List */}
             <div className="content-stretch flex flex-col items-start relative shrink-0 w-full">
               {/* Bank Payout rows — top of list, checked by default */}
-              <div className="relative w-full min-h-[76px]">
+              <div key={`bank-0-${rowsResetKey}`} className="relative w-full min-h-[76px]">
                 <PaySettingsRow
                   mode="bank"
                   bankId="wise"
@@ -270,7 +271,7 @@ export default function SettingsPage() {
                   onChanged={() => setHasChanges(true)}
                 />
               </div>
-              <div className="relative w-full min-h-[76px]">
+              <div key={`bank-1-${rowsResetKey}`} className="relative w-full min-h-[76px]">
                 <PaySettingsRow
                   mode="bank"
                   bankId="wise"
@@ -288,7 +289,7 @@ export default function SettingsPage() {
                   onChanged={() => setHasChanges(true)}
                 />
               </div>
-              <div className="relative w-full min-h-[76px]">
+              <div key={`bank-2-${rowsResetKey}`} className="relative w-full min-h-[76px]">
                 <PaySettingsRow
                   mode="bank"
                   bankId="wise"
@@ -307,8 +308,9 @@ export default function SettingsPage() {
                 />
               </div>
               {[0, 1, 2, 3, 4, 5, 6].map((index) => (
-                <div key={index} className="relative w-full min-h-[76px]">
+                <div key={`btc-${index}-${rowsResetKey}`} className="relative w-full min-h-[76px]">
                   <PaySettingsRow
+                    rowKey={`btc-${index}`}
                     lockedPayoutCurrency="Bitcoin"
                     selected={selectedRows.has(index + 3)}
                     onToggleSelect={() => toggleRow(index + 3)}
@@ -333,10 +335,27 @@ export default function SettingsPage() {
       {showBulkEdit && (
         <BulkEditModal
           selectedCount={selectedRows.size}
+          selectedRowKeys={[...selectedRows].map(i => i < 3 ? `bank-${i}` : `btc-${i - 3}`)}
+          eligibleSymbols={(['USDT.ERC20', 'USDC.ERC20', 'USDT.TRC20'] as const)
+            .filter((_, i) => selectedRows.has(i))}
           onClose={() => setShowBulkEdit(false)}
-          onConfirm={() => {
+          onEditSelection={() => setShowBulkEdit(false)}
+          onConfirm={(settings) => {
+            const rowKeys = [...selectedRows].map(i => i < 3 ? `bank-${i}` : `btc-${i - 3}`);
+            rowKeys.forEach(key => {
+              sessionStorage.setItem(`psr-${key}-mode`, settings.settlementMode);
+              if (settings.settlementMode === 'Nightly to Bank') {
+                if (settings.bankId) sessionStorage.setItem(`psr-${key}-bankId`, settings.bankId);
+                if (settings.payoutCurrency) sessionStorage.setItem(`psr-${key}-payout`, settings.payoutCurrency);
+              } else {
+                // For non-bank modes, clear payout so row re-derives its default
+                sessionStorage.removeItem(`psr-${key}-payout`);
+              }
+            });
+            setRowsResetKey(k => k + 1);
             setShowBulkEdit(false);
             setSelectedRows(new Set());
+            setHasChanges(true);
           }}
         />
       )}

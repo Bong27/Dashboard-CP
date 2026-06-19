@@ -37,7 +37,7 @@ export default function DeleteBankModal({ bankLabel, onConfirm, onClose }: Props
         <div className="bg-white flex flex-col gap-[20px] items-start p-[20px] relative rounded-[10px] w-full">
 
           {/* Title */}
-          <div className="flex flex-col gap-[10px] items-start relative shrink-0 w-full">
+          <div className="flex flex-col gap-[20px] items-start relative shrink-0 w-full">
             <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[13px] text-[var(--cp-text-secondary)] uppercase whitespace-nowrap">
               Delete Bank Account
             </p>
@@ -56,13 +56,13 @@ export default function DeleteBankModal({ bankLabel, onConfirm, onClose }: Props
                 </svg>
               </div>
               <div className="flex flex-col gap-[6px] flex-1 min-w-0">
-                <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[13px] text-red-700 leading-[1.2]">
+                <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[14.5px] text-red-700 leading-[1.2]">
                   This action cannot be undone
                 </p>
-                <ul className="flex flex-col gap-[4px]">
+                <ul className="flex flex-col gap-[8px] mt-[4px]">
                   {[
                     'The bank account will be permanently removed.',
-                    'All associated data will be lost.',
+                    'Your active bank payout settlements will automatically route to your custodial wallet.',
                     'Re-adding this account will require a new verification and approval process.',
                   ].map((line, i) => (
                     <li key={i} className="flex gap-[6px] items-start">
@@ -80,7 +80,7 @@ export default function DeleteBankModal({ bankLabel, onConfirm, onClose }: Props
             className="content-stretch flex gap-[10px] items-center relative shrink-0 w-full cursor-pointer"
             onClick={() => setConfirmed(v => !v)}
           >
-            <div className={`relative shrink-0 size-[16px] rounded-[3px] flex items-center justify-center border transition-colors ${confirmed ? 'bg-red-600 border-red-600' : 'bg-white border-[var(--cp-border-default)]'}`}>
+            <div className={`relative shrink-0 size-[16px] rounded-[3px] flex items-center justify-center border transition-colors ${confirmed ? 'bg-[var(--cp-text-secondary)] border-[var(--cp-text-secondary)]' : 'bg-white border-[var(--cp-border-default)]'}`}>
               {confirmed && (
                 <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
                   <path d="M1 4L3.5 6.5L9 1" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>

@@ -51,7 +51,7 @@ export default function BankAddedModal({ onClose }: Props) {
                   <circle cx="8" cy="5.5" r="0.75" fill="white" />
                 </svg>
               </div>
-              <p className="flex-[1_0_0] font-['Inter:Regular',sans-serif] font-normal text-[13px] text-[var(--cp-text-secondary)] leading-[1.2] min-w-px">
+              <p className="flex-[1_0_0] font-['Inter:Regular',sans-serif] font-normal text-[14.5px] text-[var(--cp-text-secondary)] leading-[1.2] min-w-px">
                 Your Bank Account is under review
               </p>
             </div>
@@ -60,11 +60,11 @@ export default function BankAddedModal({ onClose }: Props) {
             <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-primary)] leading-[1.2]">
               Our team is currently verifying your bank account details to ensure secure processing.
               <br /><br />
-              This review typically takes up to 24 business hours. Please note that you won't be able to initiate payouts or move funds to this account until the verification process is complete. We'll notify you as soon as it's approved!
+              This review typically takes <span className="font-['Inter:Semi_Bold',sans-serif] font-semibold">24 to 48 hours</span>. Please note that while verification is pending, all payout settlements will temporarily route <span className="font-['Inter:Semi_Bold',sans-serif] font-semibold">to your custodial wallet until approval is complete</span>. We'll notify you as soon as your bank account is active!
               <br /><br />
-              You can check your saved accounts at any time under{' '}
+              You can check and manage your saved credentials at any time under the{' '}
               <span
-                className="text-[#1c60dd] cursor-pointer"
+                className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[#1c60dd] cursor-pointer"
                 onClick={handleBankAccounts}
               >
                 Bank Accounts
@@ -76,7 +76,7 @@ export default function BankAddedModal({ onClose }: Props) {
           {/* Info points */}
           <div className="bg-[var(--cp-bg-1)] content-stretch flex flex-col gap-[5px] items-start overflow-clip p-[10px] relative rounded-[5px] shrink-0 w-full">
             {[
-              <>Reviews are usually completed within 1-2 business days, contact <span className="text-[#3898ec]">Support</span> in case of longer timing.</>,
+              <>Reviews are usually completed within 1-2 business days, contact <span className="text-[#1c60dd]">Support</span> in case of longer timing.</>,
               <>CoinPayments' financial department may contact you via your registered email address to verify your transfer details.</>,
             ].map((text, i) => (
               <div key={i} className="content-stretch flex gap-[11px] items-start relative shrink-0 w-full">
@@ -96,7 +96,7 @@ export default function BankAddedModal({ onClose }: Props) {
               className="bg-[var(--cp-brand-primary)] hover:bg-[var(--cp-brand-active)] content-stretch flex flex-1 h-[46px] items-center justify-center overflow-clip px-[10px] relative rounded-[5px] cursor-pointer transition-colors"
               onClick={onClose}
             >
-              <p className="font-['Inter:Medium',sans-serif] font-medium text-[13px] text-white text-center whitespace-nowrap">Done</p>
+              <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-white text-center whitespace-nowrap">Done</p>
             </button>
           </div>
 

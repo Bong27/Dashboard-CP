@@ -220,28 +220,26 @@ export default function BankDetailsModal({ onClose, onUpdate, onAddNewBank, onMa
                       return (
                         <div
                           key={bank.name}
-                          className={`relative rounded-[5px] shrink-0 w-full transition-colors ${
-                            isUnderReview
-                              ? 'opacity-50 cursor-not-allowed bg-white'
-                              : isSelected
-                              ? 'bg-[var(--cp-brand-primary)] cursor-pointer'
-                              : 'bg-white hover:bg-[var(--cp-bg-1)] cursor-pointer'
+                          className={`relative rounded-[5px] shrink-0 w-full transition-colors cursor-pointer ${
+                            isSelected
+                              ? 'bg-[var(--cp-brand-primary)]'
+                              : 'bg-white hover:bg-[var(--cp-bg-1)]'
                           }`}
-                          onClick={() => { if (!isUnderReview) { setSelectedBank(bank); setBankOpen(false); setUserPickedBank(true); } }}
+                          onClick={() => { setSelectedBank(bank); setBankOpen(false); setUserPickedBank(true); }}
                         >
-                          <div aria-hidden="true" className={`absolute border border-solid inset-0 pointer-events-none rounded-[5px] ${isSelected ? (isUnderReview ? 'border-orange-200' : 'border-transparent') : 'border-[var(--cp-border-default)]'}`} />
+                          <div aria-hidden="true" className={`absolute border border-solid inset-0 pointer-events-none rounded-[5px] ${isSelected ? 'border-transparent' : 'border-[var(--cp-border-default)]'}`} />
                           <div className="content-stretch flex flex-col items-start leading-[normal] not-italic p-[10px] relative size-full text-[11px]">
                             <div className="flex items-center justify-between w-full">
                               <div className="flex flex-col items-start">
-                                <p className={`font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 ${isSelected && !isUnderReview ? 'text-white' : 'text-[var(--cp-text-primary)]'}`}>
+                                <p className={`font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 ${isSelected ? 'text-white' : 'text-[var(--cp-text-primary)]'}`}>
                                   {bank.name}
                                 </p>
-                                <p className={`font-['Inter:Medium',sans-serif] font-medium relative shrink-0 ${isSelected && !isUnderReview ? 'text-white/80' : 'text-[var(--cp-text-secondary)]'}`}>
+                                <p className={`font-['Inter:Medium',sans-serif] font-medium relative shrink-0 ${isSelected ? 'text-white/80' : 'text-[var(--cp-text-secondary)]'}`}>
                                   {bank.account}
                                 </p>
                               </div>
                               {isUnderReview && (
-                                <span className="bg-orange-100 text-orange-600 font-['Inter:Semi_Bold',sans-serif] font-semibold text-[9px] uppercase px-[5px] py-[2px] rounded-[3px] whitespace-nowrap shrink-0 self-center">
+                                <span className={`font-['Inter:Semi_Bold',sans-serif] font-semibold text-[9px] uppercase px-[5px] py-[2px] rounded-[3px] whitespace-nowrap shrink-0 self-center ${isSelected ? 'bg-white/20 text-white' : 'bg-orange-100 text-orange-600'}`}>
                                   Under Review
                                 </span>
                               )}
@@ -287,22 +285,24 @@ export default function BankDetailsModal({ onClose, onUpdate, onAddNewBank, onMa
             <DataRow label="Label"                value={details.label} />
           </div>
 
-          {/* Under review notice */}
-          {isUnderReview && (
-            <div
-              className="flex gap-[8px] items-start p-[10px] relative rounded-[5px] shrink-0 w-full"
-              style={{ background: 'rgba(245,158,11,0.15)' }}
-            >
-              <svg className="shrink-0 mt-[1px]" width="14" height="14" viewBox="0 0 16 16" fill="none">
-                <circle cx="8" cy="8" r="8" fill="#f59e0b" />
-                <path d="M8 7V11" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
-                <circle cx="8" cy="5.5" r="0.75" fill="white" />
-              </svg>
-              <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] leading-[1.2] flex-1 min-w-px" style={{ color: '#d97706' }}>
-                This account is under review. All transactions and payouts are paused until verification is complete and the account is approved.
-              </p>
-            </div>
-          )}
+          {/* Under review notice — always reserves space to prevent height jump */}
+          <div className="w-full overflow-hidden shrink-0" style={{ height: 48 }}>
+            {isUnderReview && (
+              <div
+                className="flex gap-[8px] items-start p-[10px] relative rounded-[5px] w-full h-full"
+                style={{ background: 'rgba(245,158,11,0.15)' }}
+              >
+                <svg className="shrink-0 mt-[1px]" width="14" height="14" viewBox="0 0 16 16" fill="none">
+                  <circle cx="8" cy="8" r="8" fill="#f59e0b" />
+                  <path d="M8 7V11" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
+                  <circle cx="8" cy="5.5" r="0.75" fill="white" />
+                </svg>
+                <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] leading-[1.2] flex-1 min-w-px" style={{ color: '#d97706' }}>
+                  Account under review. Settlements will temporarily route to your custodial wallet until approval is complete (24–48h).
+                </p>
+              </div>
+            )}
+          </div>
 
           {/* Buttons */}
           <div className="content-stretch flex gap-[10px] items-center relative shrink-0 w-full">
@@ -320,15 +320,15 @@ export default function BankDetailsModal({ onClose, onUpdate, onAddNewBank, onMa
             {/* Update */}
             <button
               className={`content-stretch flex flex-1 h-[46px] items-center justify-center overflow-clip px-[10px] relative rounded-[5px] transition-colors ${
-                hasChanged && !isUnderReview
+                hasChanged
                   ? 'bg-[var(--cp-brand-primary)] hover:bg-[var(--cp-brand-active)] cursor-pointer'
                   : 'bg-[var(--cp-bg-2)] cursor-not-allowed'
               }`}
               onClick={handleUpdate}
-              disabled={!hasChanged || isUnderReview}
+              disabled={!hasChanged}
             >
               <p className={`font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-center whitespace-nowrap ${
-                hasChanged && !isUnderReview ? 'text-white' : 'text-[var(--cp-text-secondary)]'
+                hasChanged ? 'text-white' : 'text-[var(--cp-text-secondary)]'
               }`}>
                 Update
               </p>

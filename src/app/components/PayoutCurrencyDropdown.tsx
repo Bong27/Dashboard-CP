@@ -12,9 +12,10 @@ type PayoutCurrencyDropdownProps = {
   onChange: (value: string) => void;
   className?: string;
   variant?: 'default' | 'inline';
+  placeholder?: string;
 };
 
-export function PayoutCurrencyDropdown({ value, onChange, className = '', variant = 'default' }: PayoutCurrencyDropdownProps) {
+export function PayoutCurrencyDropdown({ value, onChange, className = '', variant = 'default', placeholder = 'Select currency' }: PayoutCurrencyDropdownProps) {
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState('');
   const ref = useRef<HTMLDivElement>(null);
@@ -72,8 +73,8 @@ export function PayoutCurrencyDropdown({ value, onChange, className = '', varian
                   </p>
                 </>
               ) : (
-                <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-quinary)] text-[14.5px] whitespace-nowrap">
-                  Select currency
+                <p className={`font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[14.5px] whitespace-nowrap ${placeholder === 'Select currency' ? 'text-[var(--cp-text-quinary)]' : 'text-[var(--cp-text-primary)]'}`}>
+                  {placeholder}
                 </p>
               )}
             </div>
