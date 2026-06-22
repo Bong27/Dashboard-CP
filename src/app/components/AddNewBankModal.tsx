@@ -51,6 +51,7 @@ function Field({
   halfWidth = false,
   helper = '',
   inactive = false,
+  validate,
 }: {
   label: string;
   value: string;
@@ -62,17 +63,28 @@ function Field({
   halfWidth?: boolean;
   helper?: string;
   inactive?: boolean;
+  validate?: (v: string) => string | null;
 }) {
   const [focused, setFocused] = useState(false);
   const [hovered, setHovered] = useState(false);
-  const showHelper = focused && helper;
+  const [touched, setTouched] = useState(false);
+
+  const errorText = validate ? validate(value) : null;
+  const showError = !!errorText && touched && !focused && !inactive;
+  const showHelper = focused && helper && !showError;
+
   const borderColor = inactive
     ? 'var(--cp-border-default)'
-    : focused
-      ? 'var(--cp-brand-primary)'
-      : hovered
-        ? 'var(--cp-border-hover)'
-        : 'var(--cp-border-default)';
+    : showError
+      ? '#E53935'
+      : focused
+        ? 'var(--cp-brand-primary)'
+        : hovered
+          ? 'var(--cp-border-hover)'
+          : 'var(--cp-border-default)';
+
+  const borderRadius = (showHelper || showError) ? '5px 5px 0 0' : '5px';
+
   return (
     <div
       className={`relative ${halfWidth ? 'flex-1 min-w-0' : 'w-full shrink-0'}`}
@@ -81,11 +93,11 @@ function Field({
       onMouseLeave={() => setHovered(false)}
     >
       <div
-        className="bg-white relative rounded-[5px] h-[56px] flex items-start justify-between p-[10px]"
+        className="bg-white relative h-[56px] flex items-start justify-between p-[10px]"
         style={{
           border: `1px solid ${borderColor}`,
           transition: 'border-color 0.1s',
-          borderRadius: showHelper ? '5px 5px 0 0' : '5px',
+          borderRadius,
           pointerEvents: inactive ? 'none' : undefined,
           opacity: inactive ? 0.6 : 1,
         }}
@@ -103,7 +115,7 @@ function Field({
             onChange={e => onChange(e.target.value)}
             placeholder={placeholder}
             onFocus={() => setFocused(true)}
-            onBlur={() => setFocused(false)}
+            onBlur={() => { setFocused(false); setTouched(true); }}
             className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] bg-transparent border-none outline-none w-full min-w-0 leading-none placeholder:text-[var(--cp-text-quinary)] overflow-hidden text-ellipsis whitespace-nowrap"
             style={{
               color: dimValue ? 'var(--cp-text-quaternary)' : 'var(--cp-text-primary)',
@@ -113,13 +125,22 @@ function Field({
         </div>
         {hasChevron && <ChevronSelector />}
       </div>
-      {/* Helper — absolute overlay, never affects layout */}
+      {/* Blue helper */}
       {showHelper && (
         <div
           className="absolute left-0 right-0 px-[10px] py-[6px] rounded-b-[5px] z-10"
           style={{ top: '100%', background: 'var(--cp-brand-primary)', border: '1px solid var(--cp-brand-primary)', borderTop: 'none' }}
         >
           <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-white leading-[1.2]">{helper}</p>
+        </div>
+      )}
+      {/* Red error helper */}
+      {showError && (
+        <div
+          className="absolute left-0 right-0 px-[10px] py-[6px] rounded-b-[5px] z-10"
+          style={{ top: '100%', background: '#E53935', border: '1px solid #E53935', borderTop: 'none' }}
+        >
+          <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-white leading-[1.2]">{errorText}</p>
         </div>
       )}
     </div>
@@ -167,17 +188,24 @@ function BankCountryField({
   );
 }
 
+// ─── UK IBAN validator ────────────────────────────────────────────────────────
+// Format: GB + 2 check digits + 4 letters (BIC) + 6 digits (sort code) + 8 digits (account) = 22 chars
+function isValidUkIban(raw: string): boolean {
+  const v = raw.replace(/\s/g, '').toUpperCase();
+  return /^GB\d{2}[A-Z]{4}\d{14}$/.test(v);
+}
+
 // ─── IBAN field with type dropdown ───────────────────────────────────────────
 const IBAN_TYPES = [
   { label: 'IBAN', description: 'International Bank Account Number — used for cross-border payments in Europe and beyond.' },
   { label: 'Account Number', description: 'Local account number — used for domestic transfers within a specific country.' },
 ];
 
-function IBANField({ value, onChange }: { value: string; onChange: (v: string) => void }) {
+function IBANField({ value, onChange, ibanType, onIbanTypeChange }: { value: string; onChange: (v: string) => void; ibanType: string; onIbanTypeChange: (t: string) => void }) {
   const [focused, setFocused] = useState(false);
   const [hovered, setHovered] = useState(false);
   const [open, setOpen] = useState(false);
-  const [ibanType, setIbanType] = useState('IBAN');
+  const [touched, setTouched] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -188,16 +216,40 @@ function IBANField({ value, onChange }: { value: string; onChange: (v: string) =
     return () => document.removeEventListener('mousedown', handler);
   }, [open]);
 
+  useEffect(() => { setTouched(false); }, [ibanType]);
+
+
   const placeholder = ibanType === 'IBAN'
-    ? 'Enter a valid IBAN (up to 34 characters)'
+    ? 'Enter a valid IBAN (22 characters)'
     : 'Enter account number';
+
+  const isIbanValid = ibanType === 'IBAN' && isValidUkIban(value);
+  const isAccountValid = ibanType === 'Account Number' && /^\d+$/.test(value) && value.length > 6;
+  const isValid = isIbanValid;  // checkmark only for IBAN
+
+  const stripped = value.replace(/\s/g, '');
+
+  const showIbanError = ibanType === 'IBAN' && !isIbanValid && !focused && !open && value.trim() !== '' && (
+    stripped.length >= 22 || touched
+  );
+  const showAccountError = ibanType === 'Account Number' && !isAccountValid && !focused && !open && value.trim() !== '' && touched;
+  const showError = showIbanError || showAccountError;
+
+  const errorText = showIbanError
+    ? 'The value is not in the correct UK IBAN format'
+    : 'Must contain numbers only and be more than 6 digits';
+  const borderColor = showError
+    ? '#E53935'
+    : focused || open ? 'var(--cp-border-active)'
+    : hovered ? 'var(--cp-border-hover)'
+    : 'var(--cp-border-default)';
 
   return (
     <div ref={wrapperRef} className="relative w-full shrink-0" style={{ overflow: 'visible' }}>
       {/* Input row */}
       <div
-        className="bg-white relative rounded-[5px] h-[56px] flex items-start justify-between p-[10px] w-full"
-        style={{ border: `1px solid ${focused || open ? 'var(--cp-border-active)' : hovered ? 'var(--cp-border-hover)' : 'var(--cp-border-default)'}`, transition: 'border-color 0.1s' }}
+        className="bg-white relative h-[56px] flex items-start justify-between p-[10px] w-full"
+        style={{ border: `1px solid ${borderColor}`, borderRadius: showError ? '5px 5px 0 0' : '5px', transition: 'border-color 0.1s' }}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
       >
@@ -208,28 +260,38 @@ function IBANField({ value, onChange }: { value: string; onChange: (v: string) =
           <input
             type="text"
             value={value}
-            onChange={e => onChange(e.target.value)}
+            onChange={e => {
+              const v = ibanType === 'Account Number' ? e.target.value.replace(/\D/g, '') : e.target.value;
+              onChange(v);
+            }}
             placeholder={placeholder}
             onFocus={() => setFocused(true)}
-            onBlur={() => setFocused(false)}
+            onBlur={() => { setFocused(false); setTouched(true); }}
             className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-primary)] bg-transparent border-none outline-none w-full min-w-0 leading-none overflow-hidden text-ellipsis whitespace-nowrap placeholder:text-[var(--cp-text-quinary)]"
             style={{ caretColor: 'var(--cp-brand-primary)' }}
           />
         </div>
-        {/* Chevron toggle */}
+        {/* Right side: [checkmark when valid] | divider | chevron — divider+chevron block stays fixed */}
         <button
-          className="content-stretch flex items-center justify-between relative shrink-0 w-[21px] self-stretch cursor-pointer"
+          className="content-stretch flex items-center relative shrink-0 self-stretch cursor-pointer"
           onClick={() => setOpen(o => !o)}
           tabIndex={-1}
           type="button"
         >
-          <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" />
-          <div className={`flex items-center justify-center relative shrink-0 transition-transform duration-150 ${open ? 'rotate-180' : ''}`}>
-            <div className="overflow-clip relative shrink-0 size-[12px]">
-              <div className="absolute inset-[34.38%_21.88%]">
-                <svg className="absolute block inset-0 size-full" fill="none" viewBox="0 0 6.74999 3.74999">
-                  <path clipRule="evenodd" d="M0.292893,0.292893C0.455612,0.130168,0.719387,0.130168,0.882107,0.292893L3.375,2.78579L5.86789,0.292893C6.03061,0.130168,6.29439,0.130168,6.45711,0.292893C6.61983,0.455612,6.61983,0.719387,6.45711,0.882107L3.66961,3.66961C3.50688,3.83233,3.24312,3.83233,3.08039,3.66961L0.292893,0.882107C0.130168,0.719387,0.130168,0.455612,0.292893,0.292893Z" fill="var(--cp-text-quinary)" fillRule="evenodd" />
-                </svg>
+          {isValid && (
+            <svg width="10" height="8" viewBox="0 0 10 8" fill="none" className="shrink-0 mr-[10px]">
+              <path d="M1 4L3.5 6.5L9 1" stroke="var(--cp-text-secondary)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          )}
+          <div className="content-stretch flex items-center justify-between relative shrink-0 w-[21px] self-stretch">
+            <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" />
+            <div className={`flex items-center justify-center relative shrink-0 transition-transform duration-150 ${open ? 'rotate-180' : ''}`}>
+              <div className="overflow-clip relative shrink-0 size-[12px]">
+                <div className="absolute inset-[34.38%_21.88%]">
+                  <svg className="absolute block inset-0 size-full" fill="none" viewBox="0 0 6.74999 3.74999">
+                    <path clipRule="evenodd" d="M0.292893,0.292893C0.455612,0.130168,0.719387,0.130168,0.882107,0.292893L3.375,2.78579L5.86789,0.292893C6.03061,0.130168,6.29439,0.130168,6.45711,0.292893C6.61983,0.455612,6.61983,0.719387,6.45711,0.882107L3.66961,3.66961C3.50688,3.83233,3.24312,3.83233,3.08039,3.66961L0.292893,0.882107C0.130168,0.719387,0.130168,0.455612,0.292893,0.292893Z" fill="var(--cp-text-quinary)" fillRule="evenodd" />
+                  </svg>
+                </div>
               </div>
             </div>
           </div>
@@ -250,7 +312,7 @@ function IBANField({ value, onChange }: { value: string; onChange: (v: string) =
                 <div
                   key={type.label}
                   className={`relative rounded-[5px] shrink-0 w-full cursor-pointer transition-colors ${isActive ? 'bg-[var(--cp-brand-primary)]' : 'bg-white hover:bg-[var(--cp-bg-1)]'}`}
-                  onClick={() => { setIbanType(type.label); setOpen(false); }}
+                  onClick={() => { onIbanTypeChange(type.label); onChange(''); setOpen(false); }}
                 >
                   {!isActive && <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[5px]" />}
                   <div className="flex flex-col items-start p-[10px]">
@@ -265,6 +327,17 @@ function IBANField({ value, onChange }: { value: string; onChange: (v: string) =
               );
             })}
           </div>
+        </div>
+      )}
+      {/* Error helper */}
+      {showError && (
+        <div
+          className="absolute left-0 right-0 px-[10px] py-[6px] rounded-b-[5px] z-10"
+          style={{ top: '100%', background: '#E53935', border: '1px solid #E53935', borderTop: 'none' }}
+        >
+          <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-white leading-[1.2]">
+            {errorText}
+          </p>
         </div>
       )}
     </div>
@@ -379,9 +452,9 @@ function AddLabelField({ labelInputRef, label, setLabel, bankName, labelValue }:
         <input
           ref={labelInputRef}
           type="text"
-          value={labelValue === '---' && !label ? '' : label}
+          value={label || bankName || ''}
           onChange={e => setLabel(e.target.value)}
-          placeholder={bankName ?? '---'}
+          placeholder="---"
           onFocus={() => setFocused(true)}
           onBlur={() => setFocused(false)}
           className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-primary)] bg-transparent border-none outline-none w-full min-w-0 leading-none"
@@ -400,6 +473,7 @@ export default function AddNewBankModal({ onClose, onBankAdded }: Props) {
   const [holderName, setHolderName]     = useState('Acme Corp');
   const [bankCountry, setBankCountry]   = useState('United Kingdom');
   const [iban, setIban]                 = useState('');
+  const [ibanType, setIbanType]         = useState('IBAN');
   const [bic, setBic]                   = useState('');
   const [address, setAddress]           = useState('Flat 4, 25 Baker Street');
   const [city, setCity]                 = useState('London');
@@ -409,12 +483,52 @@ export default function AddNewBankModal({ onClose, onBankAdded }: Props) {
   const [check2, setCheck2]             = useState(true);
   const labelInputRef                   = useRef<HTMLInputElement>(null);
 
-  const bankName = BIC_TO_BANK[bic.trim().toUpperCase()] ?? null;
+  const ibanValid = isValidUkIban(iban);
+  const bicFromIban = ibanValid ? (() => {
+    const v = iban.replace(/\s/g, '').toUpperCase();
+    const bankCode = v.slice(4, 8);          // e.g. BARC
+    const countryCode = v.slice(0, 2);       // e.g. GB
+    // Derive 2-char location code from sort code digits (positions 8-13)
+    const sortDigits = v.slice(8, 14);
+    const loc0 = String.fromCharCode(48 + (parseInt(sortDigits[0]) % 10)); // digit
+    const loc1 = String.fromCharCode(65 + (parseInt(sortDigits[1]) % 26)); // letter
+    const base8 = `${bankCode}${countryCode}${loc0}${loc1}`;
+    // Use IBAN char-sum parity to decide 8 or 11 chars
+    const hash = v.split('').reduce((a, c) => a + c.charCodeAt(0), 0);
+    return hash % 2 === 0 ? base8 : `${base8}XXX`;
+  })() : null;
+
+  const prevIbanValid = useRef(false);
+  useEffect(() => {
+    if (ibanValid) {
+      setBic(bicFromIban!);
+    } else if (prevIbanValid.current) {
+      // IBAN just became invalid — clear the auto-populated BIC
+      setBic('');
+    }
+    prevIbanValid.current = ibanValid;
+  }, [ibanValid, bicFromIban]);
+
+  // Derive bank name: first try full BIC lookup, then use 4-char prefix from IBAN to rotate examples
+  const IBAN_BANK_EXAMPLES = ['HSBC', 'Barclays Bank', 'Citibank', 'Wise'];
+  const bankNameFromBic = BIC_TO_BANK[bic.trim().toUpperCase()] ?? null;
+  const bankNameFromIban = ibanValid
+    ? (() => {
+        const v = iban.replace(/\s/g, '').toUpperCase();
+        const hash = v.split('').reduce((acc, c) => acc + c.charCodeAt(0), 0);
+        return IBAN_BANK_EXAMPLES[hash % IBAN_BANK_EXAMPLES.length];
+      })()
+    : null;
+  const bankName = bankNameFromBic ?? bankNameFromIban;
   const [label, setLabel]               = useState('');
   // keep label in sync with bankName when user hasn't manually edited it
   const labelValue = label || bankName || '---';
 
-  const canContinue = iban.trim() !== '' && bic.trim() !== '';
+  const accountNumberValid = /^\d+$/.test(iban) && iban.length > 6;
+  const bicValid = bic.trim().length >= 8 && bic.trim().length <= 11;
+  const canContinue = ibanType === 'IBAN'
+    ? ibanValid && bic.trim() !== ''
+    : accountNumberValid && bicValid;
 
   if (step === 'done') return <BankAddedModal onClose={onClose} />;
 
@@ -516,8 +630,18 @@ export default function AddNewBankModal({ onClose, onBankAdded }: Props) {
           <div className="flex flex-col gap-[8px] items-start relative w-full flex-1 min-h-0 overflow-y-auto">
             <Field label="Account Holder Name" value={holderName}  onChange={setHolderName} helper="Must exactly match the name registered with your bank" />
             <BankCountryField value={bankCountry} onChange={setBankCountry} />
-            <IBANField value={iban} onChange={setIban} />
-            <Field label="BIC / SWIFT"  value={bic}         onChange={setBic} />
+            <IBANField value={iban} onChange={setIban} ibanType={ibanType} onIbanTypeChange={setIbanType} />
+            <Field
+              label="BIC / SWIFT"
+              value={bic}
+              onChange={setBic}
+              inactive={!!bicFromIban}
+              placeholder="8-11 characters"
+              validate={v => {
+                if (!bicFromIban && v.trim() !== '' && (v.trim().length < 8 || v.trim().length > 11)) return 'BIC / SWIFT must be between 8 and 11 characters';
+                return null;
+              }}
+            />
             <Field label="Address"      value={address}     onChange={setAddress} helper="Must exactly match the billing address registered with your bank" />
             <Field label="Town / City"  value={city}        onChange={setCity}    helper="Must exactly match the billing address registered with your bank" />
             <Field label="Postal / ZIP Code" value={postalCode} onChange={setPostalCode} helper="Must exactly match the billing address registered with your bank" />
@@ -579,13 +703,13 @@ export default function AddNewBankModal({ onClose, onBankAdded }: Props) {
             {/* Bank Name */}
             <DataRow label="Bank Name" value={bankName ?? '---'} />
 
-            {/* IBAN */}
-            <DataRow label="IBAN" value={iban} />
+            {/* IBAN — only shown when IBAN mode */}
+            {ibanType === 'IBAN' && <DataRow label="IBAN" value={iban} />}
 
             {/* Account Number + BIC side by side */}
             <div className="flex items-start justify-between relative shrink-0 w-full gap-[10px]">
               <div className="flex-1 min-w-0">
-                <DataRow label="Account Number" value={iban.replace(/\s/g, '').slice(-8) || '---'} />
+                <DataRow label="Account Number" value={ibanType === 'IBAN' ? (iban.replace(/\s/g, '').slice(-8) || '---') : iban} />
               </div>
               <div className="flex-1 min-w-0">
                 <DataRow label="BIC / SWIFT" value={bic} />
