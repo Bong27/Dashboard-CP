@@ -188,11 +188,10 @@ function BankCountryField({
   );
 }
 
-// ─── UK IBAN validator ────────────────────────────────────────────────────────
-// Format: GB + 2 check digits + 4 letters (BIC) + 6 digits (sort code) + 8 digits (account) = 22 chars
+// ─── IBAN validator (global format, 14–34 chars) ─────────────────────────────
 function isValidUkIban(raw: string): boolean {
   const v = raw.replace(/\s/g, '').toUpperCase();
-  return /^GB\d{2}[A-Z]{4}\d{14}$/.test(v);
+  return /^[A-Z]{2}[A-Z0-9]{12,32}$/.test(v);
 }
 
 // ─── IBAN field with type dropdown ───────────────────────────────────────────
@@ -220,7 +219,7 @@ function IBANField({ value, onChange, ibanType, onIbanTypeChange }: { value: str
 
 
   const placeholder = ibanType === 'IBAN'
-    ? 'Enter a valid IBAN (22 characters)'
+    ? 'Enter a valid IBAN (14–34 characters)'
     : 'Enter account number';
 
   const isIbanValid = ibanType === 'IBAN' && isValidUkIban(value);
@@ -230,13 +229,13 @@ function IBANField({ value, onChange, ibanType, onIbanTypeChange }: { value: str
   const stripped = value.replace(/\s/g, '');
 
   const showIbanError = ibanType === 'IBAN' && !isIbanValid && !focused && !open && value.trim() !== '' && (
-    stripped.length >= 22 || touched
+    stripped.length >= 34 || touched
   );
   const showAccountError = ibanType === 'Account Number' && !isAccountValid && !focused && !open && value.trim() !== '' && touched;
   const showError = showIbanError || showAccountError;
 
   const errorText = showIbanError
-    ? 'The value is not in the correct UK IBAN format'
+    ? 'Please enter a valid IBAN (14–34 characters)'
     : 'Must contain numbers only and be more than 6 digits';
   const borderColor = showError
     ? '#E53935'
