@@ -385,7 +385,7 @@ export default function BankPayoutModal({ onClose }: { onClose: () => void }) {
                   className="absolute left-0 right-0 px-[10px] py-[6px] rounded-b-[5px] z-10"
                   style={{ top: '100%', background: 'var(--cp-brand-primary)', border: '1px solid var(--cp-brand-primary)', borderTop: 'none' }}
                 >
-                  <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-white leading-[1.2]">Available Balance: 235.87</p>
+                  <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-white leading-[1.2]">Available Balance: 235.87 USDT</p>
                 </div>
               )}
             </div>
@@ -431,7 +431,7 @@ export default function BankPayoutModal({ onClose }: { onClose: () => void }) {
                   className="absolute left-0 right-0 px-[10px] py-[6px] rounded-b-[5px] z-10"
                   style={{ top: '100%', background: 'var(--cp-brand-primary)', border: '1px solid var(--cp-brand-primary)', borderTop: 'none' }}
                 >
-                  <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-white leading-[1.2]">Exchange Rate: 1 USDT = $0.99</p>
+                  <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-white leading-[1.2]">Exchange Rate: 1 USDT = $ 0.99</p>
                 </div>
               )}
             </div>
