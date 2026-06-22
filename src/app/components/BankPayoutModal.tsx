@@ -203,6 +203,9 @@ export default function BankPayoutModal({ onClose }: { onClose: () => void }) {
     }, LOADING_MS);
   };
 
+  const [amountFocused, setAmountFocused] = useState(false);
+  const [payoutFocused, setPayoutFocused] = useState(false);
+
   const isFilled     = state === 'filled' || state === 'countdown' || state === 'refreshing';
   const isLoading    = state === 'loading-payout' || state === 'loading-amount' || state === 'refreshing';
   const hasBank      = approvedBanks.length > 0;
@@ -346,68 +349,92 @@ export default function BankPayoutModal({ onClose }: { onClose: () => void }) {
           <div className="content-stretch flex flex-col gap-[8px] items-start relative shrink-0 w-full">
 
             {/* Amount (USDT) */}
-            <SelectField label="AMOUNT"
-              selector={
-                <div className="content-stretch flex gap-[5px] items-center relative self-stretch shrink-0">
-                  <div className="content-stretch flex gap-[10px] items-center pl-[10px] pr-[20px] py-[5px] relative shrink-0">
-                    <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-[var(--cp-text-tertiary)]">USDT</p>
-                    <UsdtBadge size={24} />
-                  </div>
-                  <div className="content-stretch flex items-center justify-between relative shrink-0 w-[21px]">
-                    <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" />
-                    <div className="overflow-clip relative shrink-0 size-[12px]">
-                      <div className="absolute inset-[34.38%_21.88%]">
-                        <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 6.74999 3.74999">
-                          <path clipRule="evenodd" d="M0.292893,0.292893C0.455612,0.130168,0.719387,0.130168,0.882107,0.292893L3.375,2.78579L5.86789,0.292893C6.03061,0.130168,6.29439,0.130168,6.45711,0.292893C6.61983,0.455612,6.61983,0.719387,6.45711,0.882107L3.66961,3.66961C3.50688,3.83233,3.24312,3.83233,3.08039,3.66961L0.292893,0.882107C0.130168,0.719387,0.130168,0.455612,0.292893,0.292893Z" fill="var(--cp-text-quinary)" fillRule="evenodd" />
-                        </svg>
+            <div className="relative w-full shrink-0">
+              <SelectField label="AMOUNT" focused={amountFocused}
+                selector={
+                  <div className="content-stretch flex gap-[5px] items-center relative self-stretch shrink-0">
+                    <div className="content-stretch flex gap-[10px] items-center pl-[10px] pr-[20px] py-[5px] relative shrink-0">
+                      <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-[var(--cp-text-tertiary)]">USDT</p>
+                      <UsdtBadge size={24} />
+                    </div>
+                    <div className="content-stretch flex items-center justify-between relative shrink-0 w-[21px]">
+                      <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" />
+                      <div className="overflow-clip relative shrink-0 size-[12px]">
+                        <div className="absolute inset-[34.38%_21.88%]">
+                          <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 6.74999 3.74999">
+                            <path clipRule="evenodd" d="M0.292893,0.292893C0.455612,0.130168,0.719387,0.130168,0.882107,0.292893L3.375,2.78579L5.86789,0.292893C6.03061,0.130168,6.29439,0.130168,6.45711,0.292893C6.61983,0.455612,6.61983,0.719387,6.45711,0.882107L3.66961,3.66961C3.50688,3.83233,3.24312,3.83233,3.08039,3.66961L0.292893,0.882107C0.130168,0.719387,0.130168,0.455612,0.292893,0.292893Z" fill="var(--cp-text-quinary)" fillRule="evenodd" />
+                          </svg>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              }>
-              <input
-                type="text" inputMode="decimal"
-                value={usdtAmount}
-                onChange={e => onUsdtChange(e.target.value)}
-                placeholder="0"
-                className="font-['Inter',sans-serif] font-bold text-[24px] bg-transparent border-none outline-none w-full min-w-0 block" style={{ letterSpacing: '-1px' }}
-                style={{ color: usdtAmount ? 'var(--cp-text-primary)' : 'var(--cp-text-quaternary)' }}
-              />
-            </SelectField>
-
-            {/* Estimated Payout (USD) */}
-            <SelectField label="ESTIMATED PAYOUT" labelInfo
-              selector={
-                <div className="content-stretch flex gap-[5px] items-center relative self-stretch shrink-0">
-                  <div className="content-stretch flex gap-[10px] items-center pl-[10px] pr-[20px] py-[5px] relative shrink-0">
-                    <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-[var(--cp-text-tertiary)]">USD</p>
-                    <UsdBadge size={24} />
-                  </div>
-                  <div className="content-stretch flex items-center justify-between relative shrink-0 w-[21px]">
-                    <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" />
-                    <div className="overflow-clip relative shrink-0 size-[12px]">
-                      <div className="absolute inset-[34.38%_21.88%]">
-                        <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 6.74999 3.74999">
-                          <path clipRule="evenodd" d="M0.292893,0.292893C0.455612,0.130168,0.719387,0.130168,0.882107,0.292893L3.375,2.78579L5.86789,0.292893C6.03061,0.130168,6.29439,0.130168,6.45711,0.292893C6.61983,0.455612,6.61983,0.719387,6.45711,0.882107L3.66961,3.66961C3.50688,3.83233,3.24312,3.83233,3.08039,3.66961L0.292893,0.882107C0.130168,0.719387,0.130168,0.455612,0.292893,0.292893Z" fill="var(--cp-text-quinary)" fillRule="evenodd" />
-                        </svg>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              }>
-              {state === 'loading-payout' ? (
-                <Skeleton width="100px" height={29} />
-              ) : (
+                }>
                 <input
                   type="text" inputMode="decimal"
-                  value={usdAmount}
-                  onChange={e => onUsdChange(e.target.value)}
-                  placeholder="$0"
+                  value={usdtAmount}
+                  onChange={e => onUsdtChange(e.target.value)}
+                  onFocus={() => setAmountFocused(true)}
+                  onBlur={() => setAmountFocused(false)}
+                  placeholder="0"
                   className="font-['Inter',sans-serif] font-bold text-[24px] bg-transparent border-none outline-none w-full min-w-0 block"
-                  style={{ letterSpacing: '-1px', color: usdAmount ? 'var(--cp-text-primary)' : 'var(--cp-text-quaternary)' }}
+                  style={{ letterSpacing: '-1px', color: usdtAmount ? 'var(--cp-text-primary)' : 'var(--cp-text-quaternary)' }}
                 />
+              </SelectField>
+              {amountFocused && (
+                <div
+                  className="absolute left-0 right-0 px-[10px] py-[6px] rounded-b-[5px] z-10"
+                  style={{ top: '100%', background: 'var(--cp-brand-primary)', border: '1px solid var(--cp-brand-primary)', borderTop: 'none' }}
+                >
+                  <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-white leading-[1.2]">Available Balance: 235.87</p>
+                </div>
               )}
-            </SelectField>
+            </div>
+
+            {/* Estimated Payout (USD) */}
+            <div className="relative w-full shrink-0">
+              <SelectField label="ESTIMATED PAYOUT" labelInfo focused={payoutFocused}
+                selector={
+                  <div className="content-stretch flex gap-[5px] items-center relative self-stretch shrink-0">
+                    <div className="content-stretch flex gap-[10px] items-center pl-[10px] pr-[20px] py-[5px] relative shrink-0">
+                      <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-[var(--cp-text-tertiary)]">USD</p>
+                      <UsdBadge size={24} />
+                    </div>
+                    <div className="content-stretch flex items-center justify-between relative shrink-0 w-[21px]">
+                      <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" />
+                      <div className="overflow-clip relative shrink-0 size-[12px]">
+                        <div className="absolute inset-[34.38%_21.88%]">
+                          <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 6.74999 3.74999">
+                            <path clipRule="evenodd" d="M0.292893,0.292893C0.455612,0.130168,0.719387,0.130168,0.882107,0.292893L3.375,2.78579L5.86789,0.292893C6.03061,0.130168,6.29439,0.130168,6.45711,0.292893C6.61983,0.455612,6.61983,0.719387,6.45711,0.882107L3.66961,3.66961C3.50688,3.83233,3.24312,3.83233,3.08039,3.66961L0.292893,0.882107C0.130168,0.719387,0.130168,0.455612,0.292893,0.292893Z" fill="var(--cp-text-quinary)" fillRule="evenodd" />
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                }>
+                {state === 'loading-payout' ? (
+                  <Skeleton width="100px" height={29} />
+                ) : (
+                  <input
+                    type="text" inputMode="decimal"
+                    value={usdAmount}
+                    onChange={e => onUsdChange(e.target.value)}
+                    onFocus={() => setPayoutFocused(true)}
+                    onBlur={() => setPayoutFocused(false)}
+                    placeholder="$0"
+                    className="font-['Inter',sans-serif] font-bold text-[24px] bg-transparent border-none outline-none w-full min-w-0 block"
+                    style={{ letterSpacing: '-1px', color: usdAmount ? 'var(--cp-text-primary)' : 'var(--cp-text-quaternary)' }}
+                  />
+                )}
+              </SelectField>
+              {payoutFocused && (
+                <div
+                  className="absolute left-0 right-0 px-[10px] py-[6px] rounded-b-[5px] z-10"
+                  style={{ top: '100%', background: 'var(--cp-brand-primary)', border: '1px solid var(--cp-brand-primary)', borderTop: 'none' }}
+                >
+                  <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-white leading-[1.2]">Exchange Rate: 1 USDT = $0.99</p>
+                </div>
+              )}
+            </div>
 
             {/* Bank Account */}
             {banks.length === 0 ? (
@@ -546,10 +573,9 @@ export default function BankPayoutModal({ onClose }: { onClose: () => void }) {
             </div>
 
             {/* Fees section */}
-            <div className="content-stretch flex flex-col items-start relative shrink-0 w-full gap-[5px]">
-              {/* Fees title + currency switcher on the same line */}
-              <div className="content-stretch flex items-center justify-between relative shrink-0 w-full">
-                <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-[var(--cp-text-secondary)]">Fees</p>
+            <div className="content-stretch flex flex-col items-start relative shrink-0 w-full gap-0">
+              {/* Currency switcher on its own row */}
+              <div className="content-stretch flex items-center justify-end relative shrink-0 w-full">
                 {/* Currency switcher */}
                 <div className="content-stretch flex gap-[5px] items-center justify-center relative shrink-0">
                   <div className="content-stretch flex gap-[5px] items-center justify-center p-[10px] relative rounded-[5px] shrink-0">
@@ -572,6 +598,9 @@ export default function BankPayoutModal({ onClose }: { onClose: () => void }) {
                   </div>
                 </div>
               </div>
+
+              {/* Fees title */}
+              <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-[var(--cp-text-secondary)]">Fees</p>
 
               <div className="content-stretch flex flex-col items-end relative shrink-0 w-full">
                 {/* Conversion fee */}

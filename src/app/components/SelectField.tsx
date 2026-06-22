@@ -6,6 +6,7 @@ type SelectFieldProps = {
   children: React.ReactNode;
   selector?: React.ReactNode;
   height?: number;
+  focused?: boolean;
 };
 
 function InfoIcon() {
@@ -18,14 +19,18 @@ function InfoIcon() {
   );
 }
 
-export function SelectField({ label, labelInfo, children, selector, height = 62 }: SelectFieldProps) {
+export function SelectField({ label, labelInfo, children, selector, height = 62, focused }: SelectFieldProps) {
   const [hovered, setHovered] = useState(false);
   // Map height to Tailwind class so h-full works on children
   const hClass = height === 56 ? 'h-[56px]' : height === 62 ? 'h-[62px]' : height === 46 ? 'h-[46px]' : 'h-[56px]';
+  const borderColor = focused
+    ? 'var(--cp-brand-primary)'
+    : hovered ? 'var(--cp-border-hover)' : 'var(--cp-border-default)';
+  const borderRadius = focused ? '5px 5px 0 0' : '5px';
   return (
     <div
-      className={`bg-white ${hClass} flex items-start justify-between p-[10px] relative rounded-[5px] shrink-0 w-full cursor-pointer transition-colors duration-100`}
-      style={{ border: `1px solid ${hovered ? 'var(--cp-border-hover)' : 'var(--cp-border-default)'}` }}
+      className={`bg-white ${hClass} flex items-start justify-between p-[10px] relative shrink-0 w-full cursor-pointer transition-colors duration-100`}
+      style={{ border: `1px solid ${borderColor}`, borderRadius }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
