@@ -126,12 +126,14 @@ function ContextMenu({ isPrimary, isReview, onSetPrimary, onDelete, onEdit, onRe
       >
         Set as Primary
       </button>
+      {/* Reorder hidden — preserved for future restore
       <button
         className={`${itemBase} text-[var(--cp-text-secondary)] hover:bg-[var(--cp-bg-1)]`}
         onClick={() => { onReorder(); onClose(); }}
       >
         Reorder
       </button>
+      */}
       <button
         className={`${itemBase} ${isReview ? 'text-[var(--cp-text-tertiary)] opacity-40 cursor-not-allowed' : 'text-[var(--cp-text-secondary)] hover:bg-[var(--cp-bg-1)]'}`}
         onClick={() => { if (!isReview) { onEdit(); onClose(); } }}
