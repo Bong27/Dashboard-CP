@@ -60,7 +60,7 @@ export default function BankAddedModal({ onClose }: Props) {
             <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-primary)] leading-[1.2]">
               Our team is currently verifying your bank account details to ensure secure processing.
               <br /><br />
-              This review typically takes <span className="font-['Inter:Semi_Bold',sans-serif] font-semibold">24 to 48 hours</span>. Please note that while verification is pending, all payout settlements will temporarily route <span className="font-['Inter:Semi_Bold',sans-serif] font-semibold">to your custodial wallet until approval is complete</span>. We'll notify you as soon as your bank account is active!
+              This review typically takes <span className="font-['Inter:Semi_Bold',sans-serif] font-semibold">up to 48 hours</span>. Please note that while verification is pending, all payout settlements will temporarily route <span className="font-['Inter:Semi_Bold',sans-serif] font-semibold">to your custodial wallet until approval is complete</span>. We'll notify you as soon as your bank account is active!
               <br /><br />
               You can check and manage your saved credentials at any time under the{' '}
               <span

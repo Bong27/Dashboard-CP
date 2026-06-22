@@ -516,7 +516,7 @@ export default function PaySettingsRow({
                       </div>
                       <div className="absolute bottom-[calc(100%+6px)] left-1/2 -translate-x-1/2 pointer-events-none opacity-0 group-hover/tooltip:opacity-100 transition-opacity z-[200] w-[280px]">
                         <div className="bg-[#1a1a1a] rounded-[6px] px-[10px] py-[8px]">
-                          <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-white leading-[1.4] text-center">This bank account is under review. All settlements will temporarily route to your custodial wallet until approval is complete (24–48h). We will notify you as soon as your account is active.</p>
+                          <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-white leading-[1.4] text-center">This bank account is under review. All settlements will temporarily route to your custodial wallet until approval is complete (up to 48h). We will notify you as soon as your account is active.</p>
                         </div>
                         <div className="flex justify-center">
                           <svg width="10" height="5" viewBox="0 0 10 5" fill="none">

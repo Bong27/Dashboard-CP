@@ -298,7 +298,7 @@ export default function BankDetailsModal({ onClose, onUpdate, onAddNewBank, onMa
                   <circle cx="8" cy="5.5" r="0.75" fill="white" />
                 </svg>
                 <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] leading-[1.2] flex-1 min-w-px" style={{ color: '#d97706' }}>
-                  Account under review. Settlements will temporarily route to your custodial wallet until approval is complete (24–48h).
+                  Account under review. Settlements will temporarily route to your custodial wallet until approval is complete (up to 48h).
                 </p>
               </div>
             )}
