@@ -69,7 +69,7 @@ function InfoTooltip() {
         >
           <div className="bg-[var(--cp-text-primary)] rounded-[5px] px-[8px] py-[6px] whitespace-nowrap">
             <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-white leading-none">
-              Most approvals complete within up to 48 hours
+              Most approvals are completed within 48 hours
             </p>
           </div>
           <svg width="10" height="5" viewBox="0 0 10 5" fill="none" className="shrink-0 mr-[2px]">
