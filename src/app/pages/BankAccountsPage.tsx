@@ -288,7 +288,7 @@ function BankRow({ account, index, isPrimary, isReordering, reorderMode, hasDrag
         <div className="content-stretch flex flex-1 h-[56px] items-start min-w-0 overflow-hidden px-[20px] py-[10px] relative rounded-[5px]">
           <div className="content-stretch flex flex-1 flex-col h-full items-start justify-between min-w-0 relative">
             <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[11px] text-[var(--cp-text-tertiary)] uppercase whitespace-nowrap leading-none shrink-0">Recipient Address</p>
-            <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-primary)] leading-normal overflow-hidden text-ellipsis whitespace-nowrap w-full">{address}</p>
+            <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-primary)] leading-none overflow-hidden text-ellipsis whitespace-nowrap w-full">{address}</p>
           </div>
         </div>
       </div>
