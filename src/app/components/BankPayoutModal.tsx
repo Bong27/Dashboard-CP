@@ -131,7 +131,23 @@ function EmptyBankField({ onAddBank }: { onAddBank: () => void }) {
 
 type State = 'empty' | 'loading-payout' | 'loading-amount' | 'filled' | 'countdown' | 'refreshing';
 
-export default function BankPayoutModal({ onClose }: { onClose: () => void }) {
+type CoinData = { name: string; symbol: string; logo?: 'btc' | 'usdt-erc20' | 'usdc-erc20' | 'usdt-trc20' };
+
+function UsdcBadge({ size = 24 }: { size?: number }) {
+  return (
+    <div className="rounded-[999px] bg-[#2775CA] flex items-center justify-center shrink-0"
+         style={{ width: size, height: size }}>
+      <span className="text-white font-bold leading-none select-none" style={{ fontSize: size * 0.42 }}>$</span>
+    </div>
+  );
+}
+
+function CoinBadge({ coin, size = 24 }: { coin?: CoinData; size?: number }) {
+  if (coin?.logo === 'usdc-erc20') return <UsdcBadge size={size} />;
+  return <UsdtBadge size={size} />;
+}
+
+export default function BankPayoutModal({ onClose, coin }: { onClose: () => void; coin?: CoinData }) {
   const { banks, primaryId } = useBanks();
   const navigate = useNavigate();
   const approvedBanks = banks.filter(b => b.status === 'approved');
@@ -379,8 +395,8 @@ export default function BankPayoutModal({ onClose }: { onClose: () => void }) {
                 selector={
                   <div className="content-stretch flex gap-[5px] items-center relative self-stretch shrink-0">
                     <div className="content-stretch flex gap-[10px] items-center pl-[10px] pr-[20px] py-[5px] relative shrink-0">
-                      <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-[var(--cp-text-tertiary)]">USDT</p>
-                      <UsdtBadge size={24} />
+                      <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-[var(--cp-text-tertiary)]">{coin?.symbol.split('.')[0] ?? 'USDT'}</p>
+                      <CoinBadge coin={coin} size={24} />
                     </div>
                     <div className="content-stretch flex items-center justify-between relative shrink-0 w-[21px]">
                       <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" />

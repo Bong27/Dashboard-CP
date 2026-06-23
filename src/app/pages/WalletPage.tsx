@@ -63,8 +63,16 @@ function TooltipCaret() {
 }
 
 // ─── Types ────────────────────────────────────────────────────────────────────
-type CoinData = { name: string; symbol: string };
-const COINS: CoinData[] = Array(7).fill({ name: 'Bitcoin', symbol: 'BTC' });
+type CoinData = { name: string; symbol: string; logo?: 'btc' | 'usdt-erc20' | 'usdc-erc20' | 'usdt-trc20' };
+const COINS: CoinData[] = [
+  { name: 'Tether USD',  symbol: 'USDT.ERC20', logo: 'usdt-erc20' },
+  { name: 'USD Coin',    symbol: 'USDC.ERC20',  logo: 'usdc-erc20' },
+  { name: 'Tether USD',  symbol: 'USDT.TRC20', logo: 'usdt-trc20' },
+  { name: 'Bitcoin', symbol: 'BTC', logo: 'btc' },
+  { name: 'Bitcoin', symbol: 'BTC', logo: 'btc' },
+  { name: 'Bitcoin', symbol: 'BTC', logo: 'btc' },
+  { name: 'Bitcoin', symbol: 'BTC', logo: 'btc' },
+];
 
 // ─── Bitcoin logo ─────────────────────────────────────────────────────────────
 function Bitcoin() {
@@ -80,6 +88,27 @@ function Bitcoin() {
       </div>
     </div>
   );
+}
+
+// ─── Stablecoin logos ─────────────────────────────────────────────────────────
+function UsdtLogo() {
+  return (
+    <div className="relative shrink-0 size-[36px] rounded-[999px] bg-[#50af95] flex items-center justify-center">
+      <span className="text-white font-bold leading-none select-none" style={{ fontSize: 16 }}>₮</span>
+    </div>
+  );
+}
+function UsdcLogo() {
+  return (
+    <div className="relative shrink-0 size-[36px] rounded-[999px] bg-[#2775CA] flex items-center justify-center">
+      <span className="text-white font-bold leading-none select-none" style={{ fontSize: 13 }}>$</span>
+    </div>
+  );
+}
+function CoinLogo({ logo }: { logo: CoinData['logo'] }) {
+  if (logo === 'usdt-erc20' || logo === 'usdt-trc20') return <UsdtLogo />;
+  if (logo === 'usdc-erc20') return <UsdcLogo />;
+  return <Bitcoin />;
 }
 
 // ─── Tooltip ──────────────────────────────────────────────────────────────────
@@ -225,14 +254,16 @@ function SwitchBalances() {
 }
 
 // ─── Wallet list ──────────────────────────────────────────────────────────────
-function WalletList({ onBankPayout }: { onBankPayout: () => void }) {
+function WalletList({ onBankPayout }: { onBankPayout: (coin: CoinData) => void }) {
   const [expandedRow, setExpandedRow] = useState<number | null>(null);
 
   return (
     <div className="content-stretch flex flex-col items-start relative shrink-0 w-full">
       {COINS.map((coin, index) => {
         const isExpanded = expandedRow === index;
-        const isAlt = index % 2 === 1;
+        const isAlt = index % 2 === 0;
+        const baseTicker = coin.symbol.split('.')[0];
+        const rowActions = coin.logo === 'btc' ? ACTIONS.filter(a => a.label !== 'Bank Payout') : ACTIONS;
         return (
           <div
             key={index}
@@ -248,15 +279,15 @@ function WalletList({ onBankPayout }: { onBankPayout: () => void }) {
                     onClick={() => setExpandedRow(null)}
                   >
                     <div className="content-stretch flex gap-[10px] items-center relative shrink-0">
-                      <Bitcoin />
-                      <div className="content-stretch flex flex-col items-start leading-[normal] not-italic relative shrink-0 w-[49px]">
-                        <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[14.5px] text-[var(--cp-text-primary)] w-full">{coin.name}</p>
-                        <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[13px] text-[var(--cp-text-tertiary)] w-full">{coin.symbol}</p>
+                      <CoinLogo logo={coin.logo} />
+                      <div className="content-stretch flex flex-col items-start leading-[normal] not-italic relative shrink-0 w-[140px]">
+                        <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[14.5px] text-[var(--cp-text-primary)] w-full whitespace-nowrap">{coin.name}</p>
+                        <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[13px] text-[var(--cp-text-tertiary)] w-full whitespace-nowrap">{coin.symbol}</p>
                       </div>
                     </div>
                     <div className="content-stretch flex gap-[10px] items-center relative shrink-0">
-                      {ACTIONS.map((a) => (
-                      <div key={a.label} onClick={a.label === 'Bank Payout' ? onBankPayout : undefined}>
+                      {rowActions.map((a) => (
+                      <div key={a.label} onClick={a.label === 'Bank Payout' ? () => onBankPayout(coin) : undefined}>
                         <CtaCard {...a} />
                       </div>
                     ))}
@@ -269,7 +300,7 @@ function WalletList({ onBankPayout }: { onBankPayout: () => void }) {
                     <div key={label} className="content-stretch flex flex-[1_0_0] flex-col gap-[20px] items-start min-w-px relative">
                       <div className="content-stretch flex flex-col gap-[5px] items-start relative shrink-0">
                         <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[11px] text-[var(--cp-text-primary)] uppercase whitespace-nowrap">{label}</p>
-                        <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[14.5px] text-[var(--cp-text-secondary)] whitespace-nowrap">0.0000000 {coin.symbol}</p>
+                        <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[14.5px] text-[var(--cp-text-secondary)] whitespace-nowrap">0.0000000 {baseTicker}</p>
                       </div>
                       <div className="content-stretch flex flex-col gap-[5px] items-start relative shrink-0">
                         <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[11px] text-[var(--cp-text-primary)] uppercase whitespace-nowrap">VALUE</p>
@@ -289,16 +320,16 @@ function WalletList({ onBankPayout }: { onBankPayout: () => void }) {
                 {/* Left */}
                 <div className="content-stretch flex items-center justify-between relative shrink-0 w-[390px]">
                   <div className="content-stretch flex gap-[10px] items-center relative shrink-0">
-                    <Bitcoin />
-                    <div className="content-stretch flex flex-col items-start leading-[normal] not-italic relative shrink-0 w-[49px]">
-                      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[14.5px] text-[var(--cp-text-primary)] w-full">{coin.name}</p>
-                      <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[13px] text-[var(--cp-text-tertiary)] w-full">{coin.symbol}</p>
+                    <CoinLogo logo={coin.logo} />
+                    <div className="content-stretch flex flex-col items-start leading-[normal] not-italic relative shrink-0 w-[140px]">
+                      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[14.5px] text-[var(--cp-text-primary)] w-full whitespace-nowrap">{coin.name}</p>
+                      <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[13px] text-[var(--cp-text-tertiary)] w-full whitespace-nowrap">{coin.symbol}</p>
                     </div>
                   </div>
                   <div className="content-stretch flex items-center px-[20px] relative shrink-0">
-                    <div className="content-stretch flex flex-col items-start leading-[normal] not-italic relative shrink-0 w-[105px]">
-                      <p className="font-['Inter',sans-serif] font-bold relative shrink-0 text-[14.5px] text-[var(--cp-text-primary)] w-full" style={{ letterSpacing: '-0.5px' }}>0.000000 {coin.symbol}</p>
-                      <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[13px] text-[var(--cp-text-tertiary)] w-full">{coin.symbol}</p>
+                    <div className="content-stretch flex flex-col items-start leading-[normal] not-italic relative shrink-0 w-[140px]">
+                      <p className="font-['Inter',sans-serif] font-bold relative shrink-0 text-[14.5px] text-[var(--cp-text-primary)] w-full whitespace-nowrap" style={{ letterSpacing: '-0.5px' }}>0.000000 {baseTicker}</p>
+                      <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[13px] text-[var(--cp-text-tertiary)] w-full whitespace-nowrap">$0.00 USD</p>
                     </div>
                   </div>
                 </div>
@@ -308,8 +339,8 @@ function WalletList({ onBankPayout }: { onBankPayout: () => void }) {
                   style={{ overflow: 'visible' }}
                   onClick={(e) => e.stopPropagation()}
                 >
-                  {ACTIONS.map((a) => (
-                    <div key={a.label} onClick={a.label === 'Bank Payout' ? onBankPayout : undefined}>
+                  {rowActions.map((a) => (
+                    <div key={a.label} onClick={a.label === 'Bank Payout' ? () => onBankPayout(coin) : undefined}>
                       <CircleIcon label={a.label} icon={a.iconEl} />
                     </div>
                   ))}
@@ -325,13 +356,13 @@ function WalletList({ onBankPayout }: { onBankPayout: () => void }) {
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 export default function WalletPage() {
-  const [showBankPayout, setShowBankPayout] = useState(false);
+  const [payoutCoin, setPayoutCoin] = useState<CoinData | null>(null);
   return (
     <div className="content-stretch flex flex-col gap-[20px] items-start relative w-full">
-      {showBankPayout && <BankPayoutModal onClose={() => setShowBankPayout(false)} />}
+      {payoutCoin && <BankPayoutModal coin={payoutCoin} onClose={() => setPayoutCoin(null)} />}
       <TopControls />
       <SwitchBalances />
-      <WalletList onBankPayout={() => setShowBankPayout(true)} />
+      <WalletList onBankPayout={(coin) => setPayoutCoin(coin)} />
     </div>
   );
 }
