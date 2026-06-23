@@ -5,6 +5,7 @@ import {
   IconInvoicing, IconPOS, IconSupport, IconMore, IconPlus,
 } from './Icons';
 import AccountDropdown from './AccountDropdown';
+import BankApprovedModal from './BankApprovedModal';
 import svgPaths from '../../imports/Wallet-2/svg-tfchl2zu4w';
 import imgCircle from '../../imports/Wallet-2/7e6eebe580b2dba6f0a0b9b74d6ab1a4021a315d.png';
 
@@ -214,6 +215,7 @@ export default function DashboardLayout() {
   const location = useLocation();
   const pageTitle = PAGE_TITLES[location.pathname] ?? 'Dashboard';
   const [accountOpen, setAccountOpen] = useState(false);
+  const [showBankApproved, setShowBankApproved] = useState(false);
   const accountRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -322,15 +324,26 @@ export default function DashboardLayout() {
                         </svg>
                       </div>
                     </div>
-                    <div className="bg-[var(--cp-text-quaternary)] overflow-clip relative rounded-[100px] shrink-0 size-[28px]">
-                      <p className="-translate-x-1/2 absolute font-['Inter:Regular',sans-serif] font-normal leading-[normal] left-1/2 not-italic text-[13px] text-center text-white top-[calc(50%-8px)] whitespace-nowrap">C</p>
+                    <div className="relative shrink-0 size-[28px]">
+                      <div className="bg-[var(--cp-text-quaternary)] overflow-clip relative rounded-[100px] size-full">
+                        <p className="-translate-x-1/2 absolute font-['Inter:Regular',sans-serif] font-normal leading-[normal] left-1/2 not-italic text-[13px] text-center text-white top-[calc(50%-8px)] whitespace-nowrap">C</p>
+                      </div>
+                      {!accountOpen && (
+                        <div className="absolute -top-[5px] -right-[5px] bg-[#E53935] rounded-full flex items-center justify-center" style={{ width: 14, height: 14 }}>
+                          <p className="font-['Inter:Bold',sans-serif] font-bold text-white leading-none" style={{ fontSize: 8 }}>1</p>
+                        </div>
+                      )}
                     </div>
                   </button>
                   {accountOpen && (
                     <div className="fixed top-[15px] right-[40px] z-[300]">
-                      <AccountDropdown onClose={() => setAccountOpen(false)} />
+                      <AccountDropdown
+                        onClose={() => setAccountOpen(false)}
+                        onNotificationClick={() => { setAccountOpen(false); setShowBankApproved(true); }}
+                      />
                     </div>
                   )}
+                  {showBankApproved && <BankApprovedModal onDismiss={() => setShowBankApproved(false)} />}
                 </div>
               </div>
 

@@ -5,7 +5,7 @@
 import { useNavigate } from 'react-router';
 import { IconProfile, IconSettings, IconBankPayout, IconSun, IconLogout } from './Icons';
 
-type Props = { onClose: () => void; };
+type Props = { onClose: () => void; onNotificationClick?: () => void; };
 
 // ─── Dot indicator ────────────────────────────────────────────────────────────
 function Dot() {
@@ -42,7 +42,7 @@ function MenuRow({
 }
 
 // ─── Dropdown ────────────────────────────────────────────────────────────────
-export default function AccountDropdown({ onClose }: Props) {
+export default function AccountDropdown({ onClose, onNotificationClick }: Props) {
   const navigate = useNavigate();
 
   const go = (path: string) => { onClose(); navigate(path); };
@@ -80,7 +80,10 @@ export default function AccountDropdown({ onClose }: Props) {
         {/* Notifications */}
         <div className="border border-[var(--cp-border-default)] border-solid content-stretch flex flex-col gap-[10px] items-start overflow-clip p-[10px] relative rounded-[5px] shrink-0 w-full">
           <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[13px] text-[var(--cp-text-tertiary)] whitespace-nowrap leading-none">Notifications</p>
-          <button className="bg-[var(--cp-bg-0,#f2f5f7)] content-stretch cursor-pointer flex gap-[10px] items-center overflow-clip p-[10px] relative rounded-[5px] shrink-0 w-full hover:bg-[var(--cp-bg-1)] transition-colors">
+          <button
+            className="bg-[var(--cp-bg-0,#f2f5f7)] content-stretch cursor-pointer flex gap-[10px] items-center overflow-clip p-[10px] relative rounded-[5px] shrink-0 w-full hover:bg-[var(--cp-bg-1)] transition-colors text-left"
+            onClick={onNotificationClick}
+          >
             <Dot />
             <div className="content-stretch flex flex-col items-start leading-[normal] not-italic relative shrink-0 text-left whitespace-nowrap">
               <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[13px] text-[var(--cp-text-primary)] leading-none">Your bank account has been approved</p>
