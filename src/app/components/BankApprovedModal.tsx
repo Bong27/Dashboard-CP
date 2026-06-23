@@ -69,7 +69,7 @@ export default function BankApprovedModal({ onDismiss }: Props) {
           {/* Body text */}
           <div className="flex flex-col gap-[12px] pl-[32px]">
             <p className="font-['Inter:Regular',sans-serif] font-normal text-[14.5px] text-[var(--cp-text-primary)] leading-[1.5]">
-              Your bank account has been successfully verified and is now active to receive payouts. Any automated payments you have configured for this bank within either your Settings or Auto-Sweep sections will now automatically start running.
+              Your bank account has been successfully verified and is now active for payouts. Any automated payments configured for this bank account in Settings or Auto-Sweep will begin processing automatically.
             </p>
             <p className="font-['Inter:Regular',sans-serif] font-normal text-[14.5px] text-[var(--cp-text-primary)] leading-[1.5]">
               To review your details or add another account, visit the{' '}
