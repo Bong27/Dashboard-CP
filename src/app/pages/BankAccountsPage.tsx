@@ -23,13 +23,28 @@ function PrimaryRibbon() {
   );
 }
 
-// ─── UK flag ──────────────────────────────────────────────────────────────────
-function UKFlag() {
+// ─── Country flag circle ──────────────────────────────────────────────────────
+const COUNTRY_CODES: Record<string, string> = {
+  'Albania': 'al', 'Andorra': 'ad', 'Angola': 'ao', 'Argentina': 'ar',
+  'Armenia': 'am', 'Australia': 'au', 'Austria': 'at', 'Azerbaijan': 'az',
+  'Belgium': 'be', 'Brazil': 'br', 'Bulgaria': 'bg', 'Canada': 'ca',
+  'Croatia': 'hr', 'Cyprus': 'cy', 'Czech Republic': 'cz', 'Denmark': 'dk',
+  'Estonia': 'ee', 'Finland': 'fi', 'France': 'fr', 'Germany': 'de',
+  'Greece': 'gr', 'Hungary': 'hu', 'Iceland': 'is', 'Ireland': 'ie',
+  'Italy': 'it', 'Latvia': 'lv', 'Liechtenstein': 'li', 'Lithuania': 'lt',
+  'Luxembourg': 'lu', 'Malta': 'mt', 'Netherlands': 'nl', 'New Zealand': 'nz',
+  'Norway': 'no', 'Poland': 'pl', 'Portugal': 'pt', 'Romania': 'ro',
+  'Singapore': 'sg', 'Slovakia': 'sk', 'Slovenia': 'si', 'Spain': 'es',
+  'Sweden': 'se', 'Switzerland': 'ch', 'United Kingdom': 'gb', 'United States': 'us',
+};
+
+function CountryFlag({ country }: { country: string }) {
+  const code = COUNTRY_CODES[country] ?? 'gb';
   return (
     <div className="relative shrink-0 size-[36px] rounded-full overflow-hidden flex items-center justify-center" style={{ background: '#f0f0f0' }}>
       <img
-        src="https://flagcdn.com/w160/gb.png"
-        alt="United Kingdom"
+        src={`https://flagcdn.com/w160/${code}.png`}
+        alt={country}
         className="w-full h-full object-cover"
         style={{ transform: 'scale(1.15)' }}
       />
@@ -55,12 +70,15 @@ function InfoTooltip() {
     <div className="relative shrink-0" style={{ overflow: 'visible' }}>
       <div
         ref={ref}
-        className="flex items-center justify-center rounded-full cursor-default shrink-0 size-[14px]"
-        style={{ background: 'var(--cp-bg-2)', border: '1px solid var(--cp-border-default)' }}
+        className="flex items-center justify-center cursor-default shrink-0 size-[14px]"
         onMouseEnter={handleMouseEnter}
         onMouseLeave={() => setHovered(false)}
       >
-        <span className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[8px] text-[var(--cp-text-tertiary)] leading-none select-none">i</span>
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+          <circle cx="8" cy="8" r="7.5" fill="#8492A6" />
+          <path d="M8 7V11" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
+          <circle cx="8" cy="5" r="0.75" fill="white" />
+        </svg>
       </div>
       {hovered && createPortal(
         <div
@@ -253,7 +271,7 @@ function BankRow({ account, index, isPrimary, isReordering, reorderMode, hasDrag
       )}
       <div className="content-stretch flex items-center relative flex-1 min-w-0" style={{ opacity: isReview ? 0.5 : 1 }}>
         <div className="content-stretch flex gap-[10px] items-center relative shrink-0 w-[288px]">
-          <div className="relative shrink-0 size-[36px] flex items-center justify-center"><UKFlag /></div>
+          <div className="relative shrink-0 size-[36px] flex items-center justify-center"><CountryFlag country={account.country} /></div>
           <div className="content-stretch flex flex-col items-start leading-[normal] not-italic relative shrink-0">
             <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[14.5px] text-[var(--cp-text-primary)] whitespace-nowrap">{account.label}</p>
             <p className="font-['Inter:Regular',sans-serif] font-normal text-[13px] text-[var(--cp-text-tertiary)] whitespace-nowrap">{account.iban.replace(/\s/g, '')}</p>

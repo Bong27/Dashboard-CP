@@ -185,7 +185,55 @@ function Field({
   );
 }
 
-// ─── Bank Country field (flag + text, non-editable style) ────────────────────
+// ─── Country list ─────────────────────────────────────────────────────────────
+const COUNTRIES: { name: string; code: string; flag: string }[] = [
+  { name: 'Albania',        code: 'AL', flag: '🇦🇱' },
+  { name: 'Andorra',        code: 'AD', flag: '🇦🇩' },
+  { name: 'Angola',         code: 'AO', flag: '🇦🇴' },
+  { name: 'Argentina',      code: 'AR', flag: '🇦🇷' },
+  { name: 'Armenia',        code: 'AM', flag: '🇦🇲' },
+  { name: 'Australia',      code: 'AU', flag: '🇦🇺' },
+  { name: 'Austria',        code: 'AT', flag: '🇦🇹' },
+  { name: 'Azerbaijan',     code: 'AZ', flag: '🇦🇿' },
+  { name: 'Belgium',        code: 'BE', flag: '🇧🇪' },
+  { name: 'Brazil',         code: 'BR', flag: '🇧🇷' },
+  { name: 'Bulgaria',       code: 'BG', flag: '🇧🇬' },
+  { name: 'Canada',         code: 'CA', flag: '🇨🇦' },
+  { name: 'Croatia',        code: 'HR', flag: '🇭🇷' },
+  { name: 'Cyprus',         code: 'CY', flag: '🇨🇾' },
+  { name: 'Czech Republic', code: 'CZ', flag: '🇨🇿' },
+  { name: 'Denmark',        code: 'DK', flag: '🇩🇰' },
+  { name: 'Estonia',        code: 'EE', flag: '🇪🇪' },
+  { name: 'Finland',        code: 'FI', flag: '🇫🇮' },
+  { name: 'France',         code: 'FR', flag: '🇫🇷' },
+  { name: 'Germany',        code: 'DE', flag: '🇩🇪' },
+  { name: 'Greece',         code: 'GR', flag: '🇬🇷' },
+  { name: 'Hungary',        code: 'HU', flag: '🇭🇺' },
+  { name: 'Iceland',        code: 'IS', flag: '🇮🇸' },
+  { name: 'Ireland',        code: 'IE', flag: '🇮🇪' },
+  { name: 'Italy',          code: 'IT', flag: '🇮🇹' },
+  { name: 'Latvia',         code: 'LV', flag: '🇱🇻' },
+  { name: 'Liechtenstein',  code: 'LI', flag: '🇱🇮' },
+  { name: 'Lithuania',      code: 'LT', flag: '🇱🇹' },
+  { name: 'Luxembourg',     code: 'LU', flag: '🇱🇺' },
+  { name: 'Malta',          code: 'MT', flag: '🇲🇹' },
+  { name: 'Netherlands',    code: 'NL', flag: '🇳🇱' },
+  { name: 'New Zealand',    code: 'NZ', flag: '🇳🇿' },
+  { name: 'Norway',         code: 'NO', flag: '🇳🇴' },
+  { name: 'Poland',         code: 'PL', flag: '🇵🇱' },
+  { name: 'Portugal',       code: 'PT', flag: '🇵🇹' },
+  { name: 'Romania',        code: 'RO', flag: '🇷🇴' },
+  { name: 'Singapore',      code: 'SG', flag: '🇸🇬' },
+  { name: 'Slovakia',       code: 'SK', flag: '🇸🇰' },
+  { name: 'Slovenia',       code: 'SI', flag: '🇸🇮' },
+  { name: 'Spain',          code: 'ES', flag: '🇪🇸' },
+  { name: 'Sweden',         code: 'SE', flag: '🇸🇪' },
+  { name: 'Switzerland',    code: 'CH', flag: '🇨🇭' },
+  { name: 'United Kingdom', code: 'GB', flag: '🇬🇧' },
+  { name: 'United States',  code: 'US', flag: '🇺🇸' },
+];
+
+// ─── Bank Country field with searchable dropdown ──────────────────────────────
 function BankCountryField({
   value,
   onChange,
@@ -193,35 +241,116 @@ function BankCountryField({
   value: string;
   onChange: (v: string) => void;
 }) {
-  const [focused, setFocused] = useState(false);
+  const [open, setOpen] = useState(false);
   const [hovered, setHovered] = useState(false);
-  const borderColor = focused ? 'var(--cp-border-active)' : hovered ? 'var(--cp-border-hover)' : 'var(--cp-border-default)';
+  const [search, setSearch] = useState('');
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const searchRef = useRef<HTMLInputElement>(null);
+
+  const selected = COUNTRIES.find(c => c.name === value) ?? COUNTRIES.find(c => c.name === 'United Kingdom')!;
+  const filtered = COUNTRIES.filter(c => c.name.toLowerCase().includes(search.toLowerCase()));
+
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (wrapperRef.current && !wrapperRef.current.contains(e.target as Node)) {
+        setOpen(false);
+        setSearch('');
+      }
+    };
+    if (open) document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, [open]);
+
+  useEffect(() => {
+    if (open) setTimeout(() => searchRef.current?.focus(), 50);
+  }, [open]);
+
+  const borderColor = open ? 'var(--cp-brand-primary)' : hovered ? 'var(--cp-border-hover)' : 'var(--cp-border-default)';
+  const borderRadius = open ? '5px 5px 0 0' : '5px';
+
   return (
-    <div
-      className="bg-white relative rounded-[5px] h-[56px] flex items-start justify-between p-[10px] w-full shrink-0"
-      style={{ border: `1px solid ${borderColor}`, transition: 'border-color 0.1s' }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-    >
-      <div className="flex flex-col items-start justify-between self-stretch flex-1 min-w-0">
-        <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[11px] text-[var(--cp-text-tertiary)] uppercase whitespace-nowrap leading-none shrink-0">
-          Bank Country
-        </p>
-        <div className="flex gap-[5px] items-center shrink-0">
-          {/* UK flag emoji as stand-in */}
-          <span className="text-[14px] leading-none shrink-0">🇬🇧</span>
-          <input
-            type="text"
-            value={value}
-            onChange={e => onChange(e.target.value)}
-            onFocus={() => setFocused(true)}
-            onBlur={() => setFocused(false)}
-            className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-primary)] bg-transparent border-none outline-none min-w-0 leading-none"
-            style={{ caretColor: 'var(--cp-brand-primary)' }}
-          />
+    <div ref={wrapperRef} className="relative w-full shrink-0" style={{ overflow: 'visible' }}>
+      {/* Trigger field */}
+      <div
+        className="bg-white relative h-[56px] flex items-start justify-between p-[10px] w-full cursor-pointer"
+        style={{ border: `1px solid ${borderColor}`, borderRadius, transition: 'border-color 0.1s' }}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+        onClick={() => setOpen(o => !o)}
+      >
+        <div className="flex flex-col items-start justify-between self-stretch flex-1 min-w-0">
+          <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[11px] text-[var(--cp-text-tertiary)] uppercase whitespace-nowrap leading-none shrink-0">
+            Bank Country
+          </p>
+          <div className="flex gap-[5px] items-center shrink-0">
+            <span className="text-[14px] leading-none shrink-0">{selected.flag}</span>
+            <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-primary)] leading-none whitespace-nowrap">
+              {selected.name}
+            </p>
+          </div>
+        </div>
+        {/* Chevron */}
+        <div className="content-stretch flex items-center justify-between relative shrink-0 w-[21px] self-stretch">
+          <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" />
+          <div className={`flex items-center justify-center relative shrink-0 transition-transform duration-150 ${open ? 'rotate-180' : ''}`}>
+            <div className="overflow-clip relative shrink-0 size-[12px]">
+              <div className="absolute inset-[34.38%_21.88%]">
+                <svg className="absolute block inset-0 size-full" fill="none" viewBox="0 0 6.74999 3.74999">
+                  <path clipRule="evenodd" d="M0.292893,0.292893C0.455612,0.130168,0.719387,0.130168,0.882107,0.292893L3.375,2.78579L5.86789,0.292893C6.03061,0.130168,6.29439,0.130168,6.45711,0.292893C6.61983,0.455612,6.61983,0.719387,6.45711,0.882107L3.66961,3.66961C3.50688,3.83233,3.24312,3.83233,3.08039,3.66961L0.292893,0.882107C0.130168,0.719387,0.130168,0.455612,0.292893,0.292893Z" fill="var(--cp-text-quinary)" fillRule="evenodd" />
+                </svg>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-      <ChevronSelector />
+
+      {/* Dropdown panel */}
+      {open && (
+        <div
+          className="absolute left-0 right-0 bg-white z-50 flex flex-col"
+          style={{ top: '100%', border: '1px solid var(--cp-brand-primary)', borderTop: 'none', borderRadius: '0 0 5px 5px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}
+          onClick={e => e.stopPropagation()}
+        >
+          {/* Search row */}
+          <div className="px-[10px] pt-[10px] pb-[6px] shrink-0">
+            <div className="flex flex-col gap-[4px] border border-[var(--cp-border-default)] rounded-[5px] px-[10px] py-[8px]">
+              <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[11px] text-[var(--cp-text-tertiary)] uppercase leading-none">Search</p>
+              <input
+                ref={searchRef}
+                type="text"
+                value={search}
+                onChange={e => setSearch(e.target.value)}
+                placeholder="Type country name"
+                className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-primary)] bg-transparent border-none outline-none w-full leading-none placeholder:text-[var(--cp-text-quinary)]"
+                style={{ caretColor: 'var(--cp-brand-primary)' }}
+              />
+            </div>
+          </div>
+
+          {/* Country list */}
+          <div className="overflow-y-auto flex flex-col" style={{ maxHeight: 260 }}>
+            {filtered.map(country => {
+              const isSelected = country.name === value;
+              return (
+                <div
+                  key={country.code}
+                  className={`flex items-center justify-between px-[14px] py-[11px] cursor-pointer transition-colors shrink-0 ${isSelected ? 'bg-[var(--cp-bg-2)]' : 'hover:bg-[var(--cp-bg-1)]'}`}
+                  onClick={() => { onChange(country.name); setOpen(false); setSearch(''); }}
+                >
+                  <div className="flex gap-[8px] items-center">
+                    <span className="text-[16px] leading-none shrink-0">{country.flag}</span>
+                    <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-primary)] leading-none">{country.name}</p>
+                  </div>
+                  <p className="font-['Inter:Medium',sans-serif] font-medium text-[13px] text-[var(--cp-text-tertiary)] leading-none shrink-0">{country.code}</p>
+                </div>
+              );
+            })}
+            {filtered.length === 0 && (
+              <p className="font-['Inter:Medium',sans-serif] font-medium text-[13px] text-[var(--cp-text-tertiary)] px-[14px] py-[12px]">No results</p>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -238,7 +367,7 @@ const IBAN_TYPES = [
   { label: 'Account Number', description: 'Local account number — used for domestic transfers within a specific country.' },
 ];
 
-function IBANField({ value, onChange, ibanType, onIbanTypeChange }: { value: string; onChange: (v: string) => void; ibanType: string; onIbanTypeChange: (t: string) => void }) {
+function IBANField({ value, onChange, ibanType, onIbanTypeChange, hideTypeSelector }: { value: string; onChange: (v: string) => void; ibanType: string; onIbanTypeChange: (t: string) => void; hideTypeSelector?: boolean }) {
   const [focused, setFocused] = useState(false);
   const [hovered, setHovered] = useState(false);
   const [open, setOpen] = useState(false);
@@ -309,7 +438,7 @@ function IBANField({ value, onChange, ibanType, onIbanTypeChange }: { value: str
           />
         </div>
         {/* Right side: [checkmark when valid] | divider | chevron — divider+chevron block stays fixed */}
-        <button
+        {!hideTypeSelector && <button
           className="content-stretch flex items-center relative shrink-0 self-stretch cursor-pointer"
           onClick={() => setOpen(o => !o)}
           tabIndex={-1}
@@ -332,11 +461,11 @@ function IBANField({ value, onChange, ibanType, onIbanTypeChange }: { value: str
               </div>
             </div>
           </div>
-        </button>
+        </button>}
       </div>
 
       {/* Dropdown */}
-      {open && (
+      {!hideTypeSelector && open && (
         <div
           className="absolute bg-white left-0 mt-[5px] rounded-[5px] w-full z-50"
           style={{ top: 56, boxShadow: '0 4px 12px rgba(0,0,0,0.1)', border: '1px solid var(--cp-border-hover)' }}
@@ -540,11 +669,25 @@ export default function AddNewBankModal({ onClose, onBankAdded }: Props) {
     if (ibanValid) {
       setBic(bicFromIban!);
     } else if (prevIbanValid.current) {
-      // IBAN just became invalid — clear the auto-populated BIC
       setBic('');
     }
     prevIbanValid.current = ibanValid;
   }, [ibanValid, bicFromIban]);
+
+  // When country changes from default UK, reset all fields except Account Holder Name
+  const prevCountry = useRef(bankCountry);
+  useEffect(() => {
+    if (bankCountry === prevCountry.current) return;
+    prevCountry.current = bankCountry;
+    setIban('');
+    setBic('');
+    setAddress('');
+    setCity('');
+    setPostalCode('');
+    setAccountType('');
+    setLabel('');
+    setIbanType(bankCountry === 'Canada' ? 'Account Number' : 'IBAN');
+  }, [bankCountry]);
 
   // Derive bank name: first try full BIC lookup, then use 4-char prefix from IBAN to rotate examples
   const IBAN_BANK_EXAMPLES = ['HSBC', 'Barclays Bank', 'Citibank', 'Wise'];
@@ -667,7 +810,7 @@ export default function AddNewBankModal({ onClose, onBankAdded }: Props) {
           <div className="flex flex-col gap-[8px] items-start relative w-full flex-1 min-h-0 overflow-y-auto">
             <Field label="Account Holder Name" value={holderName}  onChange={setHolderName} helper="Must exactly match the name registered with your bank" />
             <BankCountryField value={bankCountry} onChange={setBankCountry} />
-            <IBANField value={iban} onChange={setIban} ibanType={ibanType} onIbanTypeChange={setIbanType} />
+            <IBANField value={iban} onChange={setIban} ibanType={ibanType} onIbanTypeChange={setIbanType} hideTypeSelector={bankCountry === 'Canada'} />
             <Field
               label="BIC / SWIFT"
               value={bic}
