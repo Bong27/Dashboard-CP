@@ -714,9 +714,10 @@ export default function AddNewBankModal({ onClose, onBankAdded }: Props) {
 
   const accountNumberValid = /^\d+$/.test(iban) && iban.length > 6;
   const bicValid = bic.trim().length >= 8 && bic.trim().length <= 11;
-  const canContinue = ibanType === 'IBAN'
+  const fieldsComplete = address.trim() !== '' && city.trim() !== '' && postalCode.trim() !== '';
+  const canContinue = fieldsComplete && (ibanType === 'IBAN'
     ? ibanValid && bic.trim() !== ''
-    : accountNumberValid && bicValid;
+    : accountNumberValid && bicValid);
 
   if (step === 'done') return <BankAddedModal onClose={onClose} />;
 
