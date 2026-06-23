@@ -309,6 +309,7 @@ export default function BankAccountsPage() {
   const [reorderingId, setReorderingId] = useState<string | null>(null);
   const [bannerMode, setBannerMode] = useState<'reorder' | 'primary' | null>(null);
   const [hasDragged, setHasDragged] = useState(false);
+  const [prevPrimarySnapshot, setPrevPrimarySnapshot] = useState<{ primaryId: string | null; orderedBanks: BankEntry[] } | null>(null);
   const [show2Fa, setShow2Fa] = useState(false);
   const [showComplete, setShowComplete] = useState(false);
   const dragIndexRef = useRef<number | null>(null);
@@ -373,12 +374,12 @@ export default function BankAccountsPage() {
         <div className="fixed inset-0 z-50 flex items-center justify-center pointer-events-none">
           <div
             className="flex flex-col gap-[20px] items-center justify-center rounded-[14px]"
-            style={{ background: 'rgba(0,0,0,0.82)', width: 160, height: 160 }}
+            style={{ background: 'rgba(0,0,0,0.82)', padding: '28px 24px' }}
           >
             <svg width="52" height="52" viewBox="0 0 52 52" fill="none">
               <path d="M10 27L21 38L42 17" stroke="white" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
-            <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-white text-center whitespace-nowrap">Complete</p>
+            <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-white text-center whitespace-nowrap">Primary bank account updated</p>
           </div>
         </div>,
         document.body
@@ -426,21 +427,46 @@ export default function BankAccountsPage() {
               <path d="M7 1v12M7 1L4 4M7 1l3 3M7 13l-3-3M7 13l3-3" stroke="var(--cp-brand-primary)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           )}
-          <p className="font-['Inter:Medium',sans-serif] font-medium text-[12px] text-[var(--cp-brand-primary)]">
-            {bannerMode === 'primary'
-              ? 'Primary bank account updated.'
-              : 'Drag to reorder. Dropping in the first position sets the account as Primary.'}
-          </p>
-          <button
-            className={`ml-auto font-['Inter:Semi_Bold',sans-serif] font-semibold text-[12px] transition-colors ${
-              bannerMode === 'primary' || hasDragged
-                ? 'text-[var(--cp-brand-primary)] hover:text-[var(--cp-brand-active)] hover:underline cursor-pointer'
-                : 'text-[var(--cp-brand-primary)] opacity-30 cursor-default pointer-events-none'
-            }`}
-            onClick={() => setShow2Fa(true)}
-          >
-            Save Changes
-          </button>
+          {bannerMode === 'primary' ? (
+            <div className="flex items-center gap-[12px]">
+              <p className="font-['Inter:Medium',sans-serif] font-medium text-[12px] text-[var(--cp-brand-primary)]">New primary bank set.</p>
+              <button
+                className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[12px] text-[var(--cp-brand-primary)] hover:text-[var(--cp-brand-active)] hover:underline cursor-pointer transition-colors"
+                onClick={() => setShow2Fa(true)}
+              >
+                Save Changes
+              </button>
+              <button
+                className="font-['Inter:Medium',sans-serif] font-medium text-[12px] text-[var(--cp-text-secondary)] hover:text-[var(--cp-text-primary)] hover:underline cursor-pointer transition-colors"
+                onClick={() => {
+                  if (prevPrimarySnapshot) {
+                    setPrimaryId(prevPrimarySnapshot.primaryId);
+                    setOrderedBanks(prevPrimarySnapshot.orderedBanks);
+                    setPrevPrimarySnapshot(null);
+                  }
+                  setBannerMode(null);
+                }}
+              >
+                Cancel
+              </button>
+            </div>
+          ) : (
+            <>
+              <p className="font-['Inter:Medium',sans-serif] font-medium text-[12px] text-[var(--cp-brand-primary)]">
+                Drag to reorder. Dropping in the first position sets the account as Primary.
+              </p>
+              <button
+                className={`ml-auto font-['Inter:Semi_Bold',sans-serif] font-semibold text-[12px] transition-colors ${
+                  hasDragged
+                    ? 'text-[var(--cp-brand-primary)] hover:text-[var(--cp-brand-active)] hover:underline cursor-pointer'
+                    : 'text-[var(--cp-brand-primary)] opacity-30 cursor-default pointer-events-none'
+                }`}
+                onClick={() => setShow2Fa(true)}
+              >
+                Save Changes
+              </button>
+            </>
+          )}
         </div>
       </div>
 
@@ -456,6 +482,7 @@ export default function BankAccountsPage() {
             hasDragged={hasDragged}
             reorderMode={reorderingId !== null}
             onSetPrimary={() => {
+              setPrevPrimarySnapshot({ primaryId, orderedBanks });
               setPrimaryId(bank.id);
               setOrderedBanks(prev => {
                 const next = prev.filter(b => b.id !== bank.id);

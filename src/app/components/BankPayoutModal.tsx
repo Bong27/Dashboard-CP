@@ -102,6 +102,31 @@ function CountdownRing({ seconds, total }: { seconds: number; total: number }) {
   );
 }
 
+function EmptyBankField({ onAddBank }: { onAddBank: () => void }) {
+  const [hovered, setHovered] = useState(false);
+  return (
+    <div
+      className="bg-white flex h-[56px] items-center justify-between p-[10px] relative rounded-[5px] w-full shrink-0"
+      style={{ border: `1px solid ${hovered ? 'var(--cp-border-hover)' : 'var(--cp-border-default)'}`, transition: 'border-color 0.1s' }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      <div className="flex flex-col h-full items-start justify-between shrink-0 flex-1 min-w-0">
+        <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[11px] text-[var(--cp-text-tertiary)] uppercase whitespace-nowrap leading-none">Bank Account</p>
+        <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-quinary)] whitespace-nowrap">No bank account</p>
+      </div>
+      <div className="flex items-center self-stretch shrink-0">
+        <button
+          className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[11px] text-[var(--cp-brand-primary)] whitespace-nowrap pr-[10px] self-center cursor-pointer hover:underline"
+          onClick={onAddBank}
+        >
+          Add Bank
+        </button>
+      </div>
+    </div>
+  );
+}
+
 // ─── Modal ────────────────────────────────────────────────────────────────────
 
 type State = 'empty' | 'loading-payout' | 'loading-amount' | 'filled' | 'countdown' | 'refreshing';
@@ -438,34 +463,7 @@ export default function BankPayoutModal({ onClose }: { onClose: () => void }) {
 
             {/* Bank Account */}
             {banks.length === 0 ? (
-              <div
-                className="bg-white cursor-pointer flex h-[56px] items-center justify-between p-[10px] relative rounded-[5px] w-full shrink-0"
-                style={{ border: '1px solid var(--cp-border-default)' }}
-                onClick={() => setModalStep('add-bank')}
-              >
-                <div className="flex flex-col h-full items-start justify-between shrink-0 flex-1 min-w-0">
-                  <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[11px] text-[var(--cp-text-tertiary)] uppercase whitespace-nowrap leading-none">Bank Account</p>
-                  <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-quinary)] whitespace-nowrap">No bank account</p>
-                </div>
-                <div className="flex items-center self-stretch shrink-0">
-                  <button
-                    className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[11px] text-[var(--cp-brand-primary)] whitespace-nowrap pr-[10px] self-center hover:underline"
-                    onClick={e => { e.stopPropagation(); setModalStep('add-bank'); }}
-                  >
-                    Add Bank
-                  </button>
-                  <div className="content-stretch flex items-center justify-between relative shrink-0 w-[21px] self-stretch">
-                    <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" />
-                    <div className="overflow-clip relative shrink-0 size-[12px]">
-                      <div className="absolute inset-[34.38%_21.88%]">
-                        <svg className="absolute block inset-0 size-full" fill="none" viewBox="0 0 6.74999 3.74999">
-                          <path clipRule="evenodd" d="M0.292893,0.292893C0.455612,0.130168,0.719387,0.130168,0.882107,0.292893L3.375,2.78579L5.86789,0.292893C6.03061,0.130168,6.29439,0.130168,6.45711,0.292893C6.61983,0.455612,6.61983,0.719387,6.45711,0.882107L3.66961,3.66961C3.50688,3.83233,3.24312,3.83233,3.08039,3.66961L0.292893,0.882107C0.130168,0.719387,0.130168,0.455612,0.292893,0.292893Z" fill="var(--cp-text-quinary)" fillRule="evenodd" />
-                        </svg>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <EmptyBankField onAddBank={() => setModalStep('add-bank')} />
             ) : (
             <div className="relative w-full shrink-0" ref={bankDropdownRef} style={{ overflow: 'visible' }}>
               <div
