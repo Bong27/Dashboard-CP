@@ -323,7 +323,10 @@ export default function EditBankModal({
   // Cautious: show warning if non-label field changed
   const showBottomWarning = editMode === 'locked' && unlocked && nonLabelDirty;
 
+  const countryChanged = bankCountry !== countryProp;
   const cautionHelper = editMode === 'cautious' ? PAUSE_WARNING : '';
+  const holderHelper  = countryChanged ? 'Must exactly match the name registered with your bank' : cautionHelper;
+  const addressHelper = countryChanged ? 'Must exactly match the billing address registered with your bank' : cautionHelper;
 
   const doSave = () => {
     if (!isDirty) return;
@@ -371,7 +374,7 @@ export default function EditBankModal({
           </p>
 
           {/* Form */}
-          <div className={`flex flex-col gap-[8px] items-start relative w-full ${(isLocked || showBottomWarning) ? '' : 'flex-1 overflow-hidden'}`}>
+          <div className={`flex flex-col gap-[8px] items-start relative w-full ${(isLocked || showBottomWarning) ? '' : 'flex-1'}`}>
 
             <EditField label="Label"               value={label}         onChange={setLabel} />
 
@@ -400,7 +403,7 @@ export default function EditBankModal({
                 </p>
               </div>
             )}
-            <EditField label="Account Holder Name" value={holderName}    onChange={setHolderName}     inactive={isLocked} helper={cautionHelper} />
+            <EditField label="Account Holder Name" value={holderName}    onChange={setHolderName}     inactive={isLocked} helper={holderHelper} />
             <div ref={countryTriggerRef} className="w-full shrink-0">
               <BankCountryTrigger value={bankCountry} open={countryOpen} onToggle={handleCountryToggle} inactive={isLocked} />
             </div>
@@ -411,12 +414,12 @@ export default function EditBankModal({
               onIbanTypeChange={t => { setIbanType(t); setAccountNumber(''); }}
               hideTypeSelector={bankCountry === 'Canada'}
             />
-            <EditField label="BIC / SWIFT"         value={bic}           onChange={setBic}            inactive={isLocked} helper={cautionHelper} />
+            <EditField label="BIC / SWIFT"         value={bic}           onChange={setBic}            inactive={isLocked} helper={countryChanged ? '' : cautionHelper} />
             <div className="flex gap-[8px] items-start relative shrink-0 w-full">
-              <EditField label="Town / City"       value={city}          onChange={setCity}           inactive={isLocked} helper={cautionHelper} halfWidth />
-              <EditField label="Postal / ZIP Code" value={postalCode}    onChange={setPostalCode}     inactive={isLocked} helper={cautionHelper} halfWidth />
+              <EditField label="Town / City"       value={city}          onChange={setCity}           inactive={isLocked} helper={addressHelper} halfWidth />
+              <EditField label="Postal / ZIP Code" value={postalCode}    onChange={setPostalCode}     inactive={isLocked} helper={addressHelper} halfWidth />
             </div>
-            <EditField label="Address"             value={address}       onChange={setAddress}        inactive={isLocked} helper={cautionHelper} />
+            <EditField label="Address"             value={address}       onChange={setAddress}        inactive={isLocked} helper={addressHelper} />
           </div>
 
           {/* Bottom warning — HSBC after unlocking and editing non-Label field */}
