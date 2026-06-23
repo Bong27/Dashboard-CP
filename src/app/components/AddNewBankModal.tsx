@@ -265,8 +265,8 @@ function BankCountryField({
     if (open) setTimeout(() => searchRef.current?.focus(), 50);
   }, [open]);
 
-  const borderColor = open ? 'var(--cp-brand-primary)' : hovered ? 'var(--cp-border-hover)' : 'var(--cp-border-default)';
-  const borderRadius = open ? '5px 5px 0 0' : '5px';
+  const borderColor = hovered || open ? 'var(--cp-border-hover)' : 'var(--cp-border-default)';
+  const borderRadius = '5px';
 
   return (
     <div ref={wrapperRef} className="relative w-full shrink-0" style={{ overflow: 'visible' }}>
@@ -307,47 +307,55 @@ function BankCountryField({
       {/* Dropdown panel */}
       {open && (
         <div
-          className="absolute left-0 right-0 bg-white z-50 flex flex-col"
-          style={{ top: '100%', border: '1px solid var(--cp-brand-primary)', borderTop: 'none', borderRadius: '0 0 5px 5px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}
+          className="absolute left-0 right-0 bg-white z-50 rounded-[5px]"
+          style={{ top: 60, boxShadow: '0 4px 16px rgba(0,0,0,0.12)', border: '1px solid var(--cp-border-hover)' }}
           onClick={e => e.stopPropagation()}
         >
-          {/* Search row */}
-          <div className="px-[10px] pt-[10px] pb-[6px] shrink-0">
-            <div className="flex flex-col gap-[4px] border border-[var(--cp-border-default)] rounded-[5px] px-[10px] py-[8px]">
-              <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[11px] text-[var(--cp-text-tertiary)] uppercase leading-none">Search</p>
-              <input
-                ref={searchRef}
-                type="text"
-                value={search}
-                onChange={e => setSearch(e.target.value)}
-                placeholder="Type country name"
-                className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-primary)] bg-transparent border-none outline-none w-full leading-none placeholder:text-[var(--cp-text-quinary)]"
-                style={{ caretColor: 'var(--cp-brand-primary)' }}
-              />
-            </div>
-          </div>
+          <div className="flex flex-col gap-[20px] p-[10px]">
 
-          {/* Country list */}
-          <div className="overflow-y-auto flex flex-col" style={{ maxHeight: 260 }}>
-            {filtered.map(country => {
-              const isSelected = country.name === value;
-              return (
-                <div
-                  key={country.code}
-                  className={`flex items-center justify-between px-[14px] py-[11px] cursor-pointer transition-colors shrink-0 ${isSelected ? 'bg-[var(--cp-bg-2)]' : 'hover:bg-[var(--cp-bg-1)]'}`}
-                  onClick={() => { onChange(country.name); setOpen(false); setSearch(''); }}
-                >
-                  <div className="flex gap-[8px] items-center">
-                    <span className="text-[16px] leading-none shrink-0">{country.flag}</span>
-                    <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-primary)] leading-none">{country.name}</p>
+            {/* Search field — styled as a bank item card */}
+            <div className="relative rounded-[5px] shrink-0 w-full">
+              <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[5px]" />
+              <div className="flex flex-col items-start p-[10px]">
+                <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[11px] text-[var(--cp-text-tertiary)] uppercase leading-none">Search</p>
+                <input
+                  ref={searchRef}
+                  type="text"
+                  value={search}
+                  onChange={e => setSearch(e.target.value)}
+                  placeholder="Type country name"
+                  className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-[var(--cp-text-secondary)] bg-transparent border-none outline-none w-full leading-none placeholder:text-[var(--cp-text-quinary)] mt-[3px]"
+                  style={{ caretColor: 'var(--cp-brand-primary)' }}
+                />
+              </div>
+            </div>
+
+            {/* Country list */}
+            <div className="flex flex-col gap-[5px] overflow-y-auto" style={{ maxHeight: 220 }}>
+              {filtered.map(country => {
+                const isSelected = country.name === value;
+                return (
+                  <div
+                    key={country.code}
+                    className={`relative rounded-[5px] shrink-0 w-full cursor-pointer transition-colors ${isSelected ? 'bg-[var(--cp-brand-primary)]' : 'bg-white hover:bg-[var(--cp-bg-1)]'}`}
+                    onClick={() => { onChange(country.name); setOpen(false); setSearch(''); }}
+                  >
+                    {!isSelected && <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[5px]" />}
+                    <div className="flex items-center justify-between px-[10px] py-[13px]">
+                      <div className="flex items-center gap-[7px]">
+                        <span className="text-[14px] leading-none shrink-0">{country.flag}</span>
+                        <p className={`font-['Inter:Semi_Bold',sans-serif] font-semibold text-[11px] leading-none ${isSelected ? 'text-white' : 'text-[var(--cp-text-primary)]'}`}>{country.name}</p>
+                      </div>
+                      <p className={`font-['Inter:Medium',sans-serif] font-medium text-[11px] leading-none shrink-0 ${isSelected ? 'text-white/80' : 'text-[var(--cp-text-secondary)]'}`}>{country.code}</p>
+                    </div>
                   </div>
-                  <p className="font-['Inter:Medium',sans-serif] font-medium text-[13px] text-[var(--cp-text-tertiary)] leading-none shrink-0">{country.code}</p>
-                </div>
-              );
-            })}
-            {filtered.length === 0 && (
-              <p className="font-['Inter:Medium',sans-serif] font-medium text-[13px] text-[var(--cp-text-tertiary)] px-[14px] py-[12px]">No results</p>
-            )}
+                );
+              })}
+              {filtered.length === 0 && (
+                <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-[var(--cp-text-tertiary)] p-[10px]">No results</p>
+              )}
+            </div>
+
           </div>
         </div>
       )}
