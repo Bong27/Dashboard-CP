@@ -558,9 +558,6 @@ export default function BankPayoutModal({ onClose }: { onClose: () => void }) {
           {/* Fee Summary */}
           <div className="bg-[var(--cp-bg-1)] content-stretch flex flex-col gap-[10px] items-start p-[10px] relative rounded-[5px] shrink-0 w-full">
 
-            {/* Estimated Exchange Rate + Fees header — no gap between them */}
-            <div className="content-stretch flex flex-col gap-[5px] items-start relative shrink-0 w-full">
-
             {/* Exchange Rate row */}
             <div className="content-stretch flex items-center justify-between relative shrink-0 w-full">
               <div className="content-stretch flex gap-[2px] items-center relative shrink-0">
@@ -570,80 +567,80 @@ export default function BankPayoutModal({ onClose }: { onClose: () => void }) {
               <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-[var(--cp-text-tertiary)] whitespace-nowrap">1 USDT = $0.99</p>
             </div>
 
+            {/* Currency switcher — centered */}
+            <div className="flex items-center justify-center w-full">
+              <div className="content-stretch flex gap-[5px] items-center justify-center relative shrink-0">
+                <div className="content-stretch flex gap-[5px] items-center justify-center px-[10px] py-[6px] relative rounded-[5px] shrink-0">
+                  <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-[var(--cp-text-primary)] whitespace-nowrap">USDT</p>
+                  <UsdtBadge size={14} />
+                </div>
+                <div className="overflow-clip relative shrink-0" style={{ width: '12.47px', height: '11.74px' }}>
+                  <div className="absolute inset-[9.27%_17.99%]">
+                    <svg className="absolute block inset-0 size-full" fill="none" viewBox="0 0 10.8835 13.0339">
+                      <path fillRule="evenodd" clipRule="evenodd" d="M7.8447 0.318097C8.0022 0.160637 8.2575 0.160637 8.4149 0.318097L10.5654 2.46856C10.7229 2.62602 10.7229 2.88132 10.5654 3.03878L8.4149 5.18924C8.2575 5.34671 8.0022 5.34671 7.8447 5.18924C7.6872 5.03178 7.6872 4.77648 7.8447 4.61902L9.7101 2.75367L7.8447 0.888327C7.6872 0.730857 7.6872 0.475557 7.8447 0.318097Z" fill="var(--cp-text-tertiary)"/>
+                      <path fillRule="evenodd" clipRule="evenodd" d="M2.75368 2.35517H10.2803C10.6134 2.35517 10.8835 2.62523 10.8835 2.95838C10.8835 3.29152 10.6134 3.56159 10.2803 3.56159H2.75368C2.29028 3.56159 1.84586 3.34091 1.51818 3.66859C1.19051 3.99626 1.00643 4.44068 1.00643 4.90408V5.97931C1.00643 6.202 0.825897 6.38252 0.603217 6.38252C0.380527 6.38252 0.200007 6.202 0.200007 5.97931V4.90408C0.200007 4.2268 0.469048 3.58217 0.948028 3.10319C1.42701 2.62421 2.07164 2.35517 2.75368 2.35517Z" fill="var(--cp-text-tertiary)"/>
+                      <path fillRule="evenodd" clipRule="evenodd" d="M3.03879 7.84468C2.88132 7.68722 2.62603 7.68722 2.46856 7.84468L0.318097 9.99513C0.160637 10.1526 0.160637 10.4079 0.318097 10.5654L2.46856 12.7158C2.62603 12.8733 2.88132 12.8733 3.03879 12.7158C3.19625 12.5584 3.19625 12.3031 3.03879 12.1456L1.17344 10.2803L3.03879 8.4149C3.19625 8.25744 3.19625 8.00214 3.03879 7.84468Z" fill="var(--cp-text-tertiary)"/>
+                      <path fillRule="evenodd" clipRule="evenodd" d="M10.6835 7.05459C10.6835 6.8319 10.503 6.65138 10.2803 6.65138C9.8575 6.65138 9.677 6.8319 9.677 7.05459V8.12982C9.677 8.7401 9.514 9.13365 9.2239 9.42382C8.9337 9.71399 8.5401 9.877 8.1298 9.877H0.603217C0.380527 9.877 0.200007 10.0576 0.200007 10.2803C0.200007 10.503 0.380527 10.6835 0.603217 10.6835H8.1298C8.8071 10.6835 9.4566 10.4145 9.9355 9.93558C10.4144 9.45658 10.6835 8.80708 10.6835 8.12982V7.05459Z" fill="var(--cp-text-tertiary)"/>
+                    </svg>
+                  </div>
+                </div>
+                <div className="bg-[var(--cp-bg-2)] content-stretch flex gap-[5px] items-center justify-center px-[10px] py-[6px] relative rounded-[5px] shrink-0">
+                  <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-[var(--cp-text-primary)] whitespace-nowrap">USD</p>
+                  <UsdBadge size={14} />
+                </div>
+              </div>
+            </div>
+
+            {/* Divider */}
+            <div className="bg-[var(--cp-border-default)] h-px relative shrink-0 w-full" />
+
             {/* Fees section */}
             <div className="content-stretch flex flex-col items-start relative shrink-0 w-full gap-0">
-              {/* Currency switcher on its own row */}
-              <div className="content-stretch flex items-center justify-end relative shrink-0 w-full">
-                {/* Currency switcher */}
-                <div className="content-stretch flex gap-[5px] items-center justify-center relative shrink-0">
-                  <div className="content-stretch flex gap-[5px] items-center justify-center p-[10px] relative rounded-[5px] shrink-0">
-                    <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-black whitespace-nowrap">USDT</p>
-                    <UsdtBadge size={14} />
-                  </div>
-                  <div className="overflow-clip relative shrink-0" style={{ width: '12.47px', height: '11.74px' }}>
-                    <div className="absolute inset-[9.27%_17.99%]">
-                      <svg className="absolute block inset-0 size-full" fill="none" viewBox="0 0 10.8835 13.0339">
-                        <path fillRule="evenodd" clipRule="evenodd" d="M7.8447 0.318097C8.0022 0.160637 8.2575 0.160637 8.4149 0.318097L10.5654 2.46856C10.7229 2.62602 10.7229 2.88132 10.5654 3.03878L8.4149 5.18924C8.2575 5.34671 8.0022 5.34671 7.8447 5.18924C7.6872 5.03178 7.6872 4.77648 7.8447 4.61902L9.7101 2.75367L7.8447 0.888327C7.6872 0.730857 7.6872 0.475557 7.8447 0.318097Z" fill="var(--cp-text-tertiary)"/>
-                        <path fillRule="evenodd" clipRule="evenodd" d="M2.75368 2.35517H10.2803C10.6134 2.35517 10.8835 2.62523 10.8835 2.95838C10.8835 3.29152 10.6134 3.56159 10.2803 3.56159H2.75368C2.29028 3.56159 1.84586 3.34091 1.51818 3.66859C1.19051 3.99626 1.00643 4.44068 1.00643 4.90408V5.97931C1.00643 6.202 0.825897 6.38252 0.603217 6.38252C0.380527 6.38252 0.200007 6.202 0.200007 5.97931V4.90408C0.200007 4.2268 0.469048 3.58217 0.948028 3.10319C1.42701 2.62421 2.07164 2.35517 2.75368 2.35517Z" fill="var(--cp-text-tertiary)"/>
-                        <path fillRule="evenodd" clipRule="evenodd" d="M3.03879 7.84468C2.88132 7.68722 2.62603 7.68722 2.46856 7.84468L0.318097 9.99513C0.160637 10.1526 0.160637 10.4079 0.318097 10.5654L2.46856 12.7158C2.62603 12.8733 2.88132 12.8733 3.03879 12.7158C3.19625 12.5584 3.19625 12.3031 3.03879 12.1456L1.17344 10.2803L3.03879 8.4149C3.19625 8.25744 3.19625 8.00214 3.03879 7.84468Z" fill="var(--cp-text-tertiary)"/>
-                        <path fillRule="evenodd" clipRule="evenodd" d="M10.6835 7.05459C10.6835 6.8319 10.503 6.65138 10.2803 6.65138C9.8575 6.65138 9.677 6.8319 9.677 7.05459V8.12982C9.677 8.7401 9.514 9.13365 9.2239 9.42382C8.9337 9.71399 8.5401 9.877 8.1298 9.877H0.603217C0.380527 9.877 0.200007 10.0576 0.200007 10.2803C0.200007 10.503 0.380527 10.6835 0.603217 10.6835H8.1298C8.8071 10.6835 9.4566 10.4145 9.9355 9.93558C10.4144 9.45658 10.6835 8.80708 10.6835 8.12982V7.05459Z" fill="var(--cp-text-tertiary)"/>
-                      </svg>
-                    </div>
-                  </div>
-                  <div className="bg-[var(--cp-bg-2)] content-stretch flex gap-[5px] items-center justify-center p-[10px] relative rounded-[5px] shrink-0">
-                    <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-black whitespace-nowrap">USD</p>
-                    <UsdBadge size={14} />
-                  </div>
-                </div>
-              </div>
 
               {/* Fees title */}
-              <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-[var(--cp-text-secondary)]">Fees</p>
+              <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-[var(--cp-text-secondary)] pb-[4px]">Fees</p>
 
-              <div className="content-stretch flex flex-col items-end relative shrink-0 w-full">
-                {/* Conversion fee */}
-                <div className="content-stretch flex items-center justify-between py-[10px] relative shrink-0 w-full border-b border-[var(--cp-border-default)] border-solid">
-                  <div className="content-stretch flex gap-[5px] items-center relative shrink-0">
-                    <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-[var(--cp-text-tertiary)] whitespace-nowrap">Conversion fee (0.5%)</p>
-                    <InfoIcon />
-                  </div>
-                  <div className="flex items-center justify-end" style={{ height: 13 }}>
-                    {isLoading ? <Skeleton width="70px" /> : (
-                      <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-[var(--cp-text-tertiary)] text-right whitespace-nowrap leading-none">
-                        <span className="font-['Inter:Bold',sans-serif] font-bold">≈</span>${convFeeDisplay} USD
-                      </p>
-                    )}
-                  </div>
+              {/* Conversion fee */}
+              <div className="content-stretch flex items-center justify-between py-[8px] relative shrink-0 w-full">
+                <div className="content-stretch flex gap-[5px] items-center relative shrink-0">
+                  <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-[var(--cp-text-tertiary)] whitespace-nowrap">Conversion fee (0.5%)</p>
+                  <InfoIcon />
                 </div>
-
-                {/* Network fee */}
-                <div className="content-stretch flex items-center justify-between py-[10px] relative shrink-0 w-full">
-                  <div className="content-stretch flex gap-[5px] items-center relative shrink-0">
-                    <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-[var(--cp-text-tertiary)] whitespace-nowrap">Network fee</p>
-                    <InfoIcon />
-                  </div>
-                  <div className="flex items-center justify-end" style={{ height: 13 }}>
-                    {isLoading ? <Skeleton width="70px" /> : (
-                      <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-[var(--cp-text-tertiary)] text-right whitespace-nowrap leading-none">
-                        <span className="font-['Inter:Bold',sans-serif] font-bold">≈</span>$2.49 USD
-                      </p>
-                    )}
-                  </div>
-                </div>
-              </div>
-
-              {/* Total fees */}
-              <div className="bg-[var(--cp-bg-3,#e5e9f2)] content-stretch flex items-center justify-between p-[10px] relative rounded-[5px] shrink-0 w-full">
-                <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-[var(--cp-text-primary)] whitespace-nowrap">Total fees</p>
                 <div className="flex items-center justify-end" style={{ height: 13 }}>
                   {isLoading ? <Skeleton width="70px" /> : (
-                    <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-[var(--cp-text-primary)] text-right whitespace-nowrap leading-none">
-                      <span className="font-['Inter:Bold',sans-serif] font-bold">≈</span>${totalFeeDisplay} USD
+                    <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-[var(--cp-text-tertiary)] text-right whitespace-nowrap leading-none">
+                      <span className="font-['Inter:Bold',sans-serif] font-bold">≈</span>${convFeeDisplay} USD
                     </p>
                   )}
                 </div>
               </div>
-            </div>
+
+              {/* Network fee */}
+              <div className="content-stretch flex items-center justify-between py-[8px] relative shrink-0 w-full">
+                <div className="content-stretch flex gap-[5px] items-center relative shrink-0">
+                  <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-[var(--cp-text-tertiary)] whitespace-nowrap">Network fee</p>
+                  <InfoIcon />
+                </div>
+                <div className="flex items-center justify-end" style={{ height: 13 }}>
+                  {isLoading ? <Skeleton width="70px" /> : (
+                    <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-[var(--cp-text-tertiary)] text-right whitespace-nowrap leading-none">
+                      <span className="font-['Inter:Bold',sans-serif] font-bold">≈</span>$2.49 USD
+                    </p>
+                  )}
+                </div>
+              </div>
+
+              {/* Total fees */}
+              <div className="bg-[var(--cp-bg-3,#e5e9f2)] content-stretch flex items-center justify-between p-[10px] relative rounded-[5px] shrink-0 w-full mt-[4px]">
+                <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[11px] text-[var(--cp-text-primary)] whitespace-nowrap">Total fees</p>
+                <div className="flex items-center justify-end" style={{ height: 13 }}>
+                  {isLoading ? <Skeleton width="70px" /> : (
+                    <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[11px] text-[var(--cp-text-primary)] text-right whitespace-nowrap leading-none">
+                      <span>≈</span>${totalFeeDisplay} USD
+                    </p>
+                  )}
+                </div>
+              </div>
             </div>
           </div>
 

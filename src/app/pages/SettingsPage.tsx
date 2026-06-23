@@ -28,6 +28,7 @@ export default function SettingsPage() {
   const [activeTab, setActiveTab] = useState<'general' | 'email'>('general');
   const [hasChanges, setHasChanges] = useState(false);
   const [show2fa, setShow2fa] = useState(false);
+  const [savedTrigger, setSavedTrigger] = useState(0);
 
   const { banks } = useBanks();
   const [selectedRows, setSelectedRows] = useState<Set<number>>(new Set());
@@ -255,8 +256,6 @@ export default function SettingsPage() {
               {/* Bank Payout rows — top of list, checked by default */}
               <div key={`bank-0-${rowsResetKey}`} className="relative w-full min-h-[76px]">
                 <PaySettingsRow
-                  mode="bank"
-                  bankId="wise"
                   rowKey="bank-0"
                   coinLogo={
                     <div className="relative shrink-0 size-[36px] rounded-[999px] bg-[#50af95] flex items-center justify-center">
@@ -265,16 +264,16 @@ export default function SettingsPage() {
                   }
                   coinName="Tether USD"
                   coinSymbol="USDT.ERC20"
+                  allowNightlyToBank={true}
                   selected={selectedRows.has(0)}
                   onToggleSelect={() => toggleRow(0)}
                   canSelect={canSelectRows}
+                  savedTrigger={savedTrigger}
                   onChanged={() => setHasChanges(true)}
                 />
               </div>
               <div key={`bank-1-${rowsResetKey}`} className="relative w-full min-h-[76px]">
                 <PaySettingsRow
-                  mode="bank"
-                  bankId="wise"
                   rowKey="bank-1"
                   coinLogo={
                     <div className="relative shrink-0 size-[36px] rounded-[999px] bg-[#2775CA] flex items-center justify-center">
@@ -283,16 +282,16 @@ export default function SettingsPage() {
                   }
                   coinName="USD Coin"
                   coinSymbol="USDC.ERC20"
+                  allowNightlyToBank={true}
                   selected={selectedRows.has(1)}
                   onToggleSelect={() => toggleRow(1)}
                   canSelect={canSelectRows}
+                  savedTrigger={savedTrigger}
                   onChanged={() => setHasChanges(true)}
                 />
               </div>
               <div key={`bank-2-${rowsResetKey}`} className="relative w-full min-h-[76px]">
                 <PaySettingsRow
-                  mode="bank"
-                  bankId="wise"
                   rowKey="bank-2"
                   coinLogo={
                     <div className="relative shrink-0 size-[36px] rounded-[999px] bg-[#50af95] flex items-center justify-center">
@@ -301,9 +300,11 @@ export default function SettingsPage() {
                   }
                   coinName="Tether USD"
                   coinSymbol="USDT.TRC20"
+                  allowNightlyToBank={true}
                   selected={selectedRows.has(2)}
                   onToggleSelect={() => toggleRow(2)}
                   canSelect={canSelectRows}
+                  savedTrigger={savedTrigger}
                   onChanged={() => setHasChanges(true)}
                 />
               </div>
@@ -315,7 +316,8 @@ export default function SettingsPage() {
                     selected={selectedRows.has(index + 3)}
                     onToggleSelect={() => toggleRow(index + 3)}
                     canSelect={canSelectRows}
-                    onChanged={() => setHasChanges(true)}
+                    savedTrigger={savedTrigger}
+                  onChanged={() => setHasChanges(true)}
                   />
                 </div>
               ))}
@@ -364,7 +366,7 @@ export default function SettingsPage() {
         <TwoFaModal
           onDismiss={() => setShow2fa(false)}
           onCancel={() => setShow2fa(false)}
-          onSubmit={() => { setShow2fa(false); setHasChanges(false); }}
+          onSubmit={() => { setShow2fa(false); setHasChanges(false); setSavedTrigger(t => t + 1); }}
         />,
         document.body
       )}

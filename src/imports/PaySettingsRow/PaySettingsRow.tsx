@@ -274,6 +274,8 @@ type PaySettingsRowProps = {
   selected?: boolean;
   onToggleSelect?: () => void;
   canSelect?: boolean;
+  allowNightlyToBank?: boolean;
+  savedTrigger?: number;
 };
 
 
@@ -338,29 +340,25 @@ export default function PaySettingsRow({
   selected = false,
   onToggleSelect,
   canSelect = true,
+  allowNightlyToBank = false,
+  savedTrigger,
 }: PaySettingsRowProps = {}) {
   const navigate = useNavigate();
   const { banks, primaryId } = useBanks();
 
   const sk = rowKey ? `psr-${rowKey}` : null;
 
-  // Default to primary bank when no explicit bankId given; restore from sessionStorage if available
+  // Restore last saved (post-2FA) state from sessionStorage; validate bank still exists
   const [committedBankId, setCommittedBankId] = useState<string | undefined>(() => {
     if (sk) {
-      const saved = sessionStorage.getItem(`${sk}-bankId`);
-      if (saved) return saved;
+      const savedBankId = sessionStorage.getItem(`${sk}-bankId`);
+      if (savedBankId && banks.some(b => b.id === savedBankId)) return savedBankId;
     }
     return bankIdProp ?? primaryId;
   });
 
-  // Keep in sync if bankIdProp changes externally and no persisted state exists
-  useEffect(() => {
-    if (bankIdProp && !sk) setCommittedBankId(bankIdProp);
-  }, [bankIdProp]);
-
   const committedBank = banks.find(b => b.id === committedBankId);
   const isCommittedUnderReview = committedBank?.status === 'under_review';
-  // Always derive label + iban live from context — reflects edits instantly
   const bankName    = committedBank?.label ?? bankNameProp;
   const bankAccount = committedBank?.iban.replace(/\s/g, '') ?? bankAccountProp;
 
@@ -370,40 +368,56 @@ export default function PaySettingsRow({
   const [showAddNewBank, setShowAddNewBank] = useState(false);
   const [addingBankForNightly, setAddingBankForNightly] = useState(false);
   const [editingBankId, setEditingBankId] = useState<string | undefined>(committedBankId);
+
   const [selectedMode, setSelectedMode] = useState(() => {
     if (sk) {
-      const saved = sessionStorage.getItem(`${sk}-mode`);
-      if (saved) return saved;
+      const savedMode = sessionStorage.getItem(`${sk}-mode`);
+      const savedBankId = sessionStorage.getItem(`${sk}-bankId`);
+      const savedBankExists = savedBankId ? banks.some(b => b.id === savedBankId) : false;
+      // Discard saved "Nightly to Bank" if the committed bank was deleted or feature not allowed
+      if (savedMode === 'Nightly to Bank' && (!savedBankExists || !allowNightlyToBank)) return 'To Custody';
+      if (savedMode) return savedMode;
     }
-    const initBankId = bankIdProp ?? primaryId;
-    const initBank = initBankId ? banks.find(b => b.id === initBankId) : undefined;
-    return mode === 'bank' && initBank ? 'Nightly to Bank' : 'To Custody';
+    return 'To Custody';
   });
+
   const [payoutCurrency, setPayoutCurrency] = useState<string | null>(() => {
     if (sk) {
+      const savedMode = sessionStorage.getItem(`${sk}-mode`);
+      const savedBankId = sessionStorage.getItem(`${sk}-bankId`);
+      const savedBankExists = savedBankId ? banks.some(b => b.id === savedBankId) : false;
+      // Only restore payout if saved mode is still valid
+      if (savedMode === 'Nightly to Bank' && !savedBankExists) return null;
       const saved = sessionStorage.getItem(`${sk}-payout`);
       if (saved !== null) return saved === '__null__' ? null : saved;
     }
-    return mode === 'bank' ? 'USD' : null;
+    return null;
   });
   const [isCurrencyPending, setIsCurrencyPending] = useState(false);
 
-  // Persist key state to sessionStorage whenever it changes
-  useEffect(() => { if (sk) sessionStorage.setItem(`${sk}-mode`, selectedMode); }, [sk, selectedMode]);
-  useEffect(() => { if (sk && committedBankId) sessionStorage.setItem(`${sk}-bankId`, committedBankId); }, [sk, committedBankId]);
-  useEffect(() => { if (sk) sessionStorage.setItem(`${sk}-payout`, payoutCurrency ?? '__null__'); }, [sk, payoutCurrency]);
+  // Persist to sessionStorage only after 2FA confirmation (savedTrigger increments)
+  useEffect(() => {
+    if (!sk || !savedTrigger) return;
+    sessionStorage.setItem(`${sk}-mode`, selectedMode);
+    if (committedBankId && banks.some(b => b.id === committedBankId)) {
+      sessionStorage.setItem(`${sk}-bankId`, committedBankId);
+    } else {
+      sessionStorage.removeItem(`${sk}-bankId`);
+    }
+    sessionStorage.setItem(`${sk}-payout`, payoutCurrency ?? '__null__');
+  }, [savedTrigger]);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   // Derived: treat Nightly to Bank as To Custody only when there are truly no banks at all
   const effectiveMode = (banks.length === 0 && selectedMode === 'Nightly to Bank') ? 'To Custody' : selectedMode;
 
-  // Auto-reset to 'To Custody' only when committed bank is deleted (not on status change)
+  // When the committed bank is deleted while on this page, immediately reset to "To Custody"
   useEffect(() => {
     if (selectedMode !== 'Nightly to Bank') return;
-    if (!committedBank) {
-      setSelectedMode('To Custody');
-    }
-  }, [banks, committedBankId]);
+    if (!committedBankId || banks.some(b => b.id === committedBankId)) return;
+    setSelectedMode('To Custody');
+    setPayoutCurrency(null);
+  }, [banks]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -553,7 +567,7 @@ export default function PaySettingsRow({
               {[
                 { label: 'Disabled', description: '' },
                 { label: 'To Custody', description: 'Received payments are stored in your CoinPayments wallet for later withdrawal at your leisure. This option allows you to automatically convert payments into another currency as well.' },
-                ...(!lockedPayoutCurrency ? [{ label: 'Nightly to Bank', description: 'Received payments are batched and wired nightly to your USD bank account. A $100 minimum balance is required per wire.' }] : []),
+                ...(!lockedPayoutCurrency && allowNightlyToBank ? [{ label: 'Nightly to Bank', description: 'Received payments are batched and wired nightly to your USD bank account. A $100 minimum balance is required per wire.' }] : []),
                 { label: 'To Non-Custody', description: 'Received payments are sent to the address or wallet ID you specify as soon as they are received and confirmed. This option allows you to automatically convert payments into another currency as well.' },
                 { label: 'Hourly To Non-Custody', description: 'Received payments are grouped together and sent hourly. The main benefit of this option is it will save you coin network fees.' },
                 { label: 'Nightly To Non-Custody', description: 'Received payments are grouped together and sent daily (at approx. midnight EST GMT-05:00). The main benefit of this option is it will save you coin network fees.' },
@@ -571,16 +585,15 @@ export default function PaySettingsRow({
                         setShowAddNewBank(true);
                         return;
                       }
-                      if (label !== selectedMode) onChanged?.();
                       setSelectedMode(label);
                       if (label === 'Nightly to Bank') {
-                        // Preserve previously chosen bank; only fall back to primary if none committed
-                        const currentValid = committedBankId && banks.find(b => b.id === committedBankId);
-                        if (!currentValid) {
-                          const bankId = primaryId || banks[0]?.id;
-                          setCommittedBankId(bankId);
-                          setEditingBankId(bankId);
-                        }
+                        const bankId = primaryId || banks[0]?.id;
+                        setCommittedBankId(bankId);
+                        setEditingBankId(bankId);
+                        // Bank change resets payout currency; Save waits until currency is picked
+                        setPayoutCurrency(null);
+                      } else if (label !== selectedMode && payoutCurrency) {
+                        onChanged?.();
                       }
                     }}
                   >
