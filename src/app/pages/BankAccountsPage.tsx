@@ -274,7 +274,7 @@ function BankRow({ account, index, isPrimary, isReordering, reorderMode, hasDrag
           <div className="relative shrink-0 size-[36px] flex items-center justify-center"><CountryFlag country={account.country} /></div>
           <div className="content-stretch flex flex-col items-start leading-[normal] not-italic relative shrink-0">
             <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[14.5px] text-[var(--cp-text-primary)] whitespace-nowrap">{account.label}</p>
-            <p className="font-['Inter:Regular',sans-serif] font-normal text-[13px] text-[var(--cp-text-tertiary)] whitespace-nowrap">{account.iban.replace(/\s/g, '')}</p>
+            <p className="font-['Inter:Regular',sans-serif] font-normal text-[14.5px] text-[var(--cp-text-tertiary)] whitespace-nowrap">{account.iban.replace(/\s/g, '')}</p>
           </div>
         </div>
         <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" />
