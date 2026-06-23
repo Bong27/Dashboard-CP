@@ -364,7 +364,7 @@ function BankCountryField({
 }
 
 // ─── IBAN validator (global format, 14–34 chars) ─────────────────────────────
-function isValidUkIban(raw: string): boolean {
+export function isValidUkIban(raw: string): boolean {
   const v = raw.replace(/\s/g, '').toUpperCase();
   return /^[A-Z]{2}[A-Z0-9]{12,32}$/.test(v);
 }
@@ -375,7 +375,7 @@ const IBAN_TYPES = [
   { label: 'Account Number', description: 'Local account number — used for domestic transfers within a specific country.' },
 ];
 
-function IBANField({ value, onChange, ibanType, onIbanTypeChange, hideTypeSelector }: { value: string; onChange: (v: string) => void; ibanType: string; onIbanTypeChange: (t: string) => void; hideTypeSelector?: boolean }) {
+export function IBANField({ value, onChange, ibanType, onIbanTypeChange, hideTypeSelector }: { value: string; onChange: (v: string) => void; ibanType: string; onIbanTypeChange: (t: string) => void; hideTypeSelector?: boolean }) {
   const [focused, setFocused] = useState(false);
   const [hovered, setHovered] = useState(false);
   const [open, setOpen] = useState(false);

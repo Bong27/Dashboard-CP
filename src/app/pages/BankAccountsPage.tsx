@@ -424,7 +424,7 @@ export default function BankAccountsPage() {
           bankId={editingBank.id}
           label={editingBank.label}
           holderName={editingBank.holder}
-          accountNumber={editingBank.accountNumber}
+          accountNumber={editingBank.iban}
           bic={editingBank.bic}
           address={editingBank.address}
           city={editingBank.city}
