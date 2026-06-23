@@ -4,6 +4,7 @@
 // Opens from BankDetailsModal > "Add New Bank" button
 // ─────────────────────────────────────────────────────────────────────────────
 import { useState, useRef, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { useBanks, BIC_TO_BANK } from '../context/BankContext';
 import BankAddedModal from './BankAddedModal';
 
@@ -20,6 +21,39 @@ function InfoIcon() {
       <path d="M8 7V11" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
       <circle cx="8" cy="5" r="0.75" fill="white" />
     </svg>
+  );
+}
+
+function InfoIconWithTooltip({ text }: { text: string }) {
+  const [hovered, setHovered] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+  const [pos, setPos] = useState({ top: 0, left: 0 });
+
+  const onEnter = () => {
+    if (ref.current) {
+      const r = ref.current.getBoundingClientRect();
+      setPos({ top: r.top - 6, left: r.left + r.width / 2 });
+    }
+    setHovered(true);
+  };
+
+  return (
+    <div ref={ref} className="shrink-0 flex items-center cursor-default" onMouseEnter={onEnter} onMouseLeave={() => setHovered(false)}>
+      <InfoIcon />
+      {hovered && createPortal(
+        <div className="fixed z-[9999] pointer-events-none" style={{ top: pos.top, left: pos.left, transform: 'translate(-50%, -100%)' }}>
+          <div className="rounded-[6px] px-[10px] py-[8px] w-[240px]" style={{ background: '#1a1a1a' }}>
+            <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-white leading-[1.4] text-center">{text}</p>
+          </div>
+          <div className="flex justify-center">
+            <svg width="10" height="5" viewBox="0 0 10 5" fill="none">
+              <path d="M10 0H0L3.58579 3.58579C4.36684 4.36684 5.63316 4.36684 6.41421 3.58579L10 0Z" fill="#1a1a1a"/>
+            </svg>
+          </div>
+        </div>,
+        document.body
+      )}
+    </div>
   );
 }
 
@@ -52,6 +86,7 @@ function Field({
   helper = '',
   inactive = false,
   validate,
+  infoTooltip = '',
 }: {
   label: string;
   value: string;
@@ -64,6 +99,7 @@ function Field({
   helper?: string;
   inactive?: boolean;
   validate?: (v: string) => string | null;
+  infoTooltip?: string;
 }) {
   const [focused, setFocused] = useState(false);
   const [hovered, setHovered] = useState(false);
@@ -107,7 +143,9 @@ function Field({
             <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[11px] text-[var(--cp-text-tertiary)] uppercase whitespace-nowrap leading-none">
               {label}
             </p>
-            {hasInfo && <InfoIcon />}
+            {hasInfo && (infoTooltip
+              ? <span style={{ pointerEvents: 'auto' }}><InfoIconWithTooltip text={infoTooltip} /></span>
+              : <InfoIcon />)}
           </div>
           <input
             type="text"
@@ -220,7 +258,7 @@ function IBANField({ value, onChange, ibanType, onIbanTypeChange }: { value: str
 
   const placeholder = ibanType === 'IBAN'
     ? 'Enter a valid IBAN (14–34 characters)'
-    : 'Enter account number';
+    : 'Enter your bank account number';
 
   const isIbanValid = ibanType === 'IBAN' && isValidUkIban(value);
   const isAccountValid = ibanType === 'Account Number' && /^\d+$/.test(value) && value.length > 6;
@@ -635,7 +673,7 @@ export default function AddNewBankModal({ onClose, onBankAdded }: Props) {
               value={bic}
               onChange={setBic}
               inactive={!!bicFromIban}
-              placeholder="8-11 characters"
+              placeholder={ibanType === 'IBAN' ? '' : 'Enter a valid BIC/SWIFT code. E.g. TRWIGB2LXXX'}
               validate={v => {
                 if (!bicFromIban && v.trim() !== '' && (v.trim().length < 8 || v.trim().length > 11)) return 'BIC / SWIFT must be between 8 and 11 characters';
                 return null;
@@ -644,7 +682,7 @@ export default function AddNewBankModal({ onClose, onBankAdded }: Props) {
             <Field label="Address"      value={address}     onChange={setAddress} helper="Must exactly match the billing address registered with your bank" />
             <Field label="Town / City"  value={city}        onChange={setCity}    helper="Must exactly match the billing address registered with your bank" />
             <Field label="Postal / ZIP Code" value={postalCode} onChange={setPostalCode} helper="Must exactly match the billing address registered with your bank" />
-            <Field label="Bank Account Type" value={accountType} onChange={setAccountType} placeholder="Business" dimValue={accountType === ''} hasInfo inactive />
+            <Field label="Bank Account Type" value={accountType} onChange={setAccountType} placeholder="Business" dimValue={accountType === ''} hasInfo infoTooltip="Transfers are restricted to business bank accounts matching your registered CoinPayments name" inactive />
           </div>
 
           {/* Buttons */}
