@@ -417,7 +417,7 @@ export default function BankPayoutModal({ onClose }: { onClose: () => void }) {
 
             {/* Estimated Payout (USD) */}
             <div className="relative w-full shrink-0">
-              <SelectField label="ESTIMATED PAYOUT" labelInfo focused={payoutFocused}
+              <SelectField label="ESTIMATED PAYOUT" labelInfo labelInfoTooltip="Payouts are calculated using the live market rate at the time of transfer. The final amount may vary due to exchange rate fluctuations." focused={payoutFocused}
                 selector={
                   <div className="content-stretch flex gap-[5px] items-center relative self-stretch shrink-0">
                     <div className="content-stretch flex gap-[10px] items-center pl-[10px] pr-[20px] py-[5px] relative shrink-0">
