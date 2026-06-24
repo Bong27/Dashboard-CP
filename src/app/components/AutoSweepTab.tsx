@@ -69,12 +69,23 @@ export function AutoSweepTab() {
     const t = setTimeout(() => setShowError(true), 500);
     return () => clearTimeout(t);
   }, [isAmountInvalid]);
+  type Snapshot = { sweepDestination: SweepDestination; selectedBankId: string; triggerAmount: string; payoutCurrency: string | null };
   const [saved, setSaved] = useState(false);
-  const saveEnabled = isBankAccount ? (isAmountValid && payoutCurrency !== null && !saved) : false;
+  const [savedSnapshot, setSavedSnapshot] = useState<Snapshot | null>(null);
   const [show2Fa, setShow2Fa] = useState(false);
   const [showComplete, setShowComplete] = useState(false);
+  const [pendingAction, setPendingAction] = useState<'save' | 'update' | 'disable'>('save');
 
-  const markDirty = () => setSaved(false);
+  const saveEnabled = isBankAccount ? (isAmountValid && payoutCurrency !== null && !saved) : false;
+
+  const isDirty = saved && savedSnapshot !== null && (
+    sweepDestination !== savedSnapshot.sweepDestination ||
+    selectedBankId !== savedSnapshot.selectedBankId ||
+    triggerAmount !== savedSnapshot.triggerAmount ||
+    payoutCurrency !== savedSnapshot.payoutCurrency
+  );
+
+  const markDirty = () => {};
 
   const triggerAmountField = (
     <div className={`relative min-w-[200px] ${isBankAccount ? 'flex-[1_0_0]' : 'w-full'}`} style={{ overflow: 'visible' }}>
@@ -113,13 +124,41 @@ export function AutoSweepTab() {
     </div>
   );
 
-  const saveButton = saveEnabled ? (
-    <div className="bg-[var(--cp-brand-primary)] content-stretch flex h-[46px] items-center justify-center overflow-clip px-[20px] py-[10px] relative rounded-[5px] shrink-0 cursor-pointer hover:bg-[var(--cp-brand-active)] transition-colors" onClick={() => setShow2Fa(true)}>
-      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-white text-[14.5px] text-center whitespace-nowrap">Save</p>
+  const btnBase = "content-stretch flex h-[46px] items-center justify-center overflow-clip px-[20px] py-[10px] relative rounded-[5px] shrink-0 transition-colors";
+
+  const saveButton = saved ? (
+    <div className="flex gap-[10px] items-center shrink-0">
+      {/* Update */}
+      {isDirty ? (
+        <div
+          className={`${btnBase} bg-[var(--cp-brand-primary)] hover:bg-[var(--cp-brand-active)] cursor-pointer`}
+          onClick={() => { setPendingAction('update'); setShow2Fa(true); }}
+        >
+          <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-white text-center whitespace-nowrap">Update</p>
+        </div>
+      ) : (
+        <div className={`${btnBase} bg-[var(--cp-bg-2)] cursor-not-allowed`}>
+          <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-secondary)] text-center whitespace-nowrap">Update</p>
+        </div>
+      )}
+      {/* Disable */}
+      <div
+        className={`${btnBase} bg-white border border-[var(--cp-error-field)] hover:bg-red-50 cursor-pointer`}
+        onClick={() => { setPendingAction('disable'); setShow2Fa(true); }}
+      >
+        <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-error-field)] text-center whitespace-nowrap">Disable</p>
+      </div>
+    </div>
+  ) : saveEnabled ? (
+    <div
+      className={`${btnBase} bg-[var(--cp-brand-primary)] hover:bg-[var(--cp-brand-active)] cursor-pointer`}
+      onClick={() => { setPendingAction('save'); setShow2Fa(true); }}
+    >
+      <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-white text-center whitespace-nowrap">Save</p>
     </div>
   ) : (
-    <div className="bg-[var(--cp-bg-2)] content-stretch flex h-[46px] items-center justify-center overflow-clip px-[20px] py-[10px] relative rounded-[5px] shrink-0 cursor-not-allowed">
-      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-secondary)] text-[14.5px] text-center whitespace-nowrap">Save</p>
+    <div className={`${btnBase} bg-[var(--cp-bg-2)] cursor-not-allowed`}>
+      <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-secondary)] text-center whitespace-nowrap">Save</p>
     </div>
   );
 
@@ -129,7 +168,23 @@ export function AutoSweepTab() {
       <TwoFaModal
         onDismiss={() => setShow2Fa(false)}
         onCancel={() => setShow2Fa(false)}
-        onSubmit={() => { setShow2Fa(false); setSaved(true); setShowComplete(true); setTimeout(() => setShowComplete(false), 2000); }}
+        onSubmit={() => {
+          setShow2Fa(false);
+          if (pendingAction === 'disable') {
+            setSweepDestination(null);
+            setTriggerAmount('');
+            setPayoutCurrency(null);
+            setSelectedBankId(primaryId || banks[0]?.id || '');
+            setSaved(false);
+            setSavedSnapshot(null);
+          } else {
+            const snapshot = { sweepDestination, selectedBankId, triggerAmount, payoutCurrency };
+            setSavedSnapshot(snapshot);
+            setSaved(true);
+          }
+          setShowComplete(true);
+          setTimeout(() => setShowComplete(false), 2000);
+        }}
       />,
       document.body
     )}
