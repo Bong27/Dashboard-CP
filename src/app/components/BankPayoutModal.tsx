@@ -161,7 +161,7 @@ export default function BankPayoutModal({ onClose, coin }: { onClose: () => void
   const selectedBank = banks.find(b => b.id === selectedBankId) ?? banks[0];
 
   // Under Review badge takes ~90px — always truncate IBAN when badge is visible
-  const showUnderReviewBadge = approvedBanks.length === 0 && banks.length > 0;
+  const showUnderReviewBadge = selectedBank?.status === 'under_review';
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
@@ -263,7 +263,7 @@ export default function BankPayoutModal({ onClose, coin }: { onClose: () => void
   // ── Add Bank step (swap) ──────────────────────────────────────────────────────
   if (modalStep === 'add-bank') {
     return (
-      <AddNewBankModal onClose={() => setModalStep('payout')} />
+      <AddNewBankModal onClose={() => setModalStep('payout')} onBankAdded={(id) => { setSelectedBankId(id); setModalStep('payout'); }} />
     );
   }
 
@@ -502,7 +502,7 @@ export default function BankPayoutModal({ onClose, coin }: { onClose: () => void
                   </div>
                 </div>
                 <div className="flex items-center self-stretch shrink-0">
-                  {approvedBanks.length === 0 && banks.length > 0 && (
+                  {showUnderReviewBadge && (
                     <span className="bg-orange-100 text-orange-600 font-['Inter:Semi_Bold',sans-serif] font-semibold text-[9px] uppercase px-[5px] py-[2px] rounded-[3px] whitespace-nowrap shrink-0 mr-[8px]">Under Review</span>
                   )}
                   <div className="content-stretch flex items-center justify-between relative shrink-0 w-[21px] self-stretch">
@@ -586,8 +586,8 @@ export default function BankPayoutModal({ onClose, coin }: { onClose: () => void
               <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-[var(--cp-text-tertiary)] whitespace-nowrap">1 USDT = $0.99</p>
             </div>
 
-            {/* Currency switcher — centered */}
-            <div className="flex items-center justify-center w-full">
+            {/* Currency switcher — position varies by coin: left=USDC.ERC20, right=USDT.TRC20, center=default */}
+            <div className={`flex items-center w-full ${coin?.logo === 'usdc-erc20' ? 'justify-start' : coin?.logo === 'usdt-trc20' ? 'justify-end' : 'justify-center'}`}>
               <div className="content-stretch flex gap-[5px] items-center justify-center relative shrink-0">
                 <div className="content-stretch flex gap-[5px] items-center justify-center px-[10px] py-[6px] relative rounded-[5px] shrink-0">
                   <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-[var(--cp-text-primary)] whitespace-nowrap">USDT</p>
