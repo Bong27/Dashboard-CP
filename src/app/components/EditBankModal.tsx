@@ -64,7 +64,7 @@ function CountryDropdownPanel({ value, search, onSearch, onSelect, searchRef }: 
             ref={searchRef}
             type="text" value={search} onChange={e => onSearch(e.target.value)}
             placeholder="Type country name"
-            className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-[var(--cp-text-secondary)] bg-transparent border-none outline-none w-full leading-none placeholder:text-[var(--cp-text-quinary)] mt-[3px]"
+            className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-secondary)] bg-transparent border-none outline-none w-full leading-none placeholder:text-[var(--cp-text-quinary)] mt-[3px]"
             style={{ caretColor: 'var(--cp-brand-primary)' }}
           />
         </div>

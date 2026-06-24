@@ -282,7 +282,7 @@ function BankCountryField({
                   value={search}
                   onChange={e => setSearch(e.target.value)}
                   placeholder="Type country name"
-                  className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-[var(--cp-text-secondary)] bg-transparent border-none outline-none w-full leading-none placeholder:text-[var(--cp-text-quinary)] mt-[3px]"
+                  className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-secondary)] bg-transparent border-none outline-none w-full leading-none placeholder:text-[var(--cp-text-quinary)] mt-[3px]"
                   style={{ caretColor: 'var(--cp-brand-primary)' }}
                 />
               </div>
@@ -536,7 +536,7 @@ export default function AddNewBankModal({ onClose, onBankAdded }: Props) {
           className="absolute right-0 top-[-30px] flex items-center justify-center p-[4px] cursor-pointer"
           onClick={onClose}
         >
-          <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[13px] text-white">Dismiss</p>
+          <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[14px] text-white">Dismiss</p>
         </button>
         <div className="bg-white flex flex-col items-start justify-between p-[20px] rounded-[10px] w-full">
           {/* Title area */}
