@@ -54,7 +54,17 @@ export function BankProvider({ children }: { children: ReactNode }) {
 
   const addBank = (bank: Omit<BankEntry, 'id'>): string => {
     const id = `bank_${Date.now()}`;
-    setBanks(prev => [...prev, { ...bank, id, status: 'under_review' }]);
+    setBanks(prev => {
+      const baseLabel = bank.label;
+      const isDuplicate = prev.some(b => b.label === baseLabel);
+      if (isDuplicate) {
+        // Find the highest numeric suffix already in use for this base label
+        let n = 2;
+        while (prev.some(b => b.label === `${baseLabel} ${n}`)) n++;
+        return [...prev, { ...bank, id, label: `${baseLabel} ${n}`, status: 'under_review' }];
+      }
+      return [...prev, { ...bank, id, status: 'under_review' }];
+    });
     return id;
   };
 

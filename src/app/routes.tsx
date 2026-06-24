@@ -1,5 +1,6 @@
 import { createBrowserRouter } from 'react-router';
 import DashboardLayout from './components/DashboardLayout';
+import InventoryPage from './pages/InventoryPage';
 import WalletPage from './pages/WalletPage';
 import TransactionsPage from './pages/TransactionsPage';
 import SettingsPage from './pages/SettingsPage';
@@ -10,6 +11,10 @@ import SupportPage from './pages/SupportPage';
 import BankAccountsPage from './pages/BankAccountsPage';
 
 export const router = createBrowserRouter([
+  {
+    path: '/inventory',
+    Component: InventoryPage,
+  },
   {
     path: '/',
     Component: DashboardLayout,
