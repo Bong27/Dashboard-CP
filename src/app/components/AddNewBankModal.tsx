@@ -429,10 +429,10 @@ function AddLabelField({ labelInputRef, label, setLabel, bankName, labelValue }:
         <input
           ref={labelInputRef}
           type="text"
-          value={label || bankName || ''}
+          value={focused ? label : (label || bankName || '')}
           onChange={e => setLabel(e.target.value)}
-          placeholder="---"
-          onFocus={() => setFocused(true)}
+          placeholder={bankName || '---'}
+          onFocus={() => { setFocused(true); if (!label && bankName) setLabel(bankName); }}
           onBlur={() => setFocused(false)}
           className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-primary)] bg-transparent border-none outline-none w-full min-w-0 leading-none"
           style={{ caretColor: 'var(--cp-brand-primary)' }}

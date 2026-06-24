@@ -567,7 +567,7 @@ export default function PaySettingsRow({
               {[
                 { label: 'Disabled', description: '' },
                 { label: 'To Custody', description: 'Received payments are stored in your CoinPayments wallet for later withdrawal at your leisure. This option allows you to automatically convert payments into another currency as well.' },
-                ...(!lockedPayoutCurrency && allowNightlyToBank ? [{ label: 'Nightly to Bank', description: 'Received payments are batched and wired nightly to your USD bank account. A $100 minimum balance is required per wire.' }] : []),
+                ...(!lockedPayoutCurrency && allowNightlyToBank ? [{ label: 'Nightly to Bank', description: 'Received payments are batched and settled nightly to your bank account. A $100 minimum balance is required per settlement.' }] : []),
                 { label: 'To Non-Custody', description: 'Received payments are sent to the address or wallet ID you specify as soon as they are received and confirmed. This option allows you to automatically convert payments into another currency as well.' },
                 { label: 'Hourly To Non-Custody', description: 'Received payments are grouped together and sent hourly. The main benefit of this option is it will save you coin network fees.' },
                 { label: 'Nightly To Non-Custody', description: 'Received payments are grouped together and sent daily (at approx. midnight EST GMT-05:00). The main benefit of this option is it will save you coin network fees.' },

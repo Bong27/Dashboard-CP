@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router';
 import { useBanks } from '../context/BankContext';
@@ -49,25 +49,6 @@ export function SweepBankAccountDropdown({ value, onChange, className = '' }: Sw
   const selectedBank = banks.find((bank) => bank.id === value);
   const selectedBankUnderReview = selectedBank?.status === 'under_review';
 
-  const ibanRowRef = useRef<HTMLDivElement>(null);
-  const [ibanOverflows, setIbanOverflows] = useState(false);
-  useLayoutEffect(() => {
-    setIbanOverflows(false);
-    const el = ibanRowRef.current;
-    if (!el) return;
-    let live = true;
-    const trigger = () => {
-      if (live && el.scrollWidth > el.clientWidth) {
-        live = false;
-        ro.disconnect();
-        setIbanOverflows(true);
-      }
-    };
-    const ro = new ResizeObserver(trigger);
-    ro.observe(el);
-    trigger();
-    return () => { live = false; ro.disconnect(); };
-  }, [value]);
 
   useEffect(() => {
     if (!open) return;
@@ -120,12 +101,12 @@ export function SweepBankAccountDropdown({ value, onChange, className = '' }: Sw
                 Select a bank account
               </p>
             ) : (
-              <div ref={ibanRowRef} className="flex gap-[5px] items-center min-w-0 overflow-hidden w-full">
+              <div className="flex gap-[5px] items-center min-w-0 overflow-hidden w-full">
                 <p className={`font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic text-[14.5px] whitespace-nowrap overflow-hidden text-ellipsis shrink-0 max-w-[50%] ${selectedBankUnderReview ? 'text-[var(--cp-text-primary)] opacity-60' : 'text-[var(--cp-text-primary)]'}`}>
                   {selectedBank.label}
                 </p>
                 <p className="font-['Inter:Regular',sans-serif] font-normal text-[13px] text-[var(--cp-text-tertiary)] whitespace-nowrap shrink-0">
-                  {ibanOverflows ? truncateIban(getBankAccountIdentifier(selectedBank), 5, 4) : getBankAccountIdentifier(selectedBank)}
+                  {selectedBankUnderReview ? truncateIban(getBankAccountIdentifier(selectedBank), 5, 4) : getBankAccountIdentifier(selectedBank)}
                 </p>
               </div>
             )}

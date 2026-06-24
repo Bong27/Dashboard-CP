@@ -13,7 +13,7 @@ const OPTIONS: { id: Exclude<SweepDestination, null>; label: string; description
     id: 'bank-account',
     label: 'Bank Account',
     description:
-      'Received payments are automatically converted and transferred to your bank account in USD, GBP, or EUR via our third-party partners. Available for selected cryptocurrencies only.',
+      'Your wallet balance is automatically converted and settled to your bank account in USD, GBP, or EUR via our third-party partners. Available for selected cryptocurrencies only.',
   },
 ];
 

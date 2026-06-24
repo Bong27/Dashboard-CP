@@ -14,7 +14,7 @@
 //   Network fee:     $2.49 flat
 //   Estimated Payout = amount × 0.99 − conversionFee − networkFee
 // ─────────────────────────────────────────────────────────────────────────────
-import { useState, useEffect, useLayoutEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { SelectField } from './SelectField';
 import { useBanks } from '../context/BankContext';
 import { useNavigate } from 'react-router';
@@ -158,27 +158,10 @@ export default function BankPayoutModal({ onClose, coin }: { onClose: () => void
   const [twoFaHovered, setTwoFaHovered] = useState(false);
   const [bankOpen, setBankOpen] = useState(false);
   const bankDropdownRef = useRef<HTMLDivElement>(null);
-  const selectedBank = approvedBanks.find(b => b.id === selectedBankId) ?? approvedBanks[0];
+  const selectedBank = banks.find(b => b.id === selectedBankId) ?? banks[0];
 
-  const ibanRowRef = useRef<HTMLDivElement>(null);
-  const [ibanOverflows, setIbanOverflows] = useState(false);
-  useLayoutEffect(() => {
-    setIbanOverflows(false);
-    const el = ibanRowRef.current;
-    if (!el) return;
-    let live = true;
-    const trigger = () => {
-      if (live && el.scrollWidth > el.clientWidth) {
-        live = false;
-        ro.disconnect();
-        setIbanOverflows(true);
-      }
-    };
-    const ro = new ResizeObserver(trigger);
-    ro.observe(el);
-    trigger();
-    return () => { live = false; ro.disconnect(); };
-  }, [selectedBankId]);
+  // Under Review badge takes ~90px — always truncate IBAN when badge is visible
+  const showUnderReviewBadge = approvedBanks.length === 0 && banks.length > 0;
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
@@ -227,7 +210,7 @@ export default function BankPayoutModal({ onClose, coin }: { onClose: () => void
 
   // ── Auto-start countdown when quote is ready (only if a bank is selected) ────
   useEffect(() => {
-    if (state === 'filled' && approvedBanks.length > 0) {
+    if (state === 'filled' && banks.length > 0) {
       startCountdown();
     }
   }, [state === 'filled']);
@@ -269,7 +252,7 @@ export default function BankPayoutModal({ onClose, coin }: { onClose: () => void
 
   const isFilled     = state === 'filled' || state === 'countdown' || state === 'refreshing';
   const isLoading    = state === 'loading-payout' || state === 'loading-amount' || state === 'refreshing';
-  const hasBank      = approvedBanks.length > 0;
+  const hasBank      = banks.length > 0;
   const inCountdown  = state === 'countdown' && hasBank;
 
   // Derived fee values
@@ -509,12 +492,12 @@ export default function BankPayoutModal({ onClose, coin }: { onClose: () => void
               >
                 <div className="flex flex-col h-full items-start justify-between shrink-0 flex-1 min-w-0">
                   <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[11px] text-[var(--cp-text-tertiary)] uppercase whitespace-nowrap leading-none">Bank Account</p>
-                  <div ref={ibanRowRef} className="flex gap-[5px] items-center min-w-0 overflow-hidden w-full">
+                  <div className="flex gap-[5px] items-center min-w-0 overflow-hidden w-full">
                     <p className={`font-['Inter:Medium',sans-serif] font-medium text-[14.5px] whitespace-nowrap overflow-hidden text-ellipsis shrink-0 max-w-[50%] ${approvedBanks.length === 0 ? 'opacity-60 text-[var(--cp-text-primary)]' : 'text-[var(--cp-text-primary)]'}`}>
                       {selectedBank?.label ?? banks[0]?.label ?? '---'}
                     </p>
                     <p className="font-['Inter:Regular',sans-serif] font-normal text-[13px] text-[var(--cp-text-tertiary)] whitespace-nowrap shrink-0">
-                      {(() => { const iban = (selectedBank?.iban ?? banks[0]?.iban ?? '').replace(/\s/g, ''); return ibanOverflows ? truncateIban(iban, 5, 4) : iban; })()}
+                      {(() => { const iban = (selectedBank?.iban ?? banks[0]?.iban ?? '').replace(/\s/g, ''); return showUnderReviewBadge ? truncateIban(iban, 5, 4) : iban; })()}
                     </p>
                   </div>
                 </div>
@@ -548,8 +531,8 @@ export default function BankPayoutModal({ onClose, coin }: { onClose: () => void
                         const isSelected = bank.id === selectedBank?.id;
                         return (
                           <div key={bank.id}
-                            className={`relative rounded-[5px] shrink-0 w-full transition-colors ${isUnderReview ? 'opacity-60 cursor-not-allowed' : isSelected ? 'bg-[var(--cp-brand-primary)] cursor-pointer' : 'bg-white hover:bg-[var(--cp-bg-1)] cursor-pointer'}`}
-                            onClick={() => { if (!isUnderReview) { setSelectedBankId(bank.id); setBankOpen(false); } }}>
+                            className={`relative rounded-[5px] shrink-0 w-full transition-colors ${isSelected ? 'bg-[var(--cp-brand-primary)] cursor-pointer' : 'bg-white hover:bg-[var(--cp-bg-1)] cursor-pointer'}`}
+                            onClick={() => { setSelectedBankId(bank.id); setBankOpen(false); }}>
                             {!isSelected && <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[5px]" />}
                             <div className="flex items-center justify-between p-[10px]">
                               <div className="flex flex-col items-start">
