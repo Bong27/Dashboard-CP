@@ -105,7 +105,7 @@ function StatusBadge({ status }: { status: BankEntry['status'] }) {
   return (
     <div className="content-stretch flex gap-[5px] items-center relative shrink-0">
       <div className="relative rounded-[100px] shrink-0 size-[8px]"
-        style={{ background: isReview ? 'var(--cp-warning, #f59e0b)' : 'var(--cp-success)' }} />
+        style={{ background: isReview ? 'var(--cp-warning)' : 'var(--cp-success)' }} />
       <p className="font-['Inter:Medium',sans-serif] font-medium text-[13px] text-[var(--cp-text-tertiary)] whitespace-nowrap">
         {isReview ? 'Under Review' : 'Approved'}
       </p>

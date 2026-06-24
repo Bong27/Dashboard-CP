@@ -155,7 +155,7 @@ export default function BankDetailsModal({ onClose, onUpdate, onAddNewBank, onMa
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center"
-      style={{ background: 'rgba(0,0,0,0.55)' }}
+      style={{ background: 'var(--cp-bg-overlay-scrim)' }}
       onClick={() => { setBankOpen(false); onClose(); }}
     >
       <div className="relative flex flex-col" style={{ width: 400 }} onClick={e => e.stopPropagation()}>
@@ -290,14 +290,14 @@ export default function BankDetailsModal({ onClose, onUpdate, onAddNewBank, onMa
             {isUnderReview && (
               <div
                 className="flex gap-[8px] items-start p-[10px] relative rounded-[5px] w-full h-full"
-                style={{ background: 'rgba(245,158,11,0.15)' }}
+                style={{ background: 'color-mix(in srgb, var(--cp-warning) 15%, transparent)' }}
               >
                 <svg className="shrink-0 mt-[1px]" width="14" height="14" viewBox="0 0 16 16" fill="none">
-                  <circle cx="8" cy="8" r="8" fill="#f59e0b" />
+                  <circle cx="8" cy="8" r="8" fill="var(--cp-warning)" />
                   <path d="M8 7V11" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
                   <circle cx="8" cy="5.5" r="0.75" fill="white" />
                 </svg>
-                <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] leading-[1.2] flex-1 min-w-px" style={{ color: '#d97706' }}>
+                <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] leading-[1.2] flex-1 min-w-px" style={{ color: 'var(--cp-warning-dark)' }}>
                   Account under review. Settlements will temporarily route to your custodial wallet until approval is complete (up to 48h).
                 </p>
               </div>

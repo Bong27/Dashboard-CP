@@ -19,7 +19,7 @@ export default function BankAddedModal({ onClose }: Props) {
   return (
     <div
       className="fixed inset-0 z-[60] flex items-center justify-center"
-      style={{ background: 'rgba(0,0,0,0.55)' }}
+      style={{ background: 'var(--cp-bg-overlay-scrim)' }}
       onClick={onClose}
     >
       <div className="relative flex flex-col" style={{ width: 400 }} onClick={e => e.stopPropagation()}>

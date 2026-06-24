@@ -98,13 +98,13 @@ export function AutoSweepTab() {
           aria-hidden="true"
           className={`absolute border border-solid inset-0 pointer-events-none rounded-[5px] transition-colors ${
             showError
-              ? 'border-[#E53935]'
+              ? 'border-[var(--cp-error-field)]'
               : 'border-[var(--cp-border-default)] group-hover:border-[var(--cp-border-hover)]'
           }`}
         />
       </div>
       {showError && (
-        <div className="absolute left-0 right-0 top-full bg-[#E53935] px-[10px] py-[6px] rounded-b-[5px] z-10">
+        <div className="absolute left-0 right-0 top-full bg-[var(--cp-error-field)] px-[10px] py-[6px] rounded-b-[5px] z-10">
           <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-white leading-[normal]">
             Please enter a trigger amount equivalent to at least 100 USD and no more than 1,000,000 USD
           </p>

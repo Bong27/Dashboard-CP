@@ -4,58 +4,11 @@
 // Supports three modes: 'standard' | 'cautious' | 'locked'
 // ─────────────────────────────────────────────────────────────────────────────
 import { useState, useRef, useEffect } from 'react';
-import { createPortal } from 'react-dom';
 import { useBanks } from '../context/BankContext';
 import EditWarningModal from './EditWarningModal';
-import { IBANField, isValidUkIban } from './AddNewBankModal';
-
-// ─── Country list (shared with AddNewBankModal) ────────────────────────────────
-const COUNTRIES: { name: string; code: string; flag: string }[] = [
-  { name: 'Albania',        code: 'AL', flag: '🇦🇱' },
-  { name: 'Andorra',        code: 'AD', flag: '🇦🇩' },
-  { name: 'Angola',         code: 'AO', flag: '🇦🇴' },
-  { name: 'Argentina',      code: 'AR', flag: '🇦🇷' },
-  { name: 'Armenia',        code: 'AM', flag: '🇦🇲' },
-  { name: 'Australia',      code: 'AU', flag: '🇦🇺' },
-  { name: 'Austria',        code: 'AT', flag: '🇦🇹' },
-  { name: 'Azerbaijan',     code: 'AZ', flag: '🇦🇿' },
-  { name: 'Belgium',        code: 'BE', flag: '🇧🇪' },
-  { name: 'Brazil',         code: 'BR', flag: '🇧🇷' },
-  { name: 'Bulgaria',       code: 'BG', flag: '🇧🇬' },
-  { name: 'Canada',         code: 'CA', flag: '🇨🇦' },
-  { name: 'Croatia',        code: 'HR', flag: '🇭🇷' },
-  { name: 'Cyprus',         code: 'CY', flag: '🇨🇾' },
-  { name: 'Czech Republic', code: 'CZ', flag: '🇨🇿' },
-  { name: 'Denmark',        code: 'DK', flag: '🇩🇰' },
-  { name: 'Estonia',        code: 'EE', flag: '🇪🇪' },
-  { name: 'Finland',        code: 'FI', flag: '🇫🇮' },
-  { name: 'France',         code: 'FR', flag: '🇫🇷' },
-  { name: 'Germany',        code: 'DE', flag: '🇩🇪' },
-  { name: 'Greece',         code: 'GR', flag: '🇬🇷' },
-  { name: 'Hungary',        code: 'HU', flag: '🇭🇺' },
-  { name: 'Iceland',        code: 'IS', flag: '🇮🇸' },
-  { name: 'Ireland',        code: 'IE', flag: '🇮🇪' },
-  { name: 'Italy',          code: 'IT', flag: '🇮🇹' },
-  { name: 'Latvia',         code: 'LV', flag: '🇱🇻' },
-  { name: 'Liechtenstein',  code: 'LI', flag: '🇱🇮' },
-  { name: 'Lithuania',      code: 'LT', flag: '🇱🇹' },
-  { name: 'Luxembourg',     code: 'LU', flag: '🇱🇺' },
-  { name: 'Malta',          code: 'MT', flag: '🇲🇹' },
-  { name: 'Netherlands',    code: 'NL', flag: '🇳🇱' },
-  { name: 'New Zealand',    code: 'NZ', flag: '🇳🇿' },
-  { name: 'Norway',         code: 'NO', flag: '🇳🇴' },
-  { name: 'Poland',         code: 'PL', flag: '🇵🇱' },
-  { name: 'Portugal',       code: 'PT', flag: '🇵🇹' },
-  { name: 'Romania',        code: 'RO', flag: '🇷🇴' },
-  { name: 'Singapore',      code: 'SG', flag: '🇸🇬' },
-  { name: 'Slovakia',       code: 'SK', flag: '🇸🇰' },
-  { name: 'Slovenia',       code: 'SI', flag: '🇸🇮' },
-  { name: 'Spain',          code: 'ES', flag: '🇪🇸' },
-  { name: 'Sweden',         code: 'SE', flag: '🇸🇪' },
-  { name: 'Switzerland',    code: 'CH', flag: '🇨🇭' },
-  { name: 'United Kingdom', code: 'GB', flag: '🇬🇧' },
-  { name: 'United States',  code: 'US', flag: '🇺🇸' },
-];
+import { IBANField } from './IBANField';
+import { isValidUkIban } from '../utils/iban';
+import { COUNTRIES } from '../constants/countries';
 
 // ─── Bank Country trigger only (dropdown rendered at modal level) ─────────────
 function BankCountryTrigger({ value, open, onToggle, inactive }: {
@@ -360,7 +313,7 @@ export default function EditBankModal({
   return (
     <div
       className="fixed inset-0 z-[60] flex items-center justify-center"
-      style={{ background: 'rgba(0,0,0,0.55)' }}
+      style={{ background: 'var(--cp-bg-overlay-scrim)' }}
       onClick={onClose}
     >
       <div className="relative flex flex-col" style={{ width: 400 }} onClick={e => e.stopPropagation()}>
@@ -382,20 +335,20 @@ export default function EditBankModal({
             {editMode === 'locked' && !unlocked && (
               <div
                 className="flex gap-[10px] items-center overflow-clip p-[10px] relative rounded-[5px] shrink-0 w-full"
-                style={{ background: 'rgba(245,158,11,0.2)' }}
+                style={{ background: 'rgba(var(--cp-warning-rgb, 245,158,11),0.2)' }}
               >
                 <svg className="shrink-0" width="16" height="16" viewBox="0 0 16 16" fill="none">
-                  <circle cx="8" cy="8" r="8" fill="#f59e0b" />
+                  <circle cx="8" cy="8" r="8" fill="var(--cp-warning)" />
                   <path d="M8 7V11" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
                   <circle cx="8" cy="5.5" r="0.75" fill="white" />
                 </svg>
-                <p className="font-['Inter:Regular',sans-serif] font-normal text-[13px] leading-[1.2] flex-1 min-w-px" style={{ color: '#f59e0b' }}>
+                <p className="font-['Inter:Regular',sans-serif] font-normal text-[13px] leading-[1.2] flex-1 min-w-px" style={{ color: 'var(--cp-warning)' }}>
                   Editing bank details requires re-verification, which can take{' '}
                   <span className="font-['Inter:Bold',sans-serif] font-bold">up to 48 hours</span>
                   . During this time, incoming payments will settle to your CoinPayments wallet. Payouts switch back to your bank automatically once verified.{' '}
                   <span
                     className="font-['Inter:Bold',sans-serif] font-bold underline cursor-pointer"
-                    style={{ color: '#f59e0b' }}
+                    style={{ color: 'var(--cp-warning)' }}
                     onClick={() => setUnlocked(true)}
                   >
                     Continue to edit
@@ -426,14 +379,14 @@ export default function EditBankModal({
           {showBottomWarning && (
             <div
               className="flex gap-[10px] items-center overflow-clip p-[10px] relative rounded-[5px] shrink-0 w-full"
-              style={{ background: 'rgba(245,158,11,0.2)' }}
+              style={{ background: 'rgba(var(--cp-warning-rgb, 245,158,11),0.2)' }}
             >
               <svg className="shrink-0" width="16" height="16" viewBox="0 0 16 16" fill="none">
-                <circle cx="8" cy="8" r="8" fill="#f59e0b" />
+                <circle cx="8" cy="8" r="8" fill="var(--cp-warning)" />
                 <path d="M8 7V11" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
                 <circle cx="8" cy="5.5" r="0.75" fill="white" />
               </svg>
-              <p className="font-['Inter:Regular',sans-serif] font-normal text-[13px] leading-[1.2] flex-1 min-w-px" style={{ color: '#f59e0b' }}>
+              <p className="font-['Inter:Regular',sans-serif] font-normal text-[13px] leading-[1.2] flex-1 min-w-px" style={{ color: 'var(--cp-warning)' }}>
                 {BOTTOM_WARNING}
               </p>
             </div>

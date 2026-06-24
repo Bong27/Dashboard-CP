@@ -329,7 +329,7 @@ export default function DashboardLayout() {
                         <p className="-translate-x-1/2 absolute font-['Inter:Regular',sans-serif] font-normal leading-[normal] left-1/2 not-italic text-[13px] text-center text-white top-[calc(50%-8px)] whitespace-nowrap">C</p>
                       </div>
                       {!accountOpen && (
-                        <div className="absolute -top-[5px] -right-[5px] bg-[#E53935] rounded-full flex items-center justify-center" style={{ width: 14, height: 14 }}>
+                        <div className="absolute -top-[5px] -right-[5px] bg-[var(--cp-error-field)] rounded-full flex items-center justify-center" style={{ width: 14, height: 14 }}>
                           <p className="font-['Inter:Bold',sans-serif] font-bold text-white leading-none" style={{ fontSize: 8 }}>1</p>
                         </div>
                       )}

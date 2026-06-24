@@ -41,7 +41,10 @@
   /* ── Semantic ─────────────────────────────────────────────────────────────── */
   --cp-success:         #21B75D;
   --cp-error:           #FF0000;
+  --cp-error-field:     #E53935;   /* field-level error — borders, helpers */
   --cp-warning:         #F59E0B;
+  --cp-warning-dark:    #D97706;   /* amber-700 — warning body text */
+  --cp-bg-overlay-scrim: rgba(0,0,0,0.55); /* modal backdrop */
 
   /* ── Neutrals ─────────────────────────────────────────────────────────────── */
   --cp-neutral-dark-blue: #A8B7CA;  /* Primary/Dark grey-blue */
