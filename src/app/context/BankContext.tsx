@@ -35,10 +35,13 @@ const INITIAL_BANKS: BankEntry[] = [
 type BankContextValue = {
   banks: BankEntry[];
   primaryId: string;
+  emptyMode: boolean;
   setPrimaryId: (id: string) => void;
   addBank: (bank: Omit<BankEntry, 'id'>) => string;
   updateBank: (id: string, patch: Partial<BankEntry>) => void;
   removeBank: (id: string) => void;
+  enterEmptyMode: () => void;
+  exitEmptyMode: () => void;
 };
 
 const BankContext = createContext<BankContextValue | null>(null);
@@ -46,6 +49,8 @@ const BankContext = createContext<BankContextValue | null>(null);
 export function BankProvider({ children }: { children: ReactNode }) {
   const [banks, setBanks] = useState<BankEntry[]>(INITIAL_BANKS);
   const [primaryId, setPrimaryId] = useState('wise');
+  const [emptyMode, setEmptyMode] = useState(false);
+  const [hiddenBankIds, setHiddenBankIds] = useState<Set<string>>(new Set());
 
   const addBank = (bank: Omit<BankEntry, 'id'>): string => {
     const id = `bank_${Date.now()}`;
@@ -65,8 +70,32 @@ export function BankProvider({ children }: { children: ReactNode }) {
     });
   };
 
+  const enterEmptyMode = () => {
+    setHiddenBankIds(new Set(banks.map(b => b.id)));
+    setEmptyMode(true);
+  };
+  const exitEmptyMode = () => {
+    setEmptyMode(false);
+    setHiddenBankIds(new Set());
+  };
+
+  // In empty mode, hide only the banks that existed when empty mode was entered;
+  // banks added during the session remain visible.
+  const visibleBanks = emptyMode ? banks.filter(b => !hiddenBankIds.has(b.id)) : banks;
+  const visiblePrimaryId = emptyMode && hiddenBankIds.has(primaryId) ? (visibleBanks[0]?.id ?? '') : primaryId;
+
   return (
-    <BankContext.Provider value={{ banks, primaryId, setPrimaryId, addBank, updateBank, removeBank }}>
+    <BankContext.Provider value={{
+      banks: visibleBanks,
+      primaryId: visiblePrimaryId,
+      emptyMode,
+      setPrimaryId,
+      addBank,
+      updateBank,
+      removeBank,
+      enterEmptyMode,
+      exitEmptyMode,
+    }}>
       {children}
     </BankContext.Provider>
   );

@@ -304,7 +304,7 @@ function BankRow({ account, index, isPrimary, isReordering, reorderMode, hasDrag
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 export default function BankAccountsPage() {
-  const { banks, primaryId, setPrimaryId, removeBank } = useBanks();
+  const { banks, primaryId, setPrimaryId, removeBank, emptyMode, exitEmptyMode } = useBanks();
   const [showAddNew, setShowAddNew] = useState(false);
   const [editingBank, setEditingBank] = useState<BankEntry | null>(null);
   const [deletingBank, setDeletingBank] = useState<BankEntry | null>(null);
@@ -356,6 +356,21 @@ export default function BankAccountsPage() {
   };
   return (
     <div className="content-stretch flex flex-col gap-[20px] items-start relative w-full">
+
+      {/* Dev: empty-mode banner */}
+      {emptyMode && (
+        <div className="flex items-center justify-between w-full px-[14px] py-[10px] rounded-[5px] shrink-0" style={{ background: 'color-mix(in srgb, var(--cp-warning) 15%, transparent)', border: '1px solid var(--cp-warning)' }}>
+          <p className="font-['Inter:Medium',sans-serif] font-medium text-[13px] text-[var(--cp-warning-dark)] leading-none">
+            🧪 Test mode — showing empty state (no bank accounts)
+          </p>
+          <button
+            className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[13px] text-[var(--cp-warning-dark)] hover:opacity-70 cursor-pointer transition-opacity leading-none shrink-0 ml-[20px]"
+            onClick={exitEmptyMode}
+          >
+            Exit test mode
+          </button>
+        </div>
+      )}
 
       {/* Header */}
       <div className="content-stretch flex gap-[10px] items-center py-[10px] relative shrink-0 w-full">

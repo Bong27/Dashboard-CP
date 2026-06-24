@@ -4,6 +4,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
 import { useNavigate } from 'react-router';
 import { IconProfile, IconSettings, IconBankPayout, IconSun, IconLogout } from './Icons';
+import { useBanks } from '../context/BankContext';
 
 type Props = { onClose: () => void; onNotificationClick?: () => void; };
 
@@ -44,8 +45,15 @@ function MenuRow({
 // ─── Dropdown ────────────────────────────────────────────────────────────────
 export default function AccountDropdown({ onClose, onNotificationClick }: Props) {
   const navigate = useNavigate();
+  const { enterEmptyMode, exitEmptyMode, emptyMode } = useBanks();
 
   const go = (path: string) => { onClose(); navigate(path); };
+
+  const goEmptyBanks = () => {
+    enterEmptyMode();
+    onClose();
+    navigate('/bank-accounts');
+  };
 
   return (
     <div
@@ -100,8 +108,9 @@ export default function AccountDropdown({ onClose, onNotificationClick }: Props)
       <div className="content-stretch flex flex-col items-start relative shrink-0 w-full">
         <MenuRow label="Business Profile"  icon={<IconProfile color="white" />}     onClick={onClose} />
         <MenuRow label="Account Settings"  icon={<IconSettings color="white" />}    onClick={onClose} />
-        <MenuRow label="Bank Accounts"     icon={<IconBankPayout color="white" />}  onClick={() => go('/bank-accounts')} />
-        <MenuRow label="Toggle Light Mode" icon={<IconSun color="white" />}         onClick={onClose} />
+        <MenuRow label="Bank Accounts"               icon={<IconBankPayout color="white" />}  onClick={() => { exitEmptyMode(); go('/bank-accounts'); }} />
+        <MenuRow label="Bank Accounts (no banks)"    icon={<IconBankPayout color="white" />}  onClick={goEmptyBanks} />
+        <MenuRow label="Toggle Light Mode"           icon={<IconSun color="white" />}         onClick={onClose} />
         <MenuRow label="Logout"            icon={<IconLogout color="white" />}      onClick={onClose} border={false} />
       </div>
     </div>
