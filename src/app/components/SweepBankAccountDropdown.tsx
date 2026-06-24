@@ -157,8 +157,9 @@ export function SweepBankAccountDropdown({ value, onChange, className = '' }: Sw
           <div className="content-stretch flex flex-col gap-[20px] items-start p-[10px] relative">
             <div className="content-stretch flex flex-col gap-[5px] items-start relative shrink-0 w-full">
             {[
-              ...approvedBanks.sort((a, b) => a.id === value ? -1 : b.id === value ? 1 : 0),
-              ...underReviewBanks,
+              ...banks.filter(b => b.id === value),
+              ...approvedBanks.filter(b => b.id !== value),
+              ...underReviewBanks.filter(b => b.id !== value),
             ].map((bank) => {
               const isSelected = bank.id === value;
               const isUnderReview = bank.status === 'under_review';
@@ -188,7 +189,7 @@ export function SweepBankAccountDropdown({ value, onChange, className = '' }: Sw
                       </p>
                     </div>
                     {isUnderReview && (
-                      <span className={`font-['Inter:Semi_Bold',sans-serif] font-semibold text-[9px] uppercase px-[5px] py-[2px] rounded-[3px] whitespace-nowrap shrink-0 ${isSelected ? 'bg-white/20 text-white' : 'bg-orange-100 text-orange-600'}`}>
+                      <span className={`font-['Inter:Semi_Bold',sans-serif] font-semibold text-[9px] uppercase px-[5px] py-[2px] rounded-[3px] whitespace-nowrap shrink-0 ${isSelected ? 'bg-white/20 text-white border border-white/30' : 'bg-orange-100 text-orange-600'}`}>
                         Under Review
                       </span>
                     )}

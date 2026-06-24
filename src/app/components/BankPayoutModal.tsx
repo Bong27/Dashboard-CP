@@ -598,8 +598,9 @@ export default function BankPayoutModal({ onClose, coin }: { onClose: () => void
                   <div className="flex flex-col gap-[20px] p-[10px]">
                     <div className="flex flex-col gap-[5px]">
                       {[
-                        ...approvedBanks.sort((a, b) => a.id === selectedBank?.id ? -1 : b.id === selectedBank?.id ? 1 : 0),
-                        ...banks.filter(b => b.status === 'under_review')
+                        ...banks.filter(b => b.id === selectedBank?.id),
+                        ...approvedBanks.filter(b => b.id !== selectedBank?.id),
+                        ...banks.filter(b => b.status === 'under_review' && b.id !== selectedBank?.id),
                       ].map(bank => {
                         const isUnderReview = bank.status === 'under_review';
                         const isSelected = bank.id === selectedBank?.id;
@@ -613,7 +614,7 @@ export default function BankPayoutModal({ onClose, coin }: { onClose: () => void
                                 <p className={`font-['Inter:Semi_Bold',sans-serif] font-semibold text-[11px] ${isSelected ? 'text-white' : 'text-[var(--cp-text-primary)]'}`}>{bank.label}</p>
                                 <p className={`font-['Inter:Medium',sans-serif] font-medium text-[11px] ${isSelected ? 'text-white/80' : 'text-[var(--cp-text-secondary)]'}`}>{bank.iban.replace(/\s/g, '')}</p>
                               </div>
-                              {isUnderReview && <span className="bg-orange-100 text-orange-600 font-semibold text-[9px] uppercase px-[5px] py-[2px] rounded-[3px] whitespace-nowrap shrink-0">Under Review</span>}
+                              {isUnderReview && <span className={`font-semibold text-[9px] uppercase px-[5px] py-[2px] rounded-[3px] whitespace-nowrap shrink-0 ${isSelected ? 'bg-white/20 text-white border border-white/30' : 'bg-orange-100 text-orange-600'}`}>Under Review</span>}
                             </div>
                           </div>
                         );

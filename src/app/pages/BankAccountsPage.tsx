@@ -462,7 +462,6 @@ export default function BankAccountsPage() {
           )}
           {bannerMode === 'primary' ? (
             <div className="flex items-center gap-[12px]">
-              <p className="font-['Inter:Medium',sans-serif] font-medium text-[12px] text-[var(--cp-brand-primary)]">New primary bank set.</p>
               <button
                 className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[12px] text-[var(--cp-brand-primary)] hover:text-[var(--cp-brand-active)] hover:underline cursor-pointer transition-colors"
                 onClick={() => setShow2Fa(true)}
