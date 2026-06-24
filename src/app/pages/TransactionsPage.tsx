@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { createPortal } from 'react-dom';
 import { useTransactions } from '../context/TransactionContext';
 import type { Transaction, TxStatus, TxType, CoinType } from '../context/TransactionContext';
 
@@ -134,6 +135,10 @@ function TxCircle({ type, coin }: { type: TxType; coin: CoinType }) {
             <div className="absolute bg-[#50af95] inset-[1.22%_0_-1.22%_0] rounded-[999px] overflow-hidden flex items-center justify-center">
               <SvgUsdtLogo className="w-[75%] h-[75%]" />
             </div>
+          ) : coin === 'usdc' ? (
+            <div className="absolute inset-0 rounded-[999px] bg-[#2775CA] flex items-center justify-center overflow-hidden">
+              <span className="text-white font-bold leading-none select-none" style={{ fontSize: 7 }}>$</span>
+            </div>
           ) : (
             <div className="absolute inset-0 overflow-clip rounded-[999px]">
               <SvgBtcLogo className="absolute block inset-0 size-full" />
@@ -152,6 +157,20 @@ function CurrencyIcon({ type }: { type: CoinType }) {
     return (
       <div className="relative shrink-0 size-[14px] overflow-clip rounded-[999px]">
         <SvgBtcLogo className="absolute block inset-0 size-full" />
+      </div>
+    );
+  }
+  if (type === 'usd') {
+    return (
+      <div className="relative shrink-0 size-[14px] rounded-[999px] border-2 border-[#2775CA] flex items-center justify-center overflow-hidden">
+        <span className="text-[#2775CA] font-bold leading-none select-none" style={{ fontSize: 8 }}>$</span>
+      </div>
+    );
+  }
+  if (type === 'usdc') {
+    return (
+      <div className="relative shrink-0 size-[14px] rounded-[999px] bg-[#2775CA] flex items-center justify-center overflow-hidden">
+        <span className="text-white font-bold leading-none select-none" style={{ fontSize: 8 }}>$</span>
       </div>
     );
   }
@@ -180,7 +199,7 @@ function UsdIcon({ size = 14 }: { size?: number }) {
 // ─── Status badge ─────────────────────────────────────────────────────────────
 
 function StatusBadge({ status }: { status: TxStatus }) {
-  const dotColor = status === 'completed' ? 'bg-[#21b75d]' : status === 'pending' ? 'bg-orange-400' : 'bg-red-500';
+  const dotColor = status === 'completed' ? 'bg-[#21b75d]' : status === 'pending' ? 'bg-[#f59e0b]' : 'bg-red-500';
   const label = status === 'completed' ? 'Completed' : status === 'pending' ? 'Pending' : 'Failed';
   return (
     <div className="flex items-center gap-[5px]">
@@ -265,40 +284,61 @@ function TimelineStep({ label, time, extra }: { label: string; time: string; ext
 
 // ─── Expanded panel ───────────────────────────────────────────────────────────
 
-function TxExpandedPanel() {
+function TxExpandedPanel({ tx, onCancelRequest }: { tx: Transaction; onCancelRequest: (id: string) => void }) {
   return (
     <div className="pl-[80px] pt-[20px] w-full">
-      <div className="flex gap-[20px] items-start pb-[20px] w-full">
+      <div className="flex gap-[20px] items-stretch pb-[20px] w-full">
 
         {/* Left column */}
         <div className="flex flex-col gap-[20px] items-start flex-1 min-w-0">
 
           {/* Timeline */}
-          <div className="relative flex flex-col gap-[12px] items-start pb-[20px] px-[20px] w-full">
-            {/* Connecting vertical line — left=28 centers on the 16px radio buttons (20px padding + 8px radius) */}
-            <div className="absolute bg-[var(--cp-text-secondary)] w-px" style={{ left: 28, top: 12, height: 109 }} />
-
-            <TimelineStep label="Created" time="Jun 3 2026 14:38" />
-            <TimelineStep label="Funds Sent" time="Jun 3 2026 14:40" />
-            <TimelineStep
-              label="Funds Transferred"
-              time="Jun 3 2026 14:45"
-              extra={
-                <div className="flex items-center gap-[5px]">
-                  <IconConfirmations />
-                  <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic text-[11px] text-[var(--cp-brand-primary)] underline whitespace-nowrap cursor-pointer">Confirmations</p>
+          {tx.status === 'pending' ? (
+            <div className="relative flex flex-col gap-[12px] items-start px-[20px] w-full">
+              <div className="absolute bg-[var(--cp-text-secondary)] w-px" style={{ left: 28, top: 8, height: 36 }} />
+              <TimelineStep label="Created" time="Jun 3 2026 14:38" />
+              {/* Under-review step — amber clock */}
+              <div className="flex items-center gap-[12px] relative z-10">
+                <div className="flex items-center justify-center rounded-full shrink-0" style={{ width: 16, height: 16, background: '#f59e0b' }}>
+                  {/* Clock icon */}
+                  <svg width="9" height="9" viewBox="0 0 9 9" fill="none">
+                    <circle cx="4.5" cy="4.5" r="3.8" stroke="white" strokeWidth="1.1"/>
+                    <path d="M4.5 2.5V4.5L5.8 5.5" stroke="white" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
                 </div>
-              }
-            />
-            <TimelineStep label="Funds Converted" time="Jun 4 2026 00:04" />
-            <TimelineStep label="Payout Completed" time="Jun 4 2026 00:15" />
-          </div>
+                <div className="flex items-center gap-[5px]">
+                  <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-none text-[11px] text-[var(--cp-text-primary)] whitespace-nowrap">Bank account under review</p>
+                  <IconInfo />
+                </div>
+                <p className="font-['Inter:Medium',sans-serif] font-medium leading-none text-[11px] text-[var(--cp-text-quinary)] whitespace-nowrap">{tx.date.charAt(0) + tx.date.slice(1).toLowerCase()} 2026 {tx.time}</p>
+              </div>
+            </div>
+          ) : (
+            <div className="relative flex flex-col gap-[12px] items-start pb-[20px] px-[20px] w-full">
+              <div className="absolute bg-[var(--cp-text-secondary)] w-px" style={{ left: 28, top: 12, height: 109 }} />
+              <TimelineStep label="Created" time="Jun 3 2026 14:38" />
+              <TimelineStep label="Funds Sent" time="Jun 3 2026 14:40" />
+              <TimelineStep
+                label="Funds Transferred"
+                time="Jun 3 2026 14:45"
+                extra={
+                  <div className="flex items-center gap-[5px]">
+                    <IconConfirmations />
+                    <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic text-[11px] text-[var(--cp-brand-primary)] underline whitespace-nowrap cursor-pointer">Confirmations</p>
+                  </div>
+                }
+              />
+              <TimelineStep label="Funds Converted" time="Jun 4 2026 00:04" />
+              <TimelineStep label="Payout Completed" time="Jun 4 2026 00:15" />
+            </div>
+          )}
 
           {/* Data fields */}
-          <DataField label="Source Wallet" value="Tether USD" />
+          <DataField label="Source Wallet" value={tx.sourceCoinName ?? "Tether USD"} />
           <DataField label="Target Wallet" value="0xAcF36260817d1c78C471406BdE482177a1935071" />
-          <DataField label="Settlement Destination" value="Wise – GB97TRWI23080120507810" />
-          <DataField label="Settlement Mode" value="Auto-Sweep (USDT)" />
+          <DataField label="Settlement Destination" value={tx.settlementDestination ?? "Wise – GB97TRWI23080120507810"} />
+          <DataField label="Settlement Mode" value={tx.settlementMode ?? "Auto-Sweep (USDT)"} />
+          {tx.note && <DataField label="Note" value={tx.note} />}
           <DataField label="Transaction ID">
             <div className="flex items-center gap-[10px]">
               <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic text-[14.5px] text-[var(--cp-brand-primary)] whitespace-nowrap overflow-hidden text-ellipsis max-w-[480px]">
@@ -336,15 +376,28 @@ function TxExpandedPanel() {
 
           {/* Fee breakdown */}
           <div className="flex flex-col gap-[10px] items-end">
-            <p className="font-['Inter:Regular',sans-serif] font-normal leading-[normal] not-italic text-[13px] text-[var(--cp-text-secondary)] whitespace-nowrap">Amount: $1,286.50 USD</p>
-            <p className="font-['Inter:Regular',sans-serif] font-normal leading-[normal] not-italic text-[13px] text-[var(--cp-text-secondary)] whitespace-nowrap">Transaction fee: $30.00 USD</p>
-            <p className="font-['Inter:Regular',sans-serif] font-normal leading-[normal] not-italic text-[13px] text-[var(--cp-text-secondary)] whitespace-nowrap">Network fee: $6.50 USD</p>
+            <p className="font-['Inter:Regular',sans-serif] font-normal leading-[normal] not-italic text-[13px] text-[var(--cp-text-secondary)] whitespace-nowrap">Amount: {tx.txAmountUsd ?? '$1,286.50 USD'}</p>
+            <p className="font-['Inter:Regular',sans-serif] font-normal leading-[normal] not-italic text-[13px] text-[var(--cp-text-secondary)] whitespace-nowrap">Transaction fee: {tx.txFeeUsd ?? '$30.00 USD'}</p>
+            <p className="font-['Inter:Regular',sans-serif] font-normal leading-[normal] not-italic text-[13px] text-[var(--cp-text-secondary)] whitespace-nowrap">Network fee: {tx.networkFeeUsd ?? '$6.50 USD'}</p>
           </div>
 
           {/* Total */}
           <p className="font-['Inter',sans-serif] font-bold leading-[normal] not-italic text-[14.5px] text-[var(--cp-text-primary)] whitespace-nowrap" style={{ letterSpacing: '-0.5px' }}>
-            Total: -$1,250.00 USD
+            Total: {tx.txTotalUsd ?? '-$1,250.00 USD'}
           </p>
+
+          {/* Cancel — only for pending, pinned bottom of right column */}
+          {tx.status === 'pending' && (
+            <button
+              className="flex items-center gap-[8px] h-[46px] px-[20px] bg-white border border-[var(--cp-error-field)] rounded-[5px] cursor-pointer hover:bg-red-50 transition-colors shrink-0 mt-auto"
+              onClick={e => { e.stopPropagation(); onCancelRequest(tx.id); }}
+            >
+              <svg width="14" height="15" viewBox="0 0 12 13" fill="none" className="shrink-0 text-[var(--cp-error-field)]">
+                <path d="M1 3h10M4 3V2h4v1M5 6v4M7 6v4M2 3l.7 8.1A1 1 0 0 0 3.7 12h4.6a1 1 0 0 0 1-.9L10 3" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+              <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-error-field)] whitespace-nowrap">Cancel Transaction</p>
+            </button>
+          )}
         </div>
 
       </div>
@@ -354,7 +407,7 @@ function TxExpandedPanel() {
 
 // ─── Transaction row ──────────────────────────────────────────────────────────
 
-function TxRow({ tx, alt, expanded, onToggle }: { tx: Transaction; alt: boolean; expanded: boolean; onToggle: () => void }) {
+function TxRow({ tx, alt, expanded, onToggle, onCancelRequest }: { tx: Transaction; alt: boolean; expanded: boolean; onToggle: () => void; onCancelRequest: (id: string) => void }) {
   return (
     <div
       onClick={tx.expandable ? onToggle : undefined}
@@ -367,7 +420,7 @@ function TxRow({ tx, alt, expanded, onToggle }: { tx: Transaction; alt: boolean;
       } ${tx.expandable ? 'cursor-pointer' : ''}`}
     >
       <TxRowHeader tx={tx} />
-      {expanded && tx.expandable && <TxExpandedPanel />}
+      {expanded && tx.expandable && <TxExpandedPanel tx={tx} onCancelRequest={onCancelRequest} />}
     </div>
   );
 }
@@ -375,8 +428,9 @@ function TxRow({ tx, alt, expanded, onToggle }: { tx: Transaction; alt: boolean;
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function TransactionsPage() {
-  const { transactions } = useTransactions();
+  const { transactions, removeTransaction } = useTransactions();
   const [expandedId, setExpandedId] = useState<string | null>(null);
+  const [cancelConfirmId, setCancelConfirmId] = useState<string | null>(null);
 
   return (
     <div className="flex flex-col gap-0 w-full">
@@ -384,11 +438,55 @@ export default function TransactionsPage() {
         <TxRow
           key={tx.id}
           tx={tx}
-          alt={i % 2 !== 0}
+          alt={i % 2 === 0}
           expanded={expandedId === tx.id}
           onToggle={() => setExpandedId(expandedId === tx.id ? null : tx.id)}
+          onCancelRequest={(id) => setCancelConfirmId(id)}
         />
       ))}
+
+      {/* Cancel confirmation modal */}
+      {cancelConfirmId !== null && createPortal(
+        <div
+          className="fixed inset-0 z-[400] flex items-center justify-center"
+          style={{ background: 'var(--cp-bg-overlay-scrim)' }}
+          onClick={() => setCancelConfirmId(null)}
+        >
+          <div className="relative flex flex-col" style={{ width: 400 }} onClick={e => e.stopPropagation()}>
+            <button
+              className="absolute right-0 top-[-30px] flex items-center justify-center p-[4px] cursor-pointer"
+              onClick={() => setCancelConfirmId(null)}
+            >
+              <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[14px] text-white">Dismiss</p>
+            </button>
+            <div className="bg-white flex flex-col gap-[20px] items-start p-[20px] relative rounded-[10px] w-full">
+              <div className="flex flex-col gap-[20px] items-start w-full">
+                <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[13px] text-[var(--cp-text-secondary)] uppercase leading-none">
+                  cancel pending transaction
+                </p>
+                <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-primary)] leading-[1.4]">
+                  Are you sure you want to cancel this pending bank payout? The transaction will be stopped immediately, and the funds will remain safely in your custodial wallet. This action cannot be undone.
+                </p>
+              </div>
+              <div className="content-stretch flex gap-[10px] items-center relative shrink-0 w-full">
+                <button
+                  className="bg-white border border-[var(--cp-border-default)] border-solid flex flex-1 h-[46px] items-center justify-center rounded-[5px] cursor-pointer hover:bg-[var(--cp-bg-2)] transition-colors"
+                  onClick={() => setCancelConfirmId(null)}
+                >
+                  <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-secondary)]">Keep Waiting</p>
+                </button>
+                <button
+                  className="bg-white border border-[var(--cp-error-field)] border-solid flex flex-1 h-[46px] items-center justify-center rounded-[5px] cursor-pointer hover:bg-red-50 transition-colors"
+                  onClick={() => { removeTransaction(cancelConfirmId); setCancelConfirmId(null); }}
+                >
+                  <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-error-field)]">Cancel</p>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>,
+        document.body
+      )}
     </div>
   );
 }

@@ -351,13 +351,21 @@ export default function BankPayoutModal({ onClose, coin }: { onClose: () => void
         type: 'bank-payout',
         label: 'Bank Payout',
         status: isUnderReview ? 'pending' : 'completed',
-        coin: 'usdt',
-        currency: 'usdt',
+        coin: coin?.logo === 'usdc-erc20' ? 'usdc' : 'usdt',
+        currency: 'usd',
         currencyName: 'United States Dollar',
         destination: `To: ${selectedBank?.label ?? ''}${iban ? ` (${iban})` : ''}`,
         amount: `-${usdAmount} USD`,
         amountSub: `from ${usdtAmount} ${coin?.symbol ?? 'USDT'}`,
         expandable: true,
+        settlementDestination: `${selectedBank?.label ?? ''}${iban ? ` – ${iban}` : ''}`,
+        settlementMode: `Manual bank payout (${coin?.symbol ?? 'USDT'})`,
+        note: note || undefined,
+        sourceCoinName: coin?.name ?? 'Tether USD',
+        txAmountUsd: `$${usdtAmount} USD`,
+        txFeeUsd: `$${fmt(convFee)} USD`,
+        networkFeeUsd: `$${fmt(NETWORK_FEE_USD)} USD`,
+        txTotalUsd: `-${usdAmount} USD`,
       });
       setModalStep('complete');
       setTimeout(() => onClose(), 2000);
@@ -653,7 +661,7 @@ export default function BankPayoutModal({ onClose, coin }: { onClose: () => void
             </div>
 
             {/* Currency switcher — position varies by coin: left=USDC.ERC20, right=USDT.TRC20, center=default */}
-            <div className={`flex items-center w-full ${coin?.logo === 'usdc-erc20' ? 'justify-start' : coin?.logo === 'usdt-trc20' ? 'justify-end' : 'justify-center'}`}>
+            <div className="flex items-center w-full justify-start">
               <div className="content-stretch flex gap-[5px] items-center justify-center relative shrink-0">
                 <div className="content-stretch flex gap-[5px] items-center justify-center px-[10px] py-[6px] relative rounded-[5px] shrink-0">
                   <p className="font-['Inter:Medium',sans-serif] font-medium text-[11px] text-[var(--cp-text-primary)] whitespace-nowrap">USDT</p>
