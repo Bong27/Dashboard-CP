@@ -14,7 +14,7 @@
 //   Network fee:     $2.49 flat
 //   Estimated Payout = amount × 0.99 − conversionFee − networkFee
 // ─────────────────────────────────────────────────────────────────────────────
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useLayoutEffect, useRef, useCallback } from 'react';
 import { SelectField } from './SelectField';
 import { useBanks } from '../context/BankContext';
 import { useNavigate } from 'react-router';
@@ -159,6 +159,26 @@ export default function BankPayoutModal({ onClose, coin }: { onClose: () => void
   const [bankOpen, setBankOpen] = useState(false);
   const bankDropdownRef = useRef<HTMLDivElement>(null);
   const selectedBank = approvedBanks.find(b => b.id === selectedBankId) ?? approvedBanks[0];
+
+  const ibanRowRef = useRef<HTMLDivElement>(null);
+  const [ibanOverflows, setIbanOverflows] = useState(false);
+  useLayoutEffect(() => {
+    setIbanOverflows(false);
+    const el = ibanRowRef.current;
+    if (!el) return;
+    let live = true;
+    const trigger = () => {
+      if (live && el.scrollWidth > el.clientWidth) {
+        live = false;
+        ro.disconnect();
+        setIbanOverflows(true);
+      }
+    };
+    const ro = new ResizeObserver(trigger);
+    ro.observe(el);
+    trigger();
+    return () => { live = false; ro.disconnect(); };
+  }, [selectedBankId]);
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
@@ -489,12 +509,12 @@ export default function BankPayoutModal({ onClose, coin }: { onClose: () => void
               >
                 <div className="flex flex-col h-full items-start justify-between shrink-0 flex-1 min-w-0">
                   <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[11px] text-[var(--cp-text-tertiary)] uppercase whitespace-nowrap leading-none">Bank Account</p>
-                  <div className="flex gap-[5px] items-center min-w-0">
-                    <p className={`font-['Inter:Medium',sans-serif] font-medium text-[14.5px] whitespace-nowrap ${approvedBanks.length === 0 ? 'opacity-60 text-[var(--cp-text-primary)]' : 'text-[var(--cp-text-primary)]'}`}>
+                  <div ref={ibanRowRef} className="flex gap-[5px] items-center min-w-0 overflow-hidden w-full">
+                    <p className={`font-['Inter:Medium',sans-serif] font-medium text-[14.5px] whitespace-nowrap overflow-hidden text-ellipsis shrink-0 max-w-[50%] ${approvedBanks.length === 0 ? 'opacity-60 text-[var(--cp-text-primary)]' : 'text-[var(--cp-text-primary)]'}`}>
                       {selectedBank?.label ?? banks[0]?.label ?? '---'}
                     </p>
-                    <p className="font-['Inter:Regular',sans-serif] font-normal text-[13px] text-[var(--cp-text-tertiary)] overflow-hidden text-ellipsis whitespace-nowrap">
-                      {((selectedBank?.iban ?? banks[0]?.iban ?? '').replace(/\s/g, ''))}
+                    <p className="font-['Inter:Regular',sans-serif] font-normal text-[13px] text-[var(--cp-text-tertiary)] whitespace-nowrap shrink-0">
+                      {(() => { const iban = (selectedBank?.iban ?? banks[0]?.iban ?? '').replace(/\s/g, ''); return ibanOverflows ? truncateIban(iban, 5, 4) : iban; })()}
                     </p>
                   </div>
                 </div>

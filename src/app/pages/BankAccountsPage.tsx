@@ -272,9 +272,9 @@ function BankRow({ account, index, isPrimary, isReordering, reorderMode, hasDrag
       <div className="content-stretch flex items-center relative flex-1 min-w-0" style={{ opacity: isReview ? 0.5 : 1 }}>
         <div className="content-stretch flex gap-[10px] items-center relative shrink-0 w-[288px]">
           <div className="relative shrink-0 size-[36px] flex items-center justify-center"><CountryFlag country={account.country} /></div>
-          <div className="content-stretch flex flex-col items-start leading-[normal] not-italic relative shrink-0">
-            <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[14.5px] text-[var(--cp-text-primary)] whitespace-nowrap">{account.label}</p>
-            <p className="font-['Inter:Regular',sans-serif] font-normal text-[14.5px] text-[var(--cp-text-tertiary)] whitespace-nowrap">{account.iban.replace(/\s/g, '')}</p>
+          <div className="content-stretch flex flex-col items-start leading-[normal] not-italic relative min-w-0 flex-1 overflow-hidden">
+            <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[14.5px] text-[var(--cp-text-primary)] whitespace-nowrap overflow-hidden text-ellipsis w-full">{account.label}</p>
+            <p className="font-['Inter:Regular',sans-serif] font-normal text-[14.5px] text-[var(--cp-text-tertiary)] whitespace-nowrap overflow-hidden text-ellipsis w-full">{account.iban.replace(/\s/g, '')}</p>
           </div>
         </div>
         <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" />
