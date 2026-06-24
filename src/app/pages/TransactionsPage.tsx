@@ -296,7 +296,7 @@ function TxRowHeader({ tx }: { tx: Transaction }) {
           <div className="flex flex-col items-start">
             <div className="flex items-center gap-[5px]">
               <CurrencyIcon type={tx.currency} />
-              <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic text-[14.5px] text-[var(--cp-text-primary)] whitespace-nowrap">{tx.currencyName}</p>
+              <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic text-[14.5px] text-[var(--cp-text-primary)] whitespace-nowrap">{tx.currencyName}</p>
             </div>
             <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic text-[13px] text-[var(--cp-text-tertiary)] whitespace-nowrap">{tx.destination}</p>
           </div>
