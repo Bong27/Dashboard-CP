@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { useTransactions } from '../context/TransactionContext';
+import type { Transaction, TxStatus, TxType, CoinType } from '../context/TransactionContext';
 
 // ─── Inline coin logos ─────────────────────────────────────────────────────────
 
@@ -20,87 +22,7 @@ function SvgBtcLogo({ className }: { className?: string }) {
   );
 }
 
-// ─── Types ────────────────────────────────────────────────────────────────────
-
-type TxType = 'received' | 'sent' | 'bank-payout' | 'conversion';
-type TxStatus = 'completed' | 'pending' | 'failed';
-type CoinType = 'btc' | 'usdt';
-
-type Transaction = {
-  id: string;
-  date: string;
-  time: string;
-  type: TxType;
-  label: string;
-  status: TxStatus;
-  coin: CoinType;
-  currency: CoinType;
-  currencyName: string;
-  destination: string;
-  amount: string;
-  amountSub: string;
-  expandable?: boolean;
-};
-
-const TRANSACTIONS: Transaction[] = [
-  {
-    id: '1',
-    date: 'JUN 3',
-    time: '14:38',
-    type: 'bank-payout',
-    label: 'Bank Payout',
-    status: 'completed',
-    coin: 'usdt',
-    currency: 'usdt',
-    currencyName: 'United States Dollar',
-    destination: 'To: Wise (GB97TRWI23080120507810)',
-    amount: '-$1,250.00 USD',
-    amountSub: 'from 1,286.50 USDT',
-    expandable: true,
-  },
-  {
-    id: '2',
-    date: 'APR 28',
-    time: '11:31',
-    type: 'received',
-    label: 'Received',
-    status: 'completed',
-    coin: 'usdt',
-    currency: 'btc',
-    currencyName: 'Bitcoin',
-    destination: 'To: internal address',
-    amount: '+0.000000 BTC',
-    amountSub: 'BTC',
-  },
-  {
-    id: '3',
-    date: 'APR 28',
-    time: '11:31',
-    type: 'received',
-    label: 'Received',
-    status: 'completed',
-    coin: 'usdt',
-    currency: 'btc',
-    currencyName: 'Bitcoin',
-    destination: 'To: internal address',
-    amount: '+0.000000 BTC',
-    amountSub: 'BTC',
-  },
-  {
-    id: '4',
-    date: 'APR 28',
-    time: '11:31',
-    type: 'received',
-    label: 'Received',
-    status: 'completed',
-    coin: 'usdt',
-    currency: 'btc',
-    currencyName: 'Bitcoin',
-    destination: 'To: internal address',
-    amount: '+0.000000 BTC',
-    amountSub: 'BTC',
-  },
-];
+// Types and seed data live in TransactionContext
 
 // ─── Small icons ──────────────────────────────────────────────────────────────
 
@@ -453,11 +375,12 @@ function TxRow({ tx, alt, expanded, onToggle }: { tx: Transaction; alt: boolean;
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function TransactionsPage() {
+  const { transactions } = useTransactions();
   const [expandedId, setExpandedId] = useState<string | null>(null);
 
   return (
     <div className="flex flex-col gap-0 w-full">
-      {TRANSACTIONS.map((tx, i) => (
+      {transactions.map((tx, i) => (
         <TxRow
           key={tx.id}
           tx={tx}

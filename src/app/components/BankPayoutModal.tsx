@@ -17,6 +17,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { SelectField } from './SelectField';
 import { useBanks } from '../context/BankContext';
+import { useTransactions } from '../context/TransactionContext';
 import { useNavigate } from 'react-router';
 import { truncateIban } from '../utils';
 import svgPaths from '../../imports/Wallet-2/svg-tfchl2zu4w';
@@ -149,6 +150,7 @@ function CoinBadge({ coin, size = 24 }: { coin?: CoinData; size?: number }) {
 
 export default function BankPayoutModal({ onClose, coin }: { onClose: () => void; coin?: CoinData }) {
   const { banks, primaryId } = useBanks();
+  const { addTransaction } = useTransactions();
   const navigate = useNavigate();
   const approvedBanks = banks.filter(b => b.status === 'approved');
   const [selectedBankId, setSelectedBankId] = useState(primaryId);
@@ -339,6 +341,24 @@ export default function BankPayoutModal({ onClose, coin }: { onClose: () => void
 
     const handleSubmit = () => {
       if (!canSubmit) return;
+      const isUnderReview = selectedBank?.status === 'under_review';
+      const now = new Date();
+      const months = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+      const iban = (selectedBank?.iban ?? '').replace(/\s/g, '');
+      addTransaction({
+        date: `${months[now.getMonth()]} ${now.getDate()}`,
+        time: `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`,
+        type: 'bank-payout',
+        label: 'Bank Payout',
+        status: isUnderReview ? 'pending' : 'completed',
+        coin: 'usdt',
+        currency: 'usdt',
+        currencyName: 'United States Dollar',
+        destination: `To: ${selectedBank?.label ?? ''}${iban ? ` (${iban})` : ''}`,
+        amount: `-${usdAmount} USD`,
+        amountSub: `from ${usdtAmount} ${coin?.symbol ?? 'USDT'}`,
+        expandable: true,
+      });
       setModalStep('complete');
       setTimeout(() => onClose(), 2000);
     };
