@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { CurrencySwitcher, type CurrencySwitcherSelection, type SwitcherCoin } from '../components/CurrencySwitcher';
 import { createPortal } from 'react-dom';
 import { useTransactions } from '../context/TransactionContext';
 import type { Transaction, TxStatus, TxType, CoinType } from '../context/TransactionContext';
@@ -284,7 +285,36 @@ function TimelineStep({ label, time, extra }: { label: string; time: string; ext
 
 // ─── Expanded panel ───────────────────────────────────────────────────────────
 
+const EXCHANGE_RATE = 0.99;
+
+function parseFeeValue(str: string | undefined, fallback: number): number {
+  if (!str) return fallback;
+  const n = parseFloat(str.replace(/[^0-9.]/g, ''));
+  return isNaN(n) ? fallback : n;
+}
+
 function TxExpandedPanel({ tx, onCancelRequest }: { tx: Transaction; onCancelRequest: (id: string) => void }) {
+  const [feeCurrency, setFeeCurrency] = useState<CurrencySwitcherSelection>('to');
+
+  const fromCoin: SwitcherCoin = tx.coin === 'usdc' ? 'usdc' : 'usdt';
+  const fromLabel = tx.coin === 'usdc' ? 'USDC' : 'USDT';
+  const toCoin: SwitcherCoin = tx.currency === 'usd' ? 'usd' : tx.currency === 'gbp' ? 'gbp' : 'eur';
+  const toLabel = tx.currency.toUpperCase();
+
+  const txFeeUsd     = parseFeeValue(tx.txFeeUsd, 30.00);
+  const networkFeeUsd = parseFeeValue(tx.networkFeeUsd, 6.50);
+  const txAmountUsd  = parseFeeValue(tx.txAmountUsd, 1286.50);
+  const txTotalUsd   = parseFeeValue(tx.txTotalUsd, -1250.00);
+
+  const fmt = (n: number) => Math.abs(n).toFixed(2);
+  const showFrom = feeCurrency === 'from';
+  const sym = toLabel;
+
+  const feeAmountDisplay   = showFrom ? `${fmt(txAmountUsd / EXCHANGE_RATE)} ${fromLabel}` : (tx.txAmountUsd ?? `$${fmt(txAmountUsd)} ${sym}`);
+  const feeTxDisplay       = showFrom ? `${fmt(txFeeUsd / EXCHANGE_RATE)} ${fromLabel}` : (tx.txFeeUsd ?? `$${fmt(txFeeUsd)} ${sym}`);
+  const feeNetworkDisplay  = showFrom ? `${fmt(networkFeeUsd / EXCHANGE_RATE)} ${fromLabel}` : (tx.networkFeeUsd ?? `$${fmt(networkFeeUsd)} ${sym}`);
+  const feeTotalDisplay    = showFrom ? `-${fmt(Math.abs(txTotalUsd) / EXCHANGE_RATE)} ${fromLabel}` : (tx.txTotalUsd ?? `-$${fmt(Math.abs(txTotalUsd))} ${sym}`);
+
   return (
     <div className="pl-[80px] pt-[20px] w-full">
       <div className="flex gap-[20px] items-stretch pb-[20px] w-full">
@@ -355,35 +385,29 @@ function TxExpandedPanel({ tx, onCancelRequest }: { tx: Transaction; onCancelReq
         {/* Right column */}
         <div className="flex flex-col gap-[20px] items-end shrink-0">
 
-          {/* Currency toggle display */}
-          <div className="flex items-center gap-[10px]">
-            {/* USDT (inactive) */}
-            <div className="flex items-center gap-[5px] px-[10px] py-[10px] rounded-[5px]">
-              <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic text-[11px] text-black whitespace-nowrap">USDT</p>
-              <div className="relative size-[14px] bg-[#50af95] rounded-[999px] overflow-hidden flex items-center justify-center">
-                <SvgUsdtLogo className="w-[75%] h-[75%]" />
-              </div>
-            </div>
-
-            <IconConvertArrow />
-
-            {/* USD (active) */}
-            <div className="flex items-center gap-[5px] bg-[var(--cp-bg-2)] px-[10px] py-[10px] rounded-[5px]">
-              <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic text-[11px] text-black whitespace-nowrap">USD</p>
-              <UsdIcon size={14} />
-            </div>
+          {/* Currency switcher — stop propagation to prevent row collapse on click */}
+          <div onClick={e => e.stopPropagation()}>
+            <CurrencySwitcher
+              fromCoin={fromCoin}
+              fromLabel={fromLabel}
+              toCoin={toCoin}
+              toLabel={toLabel}
+              selected={feeCurrency}
+              onSelect={setFeeCurrency}
+              size="sm"
+            />
           </div>
 
           {/* Fee breakdown */}
           <div className="flex flex-col gap-[10px] items-end">
-            <p className="font-['Inter:Regular',sans-serif] font-normal leading-[normal] not-italic text-[13px] text-[var(--cp-text-secondary)] whitespace-nowrap">Amount: {tx.txAmountUsd ?? '$1,286.50 USD'}</p>
-            <p className="font-['Inter:Regular',sans-serif] font-normal leading-[normal] not-italic text-[13px] text-[var(--cp-text-secondary)] whitespace-nowrap">Transaction fee: {tx.txFeeUsd ?? '$30.00 USD'}</p>
-            <p className="font-['Inter:Regular',sans-serif] font-normal leading-[normal] not-italic text-[13px] text-[var(--cp-text-secondary)] whitespace-nowrap">Network fee: {tx.networkFeeUsd ?? '$6.50 USD'}</p>
+            <p className="font-['Inter:Regular',sans-serif] font-normal leading-[normal] not-italic text-[13px] text-[var(--cp-text-secondary)] whitespace-nowrap">Amount: {feeAmountDisplay}</p>
+            <p className="font-['Inter:Regular',sans-serif] font-normal leading-[normal] not-italic text-[13px] text-[var(--cp-text-secondary)] whitespace-nowrap">Transaction fee: {feeTxDisplay}</p>
+            <p className="font-['Inter:Regular',sans-serif] font-normal leading-[normal] not-italic text-[13px] text-[var(--cp-text-secondary)] whitespace-nowrap">Network fee: {feeNetworkDisplay}</p>
           </div>
 
           {/* Total */}
           <p className="font-['Inter',sans-serif] font-bold leading-[normal] not-italic text-[14.5px] text-[var(--cp-text-primary)] whitespace-nowrap" style={{ letterSpacing: '-0.5px' }}>
-            Total: {tx.txTotalUsd ?? '-$1,250.00 USD'}
+            Total: {feeTotalDisplay}
           </p>
 
           {/* Cancel — only for pending, pinned bottom of right column */}
