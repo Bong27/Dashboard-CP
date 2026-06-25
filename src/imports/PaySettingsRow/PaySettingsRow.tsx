@@ -637,7 +637,6 @@ export default function PaySettingsRow({
               </div>
             </div>
           </div>
-          <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[5px]" />
         </div>
       ) : (
         <PayoutCurrencyDropdown
