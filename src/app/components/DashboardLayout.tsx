@@ -234,9 +234,9 @@ export default function DashboardLayout() {
       {/* Top Navbar */}
       <div className="bg-white content-stretch flex h-[70px] items-center justify-between fixed top-0 left-0 right-0 z-50 w-full">
         <div className="content-stretch flex items-center justify-center relative shrink-0 w-[225px]">
-          <div className="content-stretch flex flex-col items-start px-[20px] py-[10px] relative shrink-0 w-[205px]">
+          <Link to="/" className="content-stretch flex flex-col items-start px-[20px] py-[10px] relative shrink-0 w-[205px] transition-opacity hover:opacity-70 active:opacity-50">
             <Logo />
-          </div>
+          </Link>
         </div>
 
         <div className="flex-[1_0_0] h-[71px] min-w-px relative">
