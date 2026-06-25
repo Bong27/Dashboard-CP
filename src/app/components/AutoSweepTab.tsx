@@ -5,6 +5,7 @@ import { SweepDestinationDropdown, type SweepDestination } from './SweepDestinat
 import { SweepBankAccountDropdown } from './SweepBankAccountDropdown';
 import { PayoutCurrencyDropdown } from './PayoutCurrencyDropdown';
 import { TwoFaModal } from './TwoFaModal';
+import BankUnderReviewWarningModal from './BankUnderReviewWarningModal';
 import { useBanks } from '../context/BankContext';
 
 function UsdtTrc20Badge() {
@@ -73,8 +74,21 @@ export function AutoSweepTab() {
   const [saved, setSaved] = useState(false);
   const [savedSnapshot, setSavedSnapshot] = useState<Snapshot | null>(null);
   const [show2Fa, setShow2Fa] = useState(false);
+  const [showUnderReviewWarning, setShowUnderReviewWarning] = useState(false);
   const [showComplete, setShowComplete] = useState(false);
   const [pendingAction, setPendingAction] = useState<'save' | 'update' | 'disable'>('save');
+
+  const selectedBank = banks.find(b => b.id === selectedBankId);
+  const selectedBankIsUnderReview = selectedBank?.status === 'under_review';
+
+  const handleSaveOrUpdate = (action: 'save' | 'update') => {
+    setPendingAction(action);
+    if (selectedBankIsUnderReview) {
+      setShowUnderReviewWarning(true);
+    } else {
+      setShow2Fa(true);
+    }
+  };
 
   const saveEnabled = isBankAccount ? (isAmountValid && payoutCurrency !== null && !saved) : false;
 
@@ -132,7 +146,7 @@ export function AutoSweepTab() {
       {isDirty ? (
         <div
           className={`${btnBase} bg-[var(--cp-brand-primary)] hover:bg-[var(--cp-brand-active)] cursor-pointer`}
-          onClick={() => { setPendingAction('update'); setShow2Fa(true); }}
+          onClick={() => handleSaveOrUpdate('update')}
         >
           <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-white text-center whitespace-nowrap">Update</p>
         </div>
@@ -152,7 +166,7 @@ export function AutoSweepTab() {
   ) : saveEnabled ? (
     <div
       className={`${btnBase} bg-[var(--cp-brand-primary)] hover:bg-[var(--cp-brand-active)] cursor-pointer`}
-      onClick={() => { setPendingAction('save'); setShow2Fa(true); }}
+      onClick={() => handleSaveOrUpdate('save')}
     >
       <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-white text-center whitespace-nowrap">Save</p>
     </div>
@@ -164,6 +178,13 @@ export function AutoSweepTab() {
 
   return (
     <>
+    {showUnderReviewWarning && createPortal(
+      <BankUnderReviewWarningModal
+        onCancel={() => setShowUnderReviewWarning(false)}
+        onProceed={() => { setShowUnderReviewWarning(false); setShow2Fa(true); }}
+      />,
+      document.body
+    )}
     {show2Fa && createPortal(
       <TwoFaModal
         onDismiss={() => setShow2Fa(false)}

@@ -8,6 +8,7 @@ import Buttons from '../../imports/Buttons/Buttons';
 import { SearchInput } from '../components/SearchInput';
 import { useBanks } from '../context/BankContext';
 import { BulkEditModal } from '../components/BulkEditModal';
+import BankUnderReviewWarningModal from '../components/BankUnderReviewWarningModal';
 
 const BitcoinIcon = () => (
   <div className="relative shrink-0 size-[24px]">
@@ -28,9 +29,29 @@ export default function SettingsPage() {
   const [activeTab, setActiveTab] = useState<'general' | 'email'>('general');
   const [hasChanges, setHasChanges] = useState(false);
   const [show2fa, setShow2fa] = useState(false);
+  const [showUnderReviewWarning, setShowUnderReviewWarning] = useState(false);
   const [savedTrigger, setSavedTrigger] = useState(0);
 
   const { banks } = useBanks();
+
+  // Live state reported by each PaySettingsRow via onStateChange
+  const [rowStates, setRowStates] = useState<Record<string, { mode: string; bankId?: string }>>({});
+  const updateRowState = (key: string, mode: string, bankId: string | undefined) =>
+    setRowStates(prev => ({ ...prev, [key]: { mode, bankId } }));
+
+  const hasUnderReviewBankInNightlyRows = () =>
+    Object.values(rowStates).some(({ mode, bankId }) => {
+      if (mode !== 'Nightly to Bank') return false;
+      return banks.find(b => b.id === bankId)?.status === 'under_review';
+    });
+
+  const handleSaveChanges = () => {
+    if (hasUnderReviewBankInNightlyRows()) {
+      setShowUnderReviewWarning(true);
+    } else {
+      setShow2fa(true);
+    }
+  };
   const [selectedRows, setSelectedRows] = useState<Set<number>>(new Set());
   const [showBulkEdit, setShowBulkEdit] = useState(false);
   const [rowsResetKey, setRowsResetKey] = useState(0);
@@ -166,7 +187,7 @@ export default function SettingsPage() {
             <div className="content-stretch flex gap-[10px] items-center pr-[10px] relative shrink-0 w-full">
               {hasChanges ? (
                 <button
-                  onClick={() => setShow2fa(true)}
+                  onClick={handleSaveChanges}
                   className="bg-[var(--cp-brand-primary)] content-stretch flex items-center justify-center overflow-clip p-[10px] relative rounded-[5px] shrink-0 cursor-pointer hover:bg-[var(--cp-brand-active)] transition-colors"
                 >
                   <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[14.5px] text-center text-white whitespace-nowrap">
@@ -270,6 +291,7 @@ export default function SettingsPage() {
                   canSelect={canSelectRows}
                   savedTrigger={savedTrigger}
                   onChanged={() => setHasChanges(true)}
+                  onStateChange={(mode, bankId) => updateRowState('bank-0', mode, bankId)}
                 />
               </div>
               <div key={`bank-1-${rowsResetKey}`} className="relative w-full min-h-[76px]">
@@ -288,6 +310,7 @@ export default function SettingsPage() {
                   canSelect={canSelectRows}
                   savedTrigger={savedTrigger}
                   onChanged={() => setHasChanges(true)}
+                  onStateChange={(mode, bankId) => updateRowState('bank-1', mode, bankId)}
                 />
               </div>
               <div key={`bank-2-${rowsResetKey}`} className="relative w-full min-h-[76px]">
@@ -306,6 +329,7 @@ export default function SettingsPage() {
                   canSelect={canSelectRows}
                   savedTrigger={savedTrigger}
                   onChanged={() => setHasChanges(true)}
+                  onStateChange={(mode, bankId) => updateRowState('bank-2', mode, bankId)}
                 />
               </div>
               {[0, 1, 2, 3, 4, 5, 6].map((index) => (
@@ -362,6 +386,13 @@ export default function SettingsPage() {
         />
       )}
 
+      {showUnderReviewWarning && createPortal(
+        <BankUnderReviewWarningModal
+          onCancel={() => setShowUnderReviewWarning(false)}
+          onProceed={() => { setShowUnderReviewWarning(false); setShow2fa(true); }}
+        />,
+        document.body
+      )}
       {show2fa && createPortal(
         <TwoFaModal
           onDismiss={() => setShow2fa(false)}

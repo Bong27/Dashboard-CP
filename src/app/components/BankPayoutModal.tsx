@@ -22,6 +22,7 @@ import { useNavigate } from 'react-router';
 import { truncateIban, truncateLabel } from '../utils';
 import svgPaths from '../../imports/Wallet-2/svg-tfchl2zu4w';
 import AddNewBankModal from './AddNewBankModal';
+import BankUnderReviewWarningModal from './BankUnderReviewWarningModal';
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 const EXCHANGE_RATE   = 0.99;   // 1 USDT = $0.99 USD
@@ -271,47 +272,10 @@ export default function BankPayoutModal({ onClose, coin }: { onClose: () => void
 
   if (modalStep === 'under-review-warning') {
     return (
-      <div
-        className="fixed inset-0 z-[400] flex items-center justify-center"
-        style={{ background: 'var(--cp-bg-overlay-scrim)' }}
-        onClick={() => setModalStep('payout')}
-      >
-        <div className="relative flex flex-col" style={{ width: 400 }} onClick={e => e.stopPropagation()}>
-          <button className="absolute right-0 top-[-30px] flex items-center justify-center p-[4px] cursor-pointer" onClick={() => setModalStep('payout')}>
-            <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[14px] text-white">Dismiss</p>
-          </button>
-          <div className="bg-white flex flex-col gap-[20px] items-start p-[20px] relative rounded-[10px] w-full">
-            <div className="flex flex-col gap-[20px] items-start w-full">
-              <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[13px] text-[var(--cp-text-secondary)] uppercase whitespace-nowrap leading-none">
-                Bank Transfer Under Review
-              </p>
-              <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-primary)] leading-[1.4]">
-                Your bank transfer is currently pending and may take <span className="font-['Inter:Bold',sans-serif] font-bold">up to 48 hours</span> to process while your selected bank account completes its verification review.
-                <br /><br />
-                You can track this transfer's progress or cancel the request at any time in the{' '}
-                <span
-                  className="font-['Inter:Bold',sans-serif] font-bold text-[var(--cp-brand-primary)] cursor-pointer hover:underline"
-                  onClick={() => { setModalStep('payout'); onClose(); navigate('/transactions'); }}
-                >Transactions</span> page.
-              </p>
-            </div>
-            <div className="content-stretch flex gap-[10px] items-center relative shrink-0 w-full">
-              <button
-                className="bg-white border border-[var(--cp-border-default)] border-solid flex flex-1 h-[46px] items-center justify-center rounded-[5px] cursor-pointer hover:bg-[var(--cp-bg-2)] transition-colors"
-                onClick={() => setModalStep('payout')}
-              >
-                <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-secondary)]">Cancel</p>
-              </button>
-              <button
-                className="bg-[var(--cp-brand-primary)] hover:bg-[var(--cp-brand-active)] flex flex-1 h-[46px] items-center justify-center rounded-[5px] cursor-pointer transition-colors"
-                onClick={() => setModalStep('2fa')}
-              >
-                <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-white">Proceed</p>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
+      <BankUnderReviewWarningModal
+        onCancel={() => setModalStep('payout')}
+        onProceed={() => setModalStep('2fa')}
+      />
     );
   }
 

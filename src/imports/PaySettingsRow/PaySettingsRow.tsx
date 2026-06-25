@@ -270,6 +270,7 @@ type PaySettingsRowProps = {
   onChanged?: () => void;
   onBankChanged?: () => void;
   onBankCurrencySelected?: () => void;
+  onStateChange?: (mode: string, bankId: string | undefined) => void;
   lockedPayoutCurrency?: string;
   selected?: boolean;
   onToggleSelect?: () => void;
@@ -336,6 +337,7 @@ export default function PaySettingsRow({
   onChanged,
   onBankChanged,
   onBankCurrencySelected,
+  onStateChange,
   lockedPayoutCurrency,
   selected = false,
   onToggleSelect,
@@ -418,6 +420,11 @@ export default function PaySettingsRow({
     setSelectedMode('To Custody');
     setPayoutCurrency(null);
   }, [banks]);
+
+  // Report live mode + bankId to parent whenever they change
+  useEffect(() => {
+    onStateChange?.(selectedMode, committedBankId);
+  }, [selectedMode, committedBankId]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
