@@ -19,7 +19,7 @@ import { SelectField } from './SelectField';
 import { useBanks } from '../context/BankContext';
 import { useTransactions } from '../context/TransactionContext';
 import { useNavigate } from 'react-router';
-import { truncateIban } from '../utils';
+import { truncateIban, truncateLabel } from '../utils';
 import svgPaths from '../../imports/Wallet-2/svg-tfchl2zu4w';
 import AddNewBankModal from './AddNewBankModal';
 
@@ -568,7 +568,7 @@ export default function BankPayoutModal({ onClose, coin }: { onClose: () => void
                   <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[11px] text-[var(--cp-text-tertiary)] uppercase whitespace-nowrap leading-none">Bank Account</p>
                   <div className="flex gap-[5px] items-center min-w-0 overflow-hidden w-full">
                     <p className={`font-['Inter:Medium',sans-serif] font-medium text-[14.5px] whitespace-nowrap overflow-hidden text-ellipsis shrink-0 max-w-[50%] ${approvedBanks.length === 0 ? 'opacity-60 text-[var(--cp-text-primary)]' : 'text-[var(--cp-text-primary)]'}`}>
-                      {selectedBank?.label ?? banks[0]?.label ?? '---'}
+                      {truncateLabel(selectedBank?.label ?? banks[0]?.label ?? '---')}
                     </p>
                     <p className="font-['Inter:Regular',sans-serif] font-normal text-[13px] text-[var(--cp-text-tertiary)] whitespace-nowrap shrink-0">
                       {(() => { const iban = (selectedBank?.iban ?? banks[0]?.iban ?? '').replace(/\s/g, ''); return showUnderReviewBadge ? truncateIban(iban, 5, 4) : iban; })()}

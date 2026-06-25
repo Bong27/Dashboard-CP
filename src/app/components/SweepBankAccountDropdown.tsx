@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router';
 import { useBanks } from '../context/BankContext';
-import { getBankAccountIdentifier, truncateIban } from '../utils';
+import { getBankAccountIdentifier, truncateIban, truncateLabel } from '../utils';
 import AddNewBankModal from './AddNewBankModal';
 
 type SweepBankAccountDropdownProps = {
@@ -103,7 +103,7 @@ export function SweepBankAccountDropdown({ value, onChange, className = '' }: Sw
             ) : (
               <div className="flex gap-[5px] items-center min-w-0 overflow-hidden w-full">
                 <p className={`font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic text-[14.5px] whitespace-nowrap overflow-hidden text-ellipsis shrink-0 max-w-[50%] ${selectedBankUnderReview ? 'text-[var(--cp-text-primary)] opacity-60' : 'text-[var(--cp-text-primary)]'}`}>
-                  {selectedBank.label}
+                  {truncateLabel(selectedBank.label)}
                 </p>
                 <p className="font-['Inter:Regular',sans-serif] font-normal text-[13px] text-[var(--cp-text-tertiary)] whitespace-nowrap shrink-0">
                   {selectedBankUnderReview ? truncateIban(getBankAccountIdentifier(selectedBank), 5, 4) : getBankAccountIdentifier(selectedBank)}

@@ -406,12 +406,13 @@ function TwoFaField({ value, onChange }: { value: string; onChange: (v: string) 
 }
 
 // ─── Add Label field with hover + focus border ───────────────────────────────
-function AddLabelField({ labelInputRef, label, setLabel, bankName, labelValue }: {
+function AddLabelField({ labelInputRef, label, setLabel, bankName, labelValue, dedupedBankName }: {
   labelInputRef: React.RefObject<HTMLInputElement>;
   label: string;
   setLabel: (v: string) => void;
   bankName: string | null;
   labelValue: string;
+  dedupedBankName: string | null;
 }) {
   const [focused, setFocused] = useState(false);
   const [hovered, setHovered] = useState(false);
@@ -429,10 +430,10 @@ function AddLabelField({ labelInputRef, label, setLabel, bankName, labelValue }:
         <input
           ref={labelInputRef}
           type="text"
-          value={focused ? label : (label || bankName || '')}
+          value={focused ? label : (label || dedupedBankName || '')}
           onChange={e => setLabel(e.target.value)}
-          placeholder={bankName || '---'}
-          onFocus={() => { setFocused(true); if (!label && bankName) setLabel(bankName); }}
+          placeholder={dedupedBankName || '---'}
+          onFocus={() => { setFocused(true); if (!label && dedupedBankName) setLabel(dedupedBankName); }}
           onBlur={() => setFocused(false)}
           className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-primary)] bg-transparent border-none outline-none w-full min-w-0 leading-none"
           style={{ caretColor: 'var(--cp-brand-primary)' }}
@@ -444,7 +445,7 @@ function AddLabelField({ labelInputRef, label, setLabel, bankName, labelValue }:
 
 // ─── Modal ────────────────────────────────────────────────────────────────────
 export default function AddNewBankModal({ onClose, onBankAdded }: Props) {
-  const { addBank } = useBanks();
+  const { addBank, banks } = useBanks();
   const [step, setStep] = useState<'form' | 'confirm' | '2fa' | 'done'>('form');
   const [twoFaCode, setTwoFaCode] = useState('');
   const [holderName, setHolderName]     = useState('Acme Corp');
@@ -501,19 +502,37 @@ export default function AddNewBankModal({ onClose, onBankAdded }: Props) {
   }, [bankCountry]);
 
   // Derive bank name: first try full BIC lookup, then use 4-char prefix from IBAN to rotate examples
-  const IBAN_BANK_EXAMPLES = ['HSBC', 'Barclays Bank', 'Citibank', 'Wise'];
+  const IBAN_BANK_EXAMPLES = [
+    'Bank of England',
+    'Bank of Ireland',
+    'Clydesdale Bank',
+    'HSBC Bank',
+    'Lloyds TSB Bank',
+    'National Westminster Bank',
+    'Nationwide Building Society',
+    'Royal Bank of Scotland',
+  ];
   const bankNameFromBic = BIC_TO_BANK[bic.trim().toUpperCase()] ?? null;
   const bankNameFromIban = ibanValid
     ? (() => {
         const v = iban.replace(/\s/g, '').toUpperCase();
-        const hash = v.split('').reduce((acc, c) => acc + c.charCodeAt(0), 0);
+        const hash = v.split('').reduce((acc, c) => (Math.imul(acc, 31) ^ c.charCodeAt(0)) >>> 0, 5381);
         return IBAN_BANK_EXAMPLES[hash % IBAN_BANK_EXAMPLES.length];
       })()
     : null;
   const bankName = bankNameFromBic ?? bankNameFromIban;
   const [label, setLabel]               = useState('');
+
+  // Compute the dedup-suffixed version of a base label given the current bank list
+  const dedupLabel = (base: string): string => {
+    if (!banks.some(b => b.label === base)) return base;
+    let n = 2;
+    while (banks.some(b => b.label === `${base} ${n}`)) n++;
+    return `${base} ${n}`;
+  };
+
   // keep label in sync with bankName when user hasn't manually edited it
-  const labelValue = label || bankName || '---';
+  const labelValue = label || (bankName ? dedupLabel(bankName) : '---');
 
   const accountNumberValid = /^\d+$/.test(iban) && iban.length > 6;
   const bicValid = bic.trim().length >= 8 && bic.trim().length <= 11;
@@ -713,7 +732,7 @@ export default function AddNewBankModal({ onClose, onBankAdded }: Props) {
           </div>
 
           {/* Add Label editable field */}
-          <AddLabelField labelInputRef={labelInputRef} label={label} setLabel={setLabel} bankName={bankName} labelValue={labelValue} />
+          <AddLabelField labelInputRef={labelInputRef} label={label} setLabel={setLabel} bankName={bankName} labelValue={labelValue} dedupedBankName={bankName ? dedupLabel(bankName) : null} />
 
           {/* Spacer — absorbs extra height to match step 1 modal height */}
           <div className="flex-1" />

@@ -1,3 +1,9 @@
+/** Truncate a label to maxChars, trimming any trailing space before the ellipsis. */
+export function truncateLabel(label: string, maxChars = 14): string {
+  if (label.length <= maxChars) return label;
+  return label.slice(0, maxChars).trimEnd() + '…';
+}
+
 // Truncate IBAN/account number for space-constrained display: XXXXX...XXX
 export function truncateIban(iban: string, head = 5, tail = 3): string {
   const s = iban.replace(/\s/g, '');
