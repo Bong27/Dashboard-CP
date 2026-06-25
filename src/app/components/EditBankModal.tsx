@@ -251,7 +251,7 @@ export default function EditBankModal({
   // Barclays warning modal
   const [showWarning, setShowWarning]   = useState(false);
 
-  const { updateBank } = useBanks();
+  const { updateBank, banks } = useBanks();
 
   const isLocked = editMode === 'locked' && !unlocked;
 
@@ -262,7 +262,9 @@ export default function EditBankModal({
 
   const isDirty = label !== labelProp || nonLabelDirty;
 
-  const ibanValid = ibanType === 'IBAN' && isValidUkIban(accountNumber);
+  const ibanDuplicate = ibanType === 'IBAN' && accountNumber.trim() !== '' &&
+    banks.some(b => b.id !== bankId && b.iban.replace(/\s/g, '').toUpperCase() === accountNumber.replace(/\s/g, '').toUpperCase());
+  const ibanValid = ibanType === 'IBAN' && isValidUkIban(accountNumber) && !ibanDuplicate;
   const accountNumberValid = ibanType === 'Account Number' && /^\d+$/.test(accountNumber) && accountNumber.length > 6;
   const bicValid = bic.trim().length >= 8 && bic.trim().length <= 11;
   const isValid =
@@ -366,6 +368,7 @@ export default function EditBankModal({
               ibanType={ibanType}
               onIbanTypeChange={t => { setIbanType(t); setAccountNumber(''); }}
               hideTypeSelector={bankCountry === 'Canada'}
+              errorOverride={ibanDuplicate ? 'This IBAN number is already in use on a saved bank account, please enter a new one.' : null}
             />
             <EditField label="BIC / SWIFT"         value={bic}           onChange={setBic}            inactive={isLocked} helper={countryChanged ? '' : cautionHelper} />
             <div className="flex gap-[8px] items-start relative shrink-0 w-full">

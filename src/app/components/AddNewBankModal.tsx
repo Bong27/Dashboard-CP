@@ -461,7 +461,9 @@ export default function AddNewBankModal({ onClose, onBankAdded }: Props) {
   const [check2, setCheck2]             = useState(true);
   const labelInputRef                   = useRef<HTMLInputElement>(null);
 
-  const ibanValid = isValidUkIban(iban);
+  const ibanDuplicate = ibanType === 'IBAN' && iban.trim() !== '' &&
+    banks.some(b => b.iban.replace(/\s/g, '').toUpperCase() === iban.replace(/\s/g, '').toUpperCase());
+  const ibanValid = isValidUkIban(iban) && !ibanDuplicate;
   const bicFromIban = ibanValid ? (() => {
     const v = iban.replace(/\s/g, '').toUpperCase();
     const bankCode = v.slice(4, 8);          // e.g. BARC
@@ -641,7 +643,7 @@ export default function AddNewBankModal({ onClose, onBankAdded }: Props) {
           <div className="flex flex-col gap-[8px] items-start relative w-full flex-1 min-h-0 overflow-y-auto">
             <Field label="Account Holder Name" value={holderName}  onChange={setHolderName} helper="Must exactly match the name registered with your bank" />
             <BankCountryField value={bankCountry} onChange={setBankCountry} />
-            <IBANField value={iban} onChange={setIban} ibanType={ibanType} onIbanTypeChange={setIbanType} hideTypeSelector={bankCountry === 'Canada'} />
+            <IBANField value={iban} onChange={setIban} ibanType={ibanType} onIbanTypeChange={setIbanType} hideTypeSelector={bankCountry === 'Canada'} errorOverride={ibanDuplicate ? 'This IBAN number is already in use on a saved bank account, please enter a new one.' : null} />
             <Field
               label="BIC / SWIFT"
               value={bic}

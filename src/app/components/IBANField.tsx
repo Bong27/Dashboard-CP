@@ -6,12 +6,13 @@ const IBAN_TYPES = [
   { label: 'Account Number', description: 'Local account number — used for domestic transfers within a specific country.' },
 ];
 
-export function IBANField({ value, onChange, ibanType, onIbanTypeChange, hideTypeSelector }: {
+export function IBANField({ value, onChange, ibanType, onIbanTypeChange, hideTypeSelector, errorOverride }: {
   value: string;
   onChange: (v: string) => void;
   ibanType: string;
   onIbanTypeChange: (t: string) => void;
   hideTypeSelector?: boolean;
+  errorOverride?: string | null;
 }) {
   const [focused, setFocused] = useState(false);
   const [hovered, setHovered] = useState(false);
@@ -43,11 +44,14 @@ export function IBANField({ value, onChange, ibanType, onIbanTypeChange, hideTyp
     stripped.length >= 34 || touched
   );
   const showAccountError = ibanType === 'Account Number' && !isAccountValid && !focused && !open && value.trim() !== '' && touched;
-  const showError = showIbanError || showAccountError;
+  const showError = errorOverride != null ? true : (showIbanError || showAccountError);
+  const showValid = isValid && !errorOverride;
 
-  const errorText = showIbanError
-    ? 'Please enter a valid IBAN (14–34 characters)'
-    : 'Must contain numbers only and be more than 6 digits';
+  const errorText = errorOverride != null
+    ? errorOverride
+    : showIbanError
+      ? 'Please enter a valid IBAN (14–34 characters)'
+      : 'Must contain numbers only and be more than 6 digits';
 
   const borderColor = showError
     ? `var(--cp-error-field)`
@@ -88,7 +92,7 @@ export function IBANField({ value, onChange, ibanType, onIbanTypeChange, hideTyp
             tabIndex={-1}
             type="button"
           >
-            {isValid && (
+            {showValid && (
               <svg width="10" height="8" viewBox="0 0 10 8" fill="none" className="shrink-0 mr-[10px]">
                 <path d="M1 4L3.5 6.5L9 1" stroke="var(--cp-text-secondary)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
