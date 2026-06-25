@@ -9,6 +9,8 @@ import { CircleIcon } from '../components/CircleIcon';
 import { COUNTRIES } from '../constants/countries';
 import { WalletExpandedTabs } from '../components/WalletRowExpanded';
 import svgPaths from '../../imports/Wallet-2/svg-tfchl2zu4w';
+import { RowDivider, RowCellLabel, RowIdentity, StatusDot, RowAmountBlock, RowContainer } from '../components/RowPrimitives';
+import { CurrencySwitcher, type CurrencySwitcherSelection, type SwitcherCoin } from '../components/CurrencySwitcher';
 
 // ─── Layout helpers ───────────────────────────────────────────────────────────
 
@@ -130,20 +132,11 @@ function CtaCard({ label, icon, inset }: { label: string; icon: React.ReactNode;
 function WalletRowCollapsed({ logo, name, symbol, alt }: { logo: React.ReactNode; name: string; symbol: string; alt?: boolean }) {
   const baseTicker = symbol.split('.')[0];
   return (
-    <div className={`content-stretch flex h-[76px] items-center justify-between p-[20px] relative w-full rounded-[5px] cursor-pointer transition-colors hover:bg-[var(--cp-bg-3)] ${alt ? 'bg-[var(--cp-bg-2)]' : 'bg-[var(--cp-bg-1)]'}`}>
+    <RowContainer alt={alt} clickable className="h-[76px] p-[20px] relative">
       <div className="content-stretch flex items-center justify-between relative shrink-0 w-[390px]">
-        <div className="content-stretch flex gap-[10px] items-center relative shrink-0">
-          {logo}
-          <div className="content-stretch flex flex-col items-start leading-[normal] not-italic relative shrink-0 w-[140px]">
-            <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[14.5px] text-[var(--cp-text-primary)] w-full whitespace-nowrap">{name}</p>
-            <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[13px] text-[var(--cp-text-tertiary)] w-full whitespace-nowrap">{symbol}</p>
-          </div>
-        </div>
+        <RowIdentity icon={logo} name={name} subtitle={symbol} textWidth="w-[140px]" />
         <div className="content-stretch flex items-center px-[20px] relative shrink-0">
-          <div className="content-stretch flex flex-col items-start leading-[normal] not-italic relative shrink-0 w-[140px]">
-            <p className="font-['Inter',sans-serif] font-bold relative shrink-0 text-[14.5px] text-[var(--cp-text-primary)] w-full whitespace-nowrap" style={{ letterSpacing: '-0.5px' }}>0.000000 {baseTicker}</p>
-            <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[13px] text-[var(--cp-text-tertiary)] w-full whitespace-nowrap">$0.00 USD</p>
-          </div>
+          <RowAmountBlock primary={`0.000000 ${baseTicker}`} secondary="$0.00 USD" align="start" width="w-[140px]" />
         </div>
       </div>
       <div className="content-stretch flex gap-[10px] items-center relative shrink-0" style={{ overflow: 'visible' }}>
@@ -152,24 +145,18 @@ function WalletRowCollapsed({ logo, name, symbol, alt }: { logo: React.ReactNode
         <CircleIcon label="Bank Payout" icon={<div className="size-full"><IconBankPayoutSm /></div>} />
         <CircleIcon label="Send" icon={<IconSendSm />} />
       </div>
-    </div>
+    </RowContainer>
   );
 }
 
 function WalletRowExpanded({ logo, name, symbol }: { logo: React.ReactNode; name: string; symbol: string }) {
   const ticker = symbol.split('.')[0];
   return (
-    <div className="bg-white rounded-[5px] w-full">
+    <RowContainer bg="white">
       <div className="content-stretch flex flex-col gap-[20px] items-start p-[20px] relative w-full">
         <div className="border-[var(--cp-border-default)] border-b border-solid content-stretch flex flex-col items-start pb-[20px] relative shrink-0 w-full">
           <div className="content-stretch flex items-center justify-between relative shrink-0 w-full cursor-pointer">
-            <div className="content-stretch flex gap-[10px] items-center relative shrink-0">
-              {logo}
-              <div className="content-stretch flex flex-col items-start leading-[normal] not-italic relative shrink-0 w-[140px]">
-                <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[14.5px] text-[var(--cp-text-primary)] w-full whitespace-nowrap">{name}</p>
-                <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[13px] text-[var(--cp-text-tertiary)] w-full whitespace-nowrap">{symbol}</p>
-              </div>
-            </div>
+            <RowIdentity icon={logo} name={name} subtitle={symbol} textWidth="w-[140px]" />
             <div className="content-stretch flex gap-[10px] items-center relative shrink-0">
               <CtaCard label="Convert" icon={<IconConvert />} inset="inset-[9.27%_17.99%]" />
               <CtaCard label="Receive" icon={<IconReceive />} inset="inset-[11.82%_13.6%]" />
@@ -182,11 +169,11 @@ function WalletRowExpanded({ logo, name, symbol }: { logo: React.ReactNode; name
           {['PRIMARY BALANCE', 'API BALANCE', 'TOTAL BALANCE'].map(label => (
             <div key={label} className="content-stretch flex flex-[1_0_0] flex-col gap-[20px] items-start min-w-px relative">
               <div className="content-stretch flex flex-col gap-[5px] items-start relative shrink-0">
-                <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[11px] text-[var(--cp-text-primary)] uppercase whitespace-nowrap">{label}</p>
+                <RowCellLabel color="primary">{label}</RowCellLabel>
                 <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[14.5px] text-[var(--cp-text-secondary)] whitespace-nowrap">0.0000000 {ticker}</p>
               </div>
               <div className="content-stretch flex flex-col gap-[5px] items-start relative shrink-0">
-                <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[11px] text-[var(--cp-text-primary)] uppercase whitespace-nowrap">VALUE</p>
+                <RowCellLabel color="primary">VALUE</RowCellLabel>
                 <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic relative shrink-0 text-[14.5px] text-[var(--cp-text-secondary)] whitespace-nowrap">$0.00 USD</p>
               </div>
             </div>
@@ -194,7 +181,7 @@ function WalletRowExpanded({ logo, name, symbol }: { logo: React.ReactNode; name
         </div>
         <WalletExpandedTabs />
       </div>
-    </div>
+    </RowContainer>
   );
 }
 
@@ -283,14 +270,9 @@ function CurrencyIconTx({ type }: { type: TxCoin }) {
 }
 
 function TxStatusBadge({ status }: { status: 'completed' | 'pending' | 'failed' }) {
-  const dotColor = status === 'completed' ? 'bg-[#21b75d]' : status === 'pending' ? 'bg-[#f59e0b]' : 'bg-red-500';
+  const color = status === 'completed' ? '#21b75d' : status === 'pending' ? '#f59e0b' : '#ef4444';
   const label = status === 'completed' ? 'Completed' : status === 'pending' ? 'Pending' : 'Failed';
-  return (
-    <div className="flex items-center gap-[5px]">
-      <div className={`${dotColor} rounded-[100px] shrink-0 size-[8px]`} />
-      <p className="font-['Inter:Medium',sans-serif] font-medium text-[13px] text-[var(--cp-text-tertiary)] whitespace-nowrap">{label}</p>
-    </div>
-  );
+  return <StatusDot color={color} label={label} />;
 }
 
 function TxRow({
@@ -302,14 +284,14 @@ function TxRow({
   amount: string; amountSub: string; alt?: boolean;
 }) {
   return (
-    <div className={`flex items-center justify-between p-[20px] w-full rounded-[5px] cursor-pointer transition-colors hover:bg-[var(--cp-bg-3)] ${alt ? 'bg-[var(--cp-bg-2)]' : 'bg-[var(--cp-bg-1)]'}`}>
+    <RowContainer alt={alt} clickable className="p-[20px]">
       <div className="flex items-center gap-[40px]">
         <div className="flex items-center gap-[20px]">
           <div className="flex flex-col items-start w-[45px]">
             <p className="font-['Inter:Regular',sans-serif] font-normal leading-[normal] not-italic text-[13px] text-[var(--cp-text-secondary)]">{date}</p>
             <p className="font-['Inter:Regular',sans-serif] font-normal leading-[normal] not-italic text-[13px] text-[var(--cp-text-secondary)]">{time}</p>
           </div>
-          <div className="bg-[var(--cp-border-default)] h-[34px] w-px shrink-0" />
+          <RowDivider />
           <div className="flex items-center gap-[10px] w-[240px]">
             <TxCircle type={type} coin={coin} />
             <div className="flex flex-col items-start">
@@ -319,7 +301,7 @@ function TxRow({
           </div>
         </div>
         <div className="flex items-center gap-[20px]">
-          <div className="bg-[var(--cp-border-default)] h-[34px] w-px shrink-0" />
+          <RowDivider />
           <div className="flex flex-col items-start">
             <div className="flex items-center gap-[5px]">
               <CurrencyIconTx type={currencyIcon} />
@@ -329,9 +311,151 @@ function TxRow({
           </div>
         </div>
       </div>
-      <div className="flex flex-col items-end shrink-0">
-        <p className="font-['Inter',sans-serif] font-bold leading-[normal] not-italic text-[14.5px] text-[var(--cp-text-primary)] whitespace-nowrap" style={{ letterSpacing: '-0.5px' }}>{amount}</p>
-        <p className="font-['Inter:Regular',sans-serif] font-normal leading-[normal] not-italic text-[13px] text-[var(--cp-text-tertiary)] whitespace-nowrap">{amountSub}</p>
+      <RowAmountBlock primary={amount} secondary={amountSub} />
+    </RowContainer>
+  );
+}
+
+// ─── Tx expanded panel helpers (exact from TransactionsPage) ─────────────────
+
+function RadioChecked() {
+  return (
+    <div className="relative shrink-0 size-[16px]">
+      <svg className="absolute inset-0 size-full" viewBox="0 0 16.1455 16.1455" fill="none">
+        <circle cx="8.07273" cy="8.07273" r="7.27273" fill="#1C60DD" stroke="#1C60DD" strokeWidth="1.6"/>
+      </svg>
+      <div className="absolute bottom-[26.38%] left-[24.06%] right-[25.86%] top-1/4">
+        <svg className="absolute inset-0 size-full" viewBox="0 0 8.01229 7.7788" fill="none">
+          <path fillRule="evenodd" clipRule="evenodd" d="M3.13979 7.7788C3.36713 7.7788 3.56375 7.67435 3.71121 7.447L7.84025 0.976959C7.93241 0.841782 8.01229 0.675883 8.01229 0.528418C8.01229 0.202765 7.7235 0 7.42243 0C7.24424 0 7.06605 0.104455 6.93088 0.313364L3.10906 6.39017L1.07527 3.84025C0.915515 3.63748 0.749616 3.56375 0.552995 3.56375C0.25192 3.56375 0 3.80338 0 4.12903C0 4.28264 0.0614439 4.44854 0.165899 4.57757L2.53763 7.45315C2.72811 7.68664 2.91244 7.7788 3.13979 7.7788Z" fill="white"/>
+        </svg>
+      </div>
+    </div>
+  );
+}
+
+function IconInfo() {
+  return (
+    <svg width="8" height="8" viewBox="0 0 8 8" fill="none">
+      <path fillRule="evenodd" clipRule="evenodd" d="M8 4C8 6.20914 6.20914 8 4 8C1.79086 8 0 6.20914 0 4C0 1.79086 1.79086 0 4 0C6.20914 0 8 1.79086 8 4ZM4.42006 5.7772H3.57917V3.33274H4.42006V5.7772ZM3.99474 2.96119C3.70628 2.96119 3.48138 2.74608 3.48138 2.46742C3.48138 2.18875 3.70628 1.96875 3.99474 1.96875C4.28317 1.96875 4.51295 2.18875 4.51295 2.46742C4.51295 2.74119 4.28317 2.96119 3.99474 2.96119Z" fill="#D3D6E1"/>
+    </svg>
+  );
+}
+
+function IconCopy() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 17.2308 17.2308" fill="none">
+      <path d="M13.5192 3.69231L13.5384 2.76923C13.5368 2.1985 13.3094 1.6516 12.9058 1.24803C12.5022 0.844454 11.9553 0.61701 11.3846 0.615387H3.07692C2.42468 0.617315 1.79969 0.877273 1.33848 1.33848C0.877273 1.79969 0.617314 2.42468 0.615387 3.07692V11.3846C0.61701 11.9553 0.844454 12.5022 1.24803 12.9058C1.6516 13.3094 2.19849 13.5368 2.76923 13.5385H3.69231M5.88463 3.69231H14.4231C15.6339 3.69231 16.6154 4.67384 16.6154 5.88462V14.4231C16.6154 15.6338 15.6339 16.6154 14.4231 16.6154H5.88463C4.67385 16.6154 3.69232 15.6338 3.69232 14.4231V5.88462C3.69232 4.67384 4.67385 3.69231 5.88463 3.69231Z" stroke="var(--cp-brand-primary)" strokeWidth="1.23077" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+  );
+}
+
+function DataField({ label, value, children }: { label: string; value?: string; children?: React.ReactNode }) {
+  return (
+    <div className="flex flex-col gap-[5px] items-start">
+      <div className="flex items-center gap-[5px]">
+        <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic text-[11px] text-[var(--cp-text-primary)] uppercase whitespace-nowrap">{label}</p>
+        <IconInfo />
+      </div>
+      {children ?? (
+        <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic text-[14.5px] whitespace-nowrap text-[var(--cp-text-secondary)]">{value}</p>
+      )}
+    </div>
+  );
+}
+
+function TimelineStep({ label, time, extra }: { label: string; time: string; extra?: React.ReactNode }) {
+  return (
+    <div className="flex items-center gap-[12px] relative z-[1]">
+      <RadioChecked />
+      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic text-[11px] text-[var(--cp-text-primary)] whitespace-nowrap">{label}</p>
+      {extra}
+      <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic text-[11px] text-[var(--cp-text-quinary)] whitespace-nowrap">{time}</p>
+    </div>
+  );
+}
+
+// ─── Tx expanded panel (pending state) ───────────────────────────────────────
+
+function TxExpandedPanelPending() {
+  const [feeCurrency, setFeeCurrency] = useState<CurrencySwitcherSelection>('to');
+  const showFrom = feeCurrency === 'from';
+  const fromCoin: SwitcherCoin = 'usdc';
+  const toCoin: SwitcherCoin = 'usd';
+  return (
+    <div className="pl-[80px] pt-[20px] w-full">
+      <div className="flex gap-[20px] items-stretch pb-[20px] w-full">
+        {/* Left column */}
+        <div className="flex flex-col gap-[20px] items-start flex-1 min-w-0">
+          {/* Timeline — pending */}
+          <div className="relative flex flex-col gap-[12px] items-start px-[20px] w-full">
+            <div className="absolute bg-[var(--cp-text-secondary)] w-px" style={{ left: 28, top: 8, height: 36 }} />
+            <TimelineStep label="Created" time="Jun 24 2026 09:14" />
+            <div className="flex items-center gap-[12px] relative z-10">
+              <div className="flex items-center justify-center rounded-full shrink-0" style={{ width: 16, height: 16, background: '#f59e0b' }}>
+                <svg width="9" height="9" viewBox="0 0 9 9" fill="none">
+                  <circle cx="4.5" cy="4.5" r="3.8" stroke="white" strokeWidth="1.1"/>
+                  <path d="M4.5 2.5V4.5L5.8 5.5" stroke="white" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </div>
+              <div className="flex items-center gap-[5px]">
+                <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-none text-[11px] text-[var(--cp-text-primary)] whitespace-nowrap">Bank account under review</p>
+                <IconInfo />
+              </div>
+              <p className="font-['Inter:Medium',sans-serif] font-medium leading-none text-[11px] text-[var(--cp-text-quinary)] whitespace-nowrap">Jun 24 2026 09:14</p>
+            </div>
+          </div>
+          <DataField label="Source Wallet" value="USD Coin" />
+          <DataField label="Target Wallet" value="0xAcF36260817d1c78C471406BdE482177a1935071" />
+          <DataField label="Settlement Destination" value="Barclays – GB29NWBK60161331926819" />
+          <DataField label="Settlement Mode" value="Auto-Sweep (USDC)" />
+          <DataField label="Transaction ID">
+            <div className="flex items-center gap-[10px]">
+              <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic text-[14.5px] text-[var(--cp-brand-primary)] whitespace-nowrap overflow-hidden text-ellipsis max-w-[480px]">
+                64ec88ca00bce68e27ba85a97576a8d789bf00d5a866299d28b1856358c2c5ec
+              </p>
+              <button className="shrink-0 cursor-pointer hover:opacity-70 transition-opacity" title="Copy">
+                <IconCopy />
+              </button>
+            </div>
+          </DataField>
+          <DataField label="Support ID" value="5c3d4776-daa0-406b-b9e4-350e3dcbc051" />
+        </div>
+        {/* Right column */}
+        <div className="flex flex-col gap-[20px] items-end shrink-0">
+          <CurrencySwitcher
+            fromCoin={fromCoin} fromLabel="USDC"
+            toCoin={toCoin} toLabel="USD"
+            selected={feeCurrency} onSelect={setFeeCurrency}
+            size="sm"
+          />
+          <div className="flex flex-col gap-[10px] items-end">
+            <p className="font-['Inter:Regular',sans-serif] font-normal leading-[normal] not-italic text-[13px] text-[var(--cp-text-secondary)] whitespace-nowrap">Amount: {showFrom ? '500.00 USDC' : '$487.20 USD'}</p>
+            <p className="font-['Inter:Regular',sans-serif] font-normal leading-[normal] not-italic text-[13px] text-[var(--cp-text-secondary)] whitespace-nowrap">Transaction fee: {showFrom ? '7.50 USDC' : '$7.36 USD'}</p>
+            <p className="font-['Inter:Regular',sans-serif] font-normal leading-[normal] not-italic text-[13px] text-[var(--cp-text-secondary)] whitespace-nowrap">Network fee: {showFrom ? '5.30 USDC' : '$5.20 USD'}</p>
+          </div>
+          <p className="font-['Inter',sans-serif] font-bold leading-[normal] not-italic text-[14.5px] text-[var(--cp-text-primary)] whitespace-nowrap" style={{ letterSpacing: '-0.5px' }}>
+            Total: {showFrom ? '-512.80 USDC' : '-$500.00 USD'}
+          </p>
+          <button className="flex items-center gap-[8px] h-[46px] px-[20px] bg-white border border-[var(--cp-error-field)] rounded-[5px] cursor-pointer hover:bg-red-50 transition-colors shrink-0 mt-auto">
+            <svg width="14" height="15" viewBox="0 0 12 13" fill="none" className="shrink-0 text-[var(--cp-error-field)]">
+              <path d="M1 3h10M4 3V2h4v1M5 6v4M7 6v4M2 3l.7 8.1A1 1 0 0 0 3.7 12h4.6a1 1 0 0 0 1-.9L10 3" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+            <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-error-field)] whitespace-nowrap">Cancel Transaction</p>
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── Primary ribbon (exact from BankAccountsPage) ────────────────────────────
+
+function PrimaryRibbon() {
+  return (
+    <div className="absolute flex items-center justify-center pointer-events-none"
+      style={{ left: -21, top: -18.69, width: 65.761, height: 65.761 }}>
+      <div style={{ transform: 'rotate(-45deg)' }}>
+        <div className="bg-[var(--cp-brand-primary)]" style={{ height: 10, width: 83 }} />
       </div>
     </div>
   );
@@ -341,15 +465,7 @@ function TxRow({
 
 function BankStatusBadge({ status }: { status: 'approved' | 'under_review' }) {
   const isReview = status === 'under_review';
-  return (
-    <div className="flex gap-[5px] items-center shrink-0">
-      <div className="rounded-[100px] shrink-0 size-[8px]"
-        style={{ background: isReview ? 'var(--cp-warning)' : 'var(--cp-success)' }} />
-      <p className="font-['Inter:Medium',sans-serif] font-medium text-[13px] text-[var(--cp-text-tertiary)] whitespace-nowrap">
-        {isReview ? 'Under Review' : 'Approved'}
-      </p>
-    </div>
-  );
+  return <StatusDot color={isReview ? 'var(--cp-warning)' : 'var(--cp-success)'} label={isReview ? 'Under Review' : 'Approved'} />;
 }
 
 function MoreBtn() {
@@ -397,36 +513,39 @@ function MoreBtn() {
   );
 }
 
-function BankRow({ name, iban, holder, address, status, flag, alt }: {
+function BankRow({ name, iban, holder, address, status, flag, alt, primary }: {
   name: string; iban: string; holder: string; address: string;
-  status: 'approved' | 'under_review'; flag: string; alt?: boolean;
+  status: 'approved' | 'under_review'; flag: string; alt?: boolean; primary?: boolean;
 }) {
   const isReview = status === 'under_review';
   return (
-    <div className={`content-stretch flex items-center justify-between overflow-clip px-[20px] py-[10px] relative shrink-0 w-full transition-colors duration-150 ${alt ? 'bg-[var(--cp-bg-2)]' : 'bg-[var(--cp-bg-1)]'}`}>
+    <RowContainer alt={alt} className="overflow-clip px-[20px] py-[10px] relative shrink-0 transition-colors duration-150">
+      {primary && <PrimaryRibbon />}
       <div className="content-stretch flex items-center relative flex-1 min-w-0" style={{ opacity: isReview ? 0.5 : 1 }}>
         <div className="content-stretch flex gap-[10px] items-center relative shrink-0 w-[288px]">
-          <div className="relative shrink-0 size-[36px] flex items-center justify-center">
-            <div className="relative shrink-0 size-[36px] rounded-full overflow-hidden flex items-center justify-center" style={{ background: '#f0f0f0' }}>
-              <img src={`https://flagcdn.com/w160/${flag}.png`} alt={name} className="w-full h-full object-cover" style={{ transform: 'scale(1.15)' }} />
-            </div>
-          </div>
-          <div className="content-stretch flex flex-col items-start leading-[normal] not-italic relative min-w-0 flex-1 overflow-hidden">
-            <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[14.5px] text-[var(--cp-text-primary)] whitespace-nowrap overflow-hidden text-ellipsis w-full">{name}</p>
-            <p className="font-['Inter:Regular',sans-serif] font-normal text-[14.5px] text-[var(--cp-text-tertiary)] whitespace-nowrap overflow-hidden text-ellipsis w-full">{iban}</p>
-          </div>
+          <RowIdentity
+            icon={
+              <div className="relative shrink-0 size-[36px] rounded-full overflow-hidden flex items-center justify-center" style={{ background: '#f0f0f0' }}>
+                <img src={`https://flagcdn.com/w160/${flag}.png`} alt={name} className="w-full h-full object-cover" style={{ transform: 'scale(1.15)' }} />
+              </div>
+            }
+            name={name}
+            subtitle={iban}
+            truncate
+            subtitleSize="14.5"
+          />
         </div>
-        <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" />
+        <RowDivider />
         <div className="content-stretch flex h-[56px] items-start min-w-[200px] px-[20px] py-[10px] relative rounded-[5px] shrink-0">
           <div className="content-stretch flex flex-col h-full items-start justify-between relative shrink-0">
-            <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[11px] text-[var(--cp-text-tertiary)] uppercase whitespace-nowrap leading-none">Account Holder Name</p>
+            <RowCellLabel>Account Holder Name</RowCellLabel>
             <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-primary)] whitespace-nowrap leading-none">{holder}</p>
           </div>
         </div>
-        <div className="bg-[var(--cp-border-default)] h-[34px] relative shrink-0 w-px" />
+        <RowDivider />
         <div className="content-stretch flex flex-1 h-[56px] items-start min-w-0 overflow-hidden px-[20px] py-[10px] relative rounded-[5px]">
           <div className="content-stretch flex flex-1 flex-col h-full items-start justify-between min-w-0 relative">
-            <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[11px] text-[var(--cp-text-tertiary)] uppercase whitespace-nowrap leading-none shrink-0">Recipient Address</p>
+            <RowCellLabel>Recipient Address</RowCellLabel>
             <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-primary)] leading-none overflow-hidden text-ellipsis whitespace-nowrap w-full">{address}</p>
           </div>
         </div>
@@ -435,7 +554,7 @@ function BankRow({ name, iban, holder, address, status, flag, alt }: {
         <div className="shrink-0" style={{ minWidth: 140 }}><BankStatusBadge status={status} /></div>
         <MoreBtn />
       </div>
-    </div>
+    </RowContainer>
   );
 }
 
@@ -495,18 +614,12 @@ function SettingsRow({ name, symbol, logo, payoutCoinLogo, payoutCurrency, mode 
 }) {
   const isNightly = mode === 'nightly';
   return (
-    <div className="content-stretch flex gap-[10px] items-center pl-[20px] pr-[10px] py-[10px] relative size-full bg-[var(--cp-bg-1)]" style={{ overflow: 'visible' }}>
+    <RowContainer className="gap-[10px] pl-[20px] pr-[10px] py-[10px] relative size-full" style={{ overflow: 'visible' } as React.CSSProperties}>
       <div aria-hidden="true" className="absolute border-[var(--cp-border-default)] border-solid border-t inset-0 pointer-events-none" />
 
       {/* Coin col */}
       <div className="content-stretch flex h-[56px] items-center relative shrink-0 w-[178px]">
-        <div className="content-stretch flex gap-[10px] items-center relative shrink-0">
-          {logo}
-          <div className="content-stretch flex flex-col items-start leading-[normal] not-italic relative shrink-0 whitespace-nowrap">
-            <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 text-[var(--cp-text-primary)] text-[14.5px]">{name}</p>
-            <p className="font-['Inter:Regular',sans-serif] font-normal relative shrink-0 text-[var(--cp-text-tertiary)] text-[13px]">{symbol}</p>
-          </div>
-        </div>
+        <RowIdentity icon={logo} name={name} subtitle={symbol} />
       </div>
 
       {/* Settlement mode col */}
@@ -518,7 +631,7 @@ function SettingsRow({ name, symbol, logo, payoutCoinLogo, payoutCurrency, mode 
                 {isNightly ? (
                   <>
                     <div className="content-stretch flex gap-[5px] items-center relative shrink-0">
-                      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-tertiary)] text-[11px] uppercase whitespace-nowrap">SETTLEMENT MODE (Nightly to Bank)</p>
+                      <RowCellLabel>SETTLEMENT MODE (Nightly to Bank)</RowCellLabel>
                       <InfoIconSm />
                     </div>
                     <div className="content-stretch flex gap-[5px] items-center relative shrink-0 min-w-0 overflow-hidden">
@@ -529,7 +642,7 @@ function SettingsRow({ name, symbol, logo, payoutCoinLogo, payoutCurrency, mode 
                 ) : (
                   <>
                     <div className="content-stretch flex gap-[5px] items-center relative shrink-0">
-                      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-tertiary)] text-[11px] uppercase whitespace-nowrap">SETTLEMENT MODE</p>
+                      <RowCellLabel>SETTLEMENT MODE</RowCellLabel>
                       <InfoIconSm />
                     </div>
                     <div className="content-stretch flex gap-[5px] items-center relative shrink-0">
@@ -553,7 +666,7 @@ function SettingsRow({ name, symbol, logo, payoutCoinLogo, payoutCurrency, mode 
         <div className="content-stretch flex items-start justify-between h-full p-[10px] relative">
           <div className="flex flex-col h-full items-start justify-between">
             <div className="content-stretch flex gap-[5px] items-center relative shrink-0">
-              <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-tertiary)] text-[11px] uppercase whitespace-nowrap">PAYOUT CURRENCY</p>
+              <RowCellLabel>PAYOUT CURRENCY</RowCellLabel>
               <InfoIconSm />
             </div>
             {payoutCurrency ? (
@@ -567,7 +680,7 @@ function SettingsRow({ name, symbol, logo, payoutCoinLogo, payoutCurrency, mode 
           </div>
           <DropdownChevron open={false} />
         </div>
-        <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] group-hover/payout:border-[var(--cp-border-hover)] border-solid inset-0 pointer-events-none rounded-[5px] transition-colors" />
+        <div aria-hidden="true" className="absolute border border-transparent group-hover/payout:border-[var(--cp-border-hover)] border-solid inset-0 pointer-events-none rounded-[5px] transition-colors" />
       </div>
 
       {/* Discount col */}
@@ -575,7 +688,7 @@ function SettingsRow({ name, symbol, logo, payoutCoinLogo, payoutCurrency, mode 
         <div className="content-stretch flex items-center justify-between min-w-[inherit] overflow-clip p-[10px] relative rounded-[inherit] size-full">
           <div className="content-stretch flex flex-col h-full items-start justify-between relative shrink-0">
             <div className="content-stretch flex gap-[5px] items-center relative shrink-0">
-              <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[normal] not-italic relative shrink-0 text-[var(--cp-text-tertiary)] text-[11px] uppercase whitespace-nowrap">DISCOUNT</p>
+              <RowCellLabel>DISCOUNT</RowCellLabel>
               <InfoIconSm />
             </div>
             <div className="content-stretch flex gap-[5px] items-center relative shrink-0">
@@ -584,7 +697,7 @@ function SettingsRow({ name, symbol, logo, payoutCoinLogo, payoutCurrency, mode 
           </div>
           <DropdownChevron open={false} />
         </div>
-        <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] group-hover:border-[var(--cp-border-hover)] border-solid inset-0 pointer-events-none rounded-[5px] transition-colors" />
+        <div aria-hidden="true" className="absolute border border-transparent group-hover:border-[var(--cp-border-hover)] border-solid inset-0 pointer-events-none rounded-[5px] transition-colors" />
       </div>
 
       {/* Radio button */}
@@ -595,7 +708,7 @@ function SettingsRow({ name, symbol, logo, payoutCoinLogo, payoutCurrency, mode 
           </svg>
         </div>
       </div>
-    </div>
+    </RowContainer>
   );
 }
 
@@ -664,7 +777,7 @@ function FieldInput({ label, placeholder, helper, error, hasInfo, inactive }: {
         style={{ border: `1px solid ${borderColor}`, transition: 'border-color 0.1s', borderRadius, pointerEvents: inactive ? 'none' : undefined }}>
         <div className="flex flex-col items-start justify-between self-stretch flex-1 min-w-0">
           <div className="flex gap-[5px] items-center">
-            <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[11px] text-[var(--cp-text-tertiary)] uppercase leading-none">{label}</p>
+            <RowCellLabel>{label}</RowCellLabel>
             {hasInfo && (
               <svg width="8" height="8" viewBox="0 0 8 8" fill="none">
                 <path fillRule="evenodd" clipRule="evenodd" d="M8 4C8 6.20914 6.20914 8 4 8C1.79086 8 0 6.20914 0 4C0 1.79086 1.79086 0 4 0C6.20914 0 8 1.79086 8 4ZM4.42006 5.7772H3.57917V3.33274H4.42006V5.7772ZM3.99474 2.96119C3.70628 2.96119 3.48138 2.74608 3.48138 2.46742C3.48138 2.18875 3.70628 1.96875 3.99474 1.96875C4.28317 1.96875 4.51295 2.18875 4.51295 2.46742C4.51295 2.74119 4.28317 2.96119 3.99474 2.96119Z" fill="#D3D6E1"/>
@@ -696,11 +809,11 @@ function FieldInput({ label, placeholder, helper, error, hasInfo, inactive }: {
 function TwoFaInput() {
   const [val, setVal] = useState('');
   return (
-    <div className="relative" style={{ width: 280, overflow: 'visible' }}>
+    <div className="relative" style={{ width: '100%', overflow: 'visible' }}>
       <div className="bg-white min-h-[83px] flex items-start justify-between p-[10px] rounded-[5px]"
         style={{ border: `1px solid var(--cp-border-default)` }}>
         <div className="flex flex-col items-start justify-between self-stretch gap-[8px]">
-          <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[11px] text-[var(--cp-text-tertiary)] uppercase leading-none">Confirmation Code</p>
+          <RowCellLabel>Confirmation Code</RowCellLabel>
           <input type="text" inputMode="numeric" maxLength={6} value={val} onChange={e => setVal(e.target.value.replace(/\D/, ''))}
             placeholder="——————"
             className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[24px] bg-transparent border-none outline-none w-full leading-none placeholder:text-[var(--cp-text-quaternary)]"
@@ -730,18 +843,105 @@ function DropdownChevron({ open }: { open: boolean }) {
   );
 }
 
-// ─── Bank account selector (exact from SweepBankAccountDropdown) ──────────────
+// ─── Settlement Mode dropdown (from SettingsRow / BulkEditModal) ─────────────
+
+const SETTLEMENT_OPTIONS = [
+  { label: 'Disabled', description: '' },
+  { label: 'To Custody', description: 'Received payments are stored in your CoinPayments wallet for later withdrawal at your leisure.' },
+  { label: 'Nightly to Bank', description: 'Received payments are batched and settled nightly to your bank account. A $100 minimum balance is required per settlement.' },
+  { label: 'To Non-Custody', description: 'Received payments are sent to the address or wallet ID you specify as soon as they are received and confirmed.' },
+  { label: 'Hourly To Non-Custody', description: 'Received payments are grouped together and sent hourly.' },
+  { label: 'Nightly To Non-Custody', description: 'Received payments are grouped together and sent daily (at approx. midnight EST GMT-05:00).' },
+  { label: 'Weekly To Non-Custody', description: 'Received payments are grouped together and sent every Sunday (at approx. midnight EST GMT-05:00).' },
+];
+
+function SettlementModeDropdown() {
+  const [open, setOpen] = useState(false);
+  const [selected, setSelected] = useState('Nightly to Bank');
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    const h = (e: MouseEvent) => { if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false); };
+    document.addEventListener('mousedown', h);
+    return () => document.removeEventListener('mousedown', h);
+  }, [open]);
+
+  const isNightly = selected === 'Nightly to Bank';
+
+  return (
+    <div ref={ref} className="relative" style={{ width: '100%', overflow: 'visible' }}>
+      {/* Trigger */}
+      <div
+        className="bg-white group h-[56px] relative rounded-[5px]"
+        style={{ overflow: 'visible' }}
+      >
+        <div className="content-stretch flex items-start justify-between p-[10px] h-full">
+          <div className="content-stretch flex flex-col h-full items-start justify-between relative shrink-0 flex-1 min-w-0">
+            <div className="flex gap-[5px] items-center shrink-0">
+              <RowCellLabel>{isNightly ? 'SETTLEMENT MODE (Nightly to Bank)' : 'SETTLEMENT MODE'}</RowCellLabel>
+              <InfoIconSm />
+            </div>
+            {isNightly ? (
+              <div className="flex gap-[5px] items-center min-w-0 overflow-hidden">
+                <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-primary)] whitespace-nowrap shrink-0">Wise</p>
+                <p className="font-['Inter:Regular',sans-serif] font-normal text-[13px] text-[var(--cp-text-tertiary)] overflow-hidden text-ellipsis whitespace-nowrap">GB97TRWI23080120507810</p>
+              </div>
+            ) : (
+              <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-primary)] whitespace-nowrap">{selected}</p>
+            )}
+          </div>
+          <div className="content-stretch flex gap-[8px] h-full items-center relative shrink-0" style={{ overflow: 'visible' }}>
+            {isNightly && <SettingsEditBtn />}
+            <div className="cursor-pointer h-full flex items-center" onClick={() => setOpen(o => !o)}>
+              <DropdownChevron open={open} />
+            </div>
+          </div>
+        </div>
+        <div aria-hidden="true" className={`absolute border border-solid inset-0 pointer-events-none rounded-[5px] transition-colors ${open ? 'border-[var(--cp-border-hover)]' : 'border-[var(--cp-border-default)] group-hover:border-[var(--cp-border-hover)]'}`} />
+      </div>
+      {/* Panel */}
+      {open && (
+        <div className="absolute bg-white left-0 mt-[5px] rounded-[5px] shadow-lg top-[56px] w-full z-50">
+          <div aria-hidden="true" className="absolute border border-[var(--cp-border-hover)] border-solid inset-0 pointer-events-none rounded-[5px]" />
+          <div className="flex flex-col gap-[5px] items-start p-[10px] relative">
+            {SETTLEMENT_OPTIONS.map(({ label, description }) => {
+              const isActive = label === selected;
+              return (
+                <div
+                  key={label}
+                  className={`relative rounded-[5px] shrink-0 w-full cursor-pointer transition-colors ${isActive ? 'bg-[var(--cp-brand-primary)] hover:bg-[var(--cp-brand-active)]' : 'bg-white hover:bg-[var(--cp-bg-1)]'}`}
+                  onClick={() => { setSelected(label); setOpen(false); }}
+                >
+                  {!isActive && <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[5px]" />}
+                  <div className="flex flex-col items-start leading-[normal] not-italic p-[10px] relative size-full text-[11px]">
+                    <p className={`font-['Inter:Semi_Bold',sans-serif] font-semibold shrink-0 w-full ${isActive ? 'text-white' : 'text-[var(--cp-text-primary)]'}`}>{label}</p>
+                    {description && <p className={`font-['Inter:Medium',sans-serif] font-medium shrink-0 w-full ${isActive ? 'text-white/80' : 'text-[var(--cp-text-secondary)]'}`}>{description}</p>}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ─── Bank account selector (exact from BankPayoutModal) ───────────────────────
 
 function BankSelectorDropdown() {
   const [open, setOpen] = useState(false);
-  const [selectedIdx, setSelectedIdx] = useState(0);
+  const [selectedId, setSelectedId] = useState('0');
   const ref = useRef<HTMLDivElement>(null);
 
   const banks = [
-    { id: '0', label: 'Barclays',  iban: 'GB29NWBK60161331926819', status: 'approved'     },
-    { id: '1', label: 'Wise',      iban: 'GB97TRWI23080120507810', status: 'under_review'  },
+    { id: '0', label: 'Barclays', iban: 'GB29NWBK60161331926819', status: 'approved'    },
+    { id: '1', label: 'Wise',     iban: 'GB97TRWI23080120507810', status: 'under_review' },
   ] as const;
-  const sel = banks[selectedIdx];
+
+  const sel = banks.find(b => b.id === selectedId) ?? banks[0];
+  const showUnderReviewBadge = sel.status === 'under_review';
 
   useEffect(() => {
     if (!open) return;
@@ -751,75 +951,61 @@ function BankSelectorDropdown() {
   }, [open]);
 
   return (
-    <div ref={ref} className="relative" style={{ width: 360, overflow: 'visible' }}>
+    <div ref={ref} className="relative w-full" style={{ overflow: 'visible' }}>
       {/* Trigger */}
-      <div className="bg-white h-[56px] relative rounded-[5px] cursor-pointer group" onClick={() => setOpen(o => !o)}>
-        <div className="content-stretch flex h-full items-start justify-between p-[10px] relative rounded-[inherit] w-full">
-          <div className="content-stretch flex flex-col h-full items-start justify-between relative shrink-0 flex-1 min-w-0">
-            <div className="flex gap-[5px] items-center shrink-0">
-              <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[11px] text-[var(--cp-text-tertiary)] uppercase leading-none whitespace-nowrap">
-                SWEEP bank account
-              </p>
-              {/* info icon */}
-              <div className="overflow-clip relative shrink-0 size-[8px]">
-                <div className="-translate-y-1/2 absolute aspect-[16/16] left-0 right-0 top-1/2">
-                  <svg className="absolute block inset-0 size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 8 8">
-                    <path clipRule="evenodd" d="M4,0C1.79086,0,0,1.79086,0,4C0,6.20914,1.79086,8,4,8C6.20914,8,8,6.20914,8,4C8,1.79086,6.20914,0,4,0ZM4.4,6C4.4,6.22091,4.22091,6.4,4,6.4C3.77909,6.4,3.6,6.22091,3.6,6L3.6,3.6C3.6,3.37909,3.77909,3.2,4,3.2C4.22091,3.2,4.4,3.37909,4.4,3.6L4.4,6ZM4,2.8C4.22091,2.8,4.4,2.62091,4.4,2.4C4.4,2.17909,4.22091,2,4,2C3.77909,2,3.6,2.17909,3.6,2.4C3.6,2.62091,3.77909,2.8,4,2.8Z" fill="#D3D6E1" fillRule="evenodd"/>
-                  </svg>
-                </div>
-              </div>
-            </div>
-            <div className="flex gap-[5px] items-center min-w-0 overflow-hidden w-full">
-              <p className={`font-['Inter:Medium',sans-serif] font-medium text-[14.5px] whitespace-nowrap shrink-0 max-w-[50%] ${sel.status === 'under_review' ? 'text-[var(--cp-text-primary)] opacity-60' : 'text-[var(--cp-text-primary)]'}`}>
-                {sel.label}
-              </p>
-              <p className="font-['Inter:Regular',sans-serif] font-normal text-[13px] text-[var(--cp-text-tertiary)] whitespace-nowrap shrink-0">
-                {sel.iban}
-              </p>
-            </div>
+      <div
+        className="bg-white cursor-pointer flex h-[56px] items-start justify-between p-[10px] relative rounded-[5px] w-full"
+        style={{ border: '1px solid var(--cp-border-default)' }}
+        onClick={() => setOpen(o => !o)}
+      >
+        <div className="flex flex-col h-full items-start justify-between shrink-0 flex-1 min-w-0">
+          <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[11px] text-[var(--cp-text-tertiary)] uppercase whitespace-nowrap leading-none">Bank Account</p>
+          <div className="flex gap-[5px] items-center min-w-0 overflow-hidden w-full">
+            <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] whitespace-nowrap overflow-hidden text-ellipsis shrink-0 max-w-[50%] text-[var(--cp-text-primary)]">
+              {sel.label}
+            </p>
+            <p className="font-['Inter:Regular',sans-serif] font-normal text-[13px] text-[var(--cp-text-tertiary)] whitespace-nowrap shrink-0">
+              {sel.iban}
+            </p>
           </div>
-          {sel.status === 'under_review' && (
-            <div className="flex items-center gap-[4px] shrink-0 mr-[8px] self-center">
-              <span className="bg-orange-100 text-orange-600 font-['Inter:Semi_Bold',sans-serif] font-semibold text-[9px] uppercase px-[5px] py-[2px] rounded-[3px] whitespace-nowrap">
-                Under Review
-              </span>
-            </div>
+        </div>
+        <div className="flex items-center self-stretch shrink-0">
+          {showUnderReviewBadge && (
+            <span className="bg-orange-100 text-orange-600 font-['Inter:Semi_Bold',sans-serif] font-semibold text-[9px] uppercase px-[5px] py-[2px] rounded-[3px] whitespace-nowrap shrink-0 mr-[8px]">Under Review</span>
           )}
           <DropdownChevron open={open} />
         </div>
-        <div aria-hidden="true" className={`absolute border border-solid inset-0 pointer-events-none rounded-[5px] transition-colors ${open ? 'border-[var(--cp-border-hover)]' : 'border-[var(--cp-border-default)] group-hover:border-[var(--cp-border-hover)]'}`} />
       </div>
 
       {/* Panel */}
       {open && (
-        <div className="absolute bg-white left-0 mt-[5px] rounded-[5px] shadow-lg top-[56px] w-full z-50" onClick={e => e.stopPropagation()}>
-          <div aria-hidden="true" className="absolute border border-[var(--cp-border-hover)] border-solid inset-0 pointer-events-none rounded-[5px]" />
-          <div className="content-stretch flex flex-col gap-[20px] items-start p-[10px] relative">
-            {/* Bank items */}
-            <div className="content-stretch flex flex-col gap-[5px] items-start relative shrink-0 w-full">
-              {banks.map((bank, i) => {
-                const isSelected = i === selectedIdx;
+        <div className="absolute bg-white left-0 w-full z-50 rounded-[5px]"
+          style={{ top: 60, boxShadow: '0 4px 16px rgba(0,0,0,0.12)', border: '1px solid var(--cp-border-hover)' }}
+          onClick={e => e.stopPropagation()}>
+          <div className="flex flex-col gap-[20px] p-[10px]">
+            <div className="flex flex-col gap-[5px]">
+              {banks.map(bank => {
+                const isSelected = bank.id === selectedId;
+                const isUnderReview = bank.status === 'under_review';
                 return (
-                  <div key={bank.id} onClick={() => { setSelectedIdx(i); setOpen(false); }}
-                    className={`relative rounded-[5px] shrink-0 w-full transition-colors cursor-pointer ${isSelected ? 'bg-[var(--cp-brand-primary)] hover:bg-[var(--cp-brand-active)]' : 'bg-white hover:bg-[var(--cp-bg-1)]'}`}>
+                  <div key={bank.id}
+                    className={`relative rounded-[5px] shrink-0 w-full transition-colors cursor-pointer ${isSelected ? 'bg-[var(--cp-brand-primary)] hover:bg-[var(--cp-brand-active)]' : 'bg-white hover:bg-[var(--cp-bg-1)]'}`}
+                    onClick={() => { setSelectedId(bank.id); setOpen(false); }}>
                     {!isSelected && <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[5px]" />}
-                    <div className="content-stretch flex items-center justify-between leading-[normal] p-[10px] relative size-full text-[11px]">
+                    <div className="flex items-center justify-between p-[10px]">
                       <div className="flex flex-col items-start">
-                        <p className={`font-['Inter:Semi_Bold',sans-serif] font-semibold relative shrink-0 w-full ${isSelected ? 'text-white' : 'text-[var(--cp-text-primary)]'}`}>{bank.label}</p>
-                        <p className={`font-['Inter:Medium',sans-serif] font-medium relative shrink-0 w-full ${isSelected ? 'text-white/80' : 'text-[var(--cp-text-secondary)]'}`}>{bank.iban}</p>
+                        <p className={`font-['Inter:Semi_Bold',sans-serif] font-semibold text-[11px] ${isSelected ? 'text-white' : 'text-[var(--cp-text-primary)]'}`}>{bank.label}</p>
+                        <p className={`font-['Inter:Medium',sans-serif] font-medium text-[11px] ${isSelected ? 'text-white/80' : 'text-[var(--cp-text-secondary)]'}`}>{bank.iban}</p>
                       </div>
-                      {bank.status === 'under_review' && (
-                        <span className={`font-['Inter:Semi_Bold',sans-serif] font-semibold text-[9px] uppercase px-[5px] py-[2px] rounded-[3px] whitespace-nowrap shrink-0 ${isSelected ? 'bg-white/20 text-white' : 'bg-orange-100 text-orange-600'}`}>
-                          Under Review
-                        </span>
+                      {isUnderReview && (
+                        <span className={`font-semibold text-[9px] uppercase px-[5px] py-[2px] rounded-[3px] whitespace-nowrap shrink-0 ${isSelected ? 'bg-white/20 text-white border border-white/30' : 'bg-orange-100 text-orange-600'}`}>Under Review</span>
                       )}
                     </div>
                   </div>
                 );
               })}
             </div>
-            {/* Footer actions */}
-            <div className="content-stretch flex flex-col gap-[5px] items-start relative shrink-0 w-full">
+            <div className="flex flex-col gap-[5px]">
               {['Add New Bank', 'Manage Bank Accounts'].map(label => (
                 <button key={label} type="button"
                   className="bg-white border border-[var(--cp-border-default)] border-solid cursor-pointer flex flex-col items-start p-[10px] relative rounded-[5px] shrink-0 w-full hover:bg-[var(--cp-bg-1)] transition-colors text-left">
@@ -845,7 +1031,9 @@ function CountrySelector() {
   const searchRef = useRef<HTMLInputElement>(null);
 
   const selected = COUNTRIES.find(c => c.name === value) ?? COUNTRIES[0];
-  const filtered = COUNTRIES.filter(c => c.name.toLowerCase().includes(search.toLowerCase()));
+  const filtered = COUNTRIES
+    .filter(c => c.name.toLowerCase().includes(search.toLowerCase()))
+    .sort((a, b) => (a.name === value ? -1 : b.name === value ? 1 : 0));
 
   useEffect(() => {
     const h = (e: MouseEvent) => { if (wrapperRef.current && !wrapperRef.current.contains(e.target as Node)) { setOpen(false); setSearch(''); } };
@@ -858,14 +1046,14 @@ function CountrySelector() {
   const borderColor = hovered || open ? 'var(--cp-border-hover)' : 'var(--cp-border-default)';
 
   return (
-    <div ref={wrapperRef} className="relative shrink-0" style={{ width: 280, overflow: 'visible' }}>
+    <div ref={wrapperRef} className="relative" style={{ width: '100%', overflow: 'visible' }}>
       {/* Trigger */}
       <div className="bg-white relative h-[56px] flex items-start justify-between p-[10px] w-full cursor-pointer"
         style={{ border: `1px solid ${borderColor}`, borderRadius: '5px', transition: 'border-color 0.1s' }}
         onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}
         onClick={() => setOpen(o => !o)}>
         <div className="flex flex-col items-start justify-between self-stretch flex-1 min-w-0">
-          <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[11px] text-[var(--cp-text-tertiary)] uppercase whitespace-nowrap leading-none">Bank Country</p>
+          <RowCellLabel>Bank Country</RowCellLabel>
           <div className="flex gap-[5px] items-center shrink-0">
             <span className="text-[14px] leading-none shrink-0">{selected.flag}</span>
             <p className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-primary)] leading-none whitespace-nowrap">{selected.name}</p>
@@ -884,7 +1072,7 @@ function CountrySelector() {
             <div className="relative rounded-[5px] shrink-0 w-full">
               <div aria-hidden="true" className="absolute border border-[var(--cp-border-default)] border-solid inset-0 pointer-events-none rounded-[5px]" />
               <div className="flex flex-col items-start p-[10px]">
-                <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[11px] text-[var(--cp-text-tertiary)] uppercase leading-none">Search</p>
+                <RowCellLabel>Search</RowCellLabel>
                 <input ref={searchRef} type="text" value={search} onChange={e => setSearch(e.target.value)} placeholder="Type country name"
                   className="font-['Inter:Medium',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-secondary)] bg-transparent border-none outline-none w-full leading-none placeholder:text-[var(--cp-text-quinary)] mt-[3px]"
                   style={{ caretColor: 'var(--cp-brand-primary)' }} />
@@ -917,6 +1105,25 @@ function CountrySelector() {
   );
 }
 
+// ─── Documentation helpers ────────────────────────────────────────────────────
+
+function Note({ children }: { children: React.ReactNode }) {
+  return (
+    <p className="font-['Inter',sans-serif] font-normal text-[13px] text-[var(--cp-text-secondary)] leading-[1.8] max-w-[720px]">
+      {children}
+    </p>
+  );
+}
+
+function ComponentEntry({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <div className="flex flex-col gap-[16px]">
+      <p className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[13px] text-[var(--cp-text-primary)]">{title}</p>
+      {children}
+    </div>
+  );
+}
+
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function InventoryPage() {
@@ -925,77 +1132,138 @@ export default function InventoryPage() {
       <div className="max-w-[1100px] mx-auto flex flex-col gap-[64px]">
 
         {/* Header */}
-        <div className="flex flex-col gap-[6px]">
-          <p className="font-['Inter',sans-serif] font-bold text-[24px] text-[var(--cp-text-primary)]">Component Inventory</p>
-          <p className="font-['Inter',sans-serif] font-medium text-[14.5px] text-[var(--cp-text-secondary)]">Visual reference of all UI building blocks used across the CoinPayments Dashboard.</p>
+        <div className="flex flex-col gap-[10px]">
+          <p className="font-['Inter',sans-serif] font-bold text-[24px] text-[var(--cp-text-primary)]">Components Inventory</p>
+          <Note>Live reference of redesigned UI components for the CoinPayments Dashboard.</Note>
         </div>
 
         {/* ── DROPDOWNS ──────────────────────────────────────────────────── */}
         <Section title="Dropdowns">
-          <div className="flex flex-wrap gap-[32px] items-start">
-            <Group label="Bank account selector">
-              <BankSelectorDropdown />
-            </Group>
-            <Group label="Payout currency selector">
-              <div style={{ width: 280 }}>
-                <PayoutCurrencyDropdown value="USD" onChange={() => {}} />
-              </div>
-            </Group>
-            <Group label="Country selector">
-              <CountrySelector />
-            </Group>
+
+          <div className="grid grid-cols-2 gap-[48px] items-start">
+
+            <ComponentEntry title="Payout Currency Selector">
+              <Group label="Default">
+                <div className="w-full">
+                  <PayoutCurrencyDropdown value="USD" onChange={() => {}} />
+                </div>
+              </Group>
+              <Note>Used in: inline field in the Settings row, in the Auto-Sweep tab, and in the Bulk Edit modal. Same trigger and panel structure across all three contexts. List highlights the selected choice.</Note>
+            </ComponentEntry>
+
+            <ComponentEntry title="Settlement Mode">
+              <Group label="Nightly to Bank — trigger + panel">
+                <div className="w-full">
+                  <SettlementModeDropdown />
+                </div>
+              </Group>
+              <Note>Used in Settings row to set the settlement per coin. When Nightly to Bank is selected it shows the bank name, IBAN, and an Edit button to open a modal to edit the bank assigned to the mode. This input is not fully clickable, dropdown opens from the right chevron area.</Note>
+            </ComponentEntry>
+
+            <ComponentEntry title="Bank Account Selector">
+              <Group label="Trigger + panel">
+                <div className="w-full">
+                  <BankSelectorDropdown />
+                </div>
+              </Group>
+              <Note>Appears in: Bank Payout modal, Bulk Edit modal in Settings, and Auto-Sweep tab in Wallet. In all cases shows bank name + BankID (IBAN or Account Number); when the selected bank is under review an orange badge appears beside the chevron. The panel lists banks with the same badge on under-review options, plus footer links to Add New Bank and Manage Bank Accounts.</Note>
+            </ComponentEntry>
+
+            <ComponentEntry title="Country Selector">
+              <Group label="Trigger + panel with search">
+                <div className="w-full">
+                  <CountrySelector />
+                </div>
+              </Group>
+              <Note>Used in Add New Bank and Edit Bank flows to pick the bank country. The panel adds a search field at the top so the user can filter the country list by typing. Shares the same selected-item and hover behaviour as the other dropdowns.</Note>
+            </ComponentEntry>
+
           </div>
+
         </Section>
 
         {/* ── ROWS ───────────────────────────────────────────────────────── */}
         <Section title="Rows">
-          <Group label="Wallet row — collapsed">
-            <div className="flex flex-col w-full">
-              <WalletRowCollapsed logo={<UsdtLogo36 />} name="Tether USD" symbol="USDT.ERC20" alt />
-              <WalletRowCollapsed logo={<UsdcLogo36 />} name="USD Coin" symbol="USDC.ERC20" />
-              <WalletRowCollapsed logo={<BtcLogo36 />} name="Bitcoin" symbol="BTC" alt />
-            </div>
-          </Group>
-          <Group label="Wallet row — expanded">
-            <WalletRowExpanded logo={<UsdtLogo36 />} name="Tether USD" symbol="USDT.ERC20" />
-          </Group>
-          <Group label="Transaction row">
-            <div className="flex flex-col w-full">
-              <TxRow date="JUN 24" time="09:14" type="bank-payout" label="Bank Payout" status="pending"
-                coin="usdc" currencyIcon="usd" currencyName="United States Dollar"
-                destination="To: Barclays (GB29NWBK60161331926819)"
-                amount="-$487.20 USD" amountSub="from 500 USDC.ERC20" alt />
-              <TxRow date="JUN 3" time="14:38" type="bank-payout" label="Bank Payout" status="completed"
-                coin="usdt" currencyIcon="usd" currencyName="United States Dollar"
-                destination="To: Wise (GB97TRWI23080120507810)"
-                amount="-$1,250.00 USD" amountSub="from 1,286.50 USDT" />
-              <TxRow date="APR 28" time="11:31" type="received" label="Received" status="completed"
-                coin="btc" currencyIcon="btc" currencyName="Bitcoin"
-                destination="To: internal address"
-                amount="+0.000000 BTC" amountSub="BTC" alt />
-            </div>
-          </Group>
-          <Group label="Bank Account row">
-            <div className="flex flex-col w-full">
-              <BankRow name="Barclays" iban="GB29NWBK60161331926819" holder="John Smith"
-                address="1 Churchill Place, London, E14 5HP, United Kingdom"
-                status="approved" flag="gb" alt />
-              <BankRow name="Wise" iban="GB97TRWI23080120507810" holder="John Smith"
-                address="6 Cannon Street, London, EC4M 5XB, United Kingdom"
-                status="under_review" flag="gb" />
-            </div>
-          </Group>
-          <Group label="Settings row (coin payout config)">
-            <div className="flex flex-col w-full">
-              <SettingsRow logo={<UsdtLogo36 />} name="Tether USD" symbol="USDT.ERC20"
-                mode="nightly" bankName="Wise" bankIban="GB97TRWI23080120507810" />
-              <SettingsRow logo={<UsdcLogo36 />} name="USD Coin" symbol="USDC.ERC20"
-                mode="custody" />
-              <SettingsRow logo={<BtcLogo36 />} name="Bitcoin" symbol="BTC"
-                mode="custody" payoutCurrency="Bitcoin"
-                payoutCoinLogo={<div className="absolute inset-0 overflow-clip"><SvgBtcLogoTx className="absolute block inset-0 size-full" /></div>} />
-            </div>
-          </Group>
+
+          <ComponentEntry title="Wallet Row">
+            <Group label="Collapsed — USDT · USDC · BTC">
+              <div className="flex flex-col w-full">
+                <WalletRowCollapsed logo={<UsdtLogo36 />} name="Tether USD" symbol="USDT.ERC20" alt />
+                <WalletRowCollapsed logo={<UsdcLogo36 />} name="USD Coin" symbol="USDC.ERC20" />
+                <WalletRowCollapsed logo={<BtcLogo36 />} name="Bitcoin" symbol="BTC" alt />
+              </div>
+            </Group>
+            <Group label="Expanded">
+              <WalletRowExpanded logo={<UsdtLogo36 />} name="Tether USD" symbol="USDT.ERC20" />
+            </Group>
+          </ComponentEntry>
+
+          <ComponentEntry title="Transaction Row">
+            <Group label="Bank Payout (pending) · Bank Payout (completed) · Received">
+              <div className="flex flex-col w-full">
+                <TxRow date="JUN 24" time="09:14" type="bank-payout" label="Bank Payout" status="pending"
+                  coin="usdc" currencyIcon="usd" currencyName="United States Dollar"
+                  destination="To: Barclays (GB29NWBK60161331926819)"
+                  amount="-$487.20 USD" amountSub="from 500 USDC.ERC20" alt />
+                <TxRow date="JUN 3" time="14:38" type="bank-payout" label="Bank Payout" status="completed"
+                  coin="usdt" currencyIcon="usd" currencyName="United States Dollar"
+                  destination="To: Wise (GB97TRWI23080120507810)"
+                  amount="-$1,250.00 USD" amountSub="from 1,286.50 USDT" />
+                <TxRow date="APR 28" time="11:31" type="received" label="Received" status="completed"
+                  coin="btc" currencyIcon="btc" currencyName="Bitcoin"
+                  destination="To: internal address"
+                  amount="+0.000000 BTC" amountSub="BTC" alt />
+              </div>
+            </Group>
+            <Group label="Expanded — Bank Payout (pending)">
+              <div className="flex flex-col w-full bg-white rounded-[5px] p-[20px]">
+                <TxRow date="JUN 24" time="09:14" type="bank-payout" label="Bank Payout" status="pending"
+                  coin="usdc" currencyIcon="usd" currencyName="United States Dollar"
+                  destination="To: Barclays (GB29NWBK60161331926819)"
+                  amount="-$487.20 USD" amountSub="from 500 USDC.ERC20" />
+                <TxExpandedPanelPending />
+              </div>
+            </Group>
+          </ComponentEntry>
+
+          <ComponentEntry title="Bank Account Row">
+            <Group label="Primary">
+              <div className="flex flex-col w-full border-t border-b border-[var(--cp-border-default)]">
+                <BankRow name="Barclays" iban="GB29NWBK60161331926819" holder="John Smith"
+                  address="1 Churchill Place, London, E14 5HP, United Kingdom"
+                  status="approved" flag="gb" primary />
+              </div>
+            </Group>
+            <Group label="Saved | Approved">
+              <div className="flex flex-col w-full border-t border-b border-[var(--cp-border-default)]">
+                <BankRow name="Barclays" iban="GB29NWBK60161331926819" holder="John Smith"
+                  address="1 Churchill Place, London, E14 5HP, United Kingdom"
+                  status="approved" flag="gb" />
+              </div>
+            </Group>
+            <Group label="Under Review">
+              <div className="flex flex-col w-full border-t border-b border-[var(--cp-border-default)]">
+                <BankRow name="Wise" iban="GB97TRWI23080120507810" holder="John Smith"
+                  address="6 Cannon Street, London, EC4M 5XB, United Kingdom"
+                  status="under_review" flag="gb" />
+              </div>
+            </Group>
+          </ComponentEntry>
+
+          <ComponentEntry title="Settings Row">
+            <Group label="Nightly to Bank · To Custody · Bitcoin (locked payout currency)">
+              <div className="flex flex-col w-full">
+                <SettingsRow logo={<UsdtLogo36 />} name="Tether USD" symbol="USDT.ERC20"
+                  mode="nightly" bankName="Wise" bankIban="GB97TRWI23080120507810" />
+                <SettingsRow logo={<UsdcLogo36 />} name="USD Coin" symbol="USDC.ERC20"
+                  mode="custody" />
+                <SettingsRow logo={<BtcLogo36 />} name="Bitcoin" symbol="BTC"
+                  mode="custody" payoutCurrency="Bitcoin"
+                  payoutCoinLogo={<div className="absolute inset-0 overflow-clip"><SvgBtcLogoTx className="absolute block inset-0 size-full" /></div>} />
+              </div>
+            </Group>
+          </ComponentEntry>
+
         </Section>
 
       </div>
