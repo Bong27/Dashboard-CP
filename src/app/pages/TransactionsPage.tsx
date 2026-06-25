@@ -162,8 +162,8 @@ function CurrencyIcon({ type }: { type: CoinType }) {
   }
   if (type === 'usd') {
     return (
-      <div className="relative shrink-0 size-[14px] rounded-[999px] border-2 border-[#2775CA] flex items-center justify-center overflow-hidden">
-        <span className="text-[#2775CA] font-bold leading-none select-none" style={{ fontSize: 8 }}>$</span>
+      <div className="relative shrink-0 size-[14px] rounded-[999px] border border-[var(--cp-brand-primary)] flex items-center justify-center">
+        <span className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[var(--cp-brand-primary)] leading-none select-none" style={{ fontSize: 7 }}>$</span>
       </div>
     );
   }

@@ -62,16 +62,18 @@ function UsdtBadge({ size = 24 }: { size?: number }) {
   return (
     <div className="rounded-[999px] bg-[#50af95] flex items-center justify-center shrink-0"
          style={{ width: size, height: size }}>
-      <span className="text-white font-bold leading-none select-none" style={{ fontSize: size * 0.42 }}>₮</span>
+      <svg viewBox="0 0 10 12" fill="none" style={{ width: size * 0.46, height: size * 0.46 }}>
+        <text x="5" y="10" textAnchor="middle" fontSize="11" fontWeight="700" fill="white" fontFamily="Inter, sans-serif">₮</text>
+      </svg>
     </div>
   );
 }
 
 function UsdBadge({ size = 24 }: { size?: number }) {
   return (
-    <div className="rounded-[99999px] border-2 border-[var(--cp-brand-primary)] flex items-center justify-center shrink-0"
-         style={{ width: size, height: size }}>
-      <span className="text-[var(--cp-brand-primary)] font-bold leading-none select-none" style={{ fontSize: size * 0.42 }}>$</span>
+    <div className="rounded-[999px] flex items-center justify-center shrink-0"
+         style={{ width: size, height: size, border: '1px solid var(--cp-brand-primary)' }}>
+      <span className="font-['Inter:Semi_Bold',sans-serif] font-semibold text-[var(--cp-brand-primary)] leading-none select-none" style={{ fontSize: size * 0.38 }}>$</span>
     </div>
   );
 }
